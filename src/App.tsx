@@ -1,21 +1,16 @@
 
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from './redux/store';
-import { increment, decrement } from './redux/counterSlice';
+import Login from './pages/login';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 const App: React.FC = () => {
-  const count = useSelector((state: RootState) => state.counter.value);
-  const dispatch = useDispatch();
-
   return (
-    <div className="App">
-      <h1>Count: {count}</h1>
-      <button onClick={() => dispatch(increment())}>Increment</button>
-      <button onClick={() => dispatch(decrement())}>Decrement</button>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+      </Routes>
+    </Router>
   );
 };
 
 export default App;
-
