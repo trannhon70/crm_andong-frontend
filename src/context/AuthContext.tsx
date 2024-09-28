@@ -45,6 +45,9 @@ const AuthProvider = ({ children }: Props) => {
     }
 
     const logout = () => {
+        localStorage.removeItem('token');
+        navigate('/login');
+        window.location.reload();
     }
 
    

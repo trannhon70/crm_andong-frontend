@@ -1,10 +1,11 @@
 
 import React, { useContext, useEffect } from 'react';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
+import LayoutComponent from './components/layout';
 import { AuthContext } from './context/AuthContext';
-import Home from './pages/Home';
+import Home from './pages/home';
 import Login from './pages/login';
-import DashboardLayoutBasic from './components/layout';
+import Error from './pages/error';
 
 
 const PrivateRoutes = () => {
@@ -33,10 +34,11 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route element={<PrivateRoutes />}>
-          <Route path='/' element={<DashboardLayoutBasic />} > 
-              <Route path='home' element={<Home/>} />
+          <Route path='/' element={<LayoutComponent />} > 
+              <Route path='/' element={<Home/>} />
            </Route>
         </Route>
+        <Route path="*" element={<Error />} />
       </Routes>
   );
 };
