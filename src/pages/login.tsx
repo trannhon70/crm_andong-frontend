@@ -1,18 +1,26 @@
 
-import { Fragment, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import logo  from "../assets/images/logo.svg"
+import logo from "../assets/images/logo.svg";
+import { AuthContext } from "../context/AuthContext";
 import { ILogin } from "../interface/users";
-import { userAPI } from "../apis/user.api";
-import { toast } from "react-toastify";
-
+import { useNavigate } from 'react-router-dom';
 
 
 const Login: React.FC = () => {
+  const { login } = useContext(AuthContext)
     const [form, setForm] = useState<ILogin>({
         email: '',
         password: ''
     })
+    const { authenticated } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (authenticated) {
+            navigate('/');
+        }
+    }, [authenticated, navigate]);
 
 
 
@@ -30,21 +38,9 @@ const Login: React.FC = () => {
         });
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Xử lý đăng nhập ở đây, sử dụng form
-        try {
-            const result = await userAPI.login(form)
-            console.log(result);
-
-            if(result?.data?.statusCode === 1){
-                toast.success(`${result?.data?.message}`)
-            }
-            
-        } catch (error : any) {
-            console.log(error);
-            toast.error(`${error?.response?.data?.message}`)
-        }
+        login(form)
     };
 
 
