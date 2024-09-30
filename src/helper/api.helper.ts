@@ -1,5 +1,6 @@
-import axios, {  AxiosResponse, InternalAxiosRequestConfig } from "axios";
-
+import axios, { AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import { setInvalidToken } from "../features/usersSlice";
+import { store } from "../redux/store";
 const instance = axios.create({
     baseURL: process.env.REACT_APP_URL_API,
     headers: { 'Content-Type': 'application/json' },
@@ -16,6 +17,7 @@ instance.interceptors.request.use(
         return config;
     },
     (error) => {
+        console.log(error);
         return Promise.reject(error);
     }
 );
@@ -25,8 +27,15 @@ instance.interceptors.response.use(
     (response: AxiosResponse) => {
         return response;
     },
-    (error) => {
-        return Promise.reject(error);
+    async (error) => {
+        const dispatch = store.dispatch; 
+        // Kiểm tra nếu lỗi là 401 (Unauthorized) và token hết hạn
+        if (error.response.data && error.response.data.error === 'Invalid token or user not found') {
+            dispatch(setInvalidToken(true));
+            return Promise.reject(error); 
+        }
+
+        return Promise.reject(error); 
     }
 );
 
