@@ -3,7 +3,8 @@ import { ILogin } from "../interface/users";
 
 export const userAPI = {
     login,
-    getByIdUser
+    getByIdUser,
+    UpdateUserId
 };
 
 function login(data : ILogin) {
@@ -12,4 +13,9 @@ function login(data : ILogin) {
 
 function getByIdUser() {
     return instance.get("/user/get-by-user");
+}
+
+
+function UpdateUserId(id: number, body: any) {
+    return instance.put(`/user/update-user/${id}`, body);
 }

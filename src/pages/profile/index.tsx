@@ -4,6 +4,9 @@ import { Breadcrumb, Button, Form, Input, Select } from 'antd';
 import { Languege } from '../../utils';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
+import { userAPI } from '../../apis/user.api';
+import { toast } from 'react-toastify';
+import { fetchUserById } from '../../features/usersSlice';
 
 type FieldType = {
     email?: string;
@@ -15,7 +18,9 @@ const ProfileUser: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const [form] = Form.useForm(); // Create a form instance
 
+
     const users = useSelector((state: RootState) => state.users.entities);
+    
 
     useEffect(() => {
         // Ensure users has the properties before setting values
@@ -28,8 +33,24 @@ const ProfileUser: FC = () => {
         }
     }, [users, form]); // Added `form` to the dependency array
 
-    const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-        console.log('Success:', values);
+    const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
+        const body = {
+            email: values.email,
+            fullName: values.fullName,
+            language: values.language,
+        }
+
+       try {
+        const result = await userAPI.UpdateUserId(users.id, body)
+        if(result.data.statusCode === 1){
+            toast.success('Cập nhật thôn tin cá nhân thành công!')
+            dispatch(fetchUserById());
+        }
+       } catch (error) {
+        toast.error('Cập nhật thôn tin cá nhân không thành công!')
+       }
+        
+
     };
 
     const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
