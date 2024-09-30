@@ -6,6 +6,7 @@ import { AuthContext } from './context/AuthContext';
 import Home from './pages/home';
 import Login from './pages/login';
 import Error from './pages/error';
+import ProfileUser from './pages/profile';
 
 
 const PrivateRoutes = () => {
@@ -36,6 +37,7 @@ const App: React.FC = () => {
         <Route element={<PrivateRoutes />}>
           <Route path='/' element={<LayoutComponent />} > 
               <Route path='/' element={<Home/>} />
+              <Route path='/profile' element={<ProfileUser/>} />
            </Route>
         </Route>
         <Route path="*" element={<Error />} />

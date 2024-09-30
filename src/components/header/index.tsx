@@ -36,7 +36,7 @@ const HeaderComponent: FC<IHeaderProps> = ({ collapsed, setCollapsed }) => {
         {
             key: '1',
             label: (
-                <Link className='text-base' to=''>Thông tin cá nhân</Link>
+                <Link className='text-base' to='profile'>Thông tin cá nhân</Link>
             ),
             icon: <PiUserSwitchDuotone size={30} />,
         },
