@@ -7,6 +7,7 @@ import Home from './pages/home';
 import Login from './pages/login';
 import Error from './pages/error';
 import ProfileUser from './pages/profile';
+import RightsManagement from './pages/systemManagement/rightsManagement';
 
 
 const PrivateRoutes = () => {
@@ -38,6 +39,7 @@ const App: React.FC = () => {
           <Route path='/' element={<LayoutComponent />} > 
               <Route path='/' element={<Home/>} />
               <Route path='/profile' element={<ProfileUser/>} />
+              <Route path='/quan-ly-quyen' element={<RightsManagement/>} />
            </Route>
         </Route>
         <Route path="*" element={<Error />} />

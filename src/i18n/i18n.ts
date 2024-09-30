@@ -11,10 +11,12 @@ export const resources = {
     product:''
   },
   vi: {
-    home: HOME_VN
+    home: HOME_VN,
+    product:''
   },
   tq: {
-    home: HOME_TQ
+    home: HOME_TQ,
+    product:''
   }
 };
 

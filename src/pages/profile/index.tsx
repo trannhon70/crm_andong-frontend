@@ -1,13 +1,12 @@
-import React, { FC, Fragment, useEffect } from 'react';
 import type { FormProps } from 'antd';
 import { Breadcrumb, Button, Form, Input, Select } from 'antd';
-import { Languege } from '../../utils';
+import { FC, Fragment, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../redux/store';
-import { userAPI } from '../../apis/user.api';
 import { toast } from 'react-toastify';
+import { userAPI } from '../../apis/user.api';
 import { fetchUserById } from '../../features/usersSlice';
-import i18n from '../../i18n/i18n';
+import { AppDispatch, RootState } from '../../redux/store';
+import { Languege } from '../../utils';
 
 type FieldType = {
     email?: string;
@@ -18,8 +17,6 @@ type FieldType = {
 const ProfileUser: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const [form] = Form.useForm(); // Create a form instance
-
-
     const users = useSelector((state: RootState) => state.users.entities);
     
 
@@ -50,17 +47,13 @@ const ProfileUser: FC = () => {
        } catch (error) {
         toast.error('Cập nhật không thành công!')
        }
-        
-
     };
 
     const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
         console.log('Failed:', errorInfo);
     };
 
-    const onchangeLanguere = (e: any) => {
-        // i18n.changeLanguage(e)
-    }
+
     return (
         <Fragment>
             <Breadcrumb
@@ -108,7 +101,6 @@ const ProfileUser: FC = () => {
                     rules={[{ required: true, message: 'Vui lòng chọn ngôn ngữ!' }]}
                 >
                     <Select
-                        onChange={onchangeLanguere}
                         showSearch
                         placeholder="Chọn ngôn ngữ" // Adjusted placeholder
                         filterOption={(input, option) =>

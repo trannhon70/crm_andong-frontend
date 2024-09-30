@@ -82,7 +82,7 @@ const LayoutComponent: React.FC = () => {
         ]),
         getItem('Quản lý hệ thống', 'sub6', <TeamOutlined />, [
             getItem('quản lý con người', '28'), 
-            getItem('Quản lý quyền', '29'),
+            getItem(<Link to={'/quan-ly-quyen'}>Quản lý quyền</Link>, '29'),
             getItem('Danh sách bệnh viện', '30'),
             getItem('Quản lý thông báo', '31'),
           
@@ -119,7 +119,7 @@ const LayoutComponent: React.FC = () => {
                 <Content
                     style={{
                         margin: '10px 10px',
-                        padding: 24,
+                        padding: 10,
                         minHeight: 280,
                         background: colorBgContainer,
                         borderRadius: borderRadiusLG,
