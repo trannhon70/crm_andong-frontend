@@ -1,0 +1,8 @@
+
+{
+    "menu_left": {
+        "home": "主页",
+        "Patient_Appointment_Management": "患者预约管理",
+        "Appointment_registration_list": "预约登记名单"
+    }
+}

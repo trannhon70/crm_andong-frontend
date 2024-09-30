@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
 import { fetchUserById } from '../../features/usersSlice';
 import ModalInvalidToken from '../modalInvalidToken';
+import i18n from '../../i18n/i18n';
 
 
 interface IHeaderProps {
@@ -28,13 +29,20 @@ const HeaderComponent: FC<IHeaderProps> = ({ collapsed, setCollapsed }) => {
 
     const users = useSelector((state: RootState) => state.users.entities);
     // const loading = useSelector((state: RootState) => state.users.loading);
+    console.log(users.language);
     
     useEffect(() => {
         dispatch(fetchUserById());
+        
     }, [dispatch])
+
+    useEffect(() => {
+        i18n.changeLanguage(users.language);
+    },[users.language])
+
     const items: MenuProps['items'] = [
         {
-            key: '1',
+            key: 'a',
             label: (
                 <Link className='text-base' to='profile'>Thông tin cá nhân</Link>
             ),
@@ -42,7 +50,7 @@ const HeaderComponent: FC<IHeaderProps> = ({ collapsed, setCollapsed }) => {
         },
 
         {
-            key: '2',
+            key: 'b',
             danger: true,
             label: <div onClick={logout} >Đăng xuất</div>,
             icon: <CiLogout size={30} />,

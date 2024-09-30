@@ -7,6 +7,7 @@ import { AppDispatch, RootState } from '../../redux/store';
 import { userAPI } from '../../apis/user.api';
 import { toast } from 'react-toastify';
 import { fetchUserById } from '../../features/usersSlice';
+import i18n from '../../i18n/i18n';
 
 type FieldType = {
     email?: string;
@@ -43,11 +44,11 @@ const ProfileUser: FC = () => {
        try {
         const result = await userAPI.UpdateUserId(users.id, body)
         if(result.data.statusCode === 1){
-            toast.success('Cập nhật thôn tin cá nhân thành công!')
+            toast.success('Cập nhật thành công!')
             dispatch(fetchUserById());
         }
        } catch (error) {
-        toast.error('Cập nhật thôn tin cá nhân không thành công!')
+        toast.error('Cập nhật không thành công!')
        }
         
 
@@ -57,6 +58,9 @@ const ProfileUser: FC = () => {
         console.log('Failed:', errorInfo);
     };
 
+    const onchangeLanguere = (e: any) => {
+        // i18n.changeLanguage(e)
+    }
     return (
         <Fragment>
             <Breadcrumb
@@ -104,6 +108,7 @@ const ProfileUser: FC = () => {
                     rules={[{ required: true, message: 'Vui lòng chọn ngôn ngữ!' }]}
                 >
                     <Select
+                        onChange={onchangeLanguere}
                         showSearch
                         placeholder="Chọn ngôn ngữ" // Adjusted placeholder
                         filterOption={(input, option) =>
