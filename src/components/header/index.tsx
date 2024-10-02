@@ -67,7 +67,7 @@ const HeaderComponent: FC<IHeaderProps> = ({ collapsed, setCollapsed }) => {
                 height: 64,
             }}
         />
-        <div className='flex items-end gap-3 pr-4 ' >
+        <div className='flex items-end gap-3 pr-4' style={{textTransform:'capitalize'}} >
             {users?.fullName}
             <Dropdown menu={{ items }}>
                 <div onClick={(e) => e.preventDefault()}>

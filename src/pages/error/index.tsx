@@ -6,7 +6,7 @@ const Error: FC = () => {
     const navige = useNavigate()
 
     const onClickHome = () => {
-        navige('/')
+        navige(-1)
     }
   return  <Result
     status="404"
