@@ -29,7 +29,7 @@ const HeaderComponent: FC<IHeaderProps> = ({ collapsed, setCollapsed }) => {
 
     const users = useSelector((state: RootState) => state.users.entities);
     // const loading = useSelector((state: RootState) => state.users.loading);
-    console.log(users.language);
+    // console.log(users.language);
     
     useEffect(() => {
         dispatch(fetchUserById());
