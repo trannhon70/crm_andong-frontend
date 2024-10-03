@@ -12,6 +12,7 @@ export const fetchUserById = createAsyncThunk(
     },
   )
   
+  
   interface UsersState {
     entities:any
     loading: 'idle' | 'pending' | 'succeeded' | 'failed'

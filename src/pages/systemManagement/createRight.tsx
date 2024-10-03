@@ -1,28 +1,14 @@
 import { Alert, Button, Checkbox, CheckboxProps, Input } from 'antd';
-import { FC, Fragment, useState } from "react";
+import { FC, Fragment, useEffect, useState } from "react";
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from "react-toastify";
-import BreadcrumbComponent from "../../components/breadcrumbComponent";
 import { rolesAPI } from '../../apis/roles.api';
-import { useNavigate } from 'react-router-dom';
+import BreadcrumbComponent from "../../components/breadcrumbComponent";
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store';
+import { fetchGetById } from '../../features/rolesSlice';
 
-const dataBreadcrumb = [
-    {
-        title: 'Quản lý hệ thống',
-    },
-    {
-        type: 'separator',
-    },
-    {
-        href: '/quan-ly-quyen',
-        title: 'Quản lý quyền',
-    },
-    {
-        type: 'separator',
-    },
-    {
-        title: 'Thêm quyền',
-    },
-];
+
 
 const CreateRight: FC = () => {
     const [form, setForm] = useState<any[]>([
@@ -174,6 +160,43 @@ const CreateRight: FC = () => {
     const [name, setName] = useState<string>('')
     const [nameErr, setNameErr] = useState<'' | 'error' | 'warning' | undefined>('');
     const navige = useNavigate()
+    let { id } = useParams();
+    const dispatch = useDispatch<AppDispatch>();
+    const { role } = useSelector((state: RootState) => state.roles);
+    
+    const dataBreadcrumb = [
+        {
+            title: 'Quản lý hệ thống',
+        },
+        {
+            type: 'separator',
+        },
+        {
+            href: '/quan-ly-quyen',
+            title: 'Quản lý quyền',
+        },
+        {
+            type: 'separator',
+        },
+        {
+            title: <>{id ? 'Cập nhật': 'Thêm quyền'}</>,
+        },
+    ];
+
+    useEffect(() =>{ 
+        if(id){
+            dispatch(fetchGetById(Number(id)))
+           
+        }
+    
+    }, [id])
+
+    useEffect(() => {
+        if(role.menu){
+            setName(role.name);
+            setForm(JSON.parse(role.menu))
+        }
+    }, [role.menu])
 
     const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value)
@@ -1570,7 +1593,7 @@ const CreateRight: FC = () => {
                 <tr>
                     <td colSpan={1} className="text-right">Tên quyền :</td>
                     <td colSpan={3} className="">
-                        <Input status={nameErr} onChange={handleChangeName} className="w-[300px]" placeholder="Nhập tên quyền" />
+                        <Input status={nameErr} value={name} onChange={handleChangeName} className="w-[300px]" placeholder="Nhập tên quyền" />
                     </td>
                 </tr>
                 <tr className="bg-[#f2f2f2]" >

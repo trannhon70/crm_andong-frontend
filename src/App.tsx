@@ -42,6 +42,7 @@ const App: React.FC = () => {
               <Route path='/profile' element={<ProfileUser/>} />
               <Route path='/quan-ly-quyen' element={<RightsManagement/>} />
               <Route path='/quan-ly-quyen/them-moi' element={<CreateRight/>} />
+              <Route path='/quan-ly-quyen/cap-nhat/:id' element={<CreateRight/>} />
            </Route>
         </Route>
         <Route path="*" element={<Error />} />

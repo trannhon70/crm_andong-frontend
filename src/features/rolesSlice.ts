@@ -11,13 +11,22 @@ export const fetchGetPaging = createAsyncThunk(
     },
   )
 
+  export const fetchGetById = createAsyncThunk(
+    'roles/getByid',
+    async ( id: number ,thunkAPI ) => {
+      const response = await rolesAPI.getById(id)
+      return response.data.data
+    },
+  )
+
   interface RoleState {
     data:any,
     pageSize: number,
     pageIndex: number,
     total: number,
     totalPages: number,
-    loading: 'idle' | 'pending' | 'succeeded' | 'failed'
+    loading: 'idle' | 'pending' | 'succeeded' | 'failed',
+    role: any
   }
 
   const initialState = {
@@ -27,17 +36,14 @@ export const fetchGetPaging = createAsyncThunk(
     total: 0,
     totalPages: 0,
     loading: 'idle',
+    role: {}
   } satisfies RoleState as RoleState
 
 
   const rolesSlice = createSlice({
     name: 'roles',
     initialState,
-    reducers: {
-    //   setInvalidToken(state, action) {
-    //     state.invalidToken = action.payload;
-    //   },
-    },
+    reducers: {},
     extraReducers: (builder) => {
       builder.addCase(fetchGetPaging.fulfilled, (state, action) => {
         state.data = action.payload.data;
@@ -46,10 +52,14 @@ export const fetchGetPaging = createAsyncThunk(
         state.total = action.payload.total;
         state.totalPages = action.payload.totalPages;
         state.loading = 'succeeded';
-       
-      })
+      });
+      
+      builder.addCase(fetchGetById.fulfilled, (state, action) => {
+        state.role = action.payload; 
+        state.loading = 'succeeded';
+      });
     },
-  })
+  });
 
-  export const {  } = rolesSlice.actions;
+  // export const {  } = rolesSlice.actions;
   export const rolesReducer = rolesSlice.reducer;

@@ -4,7 +4,8 @@ import { IGetPaging } from "../interface/roles";
 export const rolesAPI = {
     create,
     getPaging,
-    deleteRole
+    deleteRole,
+    getById
 }
 
 function create(data :any) {
@@ -17,4 +18,8 @@ function deleteRole(id :number) {
 
 function getPaging(query: IGetPaging) {
     return instance.get(`/role/get-paging?pageIndex=${query.pageIndex}&pageSize=${query.pageSize}&search=${query.search}`);
+}
+
+function getById(id :number) {
+    return instance.get(`/role/get-by-id/${id}`,);
 }

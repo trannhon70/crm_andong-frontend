@@ -1,15 +1,17 @@
 import type { GetProps, TableProps } from 'antd';
 import { Button, Input, Tag } from 'antd';
 import { FC, Fragment, useEffect, useState } from "react";
+import { HiPencilSquare } from "react-icons/hi2";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import BreadcrumbComponent from "../../components/breadcrumbComponent";
 import Loading from '../../components/loading';
+import PopconfirmComponent from '../../components/popconfirmComponent';
 import TableComponent from "../../components/tableComponent";
 import { fetchGetPaging } from '../../features/rolesSlice';
 import { AppDispatch, RootState } from '../../redux/store';
-import { MdDelete } from "react-icons/md";
-import { HiPencilSquare } from "react-icons/hi2";
+import { rolesAPI } from '../../apis/roles.api';
+import { toast } from 'react-toastify';
 const moment = require('moment');
 
 const dataBreadcrumb = [
@@ -88,8 +90,13 @@ const RightsManagement: FC = () => {
         dataIndex: 'id',
         render(value, record, index) {
           return <div className='flex gap-4 ' >
-            <MdDelete onClick={() => deleteRole(value)} className='cursor-pointer' color='red' size={25} />
-            <HiPencilSquare className='cursor-pointer text-green-700 ' color='primary' size={25} />
+            <PopconfirmComponent 
+              title ={<>Xóa quyền {record.name}</>} 
+              description= 'Bạn có chắc chắn muốn xóa tác vụ này không?'
+              value={value}
+              deleteRole={deleteRole}
+            />
+            <HiPencilSquare onClick={() => onClickEdit(value)} className='cursor-pointer text-green-700 ' color='primary' size={25} />
           </div>
         },
       },
@@ -104,9 +111,21 @@ const RightsManagement: FC = () => {
     setPageSize(pageSize)
   }
 
-  const deleteRole = (value: any) => {
-    console.log(value);
-    
+  const deleteRole = async (id: any) => {
+      try {
+          const result = await rolesAPI.deleteRole(id)
+          if(result.data.statusCode === 1){
+            toast.success('Xóa thành công!')
+            dispatch(fetchGetPaging({ pageSize, pageIndex, search }));
+          }
+      } catch (error) {
+        console.log(error);
+        
+      }
+  }
+
+  const onClickEdit = (id: number)=>{
+      navige(`/quan-ly-quyen/cap-nhat/${id}`)
   }
 
   return (
