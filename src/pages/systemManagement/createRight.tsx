@@ -188,15 +188,14 @@ const CreateRight: FC = () => {
             dispatch(fetchGetById(Number(id)))
            
         }
-    
-    }, [id])
+    }, [id, dispatch])
 
     useEffect(() => {
         if(role.menu){
             setName(role.name);
             setForm(JSON.parse(role.menu))
         }
-    }, [role.menu])
+    }, [role.menu, role.name])
 
     const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value)
@@ -211,25 +210,36 @@ const CreateRight: FC = () => {
                 toast.error('Tên quyền không được bỏ trống!')
             )
         }
-        try {
-            const body = {
-                name: name,
-                menu: JSON.stringify(form)
+        const body = {
+            name: name,
+            menu: JSON.stringify(form)
+        }
+        if(id){
+            try {
+                const resultUpdate = await rolesAPI.updateRole(Number(id), body)
+                if(resultUpdate.data.statusCode === 1){
+                    toast.success('Cập nhật thành công!');
+                    // navige('/quan-ly-quyen')
+                }
+            } catch (error) {
+                console.log(error);
+                
             }
-            const result = await rolesAPI.create(body)
-            if(result.data.statusCode === 1){
-                toast.success('Thêm mới thành công!');
-                navige('/quan-ly-quyen')
-            }
-            console.log(result, 'ress');
-        } catch (error: any) {
-            if(error.response.data.message === "Tên quyền đã được đăng ký, vui lòng đăng ký tên khác!"){
-                toast.error("Tên quyền đã được đăng ký, vui lòng đăng ký tên khác!")
+
+        } else {
+            try {
+                
+                const result = await rolesAPI.create(body)
+                if(result.data.statusCode === 1){
+                    toast.success('Thêm mới thành công!');
+                    navige('/quan-ly-quyen')
+                }
+            } catch (error: any) {
+                if(error.response.data.message === "Tên quyền đã được đăng ký, vui lòng đăng ký tên khác!"){
+                    toast.error("Tên quyền đã được đăng ký, vui lòng đăng ký tên khác!")
+                }
             }
         }
-       
-        
-        
     }
 
     const onChangeHome: CheckboxProps['onChange'] = (e) => {
@@ -1572,6 +1582,10 @@ const CreateRight: FC = () => {
         ])
     }
 
+    const onclickComeBack = () => {
+        setForm(JSON.parse(role.menu))
+    }
+
     return <Fragment>
         <BreadcrumbComponent items={dataBreadcrumb} />
         <Alert className="mt-2" message={
@@ -1603,7 +1617,7 @@ const CreateRight: FC = () => {
                     <td  colSpan={4} className="border border-slate-300">
                         <Button onClick={onClickSelectAll} color="primary" variant="solid"> Chọn tất cả </Button>
                         <Button onClick={onClickUnselect} className="ml-2" color="danger" variant="outlined" > Bỏ chọn </Button>
-                        <Button className="ml-2" color="primary" variant="outlined"> Trở lại </Button>
+                        {id ? <Button onClick={onclickComeBack} className="ml-2" color="primary" variant="outlined"> Trở lại </Button> :''}
                     </td>
                 </tr>
                 <tr className="bg-[#f2f2f2]">
@@ -1854,7 +1868,9 @@ const CreateRight: FC = () => {
             
         </table>
         <div className="flex items-center justify-center mt-2 " >
-            <Button onClick={onclickCreate} color="primary" variant="solid" >Thêm mới</Button>
+            <Button onClick={onclickCreate} color="primary" variant="solid" >
+              {id ? 'Cập nhật' : 'Thêm mới'}  
+            </Button>
         </div>
     </Fragment>
 }

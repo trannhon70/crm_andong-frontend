@@ -43,7 +43,11 @@ export const fetchGetPaging = createAsyncThunk(
   const rolesSlice = createSlice({
     name: 'roles',
     initialState,
-    reducers: {},
+    reducers: {
+      setRoleData(state, action) {
+        state.role = action.payload;
+      },
+    },
     extraReducers: (builder) => {
       builder.addCase(fetchGetPaging.fulfilled, (state, action) => {
         state.data = action.payload.data;
@@ -61,5 +65,5 @@ export const fetchGetPaging = createAsyncThunk(
     },
   });
 
-  // export const {  } = rolesSlice.actions;
+  export const { setRoleData } = rolesSlice.actions;
   export const rolesReducer = rolesSlice.reducer;

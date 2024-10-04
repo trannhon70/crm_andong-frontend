@@ -8,7 +8,7 @@ import BreadcrumbComponent from "../../components/breadcrumbComponent";
 import Loading from '../../components/loading';
 import PopconfirmComponent from '../../components/popconfirmComponent';
 import TableComponent from "../../components/tableComponent";
-import { fetchGetPaging } from '../../features/rolesSlice';
+import { fetchGetPaging, setRoleData } from '../../features/rolesSlice';
 import { AppDispatch, RootState } from '../../redux/store';
 import { rolesAPI } from '../../apis/roles.api';
 import { toast } from 'react-toastify';
@@ -104,6 +104,7 @@ const RightsManagement: FC = () => {
 
   const onClickCreate = () => {
     navige('/quan-ly-quyen/them-moi');
+    dispatch(setRoleData({}))
   }
 
   const onChangePage = (page: number, pageSize:number) => {
