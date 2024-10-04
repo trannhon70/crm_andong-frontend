@@ -83,7 +83,7 @@ const LayoutComponent: React.FC = () => {
         getItem('Quản lý hệ thống', 'sub6', <TeamOutlined />, [
             getItem('quản lý con người', '28'), 
             getItem(<Link to={'/quan-ly-quyen'}>Quản lý quyền</Link>, '29'),
-            getItem('Danh sách bệnh viện', '30'),
+            getItem(<Link to={'/danh-sach-benh-vien'}>Danh sách bệnh viện</Link>, '30'),
             getItem('Quản lý thông báo', '31'),
           
         
