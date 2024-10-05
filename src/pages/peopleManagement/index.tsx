@@ -131,7 +131,9 @@ const PeopleManagement: FC = () => {
                       deleteRole={deleteRole}
                     />
                     {
-                        record.isshow == true ? <HiMiniLockOpen  color='primary' className='cursor-pointer' size={25}/> : <HiMiniLockClosed color='warning' className='cursor-pointer' size={25}/>
+                        record.isshow == true ? 
+                        <HiMiniLockOpen onClick={() => onClickUnActiveUser(value)} color='primary' className='cursor-pointer' size={25}/> :
+                         <HiMiniLockClosed onClick={() => onClickActiveUser(value)} color='warning' className='cursor-pointer' size={25}/>
                     }
                     
                     <HiPencilSquare
@@ -154,6 +156,22 @@ const PeopleManagement: FC = () => {
             
         }
         
+    }
+
+    const onClickActiveUser = async (id:number)=>{
+            const result = await userAPI.activeUser(id)
+            if(result.data.statusCode === 1){
+                toast.success('Mở khóa thành công!')
+                dispatch(fetchGetPaging({ pageSize, pageIndex, search, isshow, language }))
+           }
+    }
+
+    const onClickUnActiveUser = async(id: number) => {
+        const result = await userAPI.unActiveUser(id)
+            if(result.data.statusCode === 1){
+                toast.success('khóa tài khoản thành công!')
+                dispatch(fetchGetPaging({ pageSize, pageIndex, search, isshow, language }))
+           }
     }
     const onChangePage = (page: number, pageSize: number) => {
         setPageIndex(page)

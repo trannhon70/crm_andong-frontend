@@ -8,7 +8,9 @@ export const userAPI = {
     UpdateUserId,
     create,
     getPaging,
-    deleteUser
+    deleteUser,
+    activeUser,
+    unActiveUser
 };
 
 function login(data : ILogin) {
@@ -34,4 +36,12 @@ function getByIdUser() {
 
 function UpdateUserId(id: number, body: any) {
     return instance.put(`/user/update-user/${id}`, body);
+}
+
+function activeUser(id: number) {
+    return instance.put(`/user/active-user/${id}`);
+}
+
+function unActiveUser(id: number) {
+    return instance.put(`/user/un-active-user/${id}`);
 }
