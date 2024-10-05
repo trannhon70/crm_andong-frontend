@@ -7,10 +7,13 @@ import { useNavigate } from "react-router-dom";
 import TableComponent from "../../components/tableComponent";
 import moment from "moment";
 import PopconfirmComponent from "../../components/popconfirmComponent";
-import { HiPencilSquare } from "react-icons/hi2";
+import { HiMiniLockOpen, HiPencilSquare } from "react-icons/hi2";
 import Loading from "../../components/loading";
 import { fetchGetPaging } from "../../features/usersSlice";
 import { Languege } from "../../utils";
+import { HiMiniLockClosed } from "react-icons/hi2";
+import { userAPI } from "../../apis/user.api";
+import { toast } from "react-toastify";
 
 const dataBreadcrumb = [
     {
@@ -119,13 +122,18 @@ const PeopleManagement: FC = () => {
             key: 'id',
             dataIndex: 'id',
             render(value, record, index) {
+                
                 return <div className='flex gap-4 ' >
                     <PopconfirmComponent
-                        title={<>Xóa quyền {record.name}</>}
-                        description='Bạn có chắc chắn muốn xóa tác vụ này không?'
+                        title={<>Xóa {record.fullName}</>}
+                        description='Bạn có chắc chắn muốn xóa tài khoản này không?'
                         value={value}
-                    //   deleteRole={deleteRole}
+                      deleteRole={deleteRole}
                     />
+                    {
+                        record.isshow == true ? <HiMiniLockOpen  color='primary' className='cursor-pointer' size={25}/> : <HiMiniLockClosed color='warning' className='cursor-pointer' size={25}/>
+                    }
+                    
                     <HiPencilSquare
                         // onClick={() => onClickEdit(value)} 
                         className='cursor-pointer text-green-700 ' color='primary' size={25} />
@@ -134,6 +142,19 @@ const PeopleManagement: FC = () => {
         },
     ];
 
+    const deleteRole = async(id : number) => {
+        try {
+            const result = await userAPI.deleteUser(id)
+            if(result.data.statusCode === 1){
+                toast.success('Xóa thành công!')
+                dispatch(fetchGetPaging({ pageSize, pageIndex, search, isshow, language }))
+           }
+        } catch (error) {
+            console.log(error);
+            
+        }
+        
+    }
     const onChangePage = (page: number, pageSize: number) => {
         setPageIndex(page)
         setPageSize(pageSize)
@@ -201,7 +222,7 @@ const PeopleManagement: FC = () => {
             <Button onClick={onClickCreate} type="primary">Thêm mới</Button>
         </div>
         {
-            loading === 'succeeded' ? <TableComponent columns={columns} data={data} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} /> : <Loading />
+            loading === 'succeeded' ? <TableComponent rowKey={true} columns={columns} data={data} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} /> : <Loading />
         }
     </Fragment>
 }

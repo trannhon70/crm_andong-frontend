@@ -7,7 +7,8 @@ export const userAPI = {
     getByIdUser,
     UpdateUserId,
     create,
-    getPaging
+    getPaging,
+    deleteUser
 };
 
 function login(data : ILogin) {
@@ -16,6 +17,10 @@ function login(data : ILogin) {
 
 function create(body : IUser) {
     return instance.post("/user/create", body);
+}
+
+function deleteUser(id: number) {
+    return instance.delete(`/user/delete-user/${id}`);
 }
 
 function getPaging(query: IGetPaging) {
