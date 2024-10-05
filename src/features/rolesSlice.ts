@@ -19,6 +19,14 @@ export const fetchGetPaging = createAsyncThunk(
     },
   )
 
+  export const getAllRole = createAsyncThunk(
+    'roles/getAll',
+    async ( thunkAPI ) => {
+      const response = await rolesAPI.getAll()
+      return response.data.data
+    },
+  )
+
   interface RoleState {
     data:any,
     pageSize: number,
@@ -26,7 +34,8 @@ export const fetchGetPaging = createAsyncThunk(
     total: number,
     totalPages: number,
     loading: 'idle' | 'pending' | 'succeeded' | 'failed',
-    role: any
+    role: any,
+    allRole: any
   }
 
   const initialState = {
@@ -36,7 +45,8 @@ export const fetchGetPaging = createAsyncThunk(
     total: 0,
     totalPages: 0,
     loading: 'idle',
-    role: {}
+    role: {},
+    allRole: []
   } satisfies RoleState as RoleState
 
 
@@ -62,6 +72,11 @@ export const fetchGetPaging = createAsyncThunk(
         state.role = action.payload; 
         state.loading = 'succeeded';
       });
+
+      builder.addCase(getAllRole.fulfilled, (state, action) => {
+        state.allRole = action.payload;
+        state.loading = 'succeeded';
+      })
     },
   });
 

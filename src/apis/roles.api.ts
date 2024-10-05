@@ -6,7 +6,8 @@ export const rolesAPI = {
     getPaging,
     deleteRole,
     getById,
-    updateRole
+    updateRole,
+    getAll
 }
 
 function create(data :any) {
@@ -27,4 +28,8 @@ function getPaging(query: IGetPaging) {
 
 function getById(id :number) {
     return instance.get(`/role/get-by-id/${id}`,);
+}
+
+function getAll() {
+    return instance.get(`/role/get-all`);
 }

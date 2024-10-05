@@ -81,7 +81,7 @@ const LayoutComponent: React.FC = () => {
         
         ]),
         getItem('Quản lý hệ thống', 'sub6', <TeamOutlined />, [
-            getItem('quản lý con người', '28'), 
+            getItem(<Link to={'/quan-ly-con-nguoi'}>quản lý con người</Link>, '28'), 
             getItem(<Link to={'/quan-ly-quyen'}>Quản lý quyền</Link>, '29'),
             getItem(<Link to={'/danh-sach-benh-vien'}>Danh sách bệnh viện</Link>, '30'),
             getItem('Quản lý thông báo', '31'),
@@ -110,6 +110,7 @@ const LayoutComponent: React.FC = () => {
                     theme="dark"
                     mode="inline"
                     defaultSelectedKeys={['1']}
+                    // selectedKeys={}
                     items={items}
                 />
             </Sider>

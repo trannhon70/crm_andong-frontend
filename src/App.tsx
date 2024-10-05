@@ -10,6 +10,8 @@ import ProfileUser from './pages/profile';
 import RightsManagement from './pages/systemManagement/rightsManagement';
 import CreateRight from './pages/systemManagement/createRight';
 import HospitalList from './pages/hospitalList';
+import PeopleManagement from './pages/peopleManagement';
+import CreatePeople from './pages/peopleManagement/createPeople';
 
 
 const PrivateRoutes = () => {
@@ -44,7 +46,11 @@ const App: React.FC = () => {
               <Route path='/quan-ly-quyen' element={<RightsManagement/>} />
               <Route path='/quan-ly-quyen/them-moi' element={<CreateRight/>} />
               <Route path='/quan-ly-quyen/cap-nhat/:id' element={<CreateRight/>} />
+
               <Route path='/danh-sach-benh-vien' element={<HospitalList/>} />
+
+              <Route path='/quan-ly-con-nguoi' element={<PeopleManagement/>} />
+              <Route path='/quan-ly-con-nguoi/them-moi' element={<CreatePeople/>} />
            </Route>
         </Route>
         <Route path="*" element={<Error />} />

@@ -10,12 +10,21 @@ export const fetchGetPaging = createAsyncThunk(
     },
   )
 
+  export const getAllHospital = createAsyncThunk(
+    'hospital/getall',
+    async ( thunkAPI ) => {
+      const response = await hospitalAPI.getAllHospital()
+      return response.data.data
+    },
+  )
+
   interface HospitalState {
     data:any,
     pageSize: number,
     pageIndex: number,
     total: number,
     totalPages: number,
+    hospital: any,
     loading: 'idle' | 'pending' | 'succeeded' | 'failed',
   }
 
@@ -25,6 +34,7 @@ export const fetchGetPaging = createAsyncThunk(
     pageIndex: 1,
     total: 0,
     totalPages: 0,
+    hospital: [],
     loading: 'idle',
   } satisfies HospitalState as HospitalState
 
@@ -46,9 +56,12 @@ export const fetchGetPaging = createAsyncThunk(
         state.loading = 'succeeded';
       });
       
-     
+      builder.addCase(getAllHospital.fulfilled, (state, action) => {
+        state.hospital = action.payload;
+        state.loading = 'succeeded';
+      })
     },
   });
 
-  export const {  } = hospitalSlice.actions;
+  // export const {  } = hospitalSlice.actions;
   export const hospitalReducer = hospitalSlice.reducer;
