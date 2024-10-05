@@ -12,6 +12,9 @@ import { getAllHospital } from "../../features/hospitalSlice";
 import { AppDispatch, RootState } from "../../redux/store";
 import { Languege } from "../../utils";
 import { getAllRole } from "../../features/rolesSlice";
+import { userAPI } from "../../apis/user.api";
+import { IUser } from "../../interface/users";
+import { toast } from "react-toastify";
 const { Option } = Select;
 
 
@@ -46,8 +49,28 @@ const CreatePeople: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const { hospital,roles } = useSelector((state: RootState) => state);
     
-    const onFinish = (values: any) => {
-        console.log('Received values of form: ', values);
+    const onFinish = async (values: any) => {
+        const body = {
+            email: values.email,
+            fullName: values.fullName,
+            hospitalId: JSON.stringify(values.hospitalId),
+            isshow: values.isshow,
+            language: values.language,
+            roleId: values.roleId,
+            password: values.password,
+        } as IUser
+
+        try {
+            const result = await userAPI.create(body)
+           if(result.data.statusCode === 1){
+                toast.success('Thêm mới thành công!')
+                form.resetFields();
+           }
+            
+        } catch (error : any) {
+            toast.error(`${error.response.data.message}`)
+            
+        }
     };
 
 

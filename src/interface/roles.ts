@@ -1,5 +1,7 @@
 export interface IGetPaging {
     pageIndex?: number,
     pageSize?: number,
-    search?: string
+    search?: string,
+    isshow?: boolean,
+    language?: string
 }

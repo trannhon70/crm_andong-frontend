@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { userAPI } from '../apis/user.api'
+import { IGetPaging } from '../interface/roles'
 
 
 
@@ -11,18 +12,34 @@ export const fetchUserById = createAsyncThunk(
       return response.data.data
     },
   )
-  
+  export const fetchGetPaging = createAsyncThunk(
+    'users/getPaging',
+    async ( query: IGetPaging ,thunkAPI ) => {
+      const response = await userAPI.getPaging(query)
+      return response.data.data
+    },
+  )
   
   interface UsersState {
     entities:any
     loading: 'idle' | 'pending' | 'succeeded' | 'failed'
     invalidToken: boolean
+    data:any,
+    pageSize: number,
+    pageIndex: number,
+    total: number,
+    totalPages: number,
   }
 
   const initialState = {
     entities: {},
     loading: 'idle',
     invalidToken: false,
+    data: [],
+    pageSize: 5,
+    pageIndex: 1,
+    total: 0,
+    totalPages: 0,
   } satisfies UsersState as UsersState
 
   const usersSlice = createSlice({
@@ -38,7 +55,15 @@ export const fetchUserById = createAsyncThunk(
         state.entities = action.payload;
         state.loading = 'succeeded';
        
-      })
+      });
+      builder.addCase(fetchGetPaging.fulfilled, (state, action) => {
+        state.data = action.payload.data;
+        state.pageSize = action.payload.pageSize;
+        state.pageIndex = action.payload.pageIndex;
+        state.total = action.payload.total;
+        state.totalPages = action.payload.totalPages;
+        state.loading = 'succeeded';
+      });
     },
   })
 
