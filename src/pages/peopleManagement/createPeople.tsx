@@ -48,6 +48,7 @@ const CreatePeople: FC = () => {
     const [form] = Form.useForm();
     const dispatch = useDispatch<AppDispatch>();
     const { hospital,roles } = useSelector((state: RootState) => state);
+   
     
     const onFinish = async (values: any) => {
         const body = {

@@ -51,6 +51,7 @@ const App: React.FC = () => {
 
               <Route path='/quan-ly-con-nguoi' element={<PeopleManagement/>} />
               <Route path='/quan-ly-con-nguoi/them-moi' element={<CreatePeople/>} />
+              <Route path='/quan-ly-con-nguoi/cap-nhat/:id' element={<CreatePeople/>} />
            </Route>
         </Route>
         <Route path="*" element={<Error />} />

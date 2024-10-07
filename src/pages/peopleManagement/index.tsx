@@ -137,12 +137,16 @@ const PeopleManagement: FC = () => {
                     }
                     
                     <HiPencilSquare
-                        // onClick={() => onClickEdit(value)} 
+                        onClick={() => onClickEdit(value)} 
                         className='cursor-pointer text-green-700 ' color='primary' size={25} />
                 </div>
             },
         },
     ];
+
+    const onClickEdit = (id: number) => {
+        navige(`/quan-ly-con-nguoi/cap-nhat/${id}`)
+    }
 
     const deleteRole = async(id : number) => {
         try {

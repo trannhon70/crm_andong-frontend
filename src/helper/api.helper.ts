@@ -28,9 +28,11 @@ instance.interceptors.response.use(
         return response;
     },
     async (error) => {
+        console.log(error);
+        
         const dispatch = store.dispatch; 
         // Kiểm tra nếu lỗi là 401 (Unauthorized) và token hết hạn
-        if (error.response.data && error.response.data.error === 'Invalid token or user not found') {
+        if (error.response.data && error.response.data.error === 'Invalid token or user not found' || error.response.data.error === 'Unauthorized') {
             dispatch(setInvalidToken(true));
             return Promise.reject(error); 
         }

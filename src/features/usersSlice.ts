@@ -19,6 +19,15 @@ export const fetchUserById = createAsyncThunk(
       return response.data.data
     },
   )
+
+  export const fecthByIdUser = createAsyncThunk(
+    'users/getIdByUser',
+    async ( id: number ,thunkAPI ) => {
+      const response = await userAPI.fecthByIdUser(id)
+      return response.data.data
+    },
+  )
+  
   
   interface UsersState {
     entities:any
@@ -29,6 +38,7 @@ export const fetchUserById = createAsyncThunk(
     pageIndex: number,
     total: number,
     totalPages: number,
+    user: any
   }
 
   const initialState = {
@@ -40,6 +50,7 @@ export const fetchUserById = createAsyncThunk(
     pageIndex: 1,
     total: 0,
     totalPages: 0,
+    user: {}
   } satisfies UsersState as UsersState
 
   const usersSlice = createSlice({
@@ -64,6 +75,10 @@ export const fetchUserById = createAsyncThunk(
         state.totalPages = action.payload.totalPages;
         state.loading = 'succeeded';
       });
+      builder.addCase(fecthByIdUser.fulfilled, (state, action) => {
+        state.user = action.payload;
+        state.loading = 'succeeded';
+      })
     },
   })
 

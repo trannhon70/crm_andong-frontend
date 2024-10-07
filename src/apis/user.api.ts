@@ -10,7 +10,8 @@ export const userAPI = {
     getPaging,
     deleteUser,
     activeUser,
-    unActiveUser
+    unActiveUser,
+    fecthByIdUser
 };
 
 function login(data : ILogin) {
@@ -31,6 +32,10 @@ function getPaging(query: IGetPaging) {
 
 function getByIdUser() {
     return instance.get("/user/get-by-user");
+}
+
+function fecthByIdUser(id: number) {
+    return instance.get(`/user/get-by-id/${id}`);
 }
 
 
