@@ -11,11 +11,16 @@ export const userAPI = {
     deleteUser,
     activeUser,
     unActiveUser,
-    fecthByIdUser
+    fecthByIdUser,
+    logout
 };
 
 function login(data : ILogin) {
     return instance.post("/user/login", data);
+}
+
+function logout() {
+    return instance.post("/user/logout");
 }
 
 function create(body : IUser) {

@@ -6,7 +6,7 @@ import {
 } from "antd";
 import { FC, Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import BreadcrumbComponent from "../../components/breadcrumbComponent";
 import { getAllHospital } from "../../features/hospitalSlice";
 import { AppDispatch, RootState } from "../../redux/store";
@@ -15,6 +15,7 @@ import { getAllRole } from "../../features/rolesSlice";
 import { userAPI } from "../../apis/user.api";
 import { IUser } from "../../interface/users";
 import { toast } from "react-toastify";
+import { fecthByIdUser } from "../../features/usersSlice";
 const { Option } = Select;
 
 
@@ -47,8 +48,30 @@ const CreatePeople: FC = () => {
     let { id } = useParams();
     const [form] = Form.useForm();
     const dispatch = useDispatch<AppDispatch>();
-    const { hospital,roles } = useSelector((state: RootState) => state);
-   
+    const navige = useNavigate()
+    const { hospital,roles, users } = useSelector((state: RootState) => state);
+    
+    useEffect(() => {
+        if(users.user.fullName){
+            form.setFieldValue('fullName', users.user.fullName);
+            form.setFieldValue('email', users.user.email);
+            form.setFieldValue('language', users.user.language);
+            form.setFieldValue('isshow', users.user.isshow);
+            try {
+                const hospitalId = JSON.parse(users.user.hospitalId);
+                form.setFieldValue('hospitalId', hospitalId);
+            } catch (error) {
+                form.setFieldValue('hospitalId', users.user.hospitalId); 
+            }
+            form.setFieldValue('roleId', users.user.role.id);
+        }
+    }, [users.user.fullName])
+
+    useEffect(() =>{ 
+        if(id){
+            dispatch(fecthByIdUser(Number(id)))
+        }
+    }, [id, dispatch])
     
     const onFinish = async (values: any) => {
         const body = {
@@ -60,17 +83,26 @@ const CreatePeople: FC = () => {
             roleId: values.roleId,
             password: values.password,
         } as IUser
-
-        try {
-            const result = await userAPI.create(body)
-           if(result.data.statusCode === 1){
-                toast.success('Thêm mới thành công!')
-                form.resetFields();
+        if(id){
+           try {
+                const update = await  userAPI.UpdateUserId(Number(id), body)
+                if(update.data.statusCode === 1){
+                    toast.success('Cập nhật thành công!');
+                    // navige('/quan-ly-con-nguoi');
+               }
+           } catch (error) {
+                console.log(error);
            }
-            
-        } catch (error : any) {
-            toast.error(`${error.response.data.message}`)
-            
+        } else {
+            try {
+                const result = await userAPI.create(body)
+               if(result.data.statusCode === 1){
+                    toast.success('Thêm mới thành công!')
+                    form.resetFields();
+               }
+            } catch (error : any) {
+                toast.error(`${error.response.data.message}`)
+            }
         }
     };
 
@@ -141,7 +173,7 @@ const CreatePeople: FC = () => {
                         },
                     ]}
                 >
-                    <Input />
+                    <Input disabled={id ? true : false} />
                 </Form.Item>
 
                 <Form.Item
@@ -149,7 +181,7 @@ const CreatePeople: FC = () => {
                     label="Mật khẩu"
                     rules={[
                         {
-                            required: true,
+                            required: id ? false : true,
                             message: 'Vui lòng nhập mật khẩu của bạn!',
                         },
                     ]}
@@ -165,7 +197,7 @@ const CreatePeople: FC = () => {
                     hasFeedback
                     rules={[
                         {
-                            required: true,
+                            required: id ? false : true,
                             message: 'Vui lòng xác nhận mật khẩu của bạn!',
                         },
                         ({ getFieldValue }) => ({
@@ -232,7 +264,7 @@ const CreatePeople: FC = () => {
 
                 <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">
-                        Thêm mới
+                        {id ? 'Cập nhật' : 'Thêm mới'}
                     </Button>
                 </Form.Item>
             </Form>

@@ -44,10 +44,12 @@ const AuthProvider = ({ children }: Props) => {
         }
     }
 
-    const logout = () => {
+    const logout = async() => {
+        await userAPI.logout()
         localStorage.clear();
         navigate('/login');
         window.location.reload();
+
     }
 
    
