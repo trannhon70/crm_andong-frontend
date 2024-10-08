@@ -16,6 +16,7 @@ import { AppDispatch, RootState } from '../../redux/store';
 import { fetchUserById } from '../../features/usersSlice';
 import ModalInvalidToken from '../modalInvalidToken';
 import i18n from '../../i18n/i18n';
+import { PiPasswordFill } from "react-icons/pi";
 
 
 interface IHeaderProps {
@@ -47,6 +48,14 @@ const HeaderComponent: FC<IHeaderProps> = ({ collapsed, setCollapsed }) => {
                 <Link className='text-base' to='profile'>Thông tin cá nhân</Link>
             ),
             icon: <PiUserSwitchDuotone size={30} />,
+        },
+
+        {
+            key: 'c',
+            label: (
+                <Link className='text-base' to='thay-doi-mat-khau'>Thay đổi mật khẩu</Link>
+            ),
+            icon: <PiPasswordFill  size={30} />,
         },
 
         {

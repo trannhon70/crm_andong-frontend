@@ -80,6 +80,7 @@ const LayoutComponent: React.FC = () => {
             getItem('Thông báo SMS cho bệnh nhân', '27'),
         
         ]),
+        
         getItem('Quản lý hệ thống', 'sub6', <TeamOutlined />, [
             getItem(<Link to={'/quan-ly-con-nguoi'}>quản lý con người</Link>, '28'), 
             getItem(<Link to={'/quan-ly-quyen'}>Quản lý quyền</Link>, '29'),

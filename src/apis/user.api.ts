@@ -12,11 +12,16 @@ export const userAPI = {
     activeUser,
     unActiveUser,
     fecthByIdUser,
-    logout
+    logout,
+    resetPassword
 };
 
 function login(data : ILogin) {
     return instance.post("/user/login", data);
+}
+
+function resetPassword(id: number, body: any) {
+    return instance.put(`/user/reset-password/${id}`, body);
 }
 
 function logout() {
