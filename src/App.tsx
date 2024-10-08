@@ -15,6 +15,9 @@ import CreatePeople from './pages/peopleManagement/createPeople';
 import AppointmentRegistrationList from './pages/patientAppointmentManagement/appointmentRegistrationList';
 import PersonalInformation from './pages/personalInformation';
 import ChangePassword from './pages/profile/changePassword';
+import CreateAppointmentRegistrationList from './pages/patientAppointmentManagement/appointmentRegistrationList/create';
+import DiseaseManagement from './pages/settings/diseaseManagement';
+import CreateDiseaseManagement from './pages/settings/diseaseManagement/create';
 
 
 const PrivateRoutes = () => {
@@ -57,8 +60,12 @@ const App: React.FC = () => {
               <Route path='/quan-ly-con-nguoi/cap-nhat/:id' element={<CreatePeople/>} />
 
               <Route path='/danh-sach-dang-ky-hen' element={<AppointmentRegistrationList/>} />
+              <Route path='/danh-sach-dang-ky-hen/them-moi' element={<CreateAppointmentRegistrationList/>} />
 
               <Route path='/thay-doi-mat-khau' element={<ChangePassword/>} />
+
+              <Route path='/thiet-lap-benh-tat' element={<DiseaseManagement/>} />
+              <Route path='/thiet-lap-benh-tat/them-moi' element={<CreateDiseaseManagement/>} />
 
            </Route>
         </Route>

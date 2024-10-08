@@ -10,6 +10,14 @@ import { Link, Outlet } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
 import HeaderComponent from '../header';
 import { useTranslation } from 'react-i18next';
+import { HiUserGroup } from "react-icons/hi";
+import { SiMicrosoftaccess } from "react-icons/si";
+import { TbWebhook } from "react-icons/tb";
+import { TbReport } from "react-icons/tb";
+import { IoSettings } from "react-icons/io5";
+import { GrSystem } from "react-icons/gr";
+import { FaHistory } from "react-icons/fa";
+import { VscServerEnvironment } from "react-icons/vsc";
 
 const { Sider, Content } = Layout;
 
@@ -42,25 +50,25 @@ const LayoutComponent: React.FC = () => {
     const user = { role: 'admin' };
 
     const items: MenuItem[] = [
-        getItem(<Link to={'/'}>{t("home:menu_left.home")}</Link>, '1', <IoHomeOutline />),
-        getItem(<div>{t("home:menu_left.Patient_Appointment_Management")}</div>, 'sub1', <UserOutlined />, [
+        getItem(<Link to={'/'}>{t("home:menu_left.home")}</Link>, '1', <IoHomeOutline size={20} />),
+        getItem(<div>{t("home:menu_left.Patient_Appointment_Management")}</div>, 'sub1', <UserOutlined size={20}/>, [
             getItem(<Link to={'/danh-sach-dang-ky-hen'}>{t("home:menu_left.Appointment_registration_list")}</Link>, '3'),
             getItem(<Link to={'/tim-kiem-benh-nhan'}>Tìm kiếm bệnh nhân</Link>, '4'),
             getItem(<Link to={'/tim-kiem-benh-nhan'}>Lặp lại truy vấn bệnh nhân</Link>, '5'),
             getItem(<Link to={'/tim-kiem-benh-nhan'}>Đăng ký tự phục vụ</Link>, '6'),
         ]),
-        getItem('Thống kê khách truy cập', 'sub2', <TeamOutlined />, [
+        getItem('Thống kê khách truy cập', 'sub2', <SiMicrosoftaccess  size={20}/>, [
             getItem('Chi tiết dữ liệu (mạng)', '7'), 
             getItem('Cài đặt dự án bệnh viện (mạng)', '9'),
             getItem('Chi tiết dữ liệu (số điện thoại)', '10'),
             getItem('Cài đặt dự án bệnh viện (điện thoại)', '11'),
         ]),
-        getItem('Quản lý đăng ký trang web', 'sub3', <TeamOutlined />, [
+        getItem('Quản lý đăng ký trang web', 'sub3', <TbWebhook size={20}/>, [
             getItem('Danh sách đăng ký trang web', '12'), 
             getItem('Cài đặt đăng ký trang web', '13'),
         
         ]),
-        getItem('Báo cáo dữ liệu', 'sub4', <TeamOutlined />, [
+        getItem('Báo cáo dữ liệu', 'sub4', <TbReport size={20}/>, [
             getItem('Báo cáo tổng hợp', '14'), 
             getItem('giới tính', '15'),
             getItem('tuổi', '16'),
@@ -71,9 +79,9 @@ const LayoutComponent: React.FC = () => {
             getItem('dịch vụ khách hàng', '21'),
         
         ]),
-        getItem('Cài đặt', 'sub5', <TeamOutlined />, [
+        getItem('Cài đặt', 'sub5', <IoSettings size={20}/>, [
             getItem('Cài đặt bác sĩ', '22'), 
-            getItem('thiết lập bệnh tật', '23'),
+            getItem(<Link to={'/thiet-lap-benh-tat'} >thiết lập bệnh tật</Link>, '23'),
             getItem('Cài đặt loại điều trị y tế', '24'),
             getItem('Cài đặt khoa bệnh viện', '25'),
             getItem('Cài đặt công cụ tìm kiếm', '26'),
@@ -81,7 +89,7 @@ const LayoutComponent: React.FC = () => {
         
         ]),
         
-        getItem('Quản lý hệ thống', 'sub6', <TeamOutlined />, [
+        getItem('Quản lý hệ thống', 'sub6', <GrSystem size={20}/>, [
             getItem(<Link to={'/quan-ly-con-nguoi'}>quản lý con người</Link>, '28'), 
             getItem(<Link to={'/quan-ly-quyen'}>Quản lý quyền</Link>, '29'),
             getItem(<Link to={'/danh-sach-benh-vien'}>Danh sách bệnh viện</Link>, '30'),
@@ -89,14 +97,14 @@ const LayoutComponent: React.FC = () => {
           
         
         ]),
-        getItem('Lịch sử thao tác', 'sub7', <TeamOutlined />, [
+        getItem('Lịch sử thao tác', 'sub7', <FaHistory size={20}/>, [
             getItem('Nhật ký hoạt động', '32'), 
             getItem('Nhật ký lỗi đăng nhập', '33'),
         ]),
-        getItem('Đăng ký tự phục vụ', 'sub8', <TeamOutlined />, [
+        getItem('Đăng ký tự phục vụ', 'sub8', <VscServerEnvironment size={20}/>, [
             getItem('Danh sách đăng ký', '34'), 
         ]),
-        ...(user.role === 'user' ? [getItem('Files', '9', <FileOutlined />)] : []),
+        ...(user.role === 'user' ? [getItem('Files', '9', <FileOutlined size={20}/>)] : []),
     ];
 
     return (
