@@ -19,18 +19,20 @@ const DiseaseManagement: FC = () => {
     const navige = useNavigate()
     const { data, total, loading } = useSelector((state: RootState) => state.disease);
     const [pageIndex, setPageIndex] = useState<number>(1)
-    const [pageSize, setPageSize] = useState<number>(10)
+    const [pageSize, setPageSize] = useState<number>(50)
     const [search,setSearch] = useState<string>('')
     const hospitalId = localStorage.getItem('hospitalId')
     const dispatch = useDispatch<AppDispatch>();
+
+    const [isshow, setIsshow] = useState<any>('')
     
     
     useEffect(() => {
         if(hospitalId){
-            dispatch(getPagingDisease({ pageSize, pageIndex, search, hospitalId : Number(hospitalId) }))
+            dispatch(getPagingDisease({ pageSize, pageIndex, search, hospitalId : Number(hospitalId),isshow }))
         }
         
-    }, [dispatch,hospitalId, pageIndex, pageSize])
+    }, [dispatch,hospitalId, pageIndex, pageSize, isshow])
     const dataBreadcrumb = [
         {
             href: '/thiet-lap-benh-tat',
@@ -46,10 +48,11 @@ const DiseaseManagement: FC = () => {
 
     const onClickCreate = () => {
         navige('/thiet-lap-benh-tat/them-moi');
-        // dispatch(setRoleData({}))
     }
 
     const onSearch: SearchProps['onSearch'] = (value, _e, info) => {
+        setSearch(value);
+        dispatch(getPagingDisease({ pageSize, pageIndex, search: value, hospitalId : Number(hospitalId),isshow }))
     };
 
     const columns: TableProps<any>['columns'] = [
@@ -139,12 +142,20 @@ const DiseaseManagement: FC = () => {
         setPageIndex(page)
         setPageSize(pageSize)
     }
+
+    const handleChangeTinhTrang= (e:any) => {
+        if(e ===  undefined){
+            setIsshow('')
+        }else {
+            setIsshow(e)
+        }
+    }
     return <Fragment>
          <BreadcrumbComponent items={dataBreadcrumb} />
          <div className='mt-2 pb-2 flex justify-between ' >
             <div className="flex gap-3" >
                 <Select
-                    // onChange={handleChangeTinhTrang}
+                    onChange={handleChangeTinhTrang}
                     showSearch
                     allowClear
                     style={{ width: 200 }}
@@ -165,18 +176,7 @@ const DiseaseManagement: FC = () => {
                        
                     ]}
                 />
-                 <Select
-                    // onChange={handleChangeNgonNgu}
-                    showSearch
-                    allowClear
-                    style={{ width: 200 }}
-                    placeholder="Ngôn ngữ"
-                    optionFilterProp="label"
-                    // filterSort={(optionA, optionB) =>
-                    //     (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-                    // }
-                    // options={Languege}
-                />
+                 
                 <Search className='w-[250px]' placeholder="Nhập tên quyền"  onSearch={onSearch} enterButton />
             </div>
             <Button onClick={onClickCreate} type="primary">Thêm mới</Button>

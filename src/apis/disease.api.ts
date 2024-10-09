@@ -12,7 +12,6 @@ function createdisease (body: any){
 }
 
 function getPagingDisease (query: IGetPaging){
-    console.log(query);
     
-    return instance.get(`/disease/get-paging?pageIndex=${query.pageIndex}&pageSize=${query.pageSize}&search=${query.search}&hospitalId=${query.hospitalId}`);
+    return instance.get(`/disease/get-paging?pageIndex=${query.pageIndex}&pageSize=${query.pageSize}&search=${query.search}&hospitalId=${query.hospitalId}&isshow=${query.isshow}`);
 }
