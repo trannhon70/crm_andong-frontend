@@ -3,7 +3,7 @@ import BreadcrumbComponent from "../../../components/breadcrumbComponent";
 import { Button, Form, Input, Select, Switch } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
-import { getAllByIdHospital } from "../../../features/department";
+import { getAllByIdHospital } from "../../../features/departmentSlice";
 import { departmentAPI } from "../../../apis/department.api";
 import { toast } from "react-toastify";
 import { diseaseAPI } from "../../../apis/disease.api";

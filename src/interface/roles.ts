@@ -3,5 +3,6 @@ export interface IGetPaging {
     pageSize?: number,
     search?: string,
     isshow?: boolean,
-    language?: string
+    language?: string,
+    hospitalId?: number
 }

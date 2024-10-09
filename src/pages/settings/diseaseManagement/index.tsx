@@ -1,14 +1,15 @@
-import { FC, Fragment, useState } from "react";
+import { FC, Fragment, useEffect, useState } from "react";
 import BreadcrumbComponent from "../../../components/breadcrumbComponent";
 import { Button, GetProps, Input, Select, TableProps, Tag } from "antd";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../redux/store";
 import TableComponent from "../../../components/tableComponent";
 import moment from "moment";
 import PopconfirmComponent from "../../../components/popconfirmComponent";
 import { HiPencilSquare } from "react-icons/hi2";
 import Loading from "../../../components/loading";
+import { getPagingDisease } from "../../../features/diseaseSlice";
 
 type SearchProps = GetProps<typeof Input.Search>;
 
@@ -16,10 +17,20 @@ const { Search } = Input;
 
 const DiseaseManagement: FC = () => {
     const navige = useNavigate()
-    const { data, total, loading } = useSelector((state: RootState) => state.users);
+    const { data, total, loading } = useSelector((state: RootState) => state.disease);
     const [pageIndex, setPageIndex] = useState<number>(1)
-    const [pageSize, setPageSize] = useState<number>(50)
+    const [pageSize, setPageSize] = useState<number>(10)
     const [search,setSearch] = useState<string>('')
+    const hospitalId = localStorage.getItem('hospitalId')
+    const dispatch = useDispatch<AppDispatch>();
+    
+    
+    useEffect(() => {
+        if(hospitalId){
+            dispatch(getPagingDisease({ pageSize, pageIndex, search, hospitalId : Number(hospitalId) }))
+        }
+        
+    }, [dispatch,hospitalId, pageIndex, pageSize])
     const dataBreadcrumb = [
         {
             href: '/thiet-lap-benh-tat',
@@ -51,36 +62,35 @@ const DiseaseManagement: FC = () => {
             },
         },
         {
-            title: 'Họ và tên',
-            dataIndex: 'fullName',
-            key: 'fullName',
+            title: 'Tên Bệnh',
+            dataIndex: 'name',
+            key: 'name',
         },
         {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email',
-        },
-        {
-            title: 'Ngôn ngữ',
-            key: 'language',
-            dataIndex: 'language',
+            title: 'Khoa',
+            dataIndex: 'department',
+            key: 'department',
             render(value, record, index) {
-                if (value === 'vi') {
-                    return <Tag  >Tiếng Việt</Tag>;
-                }
-                if (value === 'en') {
-                    return <Tag color="error" >Tiếng Anh</Tag>;
-                }
-                return <Tag color="green" >Tiếng Trung</Tag>;
+              
+                return <div style={{textTransform:'capitalize'}} className="" >{value.name}</div>;
             },
         },
         {
-            title: 'Phân quyền',
-            key: 'role',
-            dataIndex: 'role',
+            title: 'Bệnh viện',
+            key: 'hospital',
+            dataIndex: 'hospital',
+            render(value, record, index) {
+               
+                return <div style={{textTransform:'capitalize'}} className="" >{value.name}</div>;
+            },
+        },
+        {
+            title: 'Người tạo',
+            key: 'user',
+            dataIndex: 'user',
             render(value, record, index) {
                 
-                return <Tag color="processing" >{value?.name}</Tag>;
+                return <div style={{textTransform:'capitalize'}} className="" >{value.fullName}</div>;
             },
         },
         {

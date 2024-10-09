@@ -1,12 +1,18 @@
 
 import instance from "../helper/api.helper";
+import { IGetPaging } from "../interface/roles";
 
 export const diseaseAPI = {
-    createdisease
+    createdisease,
+    getPagingDisease
 }
-
-
 
 function createdisease (body: any){
     return instance.post(`/disease/create`, body);
+}
+
+function getPagingDisease (query: IGetPaging){
+    console.log(query);
+    
+    return instance.get(`/disease/get-paging?pageIndex=${query.pageIndex}&pageSize=${query.pageSize}&search=${query.search}&hospitalId=${query.hospitalId}`);
 }
