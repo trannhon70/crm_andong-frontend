@@ -3,6 +3,7 @@ import counterSlice from './counterSlice';
 import { usersReducer } from '../features/usersSlice';
 import { rolesReducer } from '../features/rolesSlice';
 import { hospitalReducer } from '../features/hospitalSlice';
+import { departmentReducer } from '../features/department';
 
 
 export const store = configureStore({
@@ -10,8 +11,8 @@ export const store = configureStore({
     counter: counterSlice,
     users: usersReducer,
     roles: rolesReducer,
-    hospital: hospitalReducer
-    
+    hospital: hospitalReducer,
+    department: departmentReducer
   },
 });
 
