@@ -7,6 +7,8 @@ import { getAllByIdHospital } from "../../../features/departmentSlice";
 import { departmentAPI } from "../../../apis/department.api";
 import { toast } from "react-toastify";
 import { diseaseAPI } from "../../../apis/disease.api";
+import { useNavigate, useParams } from "react-router-dom";
+import { getByIdDisease } from "../../../features/diseaseSlice";
 
 
 
@@ -40,7 +42,21 @@ const CreateDiseaseManagement: FC =() => {
     const [form] = Form.useForm();
     const dispatch = useDispatch<AppDispatch>();
     const hospitalId = localStorage.getItem('hospitalId')
-    const { dataAll } = useSelector((state: RootState) => state.department);
+    const { department, disease } = useSelector((state: RootState) => state);
+    let { id } = useParams();
+    const navige = useNavigate()
+
+    useEffect(() => {
+        if(disease.disease.id){
+            form.setFieldValue('name', disease.disease.name)
+            form.setFieldValue('departmentId', disease.disease.departmentId)
+        }
+    }, [disease.disease.id])
+    useEffect(() =>{ 
+        if(id){
+            dispatch(getByIdDisease(Number(id)))
+        }
+    }, [id, dispatch])
 
     useEffect(() => {
         if(hospitalId){
@@ -64,7 +80,7 @@ const CreateDiseaseManagement: FC =() => {
             type: 'separator',
         },
         {
-            title:  'Thêm mới',
+            title: <>{id ? 'Cập nhật' : 'Thêm mới'}</>,
         },
     ];
 
@@ -74,17 +90,25 @@ const CreateDiseaseManagement: FC =() => {
             name: values.name,
             hospitalId: hospitalId
         }
-        try {
-            const result = await diseaseAPI.createdisease(body);
-            if(result.data.statusCode === 1){
+        if(id){
+            const update = await diseaseAPI.updateDisease(Number(id), body)
+            if(update.data.statusCode === 1){
                 toast.success('Thêm mới thành công!')
-                form.resetFields();
+                navige('/thiet-lap-benh-tat')
             }
-
-        } catch (error) {
-            console.log(error);
-            
-        }
+        }else {
+            try {
+                const result = await diseaseAPI.createdisease(body);
+                if(result.data.statusCode === 1){
+                    toast.success('Thêm mới thành công!')
+                    form.resetFields();
+                }
+            } catch (error) {
+                console.log(error);
+                
+            }
+        }   
+        
     }
     return <Fragment>
         <BreadcrumbComponent items={dataBreadcrumb} />
@@ -105,7 +129,7 @@ const CreateDiseaseManagement: FC =() => {
                         style={{textTransform:'capitalize'}}
                         placeholder="Vui lòng chọn chuyên khoa hoạt động"
                         allowClear
-                        options={dataAll.map((item: any,index:number)=> {
+                        options={department.loading==='succeeded' && department.dataAll.map((item: any,index:number)=> {
                             return {
                                 value: item.id,
                                 label: item.name

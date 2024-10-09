@@ -66,6 +66,7 @@ const App: React.FC = () => {
 
               <Route path='/thiet-lap-benh-tat' element={<DiseaseManagement/>} />
               <Route path='/thiet-lap-benh-tat/them-moi' element={<CreateDiseaseManagement/>} />
+              <Route path='/thiet-lap-benh-tat/cap-nhat/:id' element={<CreateDiseaseManagement/>} />
 
            </Route>
         </Route>

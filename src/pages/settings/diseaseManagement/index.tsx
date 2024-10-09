@@ -9,7 +9,9 @@ import moment from "moment";
 import PopconfirmComponent from "../../../components/popconfirmComponent";
 import { HiPencilSquare } from "react-icons/hi2";
 import Loading from "../../../components/loading";
-import { getPagingDisease } from "../../../features/diseaseSlice";
+import { getPagingDisease, setDisease } from "../../../features/diseaseSlice";
+import { diseaseAPI } from "../../../apis/disease.api";
+import { toast } from "react-toastify";
 
 type SearchProps = GetProps<typeof Input.Search>;
 
@@ -47,6 +49,7 @@ const DiseaseManagement: FC = () => {
     ];
 
     const onClickCreate = () => {
+        dispatch(setDisease({}))
         navige('/thiet-lap-benh-tat/them-moi');
     }
 
@@ -112,7 +115,7 @@ const DiseaseManagement: FC = () => {
             key: 'created_at',
             dataIndex: 'created_at',
             render(value, record, index) {
-                return <Fragment>{moment(value.created_at).format('DD-MM-YYYY hh:ss')}</Fragment>
+                return <Fragment>{moment.unix(value).format('YYYY-MM-DD HH:mm:ss')}</Fragment>
             },
         },
         {
@@ -123,15 +126,15 @@ const DiseaseManagement: FC = () => {
                 
                 return <div className='flex gap-4 ' >
                     <PopconfirmComponent
-                        title={<>Xóa {record.fullName}</>}
-                        description='Bạn có chắc chắn muốn xóa tài khoản này không?'
+                        title={<>Xóa bệnh {record.name}</>}
+                        description='Bạn có chắc chắn muốn xóa bệnh này không?'
                         value={value}
-                    //   deleteRole={deleteRole}
+                      deleteRole={deleteDesease}
                     />
                     
                     
                     <HiPencilSquare
-                        // onClick={() => onClickEdit(value)} 
+                        onClick={() => onClickEdit(value)} 
                         className='cursor-pointer text-green-700 ' color='primary' size={25} />
                 </div>
             },
@@ -149,6 +152,23 @@ const DiseaseManagement: FC = () => {
         }else {
             setIsshow(e)
         }
+    }
+
+    const deleteDesease = async(value: any) =>{ 
+       try {
+            const result = await diseaseAPI.deleteDisease(value)
+            if(result.data.statusCode === 1){
+                toast.success('Xóa thành công!')
+                dispatch(getPagingDisease({ pageSize, pageIndex, search, hospitalId : Number(hospitalId),isshow }))
+           }
+       } catch (error) {
+            console.log(error);
+       }
+        
+    }
+
+    const onClickEdit = (id: number) => {
+        navige(`/thiet-lap-benh-tat/cap-nhat/${id}`);
     }
     return <Fragment>
          <BreadcrumbComponent items={dataBreadcrumb} />

@@ -12,12 +12,21 @@ export const getPagingDisease = createAsyncThunk(
     },
   )
 
+  export const getByIdDisease = createAsyncThunk(
+    'disease/getByIdDisease',
+    async ( id: number ,thunkAPI ) => {
+      const response = await diseaseAPI.getByIdDisease(id)
+      return response.data.data
+    },
+  )
+
   interface DiseaseState {
     data:any,
     pageSize: number,
     pageIndex: number,
     total: number,
     totalPages: number,
+    disease: any,
     loading: 'idle' | 'pending' | 'succeeded' | 'failed',
   }
 
@@ -27,6 +36,7 @@ export const getPagingDisease = createAsyncThunk(
     pageIndex: 1,
     total: 0,
     totalPages: 0,
+    disease:{},
     loading: 'idle',
   } satisfies DiseaseState as DiseaseState
 
@@ -35,9 +45,9 @@ export const getPagingDisease = createAsyncThunk(
     name: 'disease',
     initialState,
     reducers: {
-    //   setRoleData(state, action) {
-    //     state.role = action.payload;
-    //   },
+      setDisease(state, action) {
+        state.disease = action.payload;
+      },
     },
     extraReducers: (builder) => {
      
@@ -49,9 +59,13 @@ export const getPagingDisease = createAsyncThunk(
         state.total = action.payload.total;
         state.totalPages = action.payload.totalPages;
         state.loading = 'succeeded';
+      });
+      builder.addCase(getByIdDisease.fulfilled, (state, action)=>{
+        state.disease = action.payload
+        state.loading = 'succeeded';
       })
     },
   });
 
-    // export const {  } = hospitalSlice.actions;
+    export const { setDisease } = diseaseSlice.actions;
     export const diseaseReducer = diseaseSlice.reducer;
