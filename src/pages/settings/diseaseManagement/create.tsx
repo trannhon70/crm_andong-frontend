@@ -93,7 +93,7 @@ const CreateDiseaseManagement: FC =() => {
         if(id){
             const update = await diseaseAPI.updateDisease(Number(id), body)
             if(update.data.statusCode === 1){
-                toast.success('Thêm mới thành công!')
+                toast.success('Cập nhật thành công!')
                 navige('/thiet-lap-benh-tat')
             }
         }else {
@@ -149,7 +149,7 @@ const CreateDiseaseManagement: FC =() => {
 
                 <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">
-                       Thêm mới
+                      {id ? 'Cập nhật' : 'Thêm mới'} 
                     </Button>
                 </Form.Item>
             </Form>

@@ -5,6 +5,7 @@ import { rolesReducer } from '../features/rolesSlice';
 import { hospitalReducer } from '../features/hospitalSlice';
 import { departmentReducer } from '../features/departmentSlice';
 import { diseaseReducer } from '../features/diseaseSlice';
+import { doctorReducer } from '../features/doctorSlice';
 
 
 export const store = configureStore({
@@ -14,7 +15,8 @@ export const store = configureStore({
     roles: rolesReducer,
     hospital: hospitalReducer,
     department: departmentReducer,
-    disease: diseaseReducer
+    disease: diseaseReducer,
+    doctor:doctorReducer
   },
 });
 

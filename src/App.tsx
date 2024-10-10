@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import LayoutComponent from './components/layout';
 import { AuthContext } from './context/AuthContext';
-import Home from './pages/home';
+import Home from './pages/Home';
 import Login from './pages/login';
 import Error from './pages/error';
 import ProfileUser from './pages/profile';
@@ -18,6 +18,8 @@ import ChangePassword from './pages/profile/changePassword';
 import CreateAppointmentRegistrationList from './pages/patientAppointmentManagement/appointmentRegistrationList/create';
 import DiseaseManagement from './pages/settings/diseaseManagement';
 import CreateDiseaseManagement from './pages/settings/diseaseManagement/create';
+import DoctorManagement from './pages/settings/doctorManagement';
+import CreateDocTor from './pages/settings/doctorManagement/create';
 
 
 const PrivateRoutes = () => {
@@ -64,9 +66,14 @@ const App: React.FC = () => {
 
               <Route path='/thay-doi-mat-khau' element={<ChangePassword/>} />
 
+              {/* cài đặt */}
               <Route path='/thiet-lap-benh-tat' element={<DiseaseManagement/>} />
               <Route path='/thiet-lap-benh-tat/them-moi' element={<CreateDiseaseManagement/>} />
               <Route path='/thiet-lap-benh-tat/cap-nhat/:id' element={<CreateDiseaseManagement/>} />
+
+              <Route path='/thiet-lap-bac-si' element={<DoctorManagement/>} />
+              <Route path='/thiet-lap-bac-si/them-moi' element={<CreateDocTor/>} />
+              <Route path='/thiet-lap-bac-si/cap-nhat/:id' element={<CreateDocTor/>} />
 
            </Route>
         </Route>
