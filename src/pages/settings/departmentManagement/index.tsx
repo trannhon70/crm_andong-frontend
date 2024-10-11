@@ -4,59 +4,58 @@ import { Button, GetProps, Input, Select, TableProps, Tag } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
-import TableComponent from "../../../components/tableComponent";
 import moment from "moment";
+import TableComponent from "../../../components/tableComponent";
+import Loading from "../../../components/loading";
 import PopconfirmComponent from "../../../components/popconfirmComponent";
 import { HiPencilSquare } from "react-icons/hi2";
-import Loading from "../../../components/loading";
-import { getPagingDisease, setDisease } from "../../../features/diseaseSlice";
-import { diseaseAPI } from "../../../apis/disease.api";
-import { toast } from "react-toastify";
+import { getPagingDepartment, setDepartment } from "../../../features/departmentSlice";
 import NotHospital from "../../../components/notHospital";
+import { toast } from "react-toastify";
+import { departmentAPI } from "../../../apis/department.api";
 
 type SearchProps = GetProps<typeof Input.Search>;
 
 const { Search } = Input;
+const DepartmentManagement: FC = () => {
 
-const DiseaseManagement: FC = () => {
     const navige = useNavigate()
-    const { data, total, loading } = useSelector((state: RootState) => state.disease);
+    const { data, total, loading } = useSelector((state: RootState) => state.department);
     const [pageIndex, setPageIndex] = useState<number>(1)
     const [pageSize, setPageSize] = useState<number>(50)
     const [search,setSearch] = useState<string>('')
     const hospitalId = localStorage.getItem('hospitalId')
     const dispatch = useDispatch<AppDispatch>();
 
-    const [isshow, setIsshow] = useState<any>('')
-    
-    
+
     useEffect(() => {
         if(hospitalId){
-            dispatch(getPagingDisease({ pageSize, pageIndex, search, hospitalId : Number(hospitalId),isshow }))
+            dispatch(getPagingDepartment({ pageSize, pageIndex, search, hospitalId : Number(hospitalId) }))
         }
         
-    }, [dispatch,hospitalId, pageIndex, pageSize, isshow])
+    }, [dispatch,hospitalId, pageIndex, pageSize])
+    
+
     const dataBreadcrumb = [
         {
-            href: '/thiet-lap-benh-tat',
+            href: '/quan-ly-khoa',
             title: 'Cài đặt',
         },
         {
             type: 'separator',
         },
         {
-            title: 'Thiết lập bệnh',
+            title: 'Quản lý khoa',
         },
     ];
-
     const onClickCreate = () => {
-        dispatch(setDisease({}))
-        navige('/thiet-lap-benh-tat/them-moi');
+        dispatch(setDepartment({}))
+        navige('/quan-ly-khoa/them-moi');
     }
 
     const onSearch: SearchProps['onSearch'] = (value, _e, info) => {
         setSearch(value);
-        dispatch(getPagingDisease({ pageSize, pageIndex, search: value, hospitalId : Number(hospitalId),isshow }))
+        dispatch(getPagingDepartment({ pageSize, pageIndex, search: value, hospitalId : Number(hospitalId) }))
     };
 
     const columns: TableProps<any>['columns'] = [
@@ -73,15 +72,7 @@ const DiseaseManagement: FC = () => {
             dataIndex: 'name',
             key: 'name',
         },
-        {
-            title: 'Khoa',
-            dataIndex: 'department',
-            key: 'department',
-            render(value, record, index) {
-              
-                return <div style={{textTransform:'capitalize'}} className="" >{value.name}</div>;
-            },
-        },
+       
         {
             title: 'Bệnh viện',
             key: 'hospital',
@@ -100,17 +91,7 @@ const DiseaseManagement: FC = () => {
                 return <div style={{textTransform:'capitalize'}} className="" >{value.fullName}</div>;
             },
         },
-        {
-            title: 'Tình trạng',
-            key: 'isshow',
-            dataIndex: 'isshow',
-            render(value, record, index) {
-                if (value === true) {
-                    return <Tag color="success" >Hoạt động</Tag>
-                }
-                return <Tag color="red" >không hoạt động</Tag>
-            },
-        },
+        
         {
             title: 'Thời gian tạo',
             key: 'created_at',
@@ -127,10 +108,10 @@ const DiseaseManagement: FC = () => {
                 
                 return <div className='flex gap-4 ' >
                     <PopconfirmComponent
-                        title={<>Xóa bệnh {record.name}</>}
-                        description='Bạn có chắc chắn muốn xóa bệnh này không?'
+                        title={<>Xóa khoa {record.name}</>}
+                        description='Bạn có chắc chắn muốn xóa khoa này không?'
                         value={value}
-                      deleteRole={deleteDesease}
+                      deleteRole={deleteDepartment}
                     />
                     
                     
@@ -142,65 +123,34 @@ const DiseaseManagement: FC = () => {
         },
     ];
 
-    const onChangePage = (page: number, pageSize: number) => {
-        setPageIndex(page)
-        setPageSize(pageSize)
-    }
-
-    const handleChangeTinhTrang= (e:any) => {
-        if(e ===  undefined){
-            setIsshow('')
-        }else {
-            setIsshow(e)
-        }
-    }
-
-    const deleteDesease = async(value: any) =>{ 
-       try {
-            const result = await diseaseAPI.deleteDisease(value)
+    const deleteDepartment = async(id:number)=>{
+        try {
+            const result = await departmentAPI.deleteDepartment(id)
             if(result.data.statusCode === 1){
                 toast.success('Xóa thành công!')
-                dispatch(getPagingDisease({ pageSize, pageIndex, search, hospitalId : Number(hospitalId),isshow }))
+                dispatch(getPagingDepartment({ pageSize, pageIndex, search, hospitalId : Number(hospitalId) }))
            }
        } catch (error) {
             console.log(error);
        }
-        
     }
 
     const onClickEdit = (id: number) => {
-        navige(`/thiet-lap-benh-tat/cap-nhat/${id}`);
+        navige(`/quan-ly-khoa/cap-nhat/${id}`);
     }
-
+    const onChangePage = (page: number, pageSize: number) => {
+        setPageIndex(page)
+        setPageSize(pageSize)
+    }
     if(hospitalId === 'undefined'){
         return<NotHospital/>
     }
+    
     return <Fragment>
-         <BreadcrumbComponent items={dataBreadcrumb} />
-         <div className='mt-2 pb-2 flex justify-between ' >
+        
+        <BreadcrumbComponent items={dataBreadcrumb} />
+        <div className='mt-2 pb-2 flex justify-between ' >
             <div className="flex gap-3" >
-                <Select
-                    onChange={handleChangeTinhTrang}
-                    showSearch
-                    allowClear
-                    style={{ width: 200 }}
-                    placeholder="Tình trạng"
-                    optionFilterProp="label"
-                    filterSort={(optionA, optionB) =>
-                        (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-                    }
-                    options={[
-                        {
-                            value: '1',
-                            label: 'Hoạt động',
-                        },
-                        {
-                            value: '0',
-                            label: 'Không hoạt động',
-                        },
-                       
-                    ]}
-                />
                  
                 <Search className='w-[250px]' placeholder="Nhập tên "  onSearch={onSearch} enterButton />
             </div>
@@ -212,4 +162,4 @@ const DiseaseManagement: FC = () => {
     </Fragment>
 }
 
-export default DiseaseManagement
+export default DepartmentManagement

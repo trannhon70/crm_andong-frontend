@@ -83,7 +83,7 @@ const LayoutComponent: React.FC = () => {
             getItem(<Link to={'/thiet-lap-bac-si'}>Cài đặt bác sĩ</Link>, '22'), 
             getItem(<Link to={'/thiet-lap-benh-tat'} >thiết lập bệnh tật</Link>, '23'),
             getItem('Cài đặt loại điều trị y tế', '24'),
-            getItem('Cài đặt khoa bệnh viện', '25'),
+            getItem(<Link to={'/quan-ly-khoa'}>Cài đặt khoa bệnh viện</Link>, '25'),
             getItem('Cài đặt công cụ tìm kiếm', '26'),
             getItem('Thông báo SMS cho bệnh nhân', '27'),
         

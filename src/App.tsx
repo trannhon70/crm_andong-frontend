@@ -20,6 +20,8 @@ import DiseaseManagement from './pages/settings/diseaseManagement';
 import CreateDiseaseManagement from './pages/settings/diseaseManagement/create';
 import DoctorManagement from './pages/settings/doctorManagement';
 import CreateDocTor from './pages/settings/doctorManagement/create';
+import DepartmentManagement from './pages/settings/departmentManagement';
+import CreateDepartment from './pages/settings/departmentManagement/createDepartment';
 
 
 const PrivateRoutes = () => {
@@ -74,6 +76,11 @@ const App: React.FC = () => {
               <Route path='/thiet-lap-bac-si' element={<DoctorManagement/>} />
               <Route path='/thiet-lap-bac-si/them-moi' element={<CreateDocTor/>} />
               <Route path='/thiet-lap-bac-si/cap-nhat/:id' element={<CreateDocTor/>} />
+
+              <Route path='/quan-ly-khoa' element={<DepartmentManagement/>} />
+              <Route path='/quan-ly-khoa/them-moi' element={<CreateDepartment/>} />
+              <Route path='/quan-ly-khoa/cap-nhat/:id' element={<CreateDepartment/>} />
+
 
            </Route>
         </Route>

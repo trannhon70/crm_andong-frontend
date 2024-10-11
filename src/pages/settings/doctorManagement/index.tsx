@@ -12,6 +12,7 @@ import { getPagingDoctor } from "../../../features/doctorSlice";
 import moment from "moment";
 import { toast } from "react-toastify";
 import { doctorAPI } from "../../../apis/doctor.api";
+import NotHospital from "../../../components/notHospital";
 
 type SearchProps = GetProps<typeof Input.Search>;
 
@@ -143,6 +144,10 @@ const DoctorManagement: FC = () =>{
 
     const onClickEdit = (id: number) => {
         navige(`/thiet-lap-bac-si/cap-nhat/${id}`);
+    }
+
+    if(hospitalId === 'undefined'){
+        return<NotHospital/>
     }
     return <Fragment>
           <BreadcrumbComponent items={dataBreadcrumb} />
