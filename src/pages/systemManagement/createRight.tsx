@@ -1597,7 +1597,7 @@ const CreateRight: FC = () => {
                 </ul>
             </div>
         } type="warning" />
-        <table className="border-collapse border border-slate-400 mt-2">
+        <table style={{width:'100%'}} className="border-collapse border border-slate-400 mt-2 tableSetting ">
             <thead>
                 <tr>
                     <th colSpan={4} className="border border-slate-300 text-lg ">Cài đặt quyền</th>

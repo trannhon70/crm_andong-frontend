@@ -101,10 +101,10 @@ const HospitalList: FC = () => {
     setPageSize(pageSize)
   }
 
-  const onClickEdit = (id: number) => {
-    console.log(id, 'id');
+  // const onClickEdit = (id: number) => {
+  //   console.log(id, 'id');
     
-  }
+  // }
   return <Fragment>
     <BreadcrumbComponent items={dataBreadcrumb} />
     <div className='mt-2 pb-2 flex justify-between ' >
@@ -112,7 +112,7 @@ const HospitalList: FC = () => {
       {/* <Button onClick={onClickCreate} type="primary">Thêm mới</Button> */}
     </div>
     {
-      loading === 'succeeded' ? <TableComponent columns={columns} data={data} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} /> : <Loading />
+      loading === 'succeeded' ? <TableComponent columns={columns} data={data|| []} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} /> : <Loading />
     }
   </Fragment>
 }
