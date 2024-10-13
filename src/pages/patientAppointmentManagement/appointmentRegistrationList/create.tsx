@@ -1,13 +1,16 @@
-import { FC, Fragment } from "react";
+import { FC, Fragment, useEffect } from "react";
 import BreadcrumbComponent from "../../../components/breadcrumbComponent";
-import { Button, Form, Input, Select, GetProps, DatePicker, Space } from "antd";
+import { Button, Form, Input, Select, GetProps, DatePicker, Space, InputNumber } from "antd";
 import { GENDER } from "../../../utils";
 import type { DatePickerProps, } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import dayjs from 'dayjs';
+import { IPatient } from "../../../interface/patient";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../redux/store";
+import { fetchCity, fetchDistrictbyIdCity, getAllByIdHospital, getByIdDepartment } from "../../../features/patientSlice";
 
 type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
-
-const { RangePicker } = DatePicker;
 
 const formItemLayout = {
     labelCol: {
@@ -33,15 +36,23 @@ const tailFormItemLayout = {
     },
 };
 
-const formItemLayoutWithOutLabel = {
-    wrapperCol: {
-        xs: { span: 24, offset: 0 },
-        sm: { span: 20, offset: 4 },
-    },
-};
+
 const CreateAppointmentRegistrationList: FC = () => {
     const [form] = Form.useForm();
+    const hospitalId = localStorage.getItem('hospitalId')
+    const dispatch = useDispatch<AppDispatch>();
+    const { hospital,roles, patient } = useSelector((state: RootState) => state);
 
+    useEffect(() => {
+        dispatch(fetchCity())
+      }, [dispatch]);
+
+      useEffect(()=>{
+        if(hospitalId){
+            dispatch(getAllByIdHospital(Number(hospitalId)))
+        }
+      },[hospitalId, dispatch])
+      
     const dataBreadcrumb = [
         {
 
@@ -62,15 +73,48 @@ const CreateAppointmentRegistrationList: FC = () => {
         },
     ];
 
-    const onFinish = async (values: any) => {
-        console.log(values);
+    const onFinish = async (body: IPatient) => {
+       
+        const dataRef = {
+            name: body.name,
+            gender: body.gender,
+            yearOld: body.yearOld,
+            phone: body.phone,
+            content: body.content,
+            diseasesId: body.diseasesId,
+            departmentId: body.departmentId,
+            mediaId: body.mediaId,
+            city: body.city,
+            district: body.district,
+            code: body.code,
+            appointmentTime:dayjs( body.appointmentTime).unix(),
+            reminderTime: dayjs( body.reminderTime).unix(),
+            note: body.note,
+            editregistrationTime: dayjs( body.editregistrationTime).unix(),
+            status: body.status,
+            doctorId: body.doctorId,
+            hospitalId: hospitalId,
+            chat: body.chat,
+            treatment: body.treatment,
+            record: body.record,
+        }
 
-
+        console.log(dataRef)
     }
 
     const onOk = (value: DatePickerProps['value'] | RangePickerProps['value']) => {
         console.log('onOk: ', value);
     };
+
+    const handleChangeCity = (e:any)=> {
+        dispatch(fetchDistrictbyIdCity(e))
+        form.setFieldsValue({ district: undefined });
+    }
+
+    const handleChangeDepartment = (e: any)=>{
+        dispatch(getByIdDepartment({hospitalId,departmentId:e}))
+        form.setFieldsValue({ diseasesId: undefined });
+    }
     return <Fragment>
         <BreadcrumbComponent items={dataBreadcrumb} />
         <div className="flex items-center justify-center mt-5 " >
@@ -108,13 +152,13 @@ const CreateAppointmentRegistrationList: FC = () => {
                     <Form.Item name="yearOld" label="Nhập tuổi" rules={[
                         { required: true, message: 'Tuổi không được bỏ trống!', }
                     ]}>
-                        <Input type="number" />
+                        <InputNumber style={{ width: '100%' }} />
 
                     </Form.Item>
                     <Form.Item name="phone" label="Nhập số điện thoại" rules={[
                         { required: true, message: 'Số điện thoại không được bỏ trống!', }
                     ]}>
-                        <Input type="number" />
+                        <InputNumber style={{ width: '100%' }} />
 
                     </Form.Item>
                     <Form.Item name="content" label="Nội dung tư vấn" >
@@ -125,12 +169,20 @@ const CreateAppointmentRegistrationList: FC = () => {
                         { required: true, message: 'Khoa không được bỏ trống!', }
                     ]}>
                         <Select
+                            style={{textTransform:'uppercase'}}
                             showSearch
                             placeholder="Chọn khoa"
                             filterOption={(input, option) =>
-                                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                            }
-                            options={GENDER}
+                                typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
+                              }
+                            options={patient.department.map((item:any)=>{
+                                return {
+                                    value: item.id,
+                                    label: item.name
+                                }
+                            })}
+
+                            onChange={handleChangeDepartment}
                         />
 
                     </Form.Item>
@@ -139,11 +191,16 @@ const CreateAppointmentRegistrationList: FC = () => {
                     ]}>
                         <Select
                             showSearch
-                            placeholder="Chọn bệnh"
+                            placeholder="--Chọn bệnh--"
                             filterOption={(input, option) =>
-                                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                            }
-                            options={GENDER}
+                                typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
+                              }
+                            options={patient.diseasses.map((item:any)=>{
+                                return {
+                                    value: item.id,
+                                    label: item.name
+                                }
+                            })}
                         />
 
                     </Form.Item>
@@ -160,16 +217,39 @@ const CreateAppointmentRegistrationList: FC = () => {
                         />
 
                     </Form.Item>
-                    <Form.Item name="city" label="Khu vực" rules={[
-                        { required: true, message: 'Khu vực không được bỏ trống!', }
+                    <Form.Item name="city" label="Tỉnh/TP" rules={[
+                        { required: true, message: 'Tỉnh/TP không được bỏ trống!', }
                     ]}>
                         <Select
                             showSearch
-                            placeholder="Khu vực"
+                            placeholder="--chọn tỉnh/thành phố--"
                             filterOption={(input, option) =>
-                                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                            }
-                            options={GENDER}
+                                typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
+                              }
+                            options={patient.loading === 'succeeded' && patient.city.map((item : any)=>{
+                                return {
+                                    value: item.id,
+                                    label: item.full_name
+                                }
+                            }) }
+                            onChange={handleChangeCity}
+                        />
+
+                    </Form.Item>
+                    <Form.Item name="district" label="Quận/huyện" >
+                        <Select
+
+                            showSearch
+                            placeholder="--chọn quận/huyện--"
+                            filterOption={(input, option) =>
+                                typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
+                              }
+                            options={patient.district.map((item:any)=>{
+                                return {
+                                    value: item.id,
+                                    label: item.full_name
+                                }
+                            })}
                         />
 
                     </Form.Item>
@@ -259,7 +339,7 @@ const CreateAppointmentRegistrationList: FC = () => {
 
 
                     <div className="text-xl font-bold text-slate-600 mb-3 " > Đến khám chưa :   </div>
-                    <Form.Item name="reminderTime" label="Sửa đổi thời gian đăng ký" >
+                    <Form.Item name="editregistrationTime" label="Sửa đổi thời gian đăng ký" >
                         <DatePicker
                             placeholder="Chọn thời gian sửa đổi"
                             showTime
@@ -271,7 +351,7 @@ const CreateAppointmentRegistrationList: FC = () => {
                         />
 
                     </Form.Item>
-                    <Form.Item name="city" label="Trạng thái" >
+                    <Form.Item name="status" label="Trạng thái" >
                         <Select
                             showSearch
                             placeholder="Trạng thái"
@@ -282,7 +362,7 @@ const CreateAppointmentRegistrationList: FC = () => {
                         />
 
                     </Form.Item>
-                    <Form.Item name="city" label="Bác sĩ tiếp bệnh" >
+                    <Form.Item name="doctorId" label="Bác sĩ tiếp bệnh" >
                         <Select
                             showSearch
                             placeholder="---Lựa chọn---"
@@ -294,14 +374,14 @@ const CreateAppointmentRegistrationList: FC = () => {
 
                     </Form.Item>
                     <div className="text-xl font-bold text-slate-600 mb-3 " > Hồ sơ tiếp nhận :   </div>
-                    <Form.Item name="note" label="Nội dung tiếp nhận" >
+                    <Form.Item name="record" label="Nội dung tiếp nhận" >
                         <Input.TextArea rows={3} />
 
                     </Form.Item>
 
                     <div className="text-xl font-bold text-slate-600 mb-3 " > 
                     Hồ sơ thăm khám qua điện thoại :   </div>
-                    <Form.Item name="note" label="Nhập hồ sơ thăm khám" >
+                    <Form.Item name="chat" label="Nhập hồ sơ thăm khám" >
                         <Input.TextArea rows={3} />
 
                     </Form.Item>

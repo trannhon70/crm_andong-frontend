@@ -7,7 +7,8 @@ export const diseaseAPI = {
     getPagingDisease,
     deleteDisease,
     getByIdDisease,
-    updateDisease
+    updateDisease,
+    getByIdDepartment
 }
 
 function createdisease (body: any){
@@ -28,4 +29,8 @@ function getPagingDisease (query: IGetPaging){
 
 function getByIdDisease (id: number){
     return instance.get(`/disease/get-by-id/${id}`);
+}
+
+function getByIdDepartment (query: any){
+    return instance.get(`/disease/get-by-id-department?hospitalId=${query.hospitalId}&departmentId=${query.departmentId}`);
 }

@@ -6,6 +6,7 @@ import { hospitalReducer } from '../features/hospitalSlice';
 import { departmentReducer } from '../features/departmentSlice';
 import { diseaseReducer } from '../features/diseaseSlice';
 import { doctorReducer } from '../features/doctorSlice';
+import { patientReducer } from '../features/patientSlice';
 
 
 export const store = configureStore({
@@ -16,7 +17,8 @@ export const store = configureStore({
     hospital: hospitalReducer,
     department: departmentReducer,
     disease: diseaseReducer,
-    doctor:doctorReducer
+    doctor:doctorReducer,
+    patient:patientReducer
   },
 });
 
