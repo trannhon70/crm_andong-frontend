@@ -5,6 +5,9 @@ function createdoctor (body: any){
     return instance.post(`/doctor/create`, body);
 }
 
+function getAllDoctor (){
+    return instance.get(`/doctor/get-all`);
+}
 function getPagingDoctor (query: IGetPaging){
     
     return instance.get(`/doctor/get-paging?pageIndex=${query.pageIndex}&pageSize=${query.pageSize}&search=${query.search}&hospitalId=${query.hospitalId}`);
@@ -27,5 +30,6 @@ export const doctorAPI = {
     getPagingDoctor,
     deletedoctor,
     getByIdDoctor,
-    updateDoctor
+    updateDoctor,
+    getAllDoctor
 }

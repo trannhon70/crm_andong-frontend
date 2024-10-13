@@ -1,14 +1,14 @@
 import { FC, Fragment, useEffect } from "react";
 import BreadcrumbComponent from "../../../components/breadcrumbComponent";
 import { Button, Form, Input, Select, GetProps, DatePicker, Space, InputNumber } from "antd";
-import { GENDER } from "../../../utils";
+import { GENDER, SATUS } from "../../../utils";
 import type { DatePickerProps, } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { IPatient } from "../../../interface/patient";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
-import { fetchCity, fetchDistrictbyIdCity, getAllByIdHospital, getByIdDepartment } from "../../../features/patientSlice";
+import { fetchCity, fetchDistrictbyIdCity, getAllByIdHospital, getAllDoctor, getAllMedia, getByIdDepartment } from "../../../features/patientSlice";
 
 type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
 
@@ -44,7 +44,9 @@ const CreateAppointmentRegistrationList: FC = () => {
     const { hospital,roles, patient } = useSelector((state: RootState) => state);
 
     useEffect(() => {
-        dispatch(fetchCity())
+        dispatch(fetchCity());
+        dispatch(getAllMedia());
+        dispatch(getAllDoctor())
       }, [dispatch]);
 
       useEffect(()=>{
@@ -211,9 +213,14 @@ const CreateAppointmentRegistrationList: FC = () => {
                             showSearch
                             placeholder="Nguồn đến"
                             filterOption={(input, option) =>
-                                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                            }
-                            options={GENDER}
+                                typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
+                              }
+                            options={patient.media.map((item:any)=>{
+                                return {
+                                    value: item.id,
+                                    label: item.name
+                                }
+                            })}
                         />
 
                     </Form.Item>
@@ -358,7 +365,7 @@ const CreateAppointmentRegistrationList: FC = () => {
                             filterOption={(input, option) =>
                                 (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                             }
-                            options={GENDER}
+                            options={SATUS}
                         />
 
                     </Form.Item>
@@ -367,9 +374,14 @@ const CreateAppointmentRegistrationList: FC = () => {
                             showSearch
                             placeholder="---Lựa chọn---"
                             filterOption={(input, option) =>
-                                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                            }
-                            options={GENDER}
+                                typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
+                              }
+                            options={patient.doctor.map((item:any)=>{
+                                return {
+                                    value: item.id,
+                                    label: item.name
+                                }
+                            })}
                         />
 
                     </Form.Item>
