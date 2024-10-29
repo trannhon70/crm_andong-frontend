@@ -13,6 +13,8 @@ import { getPagingPatient } from "../../../features/patientSlice";
 import { HiStar } from "react-icons/hi2";
 import { FaFile } from "react-icons/fa";
 import { FaCloudUploadAlt } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { patiantAPI } from "../../../apis/patient.api";
 
 type SearchProps = GetProps<typeof Input.Search>;
 const { Search } = Input;
@@ -259,16 +261,16 @@ const AppointmentRegistrationList: FC = () => {
                 
                 return <div className='flex gap-2 items-center ' >
                     <PopconfirmComponent
-                        title={<>Xóa {record.fullName}</>}
-                        description='Bạn có chắc chắn muốn xóa tài khoản này không?'
+                        title={<>Xóa {record.name}</>}
+                        description='Bạn có chắc chắn muốn xóa khách hàng này không?'
                         value={value}
-                    //   deleteRole={deleteRole}
+                      deleteRole={deletePatient}
                     />
                     
                     <FaFile className='cursor-pointer text-fuchsia-500 '  size={20} />
                     <FaCloudUploadAlt className='cursor-pointer text-orange-500'  size={25} />
                     <HiPencilSquare
-                        // onClick={() => onClickEdit(value)} 
+                        onClick={() => onClickEdit(value)} 
                         className='cursor-pointer text-green-700 ' color='primary' size={25} />
                 </div>
             },
@@ -278,6 +280,24 @@ const AppointmentRegistrationList: FC = () => {
     const onClickCreate = () => {
         navige('/danh-sach-dang-ky-hen/them-moi');
         // dispatch(setRoleData({}))
+    }
+
+    const onClickEdit = (id: number) => {
+        navige(`/danh-sach-dang-ky-hen/cap-nhat/${id}`);
+    }
+
+    const deletePatient = async (id : any) => {
+        console.log(id, 'id');
+        try {
+            const result = await patiantAPI.deletePatiant(id)
+            if(result.data.statusCode === 1){
+                toast.success('Xóa thành công!')
+                dispatch(getPagingPatient({ pageSize, pageIndex, search ,hospitalId}))
+           }
+        } catch (error) {
+            console.log(error);
+            
+        }
     }
 
     const onSearch: SearchProps['onSearch'] = (value, _e, info) => {

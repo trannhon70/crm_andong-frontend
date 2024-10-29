@@ -64,6 +64,13 @@ export const fetchCity = createAsyncThunk(
       },
   )
 
+  export const getByIdPatient = createAsyncThunk(
+    'patient/getByIdPatient',
+    async ( id: number, thunkAPI ) => {
+        const response = await patiantAPI.getByIdPatiant(id)
+        return response.data.data
+      },
+  )
 
 
   interface PatientState {
@@ -78,6 +85,7 @@ export const fetchCity = createAsyncThunk(
     diseasses:any,
     media: any,
     doctor:any,
+    patient:any,
     loading: 'idle' | 'pending' | 'succeeded' | 'failed',
   }
 
@@ -93,6 +101,7 @@ export const fetchCity = createAsyncThunk(
     diseasses: [],
     media: [],
     doctor:[],
+    patient: {},
     loading: 'idle',
   } satisfies PatientState as PatientState
 
@@ -142,6 +151,11 @@ export const fetchCity = createAsyncThunk(
 
       builder.addCase(getAllDoctor.fulfilled, (state, action) => {
         state.doctor = action.payload;
+        state.loading = 'succeeded';
+      })
+
+      builder.addCase(getByIdPatient.fulfilled, (state, action) => {
+        state.patient = action.payload;
         state.loading = 'succeeded';
       })
     },

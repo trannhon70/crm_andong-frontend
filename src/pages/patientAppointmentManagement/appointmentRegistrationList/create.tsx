@@ -3,15 +3,17 @@ import BreadcrumbComponent from "../../../components/breadcrumbComponent";
 import { Button, Form, Input, Select, GetProps, DatePicker, Space, InputNumber, Alert } from "antd";
 import { GENDER, SATUS } from "../../../utils";
 import type { DatePickerProps, } from 'antd';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+
 import dayjs from 'dayjs';
 import { IPatient } from "../../../interface/patient";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
-import { fetchCity, fetchDistrictbyIdCity, getAllByIdHospital, getAllDoctor, getAllMedia, getByIdDepartment } from "../../../features/patientSlice";
+import { fetchCity, fetchDistrictbyIdCity, getAllByIdHospital, getAllDoctor, getAllMedia, getByIdDepartment, getByIdPatient } from "../../../features/patientSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { patiantAPI } from "../../../apis/patient.api";
 import { toast } from "react-toastify";
+import FormCreateUser from "./form";
+
 
 type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
 
@@ -63,6 +65,41 @@ const CreateAppointmentRegistrationList: FC = () => {
         }
     }, [hospitalId, dispatch])
 
+    useEffect(() =>{ 
+        if(id){
+            dispatch(getByIdPatient(Number(id)))
+        }
+    }, [id, dispatch])
+
+    useEffect(() => {
+
+        if(patient.patient.id){
+            dispatch(getByIdDepartment({ hospitalId, departmentId: patient.patient.departmentId }))
+            dispatch(fetchDistrictbyIdCity(patient.patient.cityId))
+            form.setFieldValue('name', patient.patient.name);
+            form.setFieldValue('gender', patient.patient.gender);
+            form.setFieldValue('yearOld', patient.patient.yearOld);
+            form.setFieldValue('phone', patient.patient.phone);
+            form.setFieldValue('content', patient.patient.content);
+            form.setFieldValue('departmentId', patient.patient.departmentId);
+            form.setFieldValue('diseasesId', patient.patient.diseasesId);
+            form.setFieldValue('mediaId', patient.patient.mediaId);
+            form.setFieldValue('cityId', patient.patient.cityId);
+            form.setFieldValue('districtId', patient.patient.districtId);
+            form.setFieldValue('code', patient.patient.code);
+            form.setFieldValue('treatment', JSON.parse(patient.patient.treatment));
+            form.setFieldValue('appointmentTime',dayjs( patient.patient.appointmentTime * 1000));
+            form.setFieldValue('reminderTime', dayjs(patient.patient.reminderTime * 1000));
+            form.setFieldValue('note', patient.patient.note);
+            form.setFieldValue('editregistrationTime', dayjs(patient.patient.editregistrationTime * 1000));
+            form.setFieldValue('status', patient.patient.status);
+            form.setFieldValue('doctorId', patient.patient.doctorId);
+            form.setFieldValue('record', patient.patient.record);
+            form.setFieldValue('chat', JSON.parse(patient.patient.chat));
+        }
+
+    }, [patient.patient.id])
+
     const dataBreadcrumb = [
         {
 
@@ -79,7 +116,7 @@ const CreateAppointmentRegistrationList: FC = () => {
             type: 'separator',
         },
         {
-            title: 'Thêm mới',
+            title: <>{id ? 'Cập nhật' : 'Thêm mới'}</>,
         },
     ];
 
@@ -118,16 +155,35 @@ const CreateAppointmentRegistrationList: FC = () => {
             record: body.record,
         }
 
-        try {
-            const result = await patiantAPI.createPatiant(dataRef)
-            if (result.data.statusCode === 1) {
-                toast.success('Thêm mới thành công!')
-                form.resetFields();
-                navige('/danh-sach-dang-ky-hen')
+       
+        
+
+        if(id){
+            try {
+                const result = await patiantAPI.updatePatiant(dataRef, Number(id))
+                if (result.data.statusCode === 1) {
+                    toast.success('Cập nhật thành công!')
+                    // form.resetFields();
+                    // navige('/danh-sach-dang-ky-hen')
+                }
+            } catch (error: any) {
+                toast.error(`${error.response.data.message}`)
             }
-        } catch (error: any) {
-            toast.error(`${error.response.data.message}`)
+
+        } else {
+            try {
+                const result = await patiantAPI.createPatiant(dataRef)
+                if (result.data.statusCode === 1) {
+                    toast.success('Thêm mới thành công!')
+                    form.resetFields();
+                    navige('/danh-sach-dang-ky-hen')
+                }
+            } catch (error: any) {
+                toast.error(`${error.response.data.message}`)
+            }
         }
+
+       
     }
 
     const onOk = (value: DatePickerProps['value'] | RangePickerProps['value']) => {
@@ -146,323 +202,19 @@ const CreateAppointmentRegistrationList: FC = () => {
     return <Fragment>
         <BreadcrumbComponent items={dataBreadcrumb} />
         <div className="flex items-center justify-center mt-5 " >
-            <Form
-                {...formItemLayout}
-                form={form}
-                name="register"
-                onFinish={onFinish}
-                scrollToFirstError
-                size="middle"
-                variant="filled"
-                className="flex w-[100%] "
-            >
-                <div className="w-[50%] border-solid border-2 border-indigo-600 p-3 rounded-l  " >
-                    <div className="text-xl font-bold text-slate-600 mb-3 " > Thông tin cơ bản :   </div>
-                    <Form.Item name="name" label="Họ và tên" rules={[
-                        { required: true, message: 'Họ và tên không được bỏ trống!', }
-                    ]}>
-                        <Input />
-
-                    </Form.Item>
-                    <Form.Item name="gender" label="Giới tính" rules={[
-                        { required: true, message: 'Giới tính không được bỏ trống!', }
-                    ]}>
-                        <Select
-                            showSearch
-                            placeholder="Chọn giới tính"
-                            filterOption={(input, option) =>
-                                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                            }
-                            options={GENDER}
-                        />
-
-                    </Form.Item>
-                    <Form.Item name="yearOld" label="Nhập tuổi" rules={[
-                        { required: true, message: 'Tuổi không được bỏ trống!', }
-                    ]}>
-                        <InputNumber style={{ width: '100%' }} />
-
-                    </Form.Item>
-                    <Form.Item name="phone" label="Nhập số điện thoại" rules={[
-                        { required: true, message: 'Số điện thoại không được bỏ trống!', }
-                    ]}>
-                        <Input style={{ width: '100%' }} />
-
-                    </Form.Item>
-                    <Form.Item name="content" label="Nội dung tư vấn" >
-                        <Input.TextArea rows={3} />
-
-                    </Form.Item>
-                    <Form.Item name="departmentId" label="Chọn khoa" rules={[
-                        { required: true, message: 'Khoa không được bỏ trống!', }
-                    ]}>
-                        <Select
-
-                            showSearch
-                            placeholder="Chọn khoa"
-                            filterOption={(input, option) =>
-                                typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
-                            }
-                            options={patient.department.map((item: any) => {
-                                return {
-                                    value: item.id,
-                                    label: item.name
-                                }
-                            })}
-
-                            onChange={handleChangeDepartment}
-                        />
-
-                    </Form.Item>
-                    <Form.Item name="diseasesId" label="Chọn bệnh" rules={[
-                        { required: true, message: 'Bệnh không được bỏ trống!', }
-                    ]}>
-                        <Select
-                            showSearch
-                            placeholder="--Chọn bệnh--"
-                            filterOption={(input, option) =>
-                                typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
-                            }
-                            options={patient.diseasses.map((item: any) => {
-                                return {
-                                    value: item.id,
-                                    label: item.name
-                                }
-                            })}
-                        />
-
-                    </Form.Item>
-                    <Form.Item name="mediaId" label="Nguồn đến" rules={[
-                        { required: true, message: 'Nguồn đến không được bỏ trống!', }
-                    ]}>
-                        <Select
-                            showSearch
-                            placeholder="Nguồn đến"
-                            filterOption={(input, option) =>
-                                typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
-                            }
-                            options={patient.media.map((item: any) => {
-                                return {
-                                    value: item.id,
-                                    label: item.name
-                                }
-                            })}
-                        />
-
-                    </Form.Item>
-                    <Form.Item name="cityId" label="Tỉnh/TP" rules={[
-                        { required: true, message: 'Tỉnh/TP không được bỏ trống!', }
-                    ]}>
-                        <Select
-                            showSearch
-                            placeholder="--chọn tỉnh/thành phố--"
-                            filterOption={(input, option) =>
-                                typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
-                            }
-                            options={patient.loading === 'succeeded' && patient.city.map((item: any) => {
-                                return {
-                                    value: item.id,
-                                    label: item.full_name
-                                }
-                            })}
-                            onChange={handleChangeCity}
-                        />
-
-                    </Form.Item>
-                    <Form.Item name="districtId" label="Quận/huyện" >
-                        <Select
-
-                            showSearch
-                            placeholder="--chọn quận/huyện--"
-                            filterOption={(input, option) =>
-                                typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
-                            }
-                            options={patient.district.map((item: any) => {
-                                return {
-                                    value: item.id,
-                                    label: item.full_name
-                                }
-                            })}
-                        />
-
-                    </Form.Item>
-                    <Form.Item name="code" label="Mã chuyên gia" rules={[
-                        { required: true, message: 'Mã chuyên gia không được bỏ trống!', }
-                    ]}>
-                        <Input />
-                    </Form.Item>
-                    {
-                        id && <Form.List name="treatment">
-                            {(fields, { add, remove }, { errors }) => (
-                                <>
-
-                                    {fields.map((field, index) => (
-                                        <Form.Item
-                                            {...formItemLayout}
-                                            label={`${index === 0 ? 'Mục điều trị' : ''} `}
-                                            required={false}
-                                            key={field.key}
-                                            colon={index === 0 ? true : false}
-                                        >
-                                            <Form.Item
-                                                {...field}
-                                                validateTrigger={['onChange', 'onBlur']}
-                                                noStyle
-                                            >
-                                                <Input placeholder="" style={{ width: '60%' }} />
-                                            </Form.Item>
-                                            {fields.length > 1 ? (
-                                                <MinusCircleOutlined
-                                                    className="dynamic-delete-button"
-                                                    onClick={() => remove(field.name)}
-                                                />
-                                            ) : null}
-                                        </Form.Item>
-                                    ))}
-                                    <Form.Item wrapperCol={{ span: 16, offset: 8 }}>
-                                        <Button
-                                            type="dashed"
-                                            onClick={() => add()}
-                                            style={{ width: '60%' }}
-                                            icon={<PlusOutlined />}
-                                        >
-                                            Thêm mục điều trị
-                                        </Button>
-                                    </Form.Item>
-                                </>
-                            )}
-                        </Form.List>
-                    }
-
-                </div>
-                {/* right */}
-                <div className="w-[50%] border-solid border-2 border-indigo-600 p-3 rounded-r ">
-
-
-                    <Form.Item name="appointmentTime" label="Thời gian hẹn" rules={[
-                        { required: true, message: 'Thời gian hẹn không được bỏ trống!', }
-                    ]}>
-                        <DatePicker
-                            placeholder="Chọn thời gian hẹn"
-                            showTime
-                            onChange={(value, dateString) => {
-                                console.log('Selected Time: ', value);
-                                console.log('Formatted Selected Time: ', dateString);
-                            }}
-                            onOk={onOk}
-                        />
-
-                    </Form.Item>
-                    <Form.Item label="Lưu ý ">
-                        <Alert message="Thời gian nhắc hẹn phải nhỏ hơn thời gian hẹn" type="warning" />
-                    </Form.Item>
-                    <Form.Item name="reminderTime" label="Thời gian nhắc hẹn" rules={[
-                        { required: true, message: 'Thời gian nhắc hẹn không được bỏ trống!', }
-                    ]}
-                    validateStatus={error.reminderTime ? "error" : ""}
-                    help={error.reminderTime}
-                    >
-                        <DatePicker
-                            placeholder="Chọn thời gian nhắc hẹn"
-                            showTime
-                            onChange={(value, dateString) => {
-                                console.log('Selected Time: ', value);
-                                console.log('Formatted Selected Time: ', dateString);
-                                setError({
-                                    ...error,
-                                    reminderTime: false
-                                })
-                            }}
-                            onOk={onOk}
-                        />
-
-                    </Form.Item>
-                    <Form.Item name="note" label="Ghi chú" >
-                        <Input.TextArea rows={3} />
-
-                    </Form.Item>
-
-
-                    <div className="text-xl font-bold text-slate-600 mb-3 " > Đến khám chưa :   </div>
-                    <Form.Item name="editregistrationTime" label="Sửa đổi thời gian đăng ký" >
-                        <DatePicker
-                            placeholder="Chọn thời gian sửa đổi"
-                            showTime
-                            onChange={(value, dateString) => {
-                                console.log('Selected Time: ', value);
-                                console.log('Formatted Selected Time: ', dateString);
-                            }}
-                            onOk={onOk}
-                        />
-
-                    </Form.Item>
-                    <Form.Item name="status" label="Trạng thái" >
-                        <Select
-                            showSearch
-                            placeholder="Trạng thái"
-                            filterOption={(input, option) =>
-                                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                            }
-                            options={SATUS}
-                        />
-
-                    </Form.Item>
-                    <Form.Item label="Lưu ý ">
-                        <Alert message="Khi bệnh nhân tới khám mới chọn bác sĩ tiếp bệnh" type="warning" />
-                    </Form.Item>
-
-                    <Form.Item name="doctorId" label="Bác sĩ tiếp bệnh" >
-                        <Select
-                            showSearch
-                            placeholder="---Lựa chọn---"
-                            filterOption={(input, option) =>
-                                typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
-                            }
-                            options={patient.doctor.map((item: any) => {
-                                return {
-                                    value: item.id,
-                                    label: item.name
-                                }
-                            })}
-                        />
-
-                    </Form.Item>
-
-                    {
-                        id && <>
-                            <div className="text-xl font-bold text-slate-600 mb-3 " > Hồ sơ tiếp nhận :   </div>
-                            <Form.Item name="record" label="Nội dung tiếp nhận" >
-                                <Input.TextArea rows={3} />
-
-                            </Form.Item>
-                        </>
-                    }
-                    {
-                        id && <>
-                            <div className="text-xl font-bold text-slate-600 mb-3 " >
-                                Hồ sơ thăm khám qua điện thoại :   </div>
-                            <Form.Item name="chat" label="Nhập hồ sơ thăm khám" >
-                                <Input.TextArea rows={3} />
-
-                            </Form.Item>
-                        </>
-                    }
-
-
-                    <Form.Item  {...tailFormItemLayout}>
-                        <Button type="primary" htmlType="submit">
-                            Thêm mới
-                        </Button>
-                        <Button className="ml-2" danger type="dashed" htmlType="submit">
-                            Quay lại
-                        </Button>
-                    </Form.Item>
-                </div>
-
-
-
-
-            </Form>
+                <FormCreateUser 
+                    formItemLayout={formItemLayout} 
+                    tailFormItemLayout={tailFormItemLayout}
+                    form={form} 
+                    onFinish={onFinish}
+                    patient={patient}
+                    handleChangeDepartment={handleChangeDepartment}
+                    handleChangeCity = {handleChangeCity}
+                    id={Number(id)}
+                    onOk={onOk}
+                    error={error}
+                    setError={setError}
+                />
         </div>
     </Fragment>
 }
