@@ -14,10 +14,11 @@ interface IProps{
     id: number;
     onOk: any;
     error: any;
-    setError: any
+    setError: any;
+    onClickPrev : any;
 }
 const FormCreateUser:FC<IProps> = (props) =>{
-    const {formItemLayout,tailFormItemLayout, form, onFinish, patient, handleChangeDepartment, handleChangeCity, id, onOk, error, setError} = props
+    const {formItemLayout,tailFormItemLayout, form, onFinish, patient, handleChangeDepartment, handleChangeCity, id, onOk, error, setError, onClickPrev} = props
     return <Fragment>
             <Form
                 {...formItemLayout}
@@ -327,7 +328,7 @@ const FormCreateUser:FC<IProps> = (props) =>{
                         <Button type="primary" htmlType="submit">
                         {id ? 'Cập nhật' : 'Thêm mới'}
                         </Button>
-                        <Button className="ml-2" danger type="dashed" htmlType="submit">
+                        <Button className="ml-2" danger type="dashed" onClick={onClickPrev} >
                             Quay lại
                         </Button>
                     </Form.Item>

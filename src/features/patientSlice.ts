@@ -109,9 +109,9 @@ export const fetchCity = createAsyncThunk(
     name: 'patient',
     initialState,
     reducers: {
-    //   setRoleData(state, action) {
-    //     state.role = action.payload;
-    //   },
+      setPatient(state, action) {
+        state.patient = action.payload;
+      },
     },
     extraReducers: (builder) => {
       builder.addCase(getPagingPatient.fulfilled, (state, action) => {
@@ -161,5 +161,5 @@ export const fetchCity = createAsyncThunk(
     },
   });
 
-  // export const {  } = patientSlice.actions;
+  export const { setPatient } = patientSlice.actions;
   export const patientReducer = patientSlice.reducer;

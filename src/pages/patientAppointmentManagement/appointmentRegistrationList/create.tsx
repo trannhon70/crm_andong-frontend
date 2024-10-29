@@ -163,8 +163,8 @@ const CreateAppointmentRegistrationList: FC = () => {
                 const result = await patiantAPI.updatePatiant(dataRef, Number(id))
                 if (result.data.statusCode === 1) {
                     toast.success('Cập nhật thành công!')
-                    // form.resetFields();
-                    // navige('/danh-sach-dang-ky-hen')
+                    form.resetFields();
+                    navige('/danh-sach-dang-ky-hen')
                 }
             } catch (error: any) {
                 toast.error(`${error.response.data.message}`)
@@ -199,6 +199,10 @@ const CreateAppointmentRegistrationList: FC = () => {
         dispatch(getByIdDepartment({ hospitalId, departmentId: e }))
         form.setFieldsValue({ diseasesId: undefined });
     }
+
+    const onClickPrev = () => {
+        navige('/danh-sach-dang-ky-hen')
+    }
     return <Fragment>
         <BreadcrumbComponent items={dataBreadcrumb} />
         <div className="flex items-center justify-center mt-5 " >
@@ -214,6 +218,7 @@ const CreateAppointmentRegistrationList: FC = () => {
                     onOk={onOk}
                     error={error}
                     setError={setError}
+                    onClickPrev={onClickPrev}
                 />
         </div>
     </Fragment>

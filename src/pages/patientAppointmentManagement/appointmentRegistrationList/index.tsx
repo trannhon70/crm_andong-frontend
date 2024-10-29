@@ -9,7 +9,7 @@ import moment from "moment";
 import PopconfirmComponent from "../../../components/popconfirmComponent";
 import { HiPencilSquare } from "react-icons/hi2";
 import Loading from "../../../components/loading";
-import { getPagingPatient } from "../../../features/patientSlice";
+import { getPagingPatient, setPatient } from "../../../features/patientSlice";
 import { HiStar } from "react-icons/hi2";
 import { FaFile } from "react-icons/fa";
 import { FaCloudUploadAlt } from "react-icons/fa";
@@ -279,7 +279,7 @@ const AppointmentRegistrationList: FC = () => {
 
     const onClickCreate = () => {
         navige('/danh-sach-dang-ky-hen/them-moi');
-        // dispatch(setRoleData({}))
+        dispatch(setPatient({}))
     }
 
     const onClickEdit = (id: number) => {
