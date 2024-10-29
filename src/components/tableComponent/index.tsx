@@ -10,11 +10,12 @@ type TableProps = {
   rowKey?: boolean;
   pageIndex?: number;
   pageSize?: number;
-  onChangePage?: any
+  onChangePage?: any;
+  scroll?: any
 };
 
 const TableComponent: FC<TableProps> = (props) => {
-  const { columns, data, total, rowKey = false, pageIndex, pageSize, onChangePage } = props;
+  const { columns, data, total, rowKey = false, pageIndex, pageSize, onChangePage ,scroll} = props;
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]); 
 
   
@@ -42,6 +43,8 @@ const TableComponent: FC<TableProps> = (props) => {
         rowSelection={rowSelection}
         rowKey={(record) => record.id} 
         size='small'
+        scroll={scroll}
+        bordered
       />
       <Pagination
         className="mt-2"

@@ -1,6 +1,6 @@
-import { FC, Fragment, useEffect } from "react";
+import { FC, Fragment, useEffect, useState } from "react";
 import BreadcrumbComponent from "../../../components/breadcrumbComponent";
-import { Button, Form, Input, Select, GetProps, DatePicker, Space, InputNumber } from "antd";
+import { Button, Form, Input, Select, GetProps, DatePicker, Space, InputNumber, Alert } from "antd";
 import { GENDER, SATUS } from "../../../utils";
 import type { DatePickerProps, } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
@@ -9,6 +9,9 @@ import { IPatient } from "../../../interface/patient";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { fetchCity, fetchDistrictbyIdCity, getAllByIdHospital, getAllDoctor, getAllMedia, getByIdDepartment } from "../../../features/patientSlice";
+import { useNavigate, useParams } from "react-router-dom";
+import { patiantAPI } from "../../../apis/patient.api";
+import { toast } from "react-toastify";
 
 type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
 
@@ -39,22 +42,27 @@ const tailFormItemLayout = {
 
 const CreateAppointmentRegistrationList: FC = () => {
     const [form] = Form.useForm();
+    const navige = useNavigate()
     const hospitalId = localStorage.getItem('hospitalId')
     const dispatch = useDispatch<AppDispatch>();
-    const { hospital,roles, patient } = useSelector((state: RootState) => state);
+    const { hospital, roles, patient } = useSelector((state: RootState) => state);
+    let { id } = useParams();
+    const [error, setError] = useState<any>({
+        reminderTime: false
+    })
 
     useEffect(() => {
         dispatch(fetchCity());
         dispatch(getAllMedia());
         dispatch(getAllDoctor())
-      }, [dispatch]);
+    }, [dispatch]);
 
-      useEffect(()=>{
-        if(hospitalId){
+    useEffect(() => {
+        if (hospitalId) {
             dispatch(getAllByIdHospital(Number(hospitalId)))
         }
-      },[hospitalId, dispatch])
-      
+    }, [hospitalId, dispatch])
+
     const dataBreadcrumb = [
         {
 
@@ -76,8 +84,17 @@ const CreateAppointmentRegistrationList: FC = () => {
     ];
 
     const onFinish = async (body: IPatient) => {
-       
-        const dataRef = {
+        const appointmentTime = dayjs(body.appointmentTime).unix()
+        const reminderTime = dayjs(body.reminderTime).unix()
+        if(appointmentTime < reminderTime){
+                toast.warning('Thời gian hẹn phải lớn hơn thời gian nhắc hẹn!');
+                setError({
+                    ...error,
+                    reminderTime: true,
+                })
+                return;
+        }
+        const dataRef: IPatient = {
             name: body.name,
             gender: body.gender,
             yearOld: body.yearOld,
@@ -86,35 +103,44 @@ const CreateAppointmentRegistrationList: FC = () => {
             diseasesId: body.diseasesId,
             departmentId: body.departmentId,
             mediaId: body.mediaId,
-            city: body.city,
-            district: body.district,
+            cityId: body.cityId,
+            districtId: body.districtId,
             code: body.code,
-            appointmentTime:dayjs( body.appointmentTime).unix(),
-            reminderTime: dayjs( body.reminderTime).unix(),
+            appointmentTime: dayjs(body.appointmentTime).unix(),
+            reminderTime: dayjs(body.reminderTime).unix(),
             note: body.note,
-            editregistrationTime: dayjs( body.editregistrationTime).unix(),
+            editregistrationTime: dayjs(body.editregistrationTime).unix(),
             status: body.status,
             doctorId: body.doctorId,
-            hospitalId: hospitalId,
+            hospitalId: Number(hospitalId),
             chat: body.chat,
             treatment: body.treatment,
             record: body.record,
         }
 
-        console.log(dataRef)
+        try {
+            const result = await patiantAPI.createPatiant(dataRef)
+            if (result.data.statusCode === 1) {
+                toast.success('Thêm mới thành công!')
+                form.resetFields();
+                navige('/danh-sach-dang-ky-hen')
+            }
+        } catch (error: any) {
+            toast.error(`${error.response.data.message}`)
+        }
     }
 
     const onOk = (value: DatePickerProps['value'] | RangePickerProps['value']) => {
         console.log('onOk: ', value);
     };
 
-    const handleChangeCity = (e:any)=> {
+    const handleChangeCity = (e: any) => {
         dispatch(fetchDistrictbyIdCity(e))
-        form.setFieldsValue({ district: undefined });
+        form.setFieldsValue({ districtId: undefined });
     }
 
-    const handleChangeDepartment = (e: any)=>{
-        dispatch(getByIdDepartment({hospitalId,departmentId:e}))
+    const handleChangeDepartment = (e: any) => {
+        dispatch(getByIdDepartment({ hospitalId, departmentId: e }))
         form.setFieldsValue({ diseasesId: undefined });
     }
     return <Fragment>
@@ -160,7 +186,7 @@ const CreateAppointmentRegistrationList: FC = () => {
                     <Form.Item name="phone" label="Nhập số điện thoại" rules={[
                         { required: true, message: 'Số điện thoại không được bỏ trống!', }
                     ]}>
-                        <InputNumber style={{ width: '100%' }} />
+                        <Input style={{ width: '100%' }} />
 
                     </Form.Item>
                     <Form.Item name="content" label="Nội dung tư vấn" >
@@ -171,13 +197,13 @@ const CreateAppointmentRegistrationList: FC = () => {
                         { required: true, message: 'Khoa không được bỏ trống!', }
                     ]}>
                         <Select
-                            style={{textTransform:'uppercase'}}
+
                             showSearch
                             placeholder="Chọn khoa"
                             filterOption={(input, option) =>
                                 typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
-                              }
-                            options={patient.department.map((item:any)=>{
+                            }
+                            options={patient.department.map((item: any) => {
                                 return {
                                     value: item.id,
                                     label: item.name
@@ -196,8 +222,8 @@ const CreateAppointmentRegistrationList: FC = () => {
                             placeholder="--Chọn bệnh--"
                             filterOption={(input, option) =>
                                 typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
-                              }
-                            options={patient.diseasses.map((item:any)=>{
+                            }
+                            options={patient.diseasses.map((item: any) => {
                                 return {
                                     value: item.id,
                                     label: item.name
@@ -214,8 +240,8 @@ const CreateAppointmentRegistrationList: FC = () => {
                             placeholder="Nguồn đến"
                             filterOption={(input, option) =>
                                 typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
-                              }
-                            options={patient.media.map((item:any)=>{
+                            }
+                            options={patient.media.map((item: any) => {
                                 return {
                                     value: item.id,
                                     label: item.name
@@ -224,7 +250,7 @@ const CreateAppointmentRegistrationList: FC = () => {
                         />
 
                     </Form.Item>
-                    <Form.Item name="city" label="Tỉnh/TP" rules={[
+                    <Form.Item name="cityId" label="Tỉnh/TP" rules={[
                         { required: true, message: 'Tỉnh/TP không được bỏ trống!', }
                     ]}>
                         <Select
@@ -232,26 +258,26 @@ const CreateAppointmentRegistrationList: FC = () => {
                             placeholder="--chọn tỉnh/thành phố--"
                             filterOption={(input, option) =>
                                 typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
-                              }
-                            options={patient.loading === 'succeeded' && patient.city.map((item : any)=>{
+                            }
+                            options={patient.loading === 'succeeded' && patient.city.map((item: any) => {
                                 return {
                                     value: item.id,
                                     label: item.full_name
                                 }
-                            }) }
+                            })}
                             onChange={handleChangeCity}
                         />
 
                     </Form.Item>
-                    <Form.Item name="district" label="Quận/huyện" >
+                    <Form.Item name="districtId" label="Quận/huyện" >
                         <Select
 
                             showSearch
                             placeholder="--chọn quận/huyện--"
                             filterOption={(input, option) =>
                                 typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
-                              }
-                            options={patient.district.map((item:any)=>{
+                            }
+                            options={patient.district.map((item: any) => {
                                 return {
                                     value: item.id,
                                     label: item.full_name
@@ -265,47 +291,49 @@ const CreateAppointmentRegistrationList: FC = () => {
                     ]}>
                         <Input />
                     </Form.Item>
+                    {
+                        id && <Form.List name="treatment">
+                            {(fields, { add, remove }, { errors }) => (
+                                <>
 
-                    <Form.List name="treatment">
-                        {(fields, { add, remove }, { errors }) => (
-                            <>
-
-                                {fields.map((field, index) => (
-                                    <Form.Item
-                                        {...formItemLayout}
-                                        label={`${index === 0 ? 'Mục điều trị' : ''} `}
-                                        required={false}
-                                        key={field.key}
-                                        colon={index === 0 ? true : false}
-                                    >
+                                    {fields.map((field, index) => (
                                         <Form.Item
-                                            {...field}
-                                            validateTrigger={['onChange', 'onBlur']}
-                                            noStyle
+                                            {...formItemLayout}
+                                            label={`${index === 0 ? 'Mục điều trị' : ''} `}
+                                            required={false}
+                                            key={field.key}
+                                            colon={index === 0 ? true : false}
                                         >
-                                            <Input placeholder="" style={{ width: '60%' }} />
+                                            <Form.Item
+                                                {...field}
+                                                validateTrigger={['onChange', 'onBlur']}
+                                                noStyle
+                                            >
+                                                <Input placeholder="" style={{ width: '60%' }} />
+                                            </Form.Item>
+                                            {fields.length > 1 ? (
+                                                <MinusCircleOutlined
+                                                    className="dynamic-delete-button"
+                                                    onClick={() => remove(field.name)}
+                                                />
+                                            ) : null}
                                         </Form.Item>
-                                        {fields.length > 1 ? (
-                                            <MinusCircleOutlined
-                                                className="dynamic-delete-button"
-                                                onClick={() => remove(field.name)}
-                                            />
-                                        ) : null}
+                                    ))}
+                                    <Form.Item wrapperCol={{ span: 16, offset: 8 }}>
+                                        <Button
+                                            type="dashed"
+                                            onClick={() => add()}
+                                            style={{ width: '60%' }}
+                                            icon={<PlusOutlined />}
+                                        >
+                                            Thêm mục điều trị
+                                        </Button>
                                     </Form.Item>
-                                ))}
-                                <Form.Item wrapperCol={{ span: 16, offset: 8 }}>
-                                    <Button
-                                        type="dashed"
-                                        onClick={() => add()}
-                                        style={{ width: '60%' }}
-                                        icon={<PlusOutlined />}
-                                    >
-                                        Thêm mục điều trị
-                                    </Button>
-                                </Form.Item>
-                            </>
-                        )}
-                    </Form.List>
+                                </>
+                            )}
+                        </Form.List>
+                    }
+
                 </div>
                 {/* right */}
                 <div className="w-[50%] border-solid border-2 border-indigo-600 p-3 rounded-r ">
@@ -325,15 +353,25 @@ const CreateAppointmentRegistrationList: FC = () => {
                         />
 
                     </Form.Item>
+                    <Form.Item label="Lưu ý ">
+                        <Alert message="Thời gian nhắc hẹn phải nhỏ hơn thời gian hẹn" type="warning" />
+                    </Form.Item>
                     <Form.Item name="reminderTime" label="Thời gian nhắc hẹn" rules={[
                         { required: true, message: 'Thời gian nhắc hẹn không được bỏ trống!', }
-                    ]}>
+                    ]}
+                    validateStatus={error.reminderTime ? "error" : ""}
+                    help={error.reminderTime}
+                    >
                         <DatePicker
                             placeholder="Chọn thời gian nhắc hẹn"
                             showTime
                             onChange={(value, dateString) => {
                                 console.log('Selected Time: ', value);
                                 console.log('Formatted Selected Time: ', dateString);
+                                setError({
+                                    ...error,
+                                    reminderTime: false
+                                })
                             }}
                             onOk={onOk}
                         />
@@ -369,14 +407,18 @@ const CreateAppointmentRegistrationList: FC = () => {
                         />
 
                     </Form.Item>
+                    <Form.Item label="Lưu ý ">
+                        <Alert message="Khi bệnh nhân tới khám mới chọn bác sĩ tiếp bệnh" type="warning" />
+                    </Form.Item>
+
                     <Form.Item name="doctorId" label="Bác sĩ tiếp bệnh" >
                         <Select
                             showSearch
                             placeholder="---Lựa chọn---"
                             filterOption={(input, option) =>
                                 typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
-                              }
-                            options={patient.doctor.map((item:any)=>{
+                            }
+                            options={patient.doctor.map((item: any) => {
                                 return {
                                     value: item.id,
                                     label: item.name
@@ -385,18 +427,28 @@ const CreateAppointmentRegistrationList: FC = () => {
                         />
 
                     </Form.Item>
-                    <div className="text-xl font-bold text-slate-600 mb-3 " > Hồ sơ tiếp nhận :   </div>
-                    <Form.Item name="record" label="Nội dung tiếp nhận" >
-                        <Input.TextArea rows={3} />
 
-                    </Form.Item>
+                    {
+                        id && <>
+                            <div className="text-xl font-bold text-slate-600 mb-3 " > Hồ sơ tiếp nhận :   </div>
+                            <Form.Item name="record" label="Nội dung tiếp nhận" >
+                                <Input.TextArea rows={3} />
 
-                    <div className="text-xl font-bold text-slate-600 mb-3 " > 
-                    Hồ sơ thăm khám qua điện thoại :   </div>
-                    <Form.Item name="chat" label="Nhập hồ sơ thăm khám" >
-                        <Input.TextArea rows={3} />
+                            </Form.Item>
+                        </>
+                    }
+                    {
+                        id && <>
+                            <div className="text-xl font-bold text-slate-600 mb-3 " >
+                                Hồ sơ thăm khám qua điện thoại :   </div>
+                            <Form.Item name="chat" label="Nhập hồ sơ thăm khám" >
+                                <Input.TextArea rows={3} />
 
-                    </Form.Item>
+                            </Form.Item>
+                        </>
+                    }
+
+
                     <Form.Item  {...tailFormItemLayout}>
                         <Button type="primary" htmlType="submit">
                             Thêm mới

@@ -5,6 +5,7 @@ import { departmentAPI } from "../apis/department.api"
 import { diseaseAPI } from "../apis/disease.api"
 import { mediaAPI } from "../apis/media.api"
 import { doctorAPI } from "../apis/doctor.api"
+import { patiantAPI } from "../apis/patient.api"
 
 
 export const fetchCity = createAsyncThunk(
@@ -55,6 +56,14 @@ export const fetchCity = createAsyncThunk(
       },
   )
 
+  export const getPagingPatient = createAsyncThunk(
+    'patient/getPagingPatient',
+    async ( query: any, thunkAPI ) => {
+        const response = await patiantAPI.getPagingPatient(query)
+        return response.data.data
+      },
+  )
+
 
 
   interface PatientState {
@@ -96,14 +105,14 @@ export const fetchCity = createAsyncThunk(
     //   },
     },
     extraReducers: (builder) => {
-    //   builder.addCase(fetchGetPaging.fulfilled, (state, action) => {
-    //     state.data = action.payload.data;
-    //     state.pageSize = action.payload.pageSize;
-    //     state.pageIndex = action.payload.pageIndex;
-    //     state.total = action.payload.total;
-    //     state.totalPages = action.payload.totalPages;
-    //     state.loading = 'succeeded';
-    //   });
+      builder.addCase(getPagingPatient.fulfilled, (state, action) => {
+        state.data = action.payload.data;
+        state.pageSize = action.payload.pageSize;
+        state.pageIndex = action.payload.pageIndex;
+        state.total = action.payload.total;
+        state.totalPages = action.payload.totalPages;
+        state.loading = 'succeeded';
+      });
       
       builder.addCase(fetchCity.fulfilled, (state, action) => {
         state.city = action.payload;

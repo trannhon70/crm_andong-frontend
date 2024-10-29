@@ -17,3 +17,8 @@ export const SATUS = [
     {id: '1', value:'CHƯA ĐẾN', label: 'CHƯA ĐẾN'},
     {id: '1', value:'KHÔNG XÁC ĐỊNH', label: 'KHÔNG XÁC ĐỊNH'},
 ]
+
+export function telephoneCheck(phone: string) {
+    const isphone = /^(1\s|1|)?((\(\d{3}\))|\d{3})(\-|\s)?(\d{3})(\-|\s)?(\d{4})$/.test(phone);
+   return isphone;
+  }

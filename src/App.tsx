@@ -26,66 +26,67 @@ import CreateDepartment from './pages/settings/departmentManagement/createDepart
 
 const PrivateRoutes = () => {
   const { authenticated } = useContext(AuthContext);
-  
+
   if (!authenticated) {
     return <Navigate to="/login" replace />;
   }
-  
+
   return <Outlet />;
 };
 
 const App: React.FC = () => {
-  
+
   const { setAuthenticated } = useContext(AuthContext);
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-        setAuthenticated(true);
+      setAuthenticated(true);
     }
-}, [setAuthenticated]);
+  }, [setAuthenticated]);
 
-  
+
   return (
-    
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route element={<PrivateRoutes />}>
-          <Route path='/' element={<LayoutComponent />} > 
-              <Route path='/' element={<Home/>} />
-              <Route path='/profile' element={<ProfileUser/>} />
-              <Route path='/quan-ly-quyen' element={<RightsManagement/>} />
-              <Route path='/quan-ly-quyen/them-moi' element={<CreateRight/>} />
-              <Route path='/quan-ly-quyen/cap-nhat/:id' element={<CreateRight/>} />
 
-              <Route path='/danh-sach-benh-vien' element={<HospitalList/>} />
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route element={<PrivateRoutes />}>
+        <Route path='/' element={<LayoutComponent />} >
+          <Route path='/' element={<Home />} />
+          <Route path='/profile' element={<ProfileUser />} />
+          <Route path='/quan-ly-quyen' element={<RightsManagement />} />
+          <Route path='/quan-ly-quyen/them-moi' element={<CreateRight />} />
+          <Route path='/quan-ly-quyen/cap-nhat/:id' element={<CreateRight />} />
 
-              <Route path='/quan-ly-con-nguoi' element={<PeopleManagement/>} />
-              <Route path='/quan-ly-con-nguoi/them-moi' element={<CreatePeople/>} />
-              <Route path='/quan-ly-con-nguoi/cap-nhat/:id' element={<CreatePeople/>} />
+          <Route path='/danh-sach-benh-vien' element={<HospitalList />} />
 
-              <Route path='/danh-sach-dang-ky-hen' element={<AppointmentRegistrationList/>} />
-              <Route path='/danh-sach-dang-ky-hen/them-moi' element={<CreateAppointmentRegistrationList/>} />
+          <Route path='/quan-ly-con-nguoi' element={<PeopleManagement />} />
+          <Route path='/quan-ly-con-nguoi/them-moi' element={<CreatePeople />} />
+          <Route path='/quan-ly-con-nguoi/cap-nhat/:id' element={<CreatePeople />} />
 
-              <Route path='/thay-doi-mat-khau' element={<ChangePassword/>} />
+          <Route path='/danh-sach-dang-ky-hen' element={<AppointmentRegistrationList />} />
+          <Route path='/danh-sach-dang-ky-hen/them-moi' element={<CreateAppointmentRegistrationList />} />
+          <Route path='/danh-sach-dang-ky-hen/cap-nhat/:id' element={<CreateAppointmentRegistrationList />} />
 
-              {/* cài đặt */}
-              <Route path='/thiet-lap-benh-tat' element={<DiseaseManagement/>} />
-              <Route path='/thiet-lap-benh-tat/them-moi' element={<CreateDiseaseManagement/>} />
-              <Route path='/thiet-lap-benh-tat/cap-nhat/:id' element={<CreateDiseaseManagement/>} />
+          <Route path='/thay-doi-mat-khau' element={<ChangePassword />} />
 
-              <Route path='/thiet-lap-bac-si' element={<DoctorManagement/>} />
-              <Route path='/thiet-lap-bac-si/them-moi' element={<CreateDocTor/>} />
-              <Route path='/thiet-lap-bac-si/cap-nhat/:id' element={<CreateDocTor/>} />
+          {/* cài đặt */}
+          <Route path='/thiet-lap-benh-tat' element={<DiseaseManagement />} />
+          <Route path='/thiet-lap-benh-tat/them-moi' element={<CreateDiseaseManagement />} />
+          <Route path='/thiet-lap-benh-tat/cap-nhat/:id' element={<CreateDiseaseManagement />} />
 
-              <Route path='/quan-ly-khoa' element={<DepartmentManagement/>} />
-              <Route path='/quan-ly-khoa/them-moi' element={<CreateDepartment/>} />
-              <Route path='/quan-ly-khoa/cap-nhat/:id' element={<CreateDepartment/>} />
+          <Route path='/thiet-lap-bac-si' element={<DoctorManagement />} />
+          <Route path='/thiet-lap-bac-si/them-moi' element={<CreateDocTor />} />
+          <Route path='/thiet-lap-bac-si/cap-nhat/:id' element={<CreateDocTor />} />
+
+          <Route path='/quan-ly-khoa' element={<DepartmentManagement />} />
+          <Route path='/quan-ly-khoa/them-moi' element={<CreateDepartment />} />
+          <Route path='/quan-ly-khoa/cap-nhat/:id' element={<CreateDepartment />} />
 
 
-           </Route>
         </Route>
-        <Route path="*" element={<Error />} />
-      </Routes>
+      </Route>
+      <Route path="*" element={<Error />} />
+    </Routes>
   );
 };
 

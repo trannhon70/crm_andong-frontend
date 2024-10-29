@@ -1,48 +1,47 @@
 
 export interface IPatient {
-    name: string;
+    name?: string;
     //giới tính
-    gender: string
+    gender?: string
     //tuổi
-    yearOld: number;
+    yearOld?: number;
     //số điện thoaị
-    phone: string;
+    phone?:string;
     //nội dung tư ván
-    content: string;
+    content?: string;
     //bệnh
-    diseasesId: number;
+    diseasesId?: number;
     //khoa
-    departmentId: number
+    departmentId?: number
     // nguồn đến
-    mediaId: number
+    mediaId?: number
     //thành phố
-    city:string
-    district:string
+    cityId?:string
+    districtId:string
     //mã chuyên gia
-    code: string
+    code?: string
     //thời gian hen
-    appointmentTime: number
+    appointmentTime?: number
     //thời gian nhắt hẹn
-    reminderTime: number
+    reminderTime?: number
     //ghi chú
-    note: string
+    note?: string
     //sua doi thời gian đăng ký
-    editregistrationTime: number
+    editregistrationTime?: number
     // trạng thái
-    status: string
+    status?: string
     // bác sĩ
-    doctorId: number
+    doctorId?: number
     //người tạo
-    userId: number;
+    userId?: number;
     //bệnh viện 
-    hospitalId: number; 
-    chat:string
+    hospitalId?: number; 
+    chat?:string
     //ngày tạo
-    created_at: number;
 
      //mục điều trị
-     treatment:string
+     treatment?:string
      
      //hồ sơ tiếp nhận
-     record:string
+     record?:string
 }
