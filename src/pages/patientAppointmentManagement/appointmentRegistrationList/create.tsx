@@ -95,7 +95,6 @@ const CreateAppointmentRegistrationList: FC = () => {
             form.setFieldValue('status', patient.patient.status);
             form.setFieldValue('doctorId', patient.patient.doctorId);
             form.setFieldValue('record', patient.patient.record);
-            form.setFieldValue('chat', JSON.parse(patient.patient.chat));
         }
 
     }, [patient.patient.id])

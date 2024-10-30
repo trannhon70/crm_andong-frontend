@@ -137,7 +137,7 @@ const FormCreateUser:FC<IProps> = (props) =>{
                             options={patient.loading === 'succeeded' && patient.city.map((item: any) => {
                                 return {
                                     value: item.id,
-                                    label: item.full_name
+                                    label: item.name
                                 }
                             })}
                             onChange={handleChangeCity}

@@ -49,6 +49,29 @@ const AppointmentRegistrationList: FC = () => {
        
     ];
 
+    const historyMedical = (data: any) => {
+        console.log(data, 'data');
+        
+        return <Fragment>
+            {
+                data && data.map((item : any, index: number) => {
+                    return<div key={index} className="flex gap-2 mt-1" >
+                    <div>
+                        {moment(item.created_at* 1000).format('DD-MM-YYYY HH:mm:ss')}
+                    </div>
+                    <div>
+                    <Tag color="gold" >{item.user.fullName}</Tag> 
+                    </div>
+                    <div>
+                        {item.name}
+                    </div>
+                </div>
+                })
+            }
+            
+        </Fragment>
+    } 
+
     const columns: TableProps<any>['columns'] = [
         {
             title: 'STT',
@@ -231,11 +254,11 @@ const AppointmentRegistrationList: FC = () => {
         },
         {
             title: 'Hồ sơ thăm khám',
-            dataIndex: 'record',
-            key: 'record',
+            dataIndex: 'chatPatients',
+            key: 'chatPatients',
             render(value, record, index) {
                 return <div className="flex items-center justify-center cursor-pointer " >
-                    <Popover content={'ádsđsfdf'} title="Lịch sử thăm khám">
+                    <Popover content={historyMedical(value)} title="Lịch sử thăm khám">
                         <HiStar size={20} color="red" />
                     </Popover>
                 </div>
