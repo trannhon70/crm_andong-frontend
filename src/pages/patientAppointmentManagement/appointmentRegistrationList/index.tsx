@@ -15,6 +15,7 @@ import { FaFile } from "react-icons/fa";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { patiantAPI } from "../../../apis/patient.api";
+import ModalUpload from "./modalUpload";
 
 type SearchProps = GetProps<typeof Input.Search>;
 const { Search } = Input;
@@ -50,11 +51,11 @@ const AppointmentRegistrationList: FC = () => {
     ];
 
     const historyMedical = (data: any) => {
-        console.log(data, 'data');
+        console.log(data.length, 'data');
         
         return <Fragment>
             {
-                data && data.map((item : any, index: number) => {
+                data.length>0 && data.map((item : any, index: number) => {
                     return<div key={index} className="flex gap-2 mt-1" >
                     <div>
                         {moment(item.created_at* 1000).format('DD-MM-YYYY HH:mm:ss')}
@@ -100,7 +101,7 @@ const AppointmentRegistrationList: FC = () => {
                 
                 return <Tag style={{textTransform:"uppercase"}} color="processing" >{value}</Tag>;
             },
-            width: 100,
+            width: 150,
         },
         {
             title: 'Tuổi',
@@ -289,9 +290,10 @@ const AppointmentRegistrationList: FC = () => {
                         value={value}
                       deleteRole={deletePatient}
                     />
+                    <FaFile  className='cursor-pointer text-fuchsia-500 '  size={20} />
+                    <ModalUpload id={value} />
                     
-                    <FaFile className='cursor-pointer text-fuchsia-500 '  size={20} />
-                    <FaCloudUploadAlt className='cursor-pointer text-orange-500'  size={25} />
+                    
                     <HiPencilSquare
                         onClick={() => onClickEdit(value)} 
                         className='cursor-pointer text-green-700 ' color='primary' size={25} />

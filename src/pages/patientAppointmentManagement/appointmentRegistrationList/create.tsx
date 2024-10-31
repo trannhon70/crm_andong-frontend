@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 import { IPatient } from "../../../interface/patient";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
-import { fetchCity, fetchDistrictbyIdCity, getAllByIdHospital, getAllDoctor, getAllMedia, getByIdDepartment, getByIdPatient } from "../../../features/patientSlice";
+import { fetchCity, fetchDistrictbyIdCity, getAllByIdHospital, getAllDoctor, getAllMedia, getByIdDepartment, getByIdPatient, setPatient } from "../../../features/patientSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import { patiantAPI } from "../../../apis/patient.api";
 import { toast } from "react-toastify";
@@ -164,6 +164,7 @@ const CreateAppointmentRegistrationList: FC = () => {
                     toast.success('Cập nhật thành công!')
                     form.resetFields();
                     navige('/danh-sach-dang-ky-hen')
+                    dispatch(setPatient({}))
                 }
             } catch (error: any) {
                 toast.error(`${error.response.data.message}`)

@@ -7,11 +7,22 @@ export const patiantAPI = {
     getPagingPatient,
     deletePatiant,
     getByIdPatiant,
-    updatePatiant
+    updatePatiant,
+    uploadPatient
 }
 
 function createPatiant(body : IPatient) {
     return instance.post(`/patient/create`,body);
+}
+
+function uploadPatient(form: any, id: number){
+    return instance.post(`/patient/upload/${id}`,form,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        }
+    );
 }
 
 function updatePatiant(body : IPatient, id : number) {
