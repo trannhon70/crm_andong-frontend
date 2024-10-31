@@ -20,9 +20,6 @@ interface IProps {
 }
 const FormCreateUser: FC<IProps> = (props) => {
     const { formItemLayout, tailFormItemLayout, form, onFinish, patient, handleChangeDepartment, handleChangeCity, id, onOk, error, setError, onClickPrev } = props
-
-    console.log(patient.patient.chatPatients, 'ádas');
-
     return <Fragment>
         <Form
             {...formItemLayout}
@@ -82,7 +79,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                         filterOption={(input, option) =>
                             typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                         }
-                        options={patient.department.map((item: any) => {
+                        options={patient?.department.map((item: any) => {
                             return {
                                 value: item.id,
                                 label: item.name
@@ -190,7 +187,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                                         >
                                             <Input placeholder="" style={{ width: '60%' }} />
                                         </Form.Item>
-                                        {fields.length > 1 ? (
+                                        {fields?.length > 1 ? (
                                             <MinusCircleOutlined
                                                 className="dynamic-delete-button"
                                                 onClick={() => remove(field.name)}
@@ -321,10 +318,10 @@ const FormCreateUser: FC<IProps> = (props) => {
                         <div className="text-xl font-bold text-slate-600 mb-3 " >
                             Hồ sơ thăm khám qua điện thoại :   </div>
 
-                        {patient.patient.chatPatients && patient.patient.chatPatients.length > 0 && <Form.Item label="Nội dung thăm khám" >
+                        {patient?.patient?.chatPatients && patient?.patient?.chatPatients.length > 0 && <Form.Item label="Nội dung thăm khám" >
 
                             {
-                                patient.patient.chatPatients.map((item: any, index: number) => {
+                                patient?.patient?.chatPatients.map((item: any, index: number) => {
                                     return <div key={index} className="flex gap-2 mt-2 " >
                                         <div>
                                             {moment(item.created_at * 1000).format('DD-MM-YYYY HH:mm:ss')}

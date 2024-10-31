@@ -373,9 +373,9 @@ const AppointmentRegistrationList: FC = () => {
                     // }
                     // options={Languege}
                 />
-                <Search className='w-[200px]' placeholder="Nhập họ và tên"  onSearch={onSearch} enterButton />
+                <Search size="middle" className='w-[200px]' placeholder="Nhập họ và tên"  onSearch={onSearch} enterButton />
             </div>
-            <Button onClick={onClickCreate} type="primary">Thêm mới</Button>
+            <Button size="middle" onClick={onClickCreate} type="primary">Thêm mới</Button>
         </div>
         {
             loading === 'succeeded' ? <TableComponent rowKey={false} columns={columns} data={data} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} scroll={scrollProps} /> : <Loading />
