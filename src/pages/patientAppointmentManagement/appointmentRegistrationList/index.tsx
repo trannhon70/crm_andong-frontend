@@ -281,7 +281,7 @@ const AppointmentRegistrationList: FC = () => {
             key: 'id',
             dataIndex: 'id',
             fixed: 'right',
-            width: 150,
+            width: 180,
             render(value, record, index) {
                 
                 return <div className='flex gap-2 items-center ' >

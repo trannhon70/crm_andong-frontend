@@ -1,9 +1,22 @@
-import { FC, Fragment } from "react";
+import { FC, Fragment, useEffect } from "react";
 import BreadcrumbComponent from "../../../components/breadcrumbComponent";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { getAllHistoryPatiant } from "../../../features/patientSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../redux/store";
 
 
 const OperationHistory:FC = () => {
+    let { id } = useParams();
+    const dispatch = useDispatch<AppDispatch>();
+    const { history } = useSelector((state: RootState) => state.patient);
+    useEffect(() =>{ 
+        if(id){
+            dispatch(getAllHistoryPatiant(Number(id)))
+        }
+    }, [id, dispatch])
+
+    
 
     const dataBreadcrumb = [
         {
@@ -25,6 +38,7 @@ const OperationHistory:FC = () => {
     ];
     return <Fragment>
         <BreadcrumbComponent items={dataBreadcrumb} />
+        
     </Fragment>
 }
 

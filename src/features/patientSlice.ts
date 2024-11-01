@@ -6,6 +6,7 @@ import { diseaseAPI } from "../apis/disease.api"
 import { mediaAPI } from "../apis/media.api"
 import { doctorAPI } from "../apis/doctor.api"
 import { patiantAPI } from "../apis/patient.api"
+import { historyPatiantAPI } from "../apis/historyPatient.api"
 
 
 export const fetchCity = createAsyncThunk(
@@ -72,6 +73,14 @@ export const fetchCity = createAsyncThunk(
       },
   )
 
+  export const getAllHistoryPatiant = createAsyncThunk(
+    'patient/getAllHistoryPatiant',
+    async ( id: number, thunkAPI ) => {
+        const response = await historyPatiantAPI.getAllHistoryPatiant(id)
+        return response.data.data
+      },
+  )
+
 
   interface PatientState {
     data:any,
@@ -86,6 +95,7 @@ export const fetchCity = createAsyncThunk(
     media: any,
     doctor:any,
     patient:any,
+    history:any,
     loading: 'idle' | 'pending' | 'succeeded' | 'failed',
   }
 
@@ -102,6 +112,7 @@ export const fetchCity = createAsyncThunk(
     media: [],
     doctor:[],
     patient: {},
+    history: [],
     loading: 'idle',
   } satisfies PatientState as PatientState
 
@@ -156,6 +167,11 @@ export const fetchCity = createAsyncThunk(
 
       builder.addCase(getByIdPatient.fulfilled, (state, action) => {
         state.patient = action.payload;
+        state.loading = 'succeeded';
+      })
+
+      builder.addCase(getAllHistoryPatiant.fulfilled, (state, action) => {
+        state.history = action.payload;
         state.loading = 'succeeded';
       })
     },

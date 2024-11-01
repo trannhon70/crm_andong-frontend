@@ -1,17 +1,16 @@
+import type { DatePickerProps, } from 'antd';
+import { DatePicker, Form, GetProps } from "antd";
 import { FC, Fragment, useEffect, useState } from "react";
 import BreadcrumbComponent from "../../../components/breadcrumbComponent";
-import { Button, Form, Input, Select, GetProps, DatePicker, Space, InputNumber, Alert } from "antd";
-import { GENDER, SATUS } from "../../../utils";
-import type { DatePickerProps, } from 'antd';
 
 import dayjs from 'dayjs';
-import { IPatient } from "../../../interface/patient";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../redux/store";
-import { fetchCity, fetchDistrictbyIdCity, getAllByIdHospital, getAllDoctor, getAllMedia, getByIdDepartment, getByIdPatient, setPatient } from "../../../features/patientSlice";
 import { useNavigate, useParams } from "react-router-dom";
-import { patiantAPI } from "../../../apis/patient.api";
 import { toast } from "react-toastify";
+import { patiantAPI } from "../../../apis/patient.api";
+import { fetchCity, fetchDistrictbyIdCity, getAllByIdHospital, getAllDoctor, getAllMedia, getByIdDepartment, getByIdPatient, setPatient } from "../../../features/patientSlice";
+import { IPatient } from "../../../interface/patient";
+import { AppDispatch, RootState } from "../../../redux/store";
 import FormCreateUser from "./form";
 
 
@@ -47,7 +46,7 @@ const CreateAppointmentRegistrationList: FC = () => {
     const navige = useNavigate()
     const hospitalId = localStorage.getItem('hospitalId')
     const dispatch = useDispatch<AppDispatch>();
-    const { hospital, roles, patient } = useSelector((state: RootState) => state);
+    const { patient } = useSelector((state: RootState) => state);
     let { id } = useParams();
     const [error, setError] = useState<any>({
         reminderTime: false
@@ -175,8 +174,8 @@ const CreateAppointmentRegistrationList: FC = () => {
                 const result = await patiantAPI.createPatiant(dataRef)
                 if (result.data.statusCode === 1) {
                     toast.success('Thêm mới thành công!')
-                    // form.resetFields();
-                    // navige('/danh-sach-dang-ky-hen')
+                    form.resetFields();
+                    navige('/danh-sach-dang-ky-hen')
                 }
             } catch (error: any) {
                 toast.error(`${error.response.data.message}`)
