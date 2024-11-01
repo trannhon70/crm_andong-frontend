@@ -175,8 +175,8 @@ const CreateAppointmentRegistrationList: FC = () => {
                 const result = await patiantAPI.createPatiant(dataRef)
                 if (result.data.statusCode === 1) {
                     toast.success('Thêm mới thành công!')
-                    form.resetFields();
-                    navige('/danh-sach-dang-ky-hen')
+                    // form.resetFields();
+                    // navige('/danh-sach-dang-ky-hen')
                 }
             } catch (error: any) {
                 toast.error(`${error.response.data.message}`)

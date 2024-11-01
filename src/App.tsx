@@ -22,6 +22,7 @@ import DoctorManagement from './pages/settings/doctorManagement';
 import CreateDocTor from './pages/settings/doctorManagement/create';
 import DepartmentManagement from './pages/settings/departmentManagement';
 import CreateDepartment from './pages/settings/departmentManagement/createDepartment';
+import { WebsocketContext } from './context/WebsocketContext';
 
 
 const PrivateRoutes = () => {
@@ -35,8 +36,10 @@ const PrivateRoutes = () => {
 };
 
 const App: React.FC = () => {
-
+  const socket = useContext(WebsocketContext);
   const { setAuthenticated } = useContext(AuthContext);
+
+
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -44,7 +47,34 @@ const App: React.FC = () => {
     }
   }, [setAuthenticated]);
 
+  useEffect(() => {
+    socket.on('connect', () => {
+      console.log('Connected!');
+    });
 
+    socket.on('connectionStatus', (data) => {
+        console.log(data.msg); // Hiển thị thông báo kết nối thành công
+      });
+    
+    socket.on('newPatient', (newMessage) => {
+      console.log('newPatient event received!');
+      console.log(newMessage);
+    });
+
+    socket.on('onMessage', (newMessage) => {
+      console.log('onMessage event received!');
+      console.log(newMessage);
+    });
+
+    return () => {
+      console.log('Unregistering Events...');
+      socket.off('connect');
+      socket.off('newPatient');
+      socket.off('onMessage');
+    };
+}, [socket]);
+
+  
   return (
 
     <Routes>

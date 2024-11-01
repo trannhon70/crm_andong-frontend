@@ -1,20 +1,18 @@
-import { FC, Fragment, useEffect, useState } from "react";
-import BreadcrumbComponent from "../../../components/breadcrumbComponent";
-import { Alert, Button, GetProps, Input, Popover, Select, TableProps, Tag } from "antd";
-import { useNavigate } from "react-router-dom";
-import TableComponent from "../../../components/tableComponent";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../redux/store";
+import { Button, GetProps, Input, Popover, Select, TableProps, Tag } from "antd";
 import moment from "moment";
-import PopconfirmComponent from "../../../components/popconfirmComponent";
-import { HiPencilSquare } from "react-icons/hi2";
-import Loading from "../../../components/loading";
-import { getPagingPatient, setPatient } from "../../../features/patientSlice";
-import { HiStar } from "react-icons/hi2";
+import { FC, Fragment, useEffect, useState } from "react";
 import { FaFile } from "react-icons/fa";
-import { FaCloudUploadAlt } from "react-icons/fa";
+import { HiPencilSquare, HiStar } from "react-icons/hi2";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { patiantAPI } from "../../../apis/patient.api";
+import BreadcrumbComponent from "../../../components/breadcrumbComponent";
+import Loading from "../../../components/loading";
+import PopconfirmComponent from "../../../components/popconfirmComponent";
+import TableComponent from "../../../components/tableComponent";
+import { getPagingPatient, setPatient } from "../../../features/patientSlice";
+import { AppDispatch, RootState } from "../../../redux/store";
 import ModalUpload from "./modalUpload";
 
 type SearchProps = GetProps<typeof Input.Search>;
@@ -32,10 +30,13 @@ const AppointmentRegistrationList: FC = () => {
     const [search,setSearch] = useState<string>('')
     const { data, total, loading } = useSelector((state: RootState) => state.patient);
     const hospitalId = localStorage.getItem('hospitalId')
+    
 
     useEffect(() => {
         dispatch(getPagingPatient({ pageSize, pageIndex, search ,hospitalId}))
     }, [dispatch, pageSize, pageIndex,hospitalId])
+
+   
 
     const dataBreadcrumb = [
         {
@@ -51,8 +52,6 @@ const AppointmentRegistrationList: FC = () => {
     ];
 
     const historyMedical = (data: any) => {
-        console.log(data.length, 'data');
-        
         return <Fragment>
             {
                 data.length>0 && data.map((item : any, index: number) => {
@@ -312,7 +311,6 @@ const AppointmentRegistrationList: FC = () => {
     }
 
     const deletePatient = async (id : any) => {
-        console.log(id, 'id');
         try {
             const result = await patiantAPI.deletePatiant(id)
             if(result.data.statusCode === 1){

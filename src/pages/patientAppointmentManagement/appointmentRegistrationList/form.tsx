@@ -235,8 +235,8 @@ const FormCreateUser: FC<IProps> = (props) => {
                 <Form.Item name="reminderTime" label="Thời gian nhắc hẹn" rules={[
                     { required: true, message: 'Thời gian nhắc hẹn không được bỏ trống!', }
                 ]}
-                    validateStatus={error.reminderTime ? "error" : ""}
-                    help={error.reminderTime}
+                    // validateStatus={error.reminderTime ? "error" : ""}
+                    // help={error.reminderTime}
                 >
                     <DatePicker
                         placeholder="Chọn thời gian nhắc hẹn"
