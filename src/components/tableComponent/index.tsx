@@ -56,7 +56,7 @@ const TableComponent: FC<TableProps> = (props) => {
         total={total}
         showTotal={showTotal}
         onChange={onChangePage}
-        pageSizeOptions={[ 50, 100, 200]}
+        pageSizeOptions={[25, 50, 100, 200]}
       />
     </Fragment>
   );

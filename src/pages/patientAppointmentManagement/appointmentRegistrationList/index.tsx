@@ -14,19 +14,21 @@ import TableComponent from "../../../components/tableComponent";
 import { getPagingPatient, setPatient } from "../../../features/patientSlice";
 import { AppDispatch, RootState } from "../../../redux/store";
 import ModalUpload from "./modalUpload";
+import { FaHistory } from "react-icons/fa";
 
 type SearchProps = GetProps<typeof Input.Search>;
 const { Search } = Input;
 
 const scrollProps = {
-   x: 'calc(700px + 50%)'
+   x: 'calc(700px + 50%)',
+   y: 127 * 5
   };
 
 const AppointmentRegistrationList: FC = () => {
     const navige = useNavigate()
     const dispatch = useDispatch<AppDispatch>();
     const [pageIndex, setPageIndex] = useState<number>(1)
-    const [pageSize, setPageSize] = useState<number>(50)
+    const [pageSize, setPageSize] = useState<number>(25)
     const [search,setSearch] = useState<string>('')
     const { data, total, loading } = useSelector((state: RootState) => state.patient);
     const hospitalId = localStorage.getItem('hospitalId')
@@ -289,17 +291,27 @@ const AppointmentRegistrationList: FC = () => {
                         value={value}
                       deleteRole={deletePatient}
                     />
-                    <FaFile  className='cursor-pointer text-fuchsia-500 '  size={20} />
+                    <FaFile onClick={() =>onClickView(value)} className='cursor-pointer text-fuchsia-500 '  size={20} />
                     <ModalUpload id={value} />
                     
                     
                     <HiPencilSquare
                         onClick={() => onClickEdit(value)} 
                         className='cursor-pointer text-green-700 ' color='primary' size={25} />
+
+                    <FaHistory onClick={() => {onClickHistory(value)}}  className='cursor-pointer ' size={23}/>
                 </div>
             },
         },
     ];
+
+    const onClickHistory = (id: number) => {
+        navige(`/danh-sach-dang-ky-hen/history/${id}`)
+    }
+
+    const onClickView = (id: number) => {
+        navige(`/danh-sach-dang-ky-hen/view/${id}`);
+    }
 
     const onClickCreate = () => {
         navige('/danh-sach-dang-ky-hen/them-moi');

@@ -23,6 +23,8 @@ import CreateDocTor from './pages/settings/doctorManagement/create';
 import DepartmentManagement from './pages/settings/departmentManagement';
 import CreateDepartment from './pages/settings/departmentManagement/createDepartment';
 import { WebsocketContext } from './context/WebsocketContext';
+import AppointmentRegistrationListHistory from './pages/patientAppointmentManagement/appointmentRegistrationListHistory';
+import OperationHistory from './pages/patientAppointmentManagement/operationHistory';
 
 
 const PrivateRoutes = () => {
@@ -94,6 +96,8 @@ const App: React.FC = () => {
           <Route path='/quan-ly-con-nguoi/cap-nhat/:id' element={<CreatePeople />} />
 
           <Route path='/danh-sach-dang-ky-hen' element={<AppointmentRegistrationList />} />
+          <Route path='/danh-sach-dang-ky-hen/view/:id' element={<AppointmentRegistrationListHistory />} />
+          <Route path='/danh-sach-dang-ky-hen/history/:id' element={<OperationHistory />} />
           <Route path='/danh-sach-dang-ky-hen/them-moi' element={<CreateAppointmentRegistrationList />} />
           <Route path='/danh-sach-dang-ky-hen/cap-nhat/:id' element={<CreateAppointmentRegistrationList />} />
 
