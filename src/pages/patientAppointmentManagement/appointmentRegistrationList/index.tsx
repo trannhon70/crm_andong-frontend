@@ -15,6 +15,7 @@ import TableComponent from "../../../components/tableComponent";
 import { getPagingPatient, setPatient } from "../../../features/patientSlice";
 import { AppDispatch, RootState } from "../../../redux/store";
 import ModalUpload from "./modalUpload";
+import { FaCheck } from "react-icons/fa";
 
 type SearchProps = GetProps<typeof Input.Search>;
 const { Search } = Input;
@@ -71,6 +72,21 @@ const AppointmentRegistrationList: FC = () => {
         </Fragment>
     }
 
+    const className = (record: any) => {
+        if(record?.status === 'ĐÃ ĐẾN'){
+            return 'text-[#389e0d] '
+        } 
+        if(record?.status === 'CHỜ ĐỢI'){
+            return 'text-[#c41d7f]'
+        }
+        if(record?.status === 'KHÔNG XÁC ĐỊNH'){
+            return 'text-[#cf1322]'
+        }
+        if(record?.status === 'CHƯA ĐẾN'){
+            return 'text-[#1613cf]'
+        }
+    }
+
     const columns: TableProps<any>['columns'] = [
         {
             title: 'STT',
@@ -78,9 +94,18 @@ const AppointmentRegistrationList: FC = () => {
             key: 'id',
             fixed: 'left',
             render(value, record, index) {
-                return <Fragment>{index + 1}</Fragment>
+                return <Fragment>
+                    <div className={className(record)} style={{display:"flex", gap:"5px", alignItems:"center" }} >
+                    {index + 1}
+                    {
+                       record.status === 'ĐÃ ĐẾN' ? <FaCheck /> : ''
+                            
+                    }
+                    </div>
+                </Fragment>
             },
             width: 50,
+            className:''
         },
         {
             title: 'Họ và tên',
@@ -89,6 +114,11 @@ const AppointmentRegistrationList: FC = () => {
             fixed: 'left',
             sorter: (a, b) => a.name.localeCompare(b.name),
             width: 150,
+            render(value, record, index) {
+                return <div className={className(record)}>
+                    {value}
+                </div>
+            },
         },
         {
             title: 'Giới tính',
@@ -107,6 +137,11 @@ const AppointmentRegistrationList: FC = () => {
             key: 'yearOld',
             sorter: (a, b) => a.yearOld - b.yearOld,
             width: 100,
+            render(value, record, index) {
+                return <div className={className(record)} >
+                    {value}
+                </div>
+            },
         },
         {
             title: 'Số điện thoại',
@@ -114,6 +149,11 @@ const AppointmentRegistrationList: FC = () => {
             key: 'phone',
             sorter: (a, b) => a.phone - b.phone,
             width: 150,
+            render(value, record, index) {
+                return <div className={className(record)} >
+                    {value}
+                </div>
+            },
         },
         {
             title: 'Mã chuyên gia',
@@ -121,13 +161,18 @@ const AppointmentRegistrationList: FC = () => {
             key: 'code',
             width: 150,
             sorter: (a, b) => a.code.localeCompare(b.code),
+            render(value, record, index) {
+                return <div className={className(record)} >
+                    {value}
+                </div>
+            },
         },
         {
             title: 'khoa',
             dataIndex: 'department',
             key: 'department',
             render(value, record, index) {
-                return <div style={{ textTransform: "uppercase" }} >{value.name}</div>
+                return <div className={className(record)} style={{ textTransform: "uppercase" }} >{value.name}</div>
             },
             width: 150,
             sorter: (a, b) => a.department?.name.localeCompare(b.department?.name),
@@ -137,7 +182,7 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'diseases',
             key: 'diseases',
             render(value, record, index) {
-                return <div style={{ textTransform: "uppercase" }} >{value.name}</div>
+                return <div className={className(record)} style={{ textTransform: "uppercase" }} >{value.name}</div>
             },
             width: 250,
             sorter: (a, b) => a.diseases?.name.localeCompare(b.diseases?.name),
@@ -147,7 +192,7 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'media',
             key: 'media',
             render(value, record, index) {
-                return <div style={{ textTransform: "uppercase" }} >{value.name}</div>
+                return <div className={className(record)} style={{ textTransform: "uppercase" }} >{value.name}</div>
             },
             width: 150,
             sorter: (a, b) => a.media?.name.localeCompare(b.media?.name),
@@ -157,7 +202,7 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'city',
             key: 'city',
             render(value, record, index) {
-                return <div style={{ textTransform: "uppercase" }} >{value.name}</div>
+                return <div className={className(record)} style={{ textTransform: "uppercase" }} >{value.name}</div>
             },
             width: 150,
             sorter: (a, b) => a.city?.name.localeCompare(b.city?.name),
@@ -167,7 +212,7 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'district',
             key: 'district',
             render(value, record, index) {
-                return <div style={{ textTransform: "uppercase" }} >{value?.name}</div>
+                return <div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>
             },
             width: 150,
             sorter: (a, b) => a.district?.name.localeCompare(b.district?.name),
@@ -179,7 +224,7 @@ const AppointmentRegistrationList: FC = () => {
             key: 'appointmentTime',
             dataIndex: 'appointmentTime',
             render(value, record, index) {
-                return <Fragment>{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</Fragment>
+                return <div className={className(record)}>{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</div >
             },
             width: 150,
             sorter: (a, b) => a.appointmentTime - b.appointmentTime,
@@ -190,7 +235,7 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'reminderTime',
             width: 150,
             render(value, record, index) {
-                return <Fragment>{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</Fragment>
+                return <div className={className(record)}>{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</div>
             },
             sorter: (a, b) => a.reminderTime - b.reminderTime,
         },
@@ -199,7 +244,7 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'note',
             key: 'note',
             render(value, record, index) {
-                return <div  >{value}</div>
+                return <div className={className(record)} >{value}</div>
             },
             width: 150,
         },
@@ -208,7 +253,7 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'editregistrationTime',
             key: 'editregistrationTime',
             render(value, record, index) {
-                return <Fragment>{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</Fragment>
+                return <div className={className(record)} >{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</div  >
             },
             width: 150,
             sorter: (a, b) => a.editregistrationTime - b.editregistrationTime,
@@ -218,7 +263,7 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'doctor',
             key: 'doctor',
             render(value, record, index) {
-                return <div style={{ textTransform: "uppercase" }} >{value?.name}</div>
+                return <div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>
             },
             width: 150,
             sorter: (a, b) => a.doctor?.name.localeCompare(b.doctor?.name),
@@ -246,7 +291,7 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'user',
             key: 'user',
             render(value, record, index) {
-                return <div style={{ textTransform: "uppercase" }} >{value?.fullName}</div>
+                return <div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.fullName}</div>
             },
             width: 150,
             sorter: (a, b) => a.user?.fullName.localeCompare(b.user?.fullName),
@@ -269,7 +314,7 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'created_at',
             key: 'created_at',
             render(value, record, index) {
-                return <Fragment>{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</Fragment>
+                return <div className={className(record)}>{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</div >
             },
             width: 150,
         },
