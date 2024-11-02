@@ -66,7 +66,7 @@ const DoctorManagement: FC = () =>{
             },
         },
         {
-            title: 'Tên Bệnh',
+            title: 'Tên bác sĩ',
             dataIndex: 'name',
             key: 'name',
         },

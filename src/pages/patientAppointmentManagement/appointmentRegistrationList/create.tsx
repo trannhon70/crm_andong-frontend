@@ -54,9 +54,13 @@ const CreateAppointmentRegistrationList: FC = () => {
 
     useEffect(() => {
         dispatch(fetchCity());
-        dispatch(getAllMedia());
-        dispatch(getAllDoctor())
-    }, [dispatch]);
+        
+        if(hospitalId){
+            dispatch(getAllDoctor(Number(hospitalId)))
+            dispatch(getAllMedia(Number(hospitalId)));
+        }
+        
+    }, [dispatch,hospitalId]);
 
     useEffect(() => {
         if (hospitalId) {

@@ -17,6 +17,7 @@ import { AppDispatch, RootState } from "../../../redux/store";
 import ModalUpload from "./modalUpload";
 import { FaCheck } from "react-icons/fa";
 import dayjs from "dayjs";
+import ModalSearch from "./modalSearch";
 
 type SearchProps = GetProps<typeof Input.Search>;
 const { Search } = Input;
@@ -34,7 +35,6 @@ const AppointmentRegistrationList: FC = () => {
     const [search, setSearch] = useState<string>('')
     const { data, total, loading } = useSelector((state: RootState) => state.patient);
     const hospitalId = localStorage.getItem('hospitalId')
-    // const [dataFormat, setDataformat] = useState<any>([])
     let dataFormat : any = []
 
     useEffect(() => {
@@ -151,7 +151,7 @@ const AppointmentRegistrationList: FC = () => {
             // sorter: (a, b) => a.name.localeCompare(b.name),
             width: 150,
             render(value, record, index) {
-                const colSpan = record?.summary=== true?3:1;
+                const colSpan = record?.summary=== true?9:1;
                 return {
                     children: <div style={{display:"flex", gap:"5px", alignItems:"center" }} className={record?.summary=== true? "bg-orange-400 text-base text-white p-2 " :className(record)}>{value}{record.status === 'ĐÃ ĐẾN' ? <FaCheck /> : ''}</div>,
                     props: { colSpan },
@@ -551,41 +551,7 @@ const AppointmentRegistrationList: FC = () => {
         <BreadcrumbComponent items={dataBreadcrumb} />
         <div className='mt-2 pb-2 flex justify-between ' >
             <div className="flex gap-3" >
-                <Select
-                    // onChange={handleChangeTinhTrang}
-                    showSearch
-                    allowClear
-                    style={{ width: 200 }}
-                    placeholder="Tình trạng"
-                    optionFilterProp="label"
-                    filterSort={(optionA, optionB) =>
-                        (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-                    }
-                    options={[
-                        {
-                            value: '1',
-                            label: 'Hoạt động',
-                        },
-                        {
-                            value: '0',
-                            label: 'Không hoạt động',
-                        },
-
-                    ]}
-                />
-                <Select
-                    // onChange={handleChangeNgonNgu}
-                    showSearch
-                    allowClear
-                    style={{ width: 200 }}
-                    placeholder="Ngôn ngữ"
-                    optionFilterProp="label"
-                // filterSort={(optionA, optionB) =>
-                //     (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-                // }
-                // options={Languege}
-                />
-                <Search size="middle" className='w-[200px]' placeholder="Nhập họ và tên" onSearch={onSearch} enterButton />
+              <ModalSearch />
             </div>
             <Button size="middle" onClick={onClickCreate} type="primary">Thêm mới</Button>
         </div>

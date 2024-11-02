@@ -43,16 +43,16 @@ export const fetchCity = createAsyncThunk(
 
   export const getAllMedia = createAsyncThunk(
     'patient/getAllMedia',
-    async ( thunkAPI ) => {
-        const response = await mediaAPI.getAllMedia()
+    async ( id: number, thunkAPI ) => {
+        const response = await mediaAPI.getAllMedia(id)
         return response.data.data
       },
   )
 
   export const getAllDoctor = createAsyncThunk(
     'patient/getAllDoctor',
-    async ( thunkAPI ) => {
-        const response = await doctorAPI.getAllDoctor()
+    async (id: number, thunkAPI ) => {
+        const response = await doctorAPI.getAllDoctor(id)
         return response.data.data
       },
   )

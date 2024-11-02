@@ -5,8 +5,8 @@ function createdoctor (body: any){
     return instance.post(`/doctor/create`, body);
 }
 
-function getAllDoctor (){
-    return instance.get(`/doctor/get-all`);
+function getAllDoctor (id: number){
+    return instance.get(`/doctor/get-all/${id}`);
 }
 function getPagingDoctor (query: IGetPaging){
     

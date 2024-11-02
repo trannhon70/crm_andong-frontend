@@ -5,6 +5,6 @@ export const mediaAPI = {
     
 }
 
-function getAllMedia (){
-    return instance.get(`/media/get-all`);
+function getAllMedia (id: number){
+    return instance.get(`/media/get-all/${id}`);
 }
