@@ -16,6 +16,7 @@ import { getPagingPatient, setPatient } from "../../../features/patientSlice";
 import { AppDispatch, RootState } from "../../../redux/store";
 import ModalUpload from "./modalUpload";
 import { FaCheck } from "react-icons/fa";
+import dayjs from "dayjs";
 
 type SearchProps = GetProps<typeof Input.Search>;
 const { Search } = Input;
@@ -33,10 +34,45 @@ const AppointmentRegistrationList: FC = () => {
     const [search, setSearch] = useState<string>('')
     const { data, total, loading } = useSelector((state: RootState) => state.patient);
     const hospitalId = localStorage.getItem('hospitalId')
+    // const [dataFormat, setDataformat] = useState<any>([])
+    let dataFormat : any = []
 
     useEffect(() => {
         dispatch(getPagingPatient({ pageSize, pageIndex, search, hospitalId }))
     }, [dispatch, pageSize, pageIndex, hospitalId])
+
+    if(data.length > 0){
+        const formatDataWithSummary = (data : any) => {
+            const formattedData : any = [];
+            const groupedData = data?.reduce((acc: any, record : any) => {
+                
+                // const date = dayjs(record.created_at).format('YYYY-MM-DD');
+                const date = moment(record.created_at * 1000).format('DD-MM-YYYY');
+                if (!acc[date]) acc[date] = [];
+                acc[date].push(record);
+                return acc;
+            }, {});
+        
+            Object.keys(groupedData).forEach((date) => {
+                const records = groupedData[date];
+                // Thêm hàng tổng kết cho ngày đó
+                formattedData.push({
+                    key: `${date}-summary`,
+                    date,
+                    name: `Tổng số bản ghi trong ngày ${date} : ${records.length}`, // Hàng tổng kết
+                    summary: true, // Dùng để phân biệt hàng tổng kết
+                });
+                // Thêm các bản ghi của ngày đó
+                records.forEach((record : any) => {
+                    formattedData.push({ ...record, key: record.id });
+                });
+            });
+        
+            return formattedData;
+        };
+        dataFormat =  formatDataWithSummary(data);
+    }
+
 
     const dataBreadcrumb = [
         {
@@ -88,46 +124,51 @@ const AppointmentRegistrationList: FC = () => {
     }
 
     const columns: TableProps<any>['columns'] = [
-        {
-            title: 'STT',
-            dataIndex: 'id',
-            key: 'id',
-            fixed: 'left',
-            render(value, record, index) {
-                return <Fragment>
-                    <div className={className(record)} style={{display:"flex", gap:"5px", alignItems:"center" }} >
-                    {index + 1}
-                    {
-                       record.status === 'ĐÃ ĐẾN' ? <FaCheck /> : ''
+        // {
+        //     title: 'STT',
+        //     dataIndex: 'id',
+        //     key: 'id',
+        //     fixed: 'left',
+        //     render(value, record, index) {
+        //         return <Fragment>
+        //             <div className={className(record)} style={{display:"flex", gap:"5px", alignItems:"center" }} >
+        //             {index + 1}
+        //             {
+        //                record.status === 'ĐÃ ĐẾN' ? <FaCheck /> : ''
                             
-                    }
-                    </div>
-                </Fragment>
-            },
-            width: 50,
-            className:''
-        },
+        //             }
+        //             </div>
+        //         </Fragment>
+        //     },
+        //     width: 50,
+        //     className:''
+        // },
         {
             title: 'Họ và tên',
             dataIndex: 'name',
             key: 'name',
             fixed: 'left',
-            sorter: (a, b) => a.name.localeCompare(b.name),
+            // sorter: (a, b) => a.name.localeCompare(b.name),
             width: 150,
             render(value, record, index) {
-                return <div className={className(record)}>
-                    {value}
-                </div>
+                const colSpan = record?.summary=== true?3:1;
+                return {
+                    children: <div style={{display:"flex", gap:"5px", alignItems:"center" }} className={record?.summary=== true? "bg-orange-400 text-base text-white p-2 " :className(record)}>{value}{record.status === 'ĐÃ ĐẾN' ? <FaCheck /> : ''}</div>,
+                    props: { colSpan },
+                };
             },
         },
         {
             title: 'Giới tính',
             dataIndex: 'gender',
             key: 'gender',
-            sorter: (a, b) => a.gender.localeCompare(b.gender),
+            // sorter: (a, b) => a.gender.localeCompare(b.gender),
             render(value, record, index) {
-
-                return <Tag style={{ textTransform: "uppercase" }} color="processing" >{value}</Tag>;
+                const colSpan = record?.summary=== true?0:1;
+                return {
+                    children: <Tag style={{ textTransform: "uppercase" }} color="processing" >{value}</Tag>,
+                    props: {colSpan}
+                }
             },
             width: 150,
         },
@@ -135,24 +176,28 @@ const AppointmentRegistrationList: FC = () => {
             title: 'Tuổi',
             dataIndex: 'yearOld',
             key: 'yearOld',
-            sorter: (a, b) => a.yearOld - b.yearOld,
+            // sorter: (a, b) => a.yearOld - b.yearOld,
             width: 100,
             render(value, record, index) {
-                return <div className={className(record)} >
-                    {value}
-                </div>
+                const colSpan = record?.summary=== true?0:1;
+                return {
+                    children: <div className={className(record)} >{value}</div>,
+                    props: {colSpan}
+                }
             },
         },
         {
             title: 'Số điện thoại',
             dataIndex: 'phone',
             key: 'phone',
-            sorter: (a, b) => a.phone - b.phone,
+            // sorter: (a, b) => a.phone - b.phone,
             width: 150,
             render(value, record, index) {
-                return <div className={className(record)} >
-                    {value}
-                </div>
+                const colSpan = record?.summary=== true?0:1;
+                return {
+                    children: <div className={className(record)} >{value}</div>,
+                    props: {colSpan}
+                }
             },
         },
         {
@@ -160,11 +205,13 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'code',
             key: 'code',
             width: 150,
-            sorter: (a, b) => a.code.localeCompare(b.code),
+            // sorter: (a, b) => a.code.localeCompare(b.code),
             render(value, record, index) {
-                return <div className={className(record)} >
-                    {value}
-                </div>
+                const colSpan = record?.summary=== true?0:1;
+                return {
+                    children: <div className={className(record)} >{value}</div>,
+                    props: {colSpan}
+                }
             },
         },
         {
@@ -172,50 +219,70 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'department',
             key: 'department',
             render(value, record, index) {
-                return <div className={className(record)} style={{ textTransform: "uppercase" }} >{value.name}</div>
+                const colSpan = record?.summary=== true?0:1;
+                return {
+                    children:<div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>,
+                    props:{colSpan}
+                }
             },
             width: 150,
-            sorter: (a, b) => a.department?.name.localeCompare(b.department?.name),
+            // sorter: (a, b) => a.department?.name.localeCompare(b.department?.name),
         },
         {
             title: 'Bệnh',
             dataIndex: 'diseases',
             key: 'diseases',
             render(value, record, index) {
-                return <div className={className(record)} style={{ textTransform: "uppercase" }} >{value.name}</div>
+                const colSpan = record?.summary=== true?0:1;
+                return {
+                    children:<div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>,
+                    props:{colSpan}
+                }
             },
             width: 250,
-            sorter: (a, b) => a.diseases?.name.localeCompare(b.diseases?.name),
+            // sorter: (a, b) => a.diseases?.name.localeCompare(b.diseases?.name),
         },
         {
             title: 'Nguồn đến',
             dataIndex: 'media',
             key: 'media',
             render(value, record, index) {
-                return <div className={className(record)} style={{ textTransform: "uppercase" }} >{value.name}</div>
+                const colSpan = record?.summary=== true?0:1;
+                return {
+                    children:<div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>,
+                    props:{colSpan}
+                }
             },
             width: 150,
-            sorter: (a, b) => a.media?.name.localeCompare(b.media?.name),
+            // sorter: (a, b) => a.media?.name.localeCompare(b.media?.name),
         },
         {
             title: 'tỉnh/TP',
             dataIndex: 'city',
             key: 'city',
             render(value, record, index) {
-                return <div className={className(record)} style={{ textTransform: "uppercase" }} >{value.name}</div>
+                const colSpan = record?.summary=== true?0:1;
+                return {
+                    children:<div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>,
+                    props:{colSpan}
+                }
             },
             width: 150,
-            sorter: (a, b) => a.city?.name.localeCompare(b.city?.name),
+            // sorter: (a, b) => a.city?.name.localeCompare(b.city?.name),
         },
         {
             title: 'Quận/huyện',
             dataIndex: 'district',
             key: 'district',
             render(value, record, index) {
-                return <div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>
+                const colSpan = record?.summary=== true?0:1;
+                return {
+                    children: <div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>,
+                    props:{colSpan}
+                }
             },
             width: 150,
-            sorter: (a, b) => a.district?.name.localeCompare(b.district?.name),
+            // sorter: (a, b) => a.district?.name.localeCompare(b.district?.name),
         },
 
 
@@ -224,10 +291,14 @@ const AppointmentRegistrationList: FC = () => {
             key: 'appointmentTime',
             dataIndex: 'appointmentTime',
             render(value, record, index) {
-                return <div className={className(record)}>{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</div >
+                const colSpan = record?.summary=== true?0:1;
+                return {
+                    children: <div className={className(record)}>{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</div >,
+                    props:{colSpan}
+                }
             },
             width: 150,
-            sorter: (a, b) => a.appointmentTime - b.appointmentTime,
+            // sorter: (a, b) => a.appointmentTime - b.appointmentTime,
         },
         {
             title: 'Thời gian nhắc hẹn',
@@ -235,16 +306,24 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'reminderTime',
             width: 150,
             render(value, record, index) {
-                return <div className={className(record)}>{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</div>
+                const colSpan = record?.summary=== true?0:1;
+                return {
+                    children: <div className={className(record)}>{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</div>,
+                    props:{colSpan}
+                }
             },
-            sorter: (a, b) => a.reminderTime - b.reminderTime,
+            // sorter: (a, b) => a.reminderTime - b.reminderTime,
         },
         {
             title: 'Ghi chú',
             dataIndex: 'note',
             key: 'note',
             render(value, record, index) {
-                return <div className={className(record)} >{value}</div>
+                const colSpan = record?.summary=== true?0:1;
+                return {
+                    children: <div className={className(record)} >{value}</div>,
+                    props:{colSpan}
+                }
             },
             width: 150,
         },
@@ -253,37 +332,56 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'editregistrationTime',
             key: 'editregistrationTime',
             render(value, record, index) {
-                return <div className={className(record)} >{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</div  >
+                const colSpan = record?.summary=== true?0:1;
+                return {
+                    children: <div className={className(record)} >{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</div  >,
+                    props:{colSpan}
+                }
             },
             width: 150,
-            sorter: (a, b) => a.editregistrationTime - b.editregistrationTime,
+            // sorter: (a, b) => a.editregistrationTime - b.editregistrationTime,
         },
         {
             title: 'Bác sĩ',
             dataIndex: 'doctor',
             key: 'doctor',
             render(value, record, index) {
-                return <div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>
+                const colSpan = record?.summary=== true?0:1;
+                return {
+                    children: <div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>,
+                    props: {colSpan}
+                }
             },
             width: 150,
-            sorter: (a, b) => a.doctor?.name.localeCompare(b.doctor?.name),
+            // sorter: (a, b) => a.doctor?.name.localeCompare(b.doctor?.name),
         },
         {
             title: 'Tình trạng cuộc hẹn',
             dataIndex: 'status',
             key: 'status',
             render(value, record, index) {
-                if (value == 'CHỜ ĐỢI') {
-                    return <Tag style={{ textTransform: "uppercase" }} color="magenta">{value}</Tag>
-                } else if (value == 'ĐÃ ĐẾN') {
-                    return <Tag style={{ textTransform: "uppercase" }} color="green">{value}</Tag>
-                } else if (value == 'CHƯA ĐẾN') {
-                    return <Tag style={{ textTransform: "uppercase" }} color="default">{value}</Tag>
-                } else if (value == 'KHÔNG XÁC ĐỊNH') {
-                    return <Tag style={{ textTransform: "uppercase" }} color="red">{value}</Tag>
-                }
+                const colSpan = record?.summary === true ? 0 : 1;
+                // Đảm bảo `children` không hiển thị khi `colSpan` là `0`
+                const children = colSpan === 0 ? null : (() => {
+                    if (value === 'CHỜ ĐỢI') {
+                        return <Tag style={{ textTransform: "uppercase" }} color="magenta">{value}</Tag>;
+                    } else if (value === 'ĐÃ ĐẾN') {
+                        return <Tag style={{ textTransform: "uppercase" }} color="green">{value}</Tag>;
+                    } else if (value === 'CHƯA ĐẾN') {
+                        return <Tag style={{ textTransform: "uppercase" }} color="#1613cf">{value}</Tag>;
+                    } else if (value === 'KHÔNG XÁC ĐỊNH') {
+                        return <Tag style={{ textTransform: "uppercase" }} color="red">{value}</Tag>;
+                    }
+                    return null;
+                })();
+            
+                return {
+                    children,
+                    props: { colSpan },
+                };
+               
             },
-            sorter: (a, b) => a.status.localeCompare(b.status),
+            // sorter: (a, b) => a.status.localeCompare(b.status),
             width: 150,
         },
         {
@@ -291,21 +389,32 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'user',
             key: 'user',
             render(value, record, index) {
-                return <div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.fullName}</div>
+                const colSpan = record?.summary === true ? 0 : 1;
+                return {
+                    children: <div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.fullName}</div>,
+                    props:{colSpan}
+                }
             },
             width: 150,
-            sorter: (a, b) => a.user?.fullName.localeCompare(b.user?.fullName),
+            // sorter: (a, b) => a.user?.fullName.localeCompare(b.user?.fullName),
         },
         {
             title: 'Hồ sơ thăm khám',
             dataIndex: 'chatPatients',
             key: 'chatPatients',
             render(value, record, index) {
-                return <div className="flex items-center justify-center cursor-pointer " >
-                    <Popover content={historyMedical(value)} title="Lịch sử thăm khám">
+                const colSpan = record?.summary === true ? 0 : 1;
+                return {
+                    children: <div className="flex items-center justify-center cursor-pointer " >
+                    {
+                        value?.length > 0 ? <Popover content={historyMedical(value)} title="Lịch sử thăm khám">
                         <HiStar size={20} color="red" />
-                    </Popover>
-                </div>
+                    </Popover> : ''
+                    }
+                    
+                </div>,
+                props:{colSpan}
+                }
             },
             width: 150,
         },
@@ -314,7 +423,11 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'created_at',
             key: 'created_at',
             render(value, record, index) {
-                return <div className={className(record)}>{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</div >
+                const colSpan = record?.summary === true ? 0 : 1;
+                return {
+                    children: <div className={className(record)}>{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</div >,
+                    props: {colSpan}
+                }
             },
             width: 150,
         },
@@ -325,6 +438,7 @@ const AppointmentRegistrationList: FC = () => {
             fixed: 'right',
             width: 80,
             render(value, record, index) {
+                const colSpan = record?.summary === true ? 0 : 1;
                 const items: MenuProps['items'] = [
 
                     {
@@ -379,12 +493,15 @@ const AppointmentRegistrationList: FC = () => {
                    
 
                 ];
-                return <div className='flex items-center justify-center ' >
+                return {
+                    children: <div className='flex items-center justify-center ' >
                     <Dropdown menu={{ items }}>
                         <IoSettingsSharp className='cursor-pointer ' size={23} />
                     </Dropdown>
 
-                </div>
+                </div>,
+                props: {colSpan}
+                }
             },
         },
     ];
@@ -473,7 +590,7 @@ const AppointmentRegistrationList: FC = () => {
             <Button size="middle" onClick={onClickCreate} type="primary">Thêm mới</Button>
         </div>
         {
-            loading === 'succeeded' ? <TableComponent rowKey={false} columns={columns} data={data} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} scroll={scrollProps} /> : <Loading />
+            loading === 'succeeded' ? <TableComponent rowKey={false} columns={columns} data={dataFormat} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} scroll={scrollProps} /> : <Loading />
         }
 
     </Fragment>
