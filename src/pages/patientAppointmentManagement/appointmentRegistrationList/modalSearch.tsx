@@ -1,9 +1,11 @@
 import React, { useState, FC, useEffect } from 'react';
-import { Button, Input, Modal, DatePicker, Select } from 'antd';
+import { Button, Input, Modal, DatePicker, Select, GetProps, DatePickerProps } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../redux/store';
 import { getAllByIdHospital, getAllDoctor, getAllMedia, getByIdDepartment } from '../../../features/patientSlice';
 import { SATUS } from '../../../utils';
+
+type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
 
 const { RangePicker } = DatePicker;
 
@@ -15,6 +17,19 @@ const ModalSearch: FC<IProps> = (props) => {
     const dispatch = useDispatch<AppDispatch>();
     const hospitalId = localStorage.getItem('hospitalId')
     const { patient } = useSelector((state: RootState) => state);
+    const [form, setform] = useState({
+        search: '',
+        created_at: [],
+        appointmentTime: [],
+        doctorId: '',
+        departmentId:'',
+        diseasesId: '',
+        mediaId: '',
+        status: '',
+    })
+
+    console.log(form, 'form');
+    
 
     useEffect(() => {
        
@@ -39,8 +54,49 @@ const ModalSearch: FC<IProps> = (props) => {
 
     const handleChangeDepartment = (e: any) => {
         dispatch(getByIdDepartment({ hospitalId, departmentId: e }))
-        // form.setFieldsValue({ diseasesId: undefined });
+        setform((form) => ({
+            ...form,
+            departmentId: e,
+            diseasesId: '',
+        }));
     }
+
+    const handleChangeSearch = (e: any) => {
+        setform((prev: any) => ({
+            ...prev,
+            search: e.target.value
+        }));
+    }   
+
+    const handleChangeDoctor = (e: any) => {
+        setform((form)=>({
+            ...form,
+            doctorId: e
+        }))
+    }
+
+    const handleChangeStatus = (e: any) => {
+        setform((form)=>({
+            ...form,
+            status: e
+        }))
+    }
+
+    const handleChangeDiseases = (e: any) => {
+        setform((form)=>({
+            ...form,
+            diseasesId: e
+        }))
+    }
+
+    const handleChangeMedia = (e: any) => {
+        setform((form)=>({
+            ...form,
+            mediaId: e
+        }))
+    }
+
+
     return <>
 
         <Button type="primary" variant="dashed" color="primary" onClick={showModal}>
@@ -52,7 +108,7 @@ const ModalSearch: FC<IProps> = (props) => {
                     Từ khóa :
                 </div>
                 <div className='w-[70%]' >
-                    <Input size='middle' />
+                    <Input size='middle' onChange={handleChangeSearch} placeholder='họ tên, số điện thoại, mã chuyên gia' />
                 </div>
             </div>
             <div className='flex items-center gap-1 mt-2 ' >
@@ -60,7 +116,15 @@ const ModalSearch: FC<IProps> = (props) => {
                     Thời gian thêm :
                 </div>
                 <div className='w-[70%]' >
-                    <RangePicker className='w-[100%]' />
+                    <RangePicker className='w-[100%]' onChange={(value, dateString) => {
+                        setform((form : any)=>(
+                            {
+                                ...form,
+                                created_at: dateString
+                            }
+                        ))
+                    }}
+                     />
                 </div>
             </div>
             <div className='flex items-center gap-1 mt-2 ' >
@@ -68,7 +132,15 @@ const ModalSearch: FC<IProps> = (props) => {
                     Thời gian hẹn :
                 </div>
                 <div className='w-[70%]' >
-                    <RangePicker className='w-[100%]' />
+                    <RangePicker className='w-[100%]' onChange={(value, dateString) => {
+                        setform((form : any)=>(
+                            {
+                                ...form,
+                                appointmentTime: dateString
+                            }
+                        ))
+                    }}
+                     />
                 </div>
             </div>
             <div className='flex items-center gap-1 mt-2 ' >
@@ -89,6 +161,7 @@ const ModalSearch: FC<IProps> = (props) => {
                                 label: item.name
                             }
                         })}
+                        onChange={handleChangeDoctor}
                     />
                 </div>
             </div>
@@ -105,6 +178,7 @@ const ModalSearch: FC<IProps> = (props) => {
                             (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                         }
                         options={SATUS}
+                        onChange={handleChangeStatus}
                     />
                 </div>
             </div>
@@ -148,6 +222,7 @@ const ModalSearch: FC<IProps> = (props) => {
                                 label: item.name
                             }
                         })}
+                        onChange={handleChangeDiseases}
                     />
                 </div>
             </div>
@@ -169,6 +244,7 @@ const ModalSearch: FC<IProps> = (props) => {
                                 label: item.name
                             }
                         })}
+                        onChange={handleChangeMedia}
                     />
                 </div>
             </div>
