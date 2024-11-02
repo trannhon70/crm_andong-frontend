@@ -38,7 +38,7 @@ const TableComponent: FC<TableProps> = (props) => {
     <Fragment>
       <Table<any>
         columns={columns}
-        dataSource={data || []}
+        dataSource={data.length > 0 ? data : [] }
         pagination={false}
         rowSelection={rowSelection}
         rowKey={(record) => record.id} 

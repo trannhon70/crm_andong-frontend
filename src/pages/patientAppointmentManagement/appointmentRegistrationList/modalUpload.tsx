@@ -57,7 +57,10 @@ const ModalUpload: FC<IProps> = (props) => {
 
     return (
         <>
-            <FaCloudUploadAlt onClick={showModal} className="cursor-pointer text-orange-500" size={25} />
+            <div onClick={showModal} className='flex justify-center items-center gap-1 ' >
+                <FaCloudUploadAlt  className="cursor-pointer text-orange-500" size={25} />
+                <span>Upload file</span>
+            </div>
 
             <Modal
                 title="Upload file"

@@ -1,8 +1,9 @@
-import { Button, GetProps, Input, Popover, Select, TableProps, Tag } from "antd";
+import { Button, Dropdown, GetProps, Input, MenuProps, Popover, Select, TableProps, Tag } from "antd";
 import moment from "moment";
 import { FC, Fragment, useEffect, useState } from "react";
-import { FaFile } from "react-icons/fa";
+import { FaFile, FaHistory } from "react-icons/fa";
 import { HiPencilSquare, HiStar } from "react-icons/hi2";
+import { IoSettingsSharp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -14,31 +15,27 @@ import TableComponent from "../../../components/tableComponent";
 import { getPagingPatient, setPatient } from "../../../features/patientSlice";
 import { AppDispatch, RootState } from "../../../redux/store";
 import ModalUpload from "./modalUpload";
-import { FaHistory } from "react-icons/fa";
 
 type SearchProps = GetProps<typeof Input.Search>;
 const { Search } = Input;
 
 const scrollProps = {
-   x: 'calc(700px + 50%)',
-   y: 127 * 5
-  };
+    x: 'calc(700px + 50%)',
+    y: 127 * 5
+};
 
 const AppointmentRegistrationList: FC = () => {
     const navige = useNavigate()
     const dispatch = useDispatch<AppDispatch>();
     const [pageIndex, setPageIndex] = useState<number>(1)
     const [pageSize, setPageSize] = useState<number>(25)
-    const [search,setSearch] = useState<string>('')
+    const [search, setSearch] = useState<string>('')
     const { data, total, loading } = useSelector((state: RootState) => state.patient);
     const hospitalId = localStorage.getItem('hospitalId')
-    
 
     useEffect(() => {
-        dispatch(getPagingPatient({ pageSize, pageIndex, search ,hospitalId}))
-    }, [dispatch, pageSize, pageIndex,hospitalId])
-
-   
+        dispatch(getPagingPatient({ pageSize, pageIndex, search, hospitalId }))
+    }, [dispatch, pageSize, pageIndex, hospitalId])
 
     const dataBreadcrumb = [
         {
@@ -50,29 +47,29 @@ const AppointmentRegistrationList: FC = () => {
         {
             title: 'Danh sách đăng ký hẹn',
         },
-       
+
     ];
 
     const historyMedical = (data: any) => {
         return <Fragment>
             {
-                data.length>0 && data.map((item : any, index: number) => {
-                    return<div key={index} className="flex gap-2 mt-1" >
-                    <div>
-                        {moment(item.created_at* 1000).format('DD-MM-YYYY HH:mm:ss')}
+                data.length > 0 && data.map((item: any, index: number) => {
+                    return <div key={index} className="flex gap-2 mt-1" >
+                        <div>
+                            {moment(item.created_at * 1000).format('DD-MM-YYYY HH:mm:ss')}
+                        </div>
+                        <div>
+                            <Tag color="gold" >{item.user.fullName}</Tag>
+                        </div>
+                        <div>
+                            {item.name}
+                        </div>
                     </div>
-                    <div>
-                    <Tag color="gold" >{item.user.fullName}</Tag> 
-                    </div>
-                    <div>
-                        {item.name}
-                    </div>
-                </div>
                 })
             }
-            
+
         </Fragment>
-    } 
+    }
 
     const columns: TableProps<any>['columns'] = [
         {
@@ -99,8 +96,8 @@ const AppointmentRegistrationList: FC = () => {
             key: 'gender',
             sorter: (a, b) => a.gender.localeCompare(b.gender),
             render(value, record, index) {
-                
-                return <Tag style={{textTransform:"uppercase"}} color="processing" >{value}</Tag>;
+
+                return <Tag style={{ textTransform: "uppercase" }} color="processing" >{value}</Tag>;
             },
             width: 150,
         },
@@ -130,7 +127,7 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'department',
             key: 'department',
             render(value, record, index) {
-                return <div style={{textTransform:"uppercase"}} >{value.name}</div>
+                return <div style={{ textTransform: "uppercase" }} >{value.name}</div>
             },
             width: 150,
             sorter: (a, b) => a.department?.name.localeCompare(b.department?.name),
@@ -140,7 +137,7 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'diseases',
             key: 'diseases',
             render(value, record, index) {
-                return <div style={{textTransform:"uppercase"}} >{value.name}</div>
+                return <div style={{ textTransform: "uppercase" }} >{value.name}</div>
             },
             width: 250,
             sorter: (a, b) => a.diseases?.name.localeCompare(b.diseases?.name),
@@ -150,7 +147,7 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'media',
             key: 'media',
             render(value, record, index) {
-                return <div style={{textTransform:"uppercase"}} >{value.name}</div>
+                return <div style={{ textTransform: "uppercase" }} >{value.name}</div>
             },
             width: 150,
             sorter: (a, b) => a.media?.name.localeCompare(b.media?.name),
@@ -160,7 +157,7 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'city',
             key: 'city',
             render(value, record, index) {
-                return <div style={{textTransform:"uppercase"}} >{value.name}</div>
+                return <div style={{ textTransform: "uppercase" }} >{value.name}</div>
             },
             width: 150,
             sorter: (a, b) => a.city?.name.localeCompare(b.city?.name),
@@ -170,19 +167,19 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'district',
             key: 'district',
             render(value, record, index) {
-                return <div style={{textTransform:"uppercase"}} >{value?.name}</div>
+                return <div style={{ textTransform: "uppercase" }} >{value?.name}</div>
             },
             width: 150,
             sorter: (a, b) => a.district?.name.localeCompare(b.district?.name),
         },
-       
-       
+
+
         {
             title: 'Thời gian hẹn',
             key: 'appointmentTime',
             dataIndex: 'appointmentTime',
             render(value, record, index) {
-                return <Fragment>{moment(value* 1000).format('DD-MM-YYYY hh:ss')}</Fragment>
+                return <Fragment>{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</Fragment>
             },
             width: 150,
             sorter: (a, b) => a.appointmentTime - b.appointmentTime,
@@ -193,7 +190,7 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'reminderTime',
             width: 150,
             render(value, record, index) {
-                return <Fragment>{moment(value* 1000).format('DD-MM-YYYY hh:ss')}</Fragment>
+                return <Fragment>{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</Fragment>
             },
             sorter: (a, b) => a.reminderTime - b.reminderTime,
         },
@@ -211,7 +208,7 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'editregistrationTime',
             key: 'editregistrationTime',
             render(value, record, index) {
-                return <Fragment>{moment(value* 1000).format('DD-MM-YYYY hh:ss')}</Fragment>
+                return <Fragment>{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</Fragment>
             },
             width: 150,
             sorter: (a, b) => a.editregistrationTime - b.editregistrationTime,
@@ -221,7 +218,7 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'doctor',
             key: 'doctor',
             render(value, record, index) {
-                return <div style={{textTransform:"uppercase"}} >{value?.name}</div>
+                return <div style={{ textTransform: "uppercase" }} >{value?.name}</div>
             },
             width: 150,
             sorter: (a, b) => a.doctor?.name.localeCompare(b.doctor?.name),
@@ -231,15 +228,15 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'status',
             key: 'status',
             render(value, record, index) {
-                if(value == 'CHỜ ĐỢI'){
-                    return <Tag style={{textTransform:"uppercase"}} color="magenta">{value}</Tag>
-                } else if(value == 'ĐÃ ĐẾN'){
-                    return <Tag style={{textTransform:"uppercase"}} color="green">{value}</Tag>
-                }else if(value == 'CHƯA ĐẾN'){
-                    return <Tag style={{textTransform:"uppercase"}} color="default">{value}</Tag>
-                } else if(value == 'KHÔNG XÁC ĐỊNH'){
-                    return <Tag style={{textTransform:"uppercase"}} color="red">{value}</Tag>
-                } 
+                if (value == 'CHỜ ĐỢI') {
+                    return <Tag style={{ textTransform: "uppercase" }} color="magenta">{value}</Tag>
+                } else if (value == 'ĐÃ ĐẾN') {
+                    return <Tag style={{ textTransform: "uppercase" }} color="green">{value}</Tag>
+                } else if (value == 'CHƯA ĐẾN') {
+                    return <Tag style={{ textTransform: "uppercase" }} color="default">{value}</Tag>
+                } else if (value == 'KHÔNG XÁC ĐỊNH') {
+                    return <Tag style={{ textTransform: "uppercase" }} color="red">{value}</Tag>
+                }
             },
             sorter: (a, b) => a.status.localeCompare(b.status),
             width: 150,
@@ -249,7 +246,7 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'user',
             key: 'user',
             render(value, record, index) {
-                return <div style={{textTransform:"uppercase"}} >{value?.fullName}</div>
+                return <div style={{ textTransform: "uppercase" }} >{value?.fullName}</div>
             },
             width: 150,
             sorter: (a, b) => a.user?.fullName.localeCompare(b.user?.fullName),
@@ -272,7 +269,7 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'created_at',
             key: 'created_at',
             render(value, record, index) {
-                return <Fragment>{moment(value* 1000).format('DD-MM-YYYY hh:ss')}</Fragment>
+                return <Fragment>{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</Fragment>
             },
             width: 150,
         },
@@ -281,29 +278,72 @@ const AppointmentRegistrationList: FC = () => {
             key: 'id',
             dataIndex: 'id',
             fixed: 'right',
-            width: 180,
+            width: 80,
             render(value, record, index) {
-                
-                return <div className='flex gap-2 items-center ' >
-                    <PopconfirmComponent
-                        title={<>Xóa {record.name}</>}
-                        description='Bạn có chắc chắn muốn xóa khách hàng này không?'
-                        value={value}
-                      deleteRole={deletePatient}
-                    />
-                    <FaFile onClick={() =>onClickView(value)} className='cursor-pointer text-fuchsia-500 '  size={20} />
-                    <ModalUpload id={value} />
-                    
-                    
-                    <HiPencilSquare
-                        onClick={() => onClickEdit(value)} 
-                        className='cursor-pointer text-green-700 ' color='primary' size={25} />
+                const items: MenuProps['items'] = [
 
-                    <FaHistory onClick={() => {onClickHistory(value)}}  className='cursor-pointer ' size={23}/>
+                    {
+                        key: '1',
+                        label: (
+                            <div onClick={() => onClickView(value)} className='flex items-center cursor-pointer'>
+                                <FaFile className='text-fuchsia-500' size={20} />
+                                <span className='ml-2'>Xem chi tiết</span>
+                            </div>
+                        )
+                    },
+                    {
+                        key: '2',
+                        label: (
+                            <div className='flex items-center cursor-pointer'>
+                                <ModalUpload id={value} />
+                            </div>
+                        )
+                    },
+                    {
+                        key: '3',
+                        label: (
+                            <div onClick={() => { onClickHistory(value) }} className='flex items-center cursor-pointer'>
+                                <FaHistory className='cursor-pointer ' size={22} />
+                                <span className='ml-2'>Lịch sử thao tác</span>
+                            </div>
+                        )
+                    },
+                    {
+                        key: '4',
+                        label: (
+                            <div onClick={() => onClickEdit(value)} className='flex items-center cursor-pointer'>
+                                  <HiPencilSquare className='cursor-pointer text-green-700 ' color='primary' size={25} />
+                                  <span className='ml-2'>Cập nhật</span>
+                            </div>
+                        )
+                    },
+                    {
+                        key: '5',
+                        label: (
+                            <div className='flex items-center cursor-pointer'>
+                                <PopconfirmComponent
+                                    title={<>Xóa {record.name}</>}
+                                    description='Bạn có chắc chắn muốn xóa khách hàng này không?'
+                                    value={value}
+                                    deleteRole={deletePatient}
+                                    text='Xóa'
+                                />
+                            </div>
+                        )
+                    },
+                   
+
+                ];
+                return <div className='flex items-center justify-center ' >
+                    <Dropdown menu={{ items }}>
+                        <IoSettingsSharp className='cursor-pointer ' size={23} />
+                    </Dropdown>
+
                 </div>
             },
         },
     ];
+
 
     const onClickHistory = (id: number) => {
         navige(`/danh-sach-dang-ky-hen/history/${id}`)
@@ -322,22 +362,22 @@ const AppointmentRegistrationList: FC = () => {
         navige(`/danh-sach-dang-ky-hen/cap-nhat/${id}`);
     }
 
-    const deletePatient = async (id : any) => {
+    const deletePatient = async (id: any) => {
         try {
             const result = await patiantAPI.deletePatiant(id)
-            if(result.data.statusCode === 1){
+            if (result.data.statusCode === 1) {
                 toast.success('Xóa thành công!')
-                dispatch(getPagingPatient({ pageSize, pageIndex, search ,hospitalId}))
-           }
+                dispatch(getPagingPatient({ pageSize, pageIndex, search, hospitalId }))
+            }
         } catch (error) {
             console.log(error);
-            
+
         }
     }
 
     const onSearch: SearchProps['onSearch'] = (value, _e, info) => {
         setSearch(value);
-     dispatch(getPagingPatient({ pageSize, pageIndex, search:value ,hospitalId}))
+        dispatch(getPagingPatient({ pageSize, pageIndex, search: value, hospitalId }))
     };
 
     const onChangePage = (page: number, pageSize: number) => {
@@ -346,8 +386,8 @@ const AppointmentRegistrationList: FC = () => {
     }
 
     return <Fragment>
-       <BreadcrumbComponent items={dataBreadcrumb} />
-       <div className='mt-2 pb-2 flex justify-between ' >
+        <BreadcrumbComponent items={dataBreadcrumb} />
+        <div className='mt-2 pb-2 flex justify-between ' >
             <div className="flex gap-3" >
                 <Select
                     // onChange={handleChangeTinhTrang}
@@ -368,29 +408,29 @@ const AppointmentRegistrationList: FC = () => {
                             value: '0',
                             label: 'Không hoạt động',
                         },
-                       
+
                     ]}
                 />
-                 <Select
+                <Select
                     // onChange={handleChangeNgonNgu}
                     showSearch
                     allowClear
                     style={{ width: 200 }}
                     placeholder="Ngôn ngữ"
                     optionFilterProp="label"
-                    // filterSort={(optionA, optionB) =>
-                    //     (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-                    // }
-                    // options={Languege}
+                // filterSort={(optionA, optionB) =>
+                //     (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                // }
+                // options={Languege}
                 />
-                <Search size="middle" className='w-[200px]' placeholder="Nhập họ và tên"  onSearch={onSearch} enterButton />
+                <Search size="middle" className='w-[200px]' placeholder="Nhập họ và tên" onSearch={onSearch} enterButton />
             </div>
             <Button size="middle" onClick={onClickCreate} type="primary">Thêm mới</Button>
         </div>
         {
             loading === 'succeeded' ? <TableComponent rowKey={false} columns={columns} data={data} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} scroll={scrollProps} /> : <Loading />
         }
-        
+
     </Fragment>
 }
 
