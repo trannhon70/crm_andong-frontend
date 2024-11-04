@@ -1,38 +1,77 @@
-import React, { useState, FC, useEffect } from 'react';
-import { Button, Input, Modal, DatePicker, Select, GetProps, DatePickerProps } from 'antd';
+import { Button, DatePicker, Form, Input, Modal, Select } from 'antd';
+import dayjs from 'dayjs';
+import { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../../redux/store';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getAllByIdHospital, getAllDoctor, getAllMedia, getByIdDepartment } from '../../../features/patientSlice';
+import { AppDispatch, RootState } from '../../../redux/store';
 import { SATUS } from '../../../utils';
+const layout = {
+    labelCol: { span: 8 },
+    wrapperCol: { span: 16 },
+};
 
-type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
+const tailLayout = {
+    wrapperCol: { offset: 8, span: 16 },
+};
 
 const { RangePicker } = DatePicker;
-
 interface IProps {
 
 }
 const ModalSearch: FC<IProps> = (props) => {
-    const [isModalOpen, setIsModalOpen] = useState(true);
+    const [form] = Form.useForm();
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
     const hospitalId = localStorage.getItem('hospitalId')
     const { patient } = useSelector((state: RootState) => state);
-    const [form, setform] = useState({
-        search: '',
-        created_at: [],
-        appointmentTime: [],
-        doctorId: '',
-        departmentId:'',
-        diseasesId: '',
-        mediaId: '',
-        status: '',
-    })
 
-    console.log(form, 'form');
-    
+    const navigate = useNavigate();
+    const location = useLocation();
+    useEffect(() => {
+        // Lấy query string từ URL
+        const queryParams = new URLSearchParams(location.search);
+        const createdAtString  = queryParams.get('created_at')
+        const appointmentTimeString  = queryParams.get('appointmentTime')
+        let created_at = null;
+        let appointmentTime = null
+
+        if (createdAtString ) {
+            try {
+                created_at = JSON.parse(createdAtString);
+            } catch (error) {
+                console.error("Không thể phân tích cú pháp created_at:", error);
+            }
+        }
+        if (appointmentTimeString) {
+            try {
+                appointmentTime = JSON.parse(appointmentTimeString);
+            } catch (error) {
+                console.error("Không thể phân tích cú pháp appointmentTime:", error);
+            }
+        }
+        if(Number(queryParams.get('departmentId'))){
+            dispatch(getByIdDepartment({ hospitalId, departmentId: Number(queryParams.get('departmentId')) }))
+        }
+        
+        // Cập nhật state `form` từ query string
+        form.setFieldValue('search', queryParams.get('search'));
+        if(created_at){
+            form.setFieldValue('created_at', [dayjs(created_at?.[0] * 1000), dayjs(created_at?.[1] * 1000)]);
+        }
+        if(appointmentTime){
+            form.setFieldValue('appointmentTime', [dayjs(appointmentTime?.[0] * 1000), dayjs(appointmentTime?.[1] * 1000)]);
+        }
+        form.setFieldValue('doctorId', Number(queryParams.get('doctorId'))|| '');
+        form.setFieldValue('status', queryParams.get('status') || '');
+        form.setFieldValue('departmentId', Number(queryParams.get('departmentId')) || '');
+        form.setFieldValue('diseasesId', Number(queryParams.get('diseasesId')) || '');
+        form.setFieldValue('mediaId', Number(queryParams.get('mediaId')) || '');
+        
+    }, [location.search]);
 
     useEffect(() => {
-       
+
         if (hospitalId) {
             dispatch(getAllDoctor(Number(hospitalId)))
             dispatch(getAllByIdHospital(Number(hospitalId)))
@@ -52,49 +91,35 @@ const ModalSearch: FC<IProps> = (props) => {
         setIsModalOpen(false);
     };
 
-    const handleChangeDepartment = (e: any) => {
-        dispatch(getByIdDepartment({ hospitalId, departmentId: e }))
-        setform((form) => ({
-            ...form,
-            departmentId: e,
-            diseasesId: '',
-        }));
-    }
-
-    const handleChangeSearch = (e: any) => {
-        setform((prev: any) => ({
-            ...prev,
-            search: e.target.value
-        }));
-    }   
-
-    const handleChangeDoctor = (e: any) => {
-        setform((form)=>({
-            ...form,
-            doctorId: e
-        }))
-    }
-
-    const handleChangeStatus = (e: any) => {
-        setform((form)=>({
-            ...form,
-            status: e
-        }))
-    }
-
     const handleChangeDiseases = (e: any) => {
-        setform((form)=>({
-            ...form,
-            diseasesId: e
-        }))
+        dispatch(getByIdDepartment({ hospitalId, departmentId: e }))
+        form.setFieldsValue({ diseasesId: undefined });
     }
 
-    const handleChangeMedia = (e: any) => {
-        setform((form)=>({
-            ...form,
-            mediaId: e
-        }))
+
+    const onFinish = (values: any) => {
+        const dataRef = {
+            search : values.search || '',
+            created_at: values.created_at ? JSON.stringify([dayjs(values.created_at?.[0]).unix(), dayjs(values.created_at?.[1]).unix()]) : '' ,
+            appointmentTime:values.appointmentTime ? JSON.stringify([dayjs(values.appointmentTime?.[0]).unix(), dayjs(values.appointmentTime?.[1]).unix()]): '' ,
+            doctorId : values.doctorId || '',
+            status : values.status || '',
+            departmentId : values.departmentId || '',
+            diseasesId : values.diseasesId || '',
+            mediaId : values.mediaId || '',
+        }
+
+        const queryParams = new URLSearchParams(dataRef).toString() ;
+        navigate(`/danh-sach-dang-ky-hen?${queryParams}`);
+        setIsModalOpen(false);
     }
+
+    const onclickClose = (event: any) => {
+        event.preventDefault();
+        setIsModalOpen(false);
+    }
+
+
 
 
     return <>
@@ -103,52 +128,27 @@ const ModalSearch: FC<IProps> = (props) => {
             Tìm kiếm
         </Button>
         <Modal title="Tìm kiếm nâng cao " open={isModalOpen} footer={false} onOk={handleOk} onCancel={handleCancel}>
-            <div className='flex items-center gap-1 ' >
-                <div className='w-[30%] text-right ' >
-                    Từ khóa :
-                </div>
-                <div className='w-[70%]' >
-                    <Input size='middle' onChange={handleChangeSearch} placeholder='họ tên, số điện thoại, mã chuyên gia' />
-                </div>
-            </div>
-            <div className='flex items-center gap-1 mt-2 ' >
-                <div className='w-[30%] text-right ' >
-                    Thời gian thêm :
-                </div>
-                <div className='w-[70%]' >
-                    <RangePicker className='w-[100%]' onChange={(value, dateString) => {
-                        setform((form : any)=>(
-                            {
-                                ...form,
-                                created_at: dateString
-                            }
-                        ))
-                    }}
-                     />
-                </div>
-            </div>
-            <div className='flex items-center gap-1 mt-2 ' >
-                <div className='w-[30%] text-right ' >
-                    Thời gian hẹn :
-                </div>
-                <div className='w-[70%]' >
-                    <RangePicker className='w-[100%]' onChange={(value, dateString) => {
-                        setform((form : any)=>(
-                            {
-                                ...form,
-                                appointmentTime: dateString
-                            }
-                        ))
-                    }}
-                     />
-                </div>
-            </div>
-            <div className='flex items-center gap-1 mt-2 ' >
-                <div className='w-[30%] text-right ' >
-                    Bác sĩ :
-                </div>
-                <div className='w-[70%]' >
+            <Form
+                form={form}
+                {...layout}
+                name="search_form"
+                onFinish={onFinish}
+                style={{ maxWidth: 600 }}
+                 variant="filled"
+                 size="middle"
+            >
+                <Form.Item name="search" label="Từ khóa" >
+                    <Input size='middle' placeholder='họ tên, số điện thoại, mã chuyên gia' />
+                </Form.Item>
+                <Form.Item name="created_at" label="Thời gian thêm">
+                    <RangePicker className='w-[100%]' />
+                </Form.Item>
+                <Form.Item name="appointmentTime" label="Thời gian hẹn">
+                    <RangePicker className='w-[100%]' />
+                </Form.Item>
+                <Form.Item name="doctorId" label="Bác sĩ">
                     <Select
+                        allowClear
                         className='w-[100%]'
                         showSearch
                         placeholder="---Lựa chọn---"
@@ -161,36 +161,26 @@ const ModalSearch: FC<IProps> = (props) => {
                                 label: item.name
                             }
                         })}
-                        onChange={handleChangeDoctor}
                     />
-                </div>
-            </div>
-            <div className='flex items-center gap-1 mt-2 ' >
-                <div className='w-[30%] text-right ' >
-                    Tình trạng cuộc hẹn :
-                </div>
-                <div className='w-[70%]' >
+                </Form.Item>
+                <Form.Item name="status" label="Tình trạng cuộc hẹn">
                     <Select
-                        style={{ width: "100%" }}
+                        allowClear
+                        className='w-[100%]'
                         showSearch
-                        placeholder="---Trạng thái---"
+                        placeholder="---Lựa chọn---"
                         filterOption={(input, option) =>
-                            (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                            typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                         }
                         options={SATUS}
-                        onChange={handleChangeStatus}
                     />
-                </div>
-            </div>
-            <div className='flex items-center gap-1 mt-2 ' >
-                <div className='w-[30%] text-right ' >
-                    Khoa :
-                </div>
-                <div className='w-[70%]' >
+                </Form.Item>
+                <Form.Item name="departmentId" label="Khoa">
                     <Select
-                        style={{ width: "100%" }}
+                        allowClear
+                        className='w-[100%]'
                         showSearch
-                        placeholder="--Chọn khoa--"
+                        placeholder="---Lựa chọn---"
                         filterOption={(input, option) =>
                             typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                         }
@@ -200,19 +190,15 @@ const ModalSearch: FC<IProps> = (props) => {
                                 label: item.name
                             }
                         })}
-                        onChange={handleChangeDepartment}
+                        onChange={handleChangeDiseases}
                     />
-                </div>
-            </div>
-            <div className='flex items-center gap-1 mt-2 ' >
-                <div className='w-[30%] text-right ' >
-                    Bệnh :
-                </div>
-                <div className='w-[70%]' >
+                </Form.Item>
+                <Form.Item name="diseasesId" label="Bệnh">
                     <Select
-                        style={{ width: "100%" }}
+                        allowClear
+                        className='w-[100%]'
                         showSearch
-                        placeholder="--Chọn bệnh--"
+                        placeholder="---Lựa chọn---"
                         filterOption={(input, option) =>
                             typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                         }
@@ -222,19 +208,14 @@ const ModalSearch: FC<IProps> = (props) => {
                                 label: item.name
                             }
                         })}
-                        onChange={handleChangeDiseases}
                     />
-                </div>
-            </div>
-            <div className='flex items-center gap-1 mt-2 ' >
-                <div className='w-[30%] text-right ' >
-                    Nguồn đến :
-                </div>
-                <div className='w-[70%]' >
+                </Form.Item>
+                <Form.Item name="mediaId" label=" Nguồn đến">
                     <Select
-                        style={{ width: "100%" }}
+                        allowClear
+                        className='w-[100%]'
                         showSearch
-                        placeholder="Nguồn đến"
+                        placeholder="---Lựa chọn---"
                         filterOption={(input, option) =>
                             typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                         }
@@ -244,14 +225,15 @@ const ModalSearch: FC<IProps> = (props) => {
                                 label: item.name
                             }
                         })}
-                        onChange={handleChangeMedia}
                     />
-                </div>
-            </div>
-            <div className='flex items-center justify-end gap-1 mt-2 ' >
-                <Button variant='solid' color='primary' >Tìm Kiếm</Button>
-                <Button variant='solid' color='danger' >Thoát</Button>
-            </div>
+                </Form.Item>
+                <Form.Item {...tailLayout}>
+                    <div className='flex items-center justify-end gap-1' >
+                        <Button type="primary" htmlType="submit" variant='solid' color='primary' >Tìm Kiếm</Button>
+                        <Button onClick={onclickClose} variant='solid' color='danger' >Thoát</Button>
+                    </div>
+                </Form.Item>
+            </Form>
         </Modal>
 
     </>

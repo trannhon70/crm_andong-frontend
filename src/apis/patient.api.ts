@@ -37,8 +37,8 @@ function getByIdPatiant(id : number) {
     return instance.get(`/patient/get-by-id/${id}`);
 }
 
-function getPagingPatient(query : IGetPaging) {
-    return instance.get(`/patient/get-paging?pageIndex=${query.pageIndex}&pageSize=${query.pageSize}&search=${query.search}&hospitalId=${query.hospitalId}`);
+function getPagingPatient(query : any) {
+    return instance.get(`/patient/get-paging?pageIndex=${query.pageIndex}&pageSize=${query.pageSize}&hospitalId=${query.hospitalId}&search=${query.search}&doctorId=${query.doctorId}&status=${query.status}&departmentId=${query.departmentId}&diseasesId=${query.diseasesId}&mediaId=${query.mediaId}&created_at=${query.created_at}&appointmentTime=${query.appointmentTime}`);
 }
 
 

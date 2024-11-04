@@ -1,11 +1,11 @@
-import { Button, Dropdown, GetProps, Input, MenuProps, Popover, Select, TableProps, Tag } from "antd";
+import { Button, Dropdown, GetProps, Input, MenuProps, Popover, TableProps, Tag } from "antd";
 import moment from "moment";
 import { FC, Fragment, useEffect, useState } from "react";
-import { FaFile, FaHistory } from "react-icons/fa";
+import { FaCheck, FaFile, FaHistory } from "react-icons/fa";
 import { HiPencilSquare, HiStar } from "react-icons/hi2";
 import { IoSettingsSharp } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { patiantAPI } from "../../../apis/patient.api";
 import BreadcrumbComponent from "../../../components/breadcrumbComponent";
@@ -14,13 +14,10 @@ import PopconfirmComponent from "../../../components/popconfirmComponent";
 import TableComponent from "../../../components/tableComponent";
 import { getPagingPatient, setPatient } from "../../../features/patientSlice";
 import { AppDispatch, RootState } from "../../../redux/store";
-import ModalUpload from "./modalUpload";
-import { FaCheck } from "react-icons/fa";
-import dayjs from "dayjs";
 import ModalSearch from "./modalSearch";
+import ModalUpload from "./modalUpload";
 
 type SearchProps = GetProps<typeof Input.Search>;
-const { Search } = Input;
 
 const scrollProps = {
     x: 'calc(700px + 50%)',
@@ -36,9 +33,25 @@ const AppointmentRegistrationList: FC = () => {
     const { data, total, loading } = useSelector((state: RootState) => state.patient);
     const hospitalId = localStorage.getItem('hospitalId')
     let dataFormat : any = []
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+
+    const query = {
+        pageSize: pageSize,
+        pageIndex: pageIndex,
+        hospitalId: Number(hospitalId),
+        search: queryParams.get('search') || '',
+        doctorId: Number(queryParams.get('doctorId')) || '',
+        status: queryParams.get('status') || '',
+        departmentId: Number(queryParams.get('departmentId')) || '',
+        diseasesId: Number(queryParams.get('diseasesId')) || '',
+        mediaId: Number(queryParams.get('mediaId')) || '',
+        created_at: queryParams.get('created_at'),
+        appointmentTime: queryParams.get('appointmentTime')
+    };
 
     useEffect(() => {
-        dispatch(getPagingPatient({ pageSize, pageIndex, search, hospitalId }))
+        dispatch(getPagingPatient(query))
     }, [dispatch, pageSize, pageIndex, hospitalId])
 
     if(data.length > 0){
@@ -72,6 +85,11 @@ const AppointmentRegistrationList: FC = () => {
         };
         dataFormat =  formatDataWithSummary(data);
     }
+
+    useEffect(() => {
+        setPageIndex(1);
+        dispatch(getPagingPatient(query));
+    }, [location.search, dispatch, pageSize, hospitalId]);
 
 
     const dataBreadcrumb = [
@@ -537,10 +555,6 @@ const AppointmentRegistrationList: FC = () => {
         }
     }
 
-    const onSearch: SearchProps['onSearch'] = (value, _e, info) => {
-        setSearch(value);
-        dispatch(getPagingPatient({ pageSize, pageIndex, search: value, hospitalId }))
-    };
 
     const onChangePage = (page: number, pageSize: number) => {
         setPageIndex(page)
