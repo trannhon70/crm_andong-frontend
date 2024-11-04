@@ -16,12 +16,13 @@ import { getPagingPatient, setPatient } from "../../../features/patientSlice";
 import { AppDispatch, RootState } from "../../../redux/store";
 import ModalSearch from "./modalSearch";
 import ModalUpload from "./modalUpload";
+import ComponentThongKe from "./componentThongKe";
 
 type SearchProps = GetProps<typeof Input.Search>;
 
 const scrollProps = {
     x: 'calc(700px + 50%)',
-    y: 127 * 5
+    y: 132 * 5
 };
 
 const AppointmentRegistrationList: FC = () => {
@@ -356,7 +357,7 @@ const AppointmentRegistrationList: FC = () => {
                     props:{colSpan}
                 }
             },
-            width: 150,
+            width: 160,
             // sorter: (a, b) => a.editregistrationTime - b.editregistrationTime,
         },
         {
@@ -563,11 +564,13 @@ const AppointmentRegistrationList: FC = () => {
 
     return <Fragment>
         <BreadcrumbComponent items={dataBreadcrumb} />
-        <div className='mt-2 pb-2 flex justify-between ' >
-            <div className="flex gap-3" >
-              <ModalSearch />
+        <div className='mt-2 pb-2 flex justify-between gap-2 ' >
+            <ComponentThongKe/>
+            <div className="flex gap-3">
+                <ModalSearch />
+                <Button size="middle" onClick={onClickCreate} type="primary">Thêm mới</Button>
             </div>
-            <Button size="middle" onClick={onClickCreate} type="primary">Thêm mới</Button>
+           
         </div>
         {
             loading === 'succeeded' ? <TableComponent rowKey={false} columns={columns} data={dataFormat} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} scroll={scrollProps} /> : <Loading />

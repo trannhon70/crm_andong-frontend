@@ -81,6 +81,22 @@ export const fetchCity = createAsyncThunk(
       },
   )
 
+  export const getThongKeNgayHienTai = createAsyncThunk(
+    'patient/getThongKeNgayHienTai',
+    async ( hospitalId: number, thunkAPI ) => {
+        const response = await patiantAPI.getThongKeNgayHienTai(hospitalId)
+        return response.data.data
+      },
+  )
+
+  export const getThongKeAll = createAsyncThunk(
+    'patient/getThongKeAll',
+    async ( hospitalId: number, thunkAPI ) => {
+        const response = await patiantAPI.getThongKeAll(hospitalId)
+        return response.data.data
+      },
+  )
+
 
   interface PatientState {
     data:any,
@@ -96,6 +112,8 @@ export const fetchCity = createAsyncThunk(
     doctor:any,
     patient:any,
     history:any,
+    thongKeTheoNgayHienTai: any,
+    thongkeAll: any,
     loading: 'idle' | 'pending' | 'succeeded' | 'failed',
   }
 
@@ -113,6 +131,8 @@ export const fetchCity = createAsyncThunk(
     doctor:[],
     patient: {},
     history: [],
+    thongKeTheoNgayHienTai: {},
+    thongkeAll: {},
     loading: 'idle',
   } satisfies PatientState as PatientState
 
@@ -172,6 +192,16 @@ export const fetchCity = createAsyncThunk(
 
       builder.addCase(getAllHistoryPatiant.fulfilled, (state, action) => {
         state.history = action.payload;
+        state.loading = 'succeeded';
+      })
+
+      builder.addCase(getThongKeNgayHienTai.fulfilled, (state, action) => {
+        state.thongKeTheoNgayHienTai = action.payload;
+        state.loading = 'succeeded';
+      })
+
+      builder.addCase(getThongKeAll.fulfilled, (state, action) => {
+        state.thongkeAll = action.payload;
         state.loading = 'succeeded';
       })
     },

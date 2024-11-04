@@ -8,7 +8,9 @@ export const patiantAPI = {
     deletePatiant,
     getByIdPatiant,
     updatePatiant,
-    uploadPatient
+    uploadPatient,
+    getThongKeNgayHienTai,
+    getThongKeAll
 }
 
 function createPatiant(body : IPatient) {
@@ -41,5 +43,13 @@ function getPagingPatient(query : any) {
     return instance.get(`/patient/get-paging?pageIndex=${query.pageIndex}&pageSize=${query.pageSize}&hospitalId=${query.hospitalId}&search=${query.search}&doctorId=${query.doctorId}&status=${query.status}&departmentId=${query.departmentId}&diseasesId=${query.diseasesId}&mediaId=${query.mediaId}&created_at=${query.created_at}&appointmentTime=${query.appointmentTime}`);
 }
 
+
+function getThongKeNgayHienTai(hospitalId : number) {
+    return instance.get(`/patient/get-thong-ke-ngay-hien-tai?hospitalId=${hospitalId}`);
+}
+
+function getThongKeAll(hospitalId : number) {
+    return instance.get(`/patient/get-thong-ke-all?hospitalId=${hospitalId}`);
+}
 
 
