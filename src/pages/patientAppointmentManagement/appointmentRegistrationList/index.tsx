@@ -566,7 +566,7 @@ const AppointmentRegistrationList: FC = () => {
         <BreadcrumbComponent items={dataBreadcrumb} />
         <div className='mt-2 pb-2 flex justify-between gap-2 ' >
             <ComponentThongKe/>
-            <div className="flex gap-3">
+            <div className="flex gap-3 w-[20%] justify-end ">
                 <ModalSearch />
                 <Button size="middle" onClick={onClickCreate} type="primary">Thêm mới</Button>
             </div>

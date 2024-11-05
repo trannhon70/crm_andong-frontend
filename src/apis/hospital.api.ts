@@ -3,7 +3,8 @@ import { IGetPaging } from "../interface/roles";
 
 export const hospitalAPI = {
     getPaging,
-    getAllHospital
+    getAllHospital,
+    getByIdHospital
 }
 
 function getPaging(query: IGetPaging) {
@@ -12,4 +13,8 @@ function getPaging(query: IGetPaging) {
 
 function getAllHospital() {
     return instance.get(`/hospital/get-all`);
+}
+
+function getByIdHospital(id: number) {
+    return instance.get(`/hospital/get-by-id/${id}`)
 }

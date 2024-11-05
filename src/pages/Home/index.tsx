@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllHospital } from "../../features/hospitalSlice";
+import { getAllHospital, getByIdHospital } from "../../features/hospitalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { Select } from "antd";
@@ -17,6 +17,7 @@ const Home: React.FC = () => {
     }, [dispatch]);
 
     const onChangeHospital = (value: string) => {
+        dispatch(getByIdHospital(Number(value)));
         localStorage.setItem('hospitalId', value);
         const selectName= hospital.filter((item : any)=> item.id === value)
         setNameSelect(selectName[0]?.name);  
