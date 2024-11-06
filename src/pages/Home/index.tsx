@@ -8,12 +8,14 @@ import CardChannel from "./cardChannel";
 import ScienceStatistics from "./scienceStatistics";
 import DiseaseStatistics from "./diseaseStatistics";
 import Consultant from "./consultant";
+import { getDanhSachXepHangThamKham, getThongKeDangKy } from "../../features/dashboardSlice";
 const { Option } = Select;
 
 const Home: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const  hospital  = useSelector((state: RootState) => state.hospital.hospital);
     const  users  = useSelector((state: RootState) => state.users);
+    
 
     const hospitalId = localStorage.getItem('hospitalId');
     const [nameSelect, setNameSelect] = useState<string | undefined>('')
@@ -21,7 +23,12 @@ const Home: React.FC = () => {
 
     useEffect(() => {
         dispatch(getAllHospital());
-    }, [dispatch]);
+        if(hospitalId){
+            dispatch(getThongKeDangKy(Number(hospitalId)));
+            dispatch(getDanhSachXepHangThamKham(Number(hospitalId)));
+        }
+        
+    }, [dispatch, hospitalId]);
 
     const onChangeHospital = (value: string) => {
         dispatch(getByIdHospital(Number(value)));

@@ -1,8 +1,12 @@
 import { Alert, Badge, Col, Row } from "antd";
 import { FC, Fragment } from "react";
 import BrankingHome from "../../components/brankingHome";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 const CartRanking: FC = () => {
+    const  {DanhSachXepHang, ThongKeDangKy}  = useSelector((state: RootState) => state.dashboard);
+    
     return <Fragment>
         <Row justify="start" className="mt-3 gap-3 ">
             <Col span={8} xs={24} sm={24} md={24} lg={20} xl={12} xxl={8}  >
@@ -13,13 +17,13 @@ const CartRanking: FC = () => {
                                 Hôm nay:
                             </Col>
                             <Col span={6} className="flex gap-1" >
-                                Tổng Cộng: <strong>10</strong>
+                                Tổng Cộng: <strong>{ThongKeDangKy?.TKDangKy?.currentDate?.tong || 0}</strong>
                             </Col>
                             <Col span={6} className="flex gap-1" >
-                                Đã đến: <strong>10</strong>
+                                Đã đến: <strong>{ThongKeDangKy?.TKDangKy?.currentDate?.daden || 0}</strong>
                             </Col>
                             <Col span={6} className="flex gap-1" >
-                                Chưa đến: <strong>10</strong>
+                                Chưa đến: <strong>{ThongKeDangKy?.TKDangKy?.currentDate?.chuaden || 0}</strong>
                             </Col>
                         </Row>
                         <Row justify="start" className=" gap-2  p-2">
@@ -27,13 +31,13 @@ const CartRanking: FC = () => {
                                 Hôm qua:
                             </Col>
                             <Col span={6} className="flex gap-1" >
-                                Tổng Cộng: <strong>10</strong>
+                                Tổng Cộng: <strong>{ThongKeDangKy?.TKDangKy?.yesterday?.tong || 0}</strong>
                             </Col>
                             <Col span={6} className="flex gap-1" >
-                                Đã đến: <strong>10</strong>
+                                Đã đến: <strong>{ThongKeDangKy?.TKDangKy?.yesterday?.daden || 0}</strong>
                             </Col>
                             <Col span={6} className="flex gap-1" >
-                                Chưa đến: <strong>10</strong>
+                                Chưa đến: <strong>{ThongKeDangKy?.TKDangKy?.yesterday?.chuaden || 0}</strong>
                             </Col>
                         </Row>
                         <Row justify="start" className=" gap-2  bg-slate-200 p-2">
@@ -41,13 +45,13 @@ const CartRanking: FC = () => {
                                 Tháng này:
                             </Col>
                             <Col span={6} className="flex gap-1" >
-                                Tổng Cộng: <strong>10</strong>
+                                Tổng Cộng: <strong>{ThongKeDangKy?.TKDangKy?.thisMonth?.tong || 0}</strong>
                             </Col>
                             <Col span={6} className="flex gap-1" >
-                                Đã đến: <strong>10</strong>
+                                Đã đến: <strong>{ThongKeDangKy?.TKDangKy?.thisMonth?.daden || 0}</strong>
                             </Col>
                             <Col span={6} className="flex gap-1" >
-                                Chưa đến: <strong>10</strong>
+                                Chưa đến: <strong>{ThongKeDangKy?.TKDangKy?.thisMonth?.chuaden || 0}</strong>
                             </Col>
                         </Row>
                         <Row justify="start" className=" gap-2  p-2">
@@ -55,13 +59,13 @@ const CartRanking: FC = () => {
                                 Hằng năm:
                             </Col>
                             <Col span={6} className="flex gap-1" >
-                                Tổng Cộng: <strong>10</strong>
+                                Tổng Cộng: <strong>{ThongKeDangKy?.TKDangKy?.yearly?.tong || 0}</strong>
                             </Col>
                             <Col span={6} className="flex gap-1" >
-                                Đã đến: <strong>10</strong>
+                                Đã đến: <strong>{ThongKeDangKy?.TKDangKy?.yearly?.daden || 0}</strong>
                             </Col>
                             <Col span={6} className="flex gap-1" >
-                                Chưa đến: <strong>10</strong>
+                                Chưa đến: <strong>{ThongKeDangKy?.TKDangKy?.yearly?.chuaden || 0}</strong>
                             </Col>
                         </Row>
                         <Row justify="start" className=" gap-2  bg-slate-200 p-2">
@@ -69,21 +73,22 @@ const CartRanking: FC = () => {
                                 Tháng trước:
                             </Col>
                             <Col span={6} className="flex gap-1" >
-                                Tổng Cộng: <strong>10</strong>
+                                Tổng Cộng: <strong>{ThongKeDangKy?.TKDangKy?.lastMonth?.tong || 0}</strong>
                             </Col>
                             <Col span={6} className="flex gap-1" >
-                                Đã đến: <strong>10</strong>
+                                Đã đến: <strong>{ThongKeDangKy?.TKDangKy?.lastMonth?.daden || 0}</strong>
                             </Col>
                             <Col span={6} className="flex gap-1" >
-                                Chưa đến: <strong>10</strong>
+                                Chưa đến: <strong>{ThongKeDangKy?.TKDangKy?.lastMonth?.chuaden || 0}</strong>
                             </Col>
                         </Row>
                     </Col>
 
                 </Badge.Ribbon>
             </Col>
-            <BrankingHome color="pink" text="Danh sách xếp hạng thăm khám tháng này" data={[]} />
-            <BrankingHome color="red" text="Danh sách xếp hạng đặt chỗ trong tháng này" />
+            <BrankingHome color="pink" text="Danh sách xếp hạng thăm khám tháng này" data={DanhSachXepHang?.DSXHThamKhamThangNay?.result} />
+            <BrankingHome color="red" text="Danh sách xếp hạng đặt chỗ trong tháng này" data={DanhSachXepHang?.DSXHDatChoThangNay
+?.result}/>
             
         </Row>
         <Row justify="start" className="mt-3 gap-3 ">
@@ -139,8 +144,10 @@ const CartRanking: FC = () => {
 
                 </Badge.Ribbon>
             </Col>
-            <BrankingHome color="cyan" text="Danh sách xếp hạng thăm khám tháng trước" data={[]} />
-            <BrankingHome color="green" text="Danh sách xếp hạng đặt chỗ trong tháng trước" />
+            <BrankingHome color="cyan" text="Danh sách xếp hạng thăm khám tháng trước" data={DanhSachXepHang?.DSXHThamKhamThangTruoc
+?.result} />
+            <BrankingHome color="green" text="Danh sách xếp hạng đặt chỗ trong tháng trước" data={DanhSachXepHang?.DSXHDatChoThangTruoc
+?.result} />
             
         </Row>
        
