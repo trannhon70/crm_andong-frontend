@@ -13,7 +13,8 @@ export const userAPI = {
     unActiveUser,
     fecthByIdUser,
     logout,
-    resetPassword
+    resetPassword,
+    getAllUserOnline
 };
 
 function login(data : ILogin) {
@@ -59,4 +60,8 @@ function activeUser(id: number) {
 
 function unActiveUser(id: number) {
     return instance.put(`/user/un-active-user/${id}`);
+}
+
+function getAllUserOnline() {
+    return instance.get(`/user/get-user-online`);
 }

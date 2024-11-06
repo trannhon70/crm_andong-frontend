@@ -155,7 +155,7 @@ const ModalSearch: FC<IProps> = (props) => {
                         filterOption={(input, option) =>
                             typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                         }
-                        options={patient.doctor.length > 0 && patient.doctor.map((item: any) => {
+                        options={patient.doctor.length > 0 && patient?.doctor?.map((item: any) => {
                             return {
                                 value: item.id,
                                 label: item.name
@@ -184,7 +184,7 @@ const ModalSearch: FC<IProps> = (props) => {
                         filterOption={(input, option) =>
                             typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                         }
-                        options={patient?.department.map((item: any) => {
+                        options={patient?.department?.map((item: any) => {
                             return {
                                 value: item.id,
                                 label: item.name
@@ -202,7 +202,7 @@ const ModalSearch: FC<IProps> = (props) => {
                         filterOption={(input, option) =>
                             typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                         }
-                        options={patient.diseasses.map((item: any) => {
+                        options={patient?.diseasses?.map((item: any) => {
                             return {
                                 value: item.id,
                                 label: item.name
@@ -219,7 +219,7 @@ const ModalSearch: FC<IProps> = (props) => {
                         filterOption={(input, option) =>
                             typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                         }
-                        options={patient.media.map((item: any) => {
+                        options={patient?.media?.map((item: any) => {
                             return {
                                 value: item.id,
                                 label: item.name

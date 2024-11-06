@@ -40,7 +40,7 @@ function getItem(
 
 
 const LayoutComponent: React.FC = () => {
-    const [collapsed, setCollapsed] = useState(false);
+    const [collapsed, setCollapsed] = useState(true);
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();

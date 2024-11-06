@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
-import { fetchUserById } from '../../features/usersSlice';
+import { fetchUserById, getAllUserOnline } from '../../features/usersSlice';
 import ModalInvalidToken from '../modalInvalidToken';
 import i18n from '../../i18n/i18n';
 import { PiPasswordFill } from "react-icons/pi";
@@ -30,13 +30,11 @@ const HeaderComponent: FC<IHeaderProps> = ({ collapsed, setCollapsed }) => {
     const { logout } = useContext(AuthContext);
     const dispatch = useDispatch<AppDispatch>();
     const hospitalId = localStorage.getItem('hospitalId')
-    const users = useSelector((state: RootState) => state.users.entities);
-    const {hospitalById} = useSelector((state: RootState) => state.hospital);
-    // console.log(users.language);
+    const {hospital, users} = useSelector((state: RootState) => state);
     
     useEffect(() => {
         dispatch(fetchUserById());
-        
+        dispatch(getAllUserOnline())
     }, [dispatch])
 
     useEffect(() => {
@@ -46,8 +44,8 @@ const HeaderComponent: FC<IHeaderProps> = ({ collapsed, setCollapsed }) => {
     }, [hospitalId])
 
     useEffect(() => {
-        i18n.changeLanguage(users.language);
-    },[users.language])
+        i18n.changeLanguage(users?.entities.language);
+    },[users?.entities.language])
 
     const items: MenuProps['items'] = [
         {
@@ -87,15 +85,15 @@ const HeaderComponent: FC<IHeaderProps> = ({ collapsed, setCollapsed }) => {
         <div className='flex items-center justify-between gap-3 pr-4 w-[100%] ' style={{textTransform:'capitalize'}} >
             <div >
                 {
-                    hospitalById?.id ? <Tag className='flex items-center gap-2 text-base ' icon={<FaCheck />} color='green-inverse' > <strong>{hospitalById?.name}</strong></Tag>  : ''
+                    hospital.hospitalById?.id ? <Tag className='flex items-center gap-2 text-base ' icon={<FaCheck />} color='green-inverse' > <strong>{hospital.hospitalById?.name}</strong></Tag>  : ''
                 }
                  
             </div>
             <div className='flex items-center gap-3 ' >
                 <div>
-                    <Badge color="green" text={<>online : 8 người</>} />
+                    <Badge color="green" text={<>online : {users.userOnline} người</>} />
                 </div>
-                {users?.fullName}
+                {users?.entities?.fullName}
                 <Dropdown menu={{ items }}>
                     <div onClick={(e) => e.preventDefault()}>
                         <Space>

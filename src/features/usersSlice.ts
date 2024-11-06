@@ -27,6 +27,14 @@ export const fetchUserById = createAsyncThunk(
       return response.data.data
     },
   )
+
+  export const getAllUserOnline = createAsyncThunk(
+    'users/getAllUserOnline',
+    async (  thunkAPI ) => {
+      const response = await userAPI.getAllUserOnline()
+      return response.data.data
+    },
+  )
   
   
   interface UsersState {
@@ -38,6 +46,7 @@ export const fetchUserById = createAsyncThunk(
     pageIndex: number,
     total: number,
     totalPages: number,
+    userOnline: number,
     user: any
   }
 
@@ -50,7 +59,8 @@ export const fetchUserById = createAsyncThunk(
     pageIndex: 1,
     total: 0,
     totalPages: 0,
-    user: {}
+    user: {},
+    userOnline:0,
   } satisfies UsersState as UsersState
 
   const usersSlice = createSlice({
@@ -77,6 +87,10 @@ export const fetchUserById = createAsyncThunk(
       });
       builder.addCase(fecthByIdUser.fulfilled, (state, action) => {
         state.user = action.payload;
+        state.loading = 'succeeded';
+      })
+      builder.addCase(getAllUserOnline.fulfilled, (state, action) => {
+        state.userOnline = action.payload;
         state.loading = 'succeeded';
       })
     },
