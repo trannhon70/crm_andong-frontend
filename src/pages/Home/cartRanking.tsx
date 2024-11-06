@@ -5,8 +5,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 
 const CartRanking: FC = () => {
-    const  {DanhSachXepHang, ThongKeDangKy}  = useSelector((state: RootState) => state.dashboard);
-    
+    const { DanhSachXepHang, ThongKeDangKy } = useSelector((state: RootState) => state.dashboard);
+
     return <Fragment>
         <Row justify="start" className="mt-3 gap-3 ">
             <Col span={8} xs={24} sm={24} md={24} lg={20} xl={12} xxl={8}  >
@@ -88,8 +88,8 @@ const CartRanking: FC = () => {
             </Col>
             <BrankingHome color="pink" text="Danh sách xếp hạng thăm khám tháng này" data={DanhSachXepHang?.DSXHThamKhamThangNay?.result} />
             <BrankingHome color="red" text="Danh sách xếp hạng đặt chỗ trong tháng này" data={DanhSachXepHang?.DSXHDatChoThangNay
-?.result}/>
-            
+                ?.result} />
+
         </Row>
         <Row justify="start" className="mt-3 gap-3 ">
             <Col span={8} xs={24} sm={24} md={24} lg={20} xl={12} xxl={8}  >
@@ -100,57 +100,57 @@ const CartRanking: FC = () => {
                                 Hôm nay:
                             </Col>
                             <Col span={6} className="flex gap-1" >
-                                Tổng Cộng: <strong>10</strong>
+                                Tổng Cộng: <strong>{ThongKeDangKy?.TKCuocHenChuaQuyetDinh?.currentDate?.tong || 0}</strong>
                             </Col>
-                           
+
                         </Row>
                         <Row justify="start" className=" gap-2  p-2">
                             <Col span={4}>
                                 Hôm qua:
                             </Col>
                             <Col span={6} className="flex gap-1" >
-                                Tổng Cộng: <strong>10</strong>
+                                Tổng Cộng: <strong>{ThongKeDangKy?.TKCuocHenChuaQuyetDinh?.yesterday?.tong || 0}</strong>
                             </Col>
-                           
+
                         </Row>
                         <Row justify="start" className=" gap-2  bg-slate-200 p-2">
                             <Col span={4}>
                                 Tháng này:
                             </Col>
                             <Col span={6} className="flex gap-1" >
-                                Tổng Cộng: <strong>10</strong>
+                                Tổng Cộng: <strong>{ThongKeDangKy?.TKCuocHenChuaQuyetDinh?.thisMonth?.tong || 0}</strong>
                             </Col>
-                           
+
                         </Row>
                         <Row justify="start" className=" gap-2  p-2">
                             <Col span={4}>
                                 Hằng năm:
                             </Col>
                             <Col span={6} className="flex gap-1" >
-                                Tổng Cộng: <strong>10</strong>
+                                Tổng Cộng: <strong>{ThongKeDangKy?.TKCuocHenChuaQuyetDinh?.yearly?.tong || 0}</strong>
                             </Col>
-                          
+
                         </Row>
                         <Row justify="start" className=" gap-2  bg-slate-200 p-2">
                             <Col span={4}>
                                 Tháng trước:
                             </Col>
                             <Col span={6} className="flex gap-1" >
-                                Tổng Cộng: <strong>10</strong>
+                                Tổng Cộng: <strong>{ThongKeDangKy?.TKCuocHenChuaQuyetDinh?.lastMonth?.tong || 0}</strong>
                             </Col>
-                           
+
                         </Row>
                     </Col>
 
                 </Badge.Ribbon>
             </Col>
             <BrankingHome color="cyan" text="Danh sách xếp hạng thăm khám tháng trước" data={DanhSachXepHang?.DSXHThamKhamThangTruoc
-?.result} />
+                ?.result} />
             <BrankingHome color="green" text="Danh sách xếp hạng đặt chỗ trong tháng trước" data={DanhSachXepHang?.DSXHDatChoThangTruoc
-?.result} />
-            
+                ?.result} />
+
         </Row>
-       
+
     </Fragment>
 }
 

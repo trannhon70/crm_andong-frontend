@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { getAllHospital, getByIdHospital } from "../../features/hospitalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
@@ -13,9 +13,9 @@ const { Option } = Select;
 
 const Home: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const  hospital  = useSelector((state: RootState) => state.hospital.hospital);
-    const  users  = useSelector((state: RootState) => state.users);
-    
+    const hospital = useSelector((state: RootState) => state.hospital.hospital);
+    const users = useSelector((state: RootState) => state.users);
+
 
     const hospitalId = localStorage.getItem('hospitalId');
     const [nameSelect, setNameSelect] = useState<string | undefined>('')
@@ -23,12 +23,14 @@ const Home: React.FC = () => {
 
     useEffect(() => {
         dispatch(getAllHospital());
-        if(hospitalId){
+    }, [dispatch]);
+
+    useEffect(() => {
+        if (hospitalId) {
             dispatch(getThongKeDangKy(Number(hospitalId)));
             dispatch(getDanhSachXepHangThamKham(Number(hospitalId)));
         }
-        
-    }, [dispatch, hospitalId]);
+    }, [hospitalId])
 
     const onChangeHospital = (value: string) => {
         dispatch(getByIdHospital(Number(value)));
@@ -44,40 +46,41 @@ const Home: React.FC = () => {
         }
     }, [hospitalId, hospital])
 
-    useEffect(() => {
-        if(users.entities.hospitalId){
+    useLayoutEffect(() => {
+        if (users.entities.hospitalId && hospital) {
             const check = JSON.parse(users.entities.hospitalId)
-            const result = hospital.filter((item : any) => check.includes(item.id));
+            const result = hospital.filter((item: any) => check.includes(item.id));
             setDataHospital(result)
         }
-    }, [users.entities.hospitalId])
+    }, [users.entities.hospitalId, hospital])
+
+
 
     return (
         <div>
             <div className="flex gap-2 items-center "  >
                 <label htmlFor="">Chọn bệnh viện hoạt động : </label>
-                {dataHospital.length > 0 && (
-                    <Select
-                        placeholder="Vui lòng chọn bệnh viện"
-                        allowClear
-                        onChange={onChangeHospital}
-                        className="min-w-[200px]"
-                        value={nameSelect || undefined}
-                    >
-                        {dataHospital.map((item: any) => (
-                            <Option key={item.id} value={item.id}>
-                                {item.name}
-                            </Option>
-                        ))}
-                    </Select>
-                )}
+
+                <Select
+                    placeholder="Vui lòng chọn bệnh viện"
+                    allowClear
+                    onChange={onChangeHospital}
+                    className="min-w-[200px]"
+                    value={nameSelect || undefined}
+                >
+                    {dataHospital?.length > 0 && dataHospital.map((item: any) => (
+                        <Option key={item.id} value={item.id}>
+                            {item.name}
+                        </Option>
+                    ))}
+                </Select>
             </div>
             <CartRanking />
             <CardChannel />
             <ScienceStatistics />
             <DiseaseStatistics />
             <Consultant />
-          
+
         </div>
     );
 };
