@@ -83,7 +83,7 @@ const CartRanking: FC = () => {
                 </Badge.Ribbon>
             </Col>
             <BrankingHome color="pink" text="Danh sách xếp hạng thăm khám tháng này" data={[]} />
-            <BrankingHome color="red" text="Danh sách xếp hạng thăm khám tháng này" />
+            <BrankingHome color="red" text="Danh sách xếp hạng đặt chỗ trong tháng này" />
             
         </Row>
         <Row justify="start" className="mt-3 gap-3 ">
@@ -140,7 +140,7 @@ const CartRanking: FC = () => {
                 </Badge.Ribbon>
             </Col>
             <BrankingHome color="cyan" text="Danh sách xếp hạng thăm khám tháng trước" data={[]} />
-            <BrankingHome color="green" text="Danh sách xếp hạng đặt chỗ tháng trước" />
+            <BrankingHome color="green" text="Danh sách xếp hạng đặt chỗ trong tháng trước" />
             
         </Row>
        

@@ -30,7 +30,8 @@ const HeaderComponent: FC<IHeaderProps> = ({ collapsed, setCollapsed }) => {
     const { logout } = useContext(AuthContext);
     const dispatch = useDispatch<AppDispatch>();
     const hospitalId = localStorage.getItem('hospitalId')
-    const {hospital, users} = useSelector((state: RootState) => state);
+    const  users = useSelector((state: RootState) => state.users);
+    const hospital = useSelector((state: RootState) => state.hospital);
     
     useEffect(() => {
         dispatch(fetchUserById());

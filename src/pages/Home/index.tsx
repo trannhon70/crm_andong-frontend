@@ -12,10 +12,12 @@ const { Option } = Select;
 
 const Home: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const { hospital } = useSelector((state: RootState) => state.hospital);
+    const  hospital  = useSelector((state: RootState) => state.hospital.hospital);
+    const  users  = useSelector((state: RootState) => state.users);
 
     const hospitalId = localStorage.getItem('hospitalId');
     const [nameSelect, setNameSelect] = useState<string | undefined>('')
+    const [dataHospital, setDataHospital] = useState<any>([])
 
     useEffect(() => {
         dispatch(getAllHospital());
@@ -35,11 +37,19 @@ const Home: React.FC = () => {
         }
     }, [hospitalId, hospital])
 
+    useEffect(() => {
+        if(users.entities.hospitalId){
+            const check = JSON.parse(users.entities.hospitalId)
+            const result = hospital.filter((item : any) => check.includes(item.id));
+            setDataHospital(result)
+        }
+    }, [users.entities.hospitalId])
+
     return (
         <div>
             <div className="flex gap-2 items-center "  >
                 <label htmlFor="">Chọn bệnh viện hoạt động : </label>
-                {hospital.length > 0 && (
+                {dataHospital.length > 0 && (
                     <Select
                         placeholder="Vui lòng chọn bệnh viện"
                         allowClear
@@ -47,7 +57,7 @@ const Home: React.FC = () => {
                         className="min-w-[200px]"
                         value={nameSelect || undefined}
                     >
-                        {hospital.map((item: any) => (
+                        {dataHospital.map((item: any) => (
                             <Option key={item.id} value={item.id}>
                                 {item.name}
                             </Option>
