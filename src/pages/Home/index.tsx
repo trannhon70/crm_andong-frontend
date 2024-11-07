@@ -2,13 +2,13 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import { getAllHospital, getByIdHospital } from "../../features/hospitalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
-import { Badge, Card, Col, Row, Select } from "antd";
+import { Badge, Card, Col, Result, Row, Select } from "antd";
 import CartRanking from "./cartRanking";
 import CardChannel from "./cardChannel";
 import ScienceStatistics from "./scienceStatistics";
 import DiseaseStatistics from "./diseaseStatistics";
 import Consultant from "./consultant";
-import { getDanhSachXepHangThamKham, getThongKeBenh, getThongKeDangKy, getThongKeKhoa, getThongKeQuaKenh, setDanhSachXepHangThamKham, setThongKeBenh, setThongKeDangKy, setThongKeKhoa, setThongKeQuaKenh } from "../../features/dashboardSlice";
+import { getDanhSachXepHangThamKham, getThongKeBenh, getThongKeDangKy, getThongKeKhoa, getThongKeQuaKenh, getThongKeTuVan, setDanhSachXepHangThamKham, setThongKeBenh, setThongKeDangKy, setThongKeKhoa, setThongKeQuaKenh, setThongKeTuVan } from "../../features/dashboardSlice";
 const { Option } = Select;
 
 const Home: React.FC = () => {
@@ -25,16 +25,17 @@ const Home: React.FC = () => {
         dispatch(getAllHospital());
     }, [dispatch]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (hospitalId) {
             dispatch(getThongKeDangKy(Number(hospitalId)));
             dispatch(getDanhSachXepHangThamKham(Number(hospitalId)));
             dispatch(getThongKeQuaKenh(Number(hospitalId)));
             dispatch(getThongKeKhoa(Number(hospitalId)));
             dispatch(getThongKeBenh(Number(hospitalId)));
+            dispatch(getThongKeTuVan(Number(hospitalId)));
 
         }
-    }, [hospitalId])
+    }, [dispatch, hospitalId])
 
     const onChangeHospital = (value: string) => {
         if(value === undefined ){
@@ -44,6 +45,7 @@ const Home: React.FC = () => {
             dispatch(setThongKeQuaKenh([]));
             dispatch(setThongKeKhoa([]))
             dispatch(setThongKeBenh([]))
+            dispatch(setThongKeTuVan([]))
             
         } else {
            
@@ -92,11 +94,21 @@ const Home: React.FC = () => {
                     ))}
                 </Select>
             </div>
-            <CartRanking />
-            <CardChannel />
-            <ScienceStatistics />
-            <DiseaseStatistics />
-            <Consultant />
+            {
+                hospitalId ? <>
+                    <CartRanking />
+                    <CardChannel />
+                    <ScienceStatistics />
+                    <DiseaseStatistics />
+                    <Consultant />
+                </> : <div>
+                <Result
+                    title="Chọn bệnh viện để hoạt động"
+                    
+                />
+                </div>
+            }
+            
 
         </div>
     );

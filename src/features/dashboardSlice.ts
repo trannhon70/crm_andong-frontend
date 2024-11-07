@@ -40,6 +40,13 @@ export const getThongKeDangKy = createAsyncThunk(
       return response.data.data
     },
   )
+  export const getThongKeTuVan = createAsyncThunk(
+    'dashboard/getThongKeTuVan',
+    async ( hospitalId: number ,thunkAPI ) => {
+      const response = await patiantAPI.getThongKeTuVan(hospitalId)
+      return response.data.data
+    },
+  )
 
 interface DashboardState {
     ThongKeDangKy: any,
@@ -47,6 +54,8 @@ interface DashboardState {
     ThongKeQuaKenh: any,
     ThongKeKhoa: any,
     ThongKeBenh: any,
+    ThongKeTuVan: any,
+
     loading: 'idle' | 'pending' | 'succeeded' | 'failed',
     
   }
@@ -57,6 +66,7 @@ interface DashboardState {
     ThongKeQuaKenh: [],
     ThongKeKhoa: [],
     ThongKeBenh: [],
+    ThongKeTuVan: [],
     loading: 'idle',
   
   } satisfies DashboardState as DashboardState
@@ -79,6 +89,9 @@ interface DashboardState {
         state.ThongKeKhoa = action.payload;
       },
       setThongKeBenh(state, action) {
+        state.ThongKeBenh = action.payload;
+      },
+      setThongKeTuVan(state, action) {
         state.ThongKeBenh = action.payload;
       },
     },
@@ -108,8 +121,13 @@ interface DashboardState {
         state.loading = 'succeeded';
       })
 
+      builder.addCase(getThongKeTuVan.fulfilled, (state, action) => {
+        state.ThongKeTuVan = action.payload;
+        state.loading = 'succeeded';
+      })
+
     },
   });
 
-  export const { setThongKeDangKy, setDanhSachXepHangThamKham, setThongKeQuaKenh, setThongKeKhoa, setThongKeBenh } = dashboardSlice.actions;
+  export const { setThongKeDangKy, setDanhSachXepHangThamKham, setThongKeQuaKenh, setThongKeKhoa, setThongKeBenh, setThongKeTuVan } = dashboardSlice.actions;
   export const dashboardReducer = dashboardSlice.reducer;

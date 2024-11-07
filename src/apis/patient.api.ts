@@ -15,7 +15,8 @@ export const patiantAPI = {
     getDanhSachXepHangThamKham,
     getThongKeQuaKenh,
     getThongKeKhoa,
-    getThongKeBenh
+    getThongKeBenh,
+    getThongKeTuVan
 }
 
 function createPatiant(body : IPatient) {
@@ -77,4 +78,8 @@ function getThongKeKhoa(hospitalId : number) {
 
 function getThongKeBenh(hospitalId : number) {
     return instance.get(`/patient/thong-ke-benh?hospitalId=${hospitalId}`);
+}
+
+function getThongKeTuVan(hospitalId : number) {
+    return instance.get(`/patient/thong-ke-tu-van?hospitalId=${hospitalId}`);
 }
