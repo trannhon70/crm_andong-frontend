@@ -78,5 +78,5 @@ export const fetchGetPaging = createAsyncThunk(
     },
   });
 
-  // export const {  } = hospitalSlice.actions;
+  export const {  } = hospitalSlice.actions;
   export const hospitalReducer = hospitalSlice.reducer;

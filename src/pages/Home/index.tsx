@@ -8,7 +8,7 @@ import CardChannel from "./cardChannel";
 import ScienceStatistics from "./scienceStatistics";
 import DiseaseStatistics from "./diseaseStatistics";
 import Consultant from "./consultant";
-import { getDanhSachXepHangThamKham, getThongKeDangKy } from "../../features/dashboardSlice";
+import { getDanhSachXepHangThamKham, getThongKeDangKy, getThongKeQuaKenh, setDanhSachXepHangThamKham, setThongKeDangKy, setThongKeQuaKenh } from "../../features/dashboardSlice";
 const { Option } = Select;
 
 const Home: React.FC = () => {
@@ -29,14 +29,27 @@ const Home: React.FC = () => {
         if (hospitalId) {
             dispatch(getThongKeDangKy(Number(hospitalId)));
             dispatch(getDanhSachXepHangThamKham(Number(hospitalId)));
+            dispatch(getThongKeQuaKenh(Number(hospitalId)));
+
         }
     }, [hospitalId])
 
     const onChangeHospital = (value: string) => {
+        if(value === undefined ){
+            localStorage.removeItem('hospitalId');
+            dispatch(setThongKeDangKy({}));
+            dispatch(setDanhSachXepHangThamKham({}));
+            dispatch(setThongKeQuaKenh([]));
+            
+        } else {
+           
+            localStorage.setItem('hospitalId', value);
+           
+        }
         dispatch(getByIdHospital(Number(value)));
-        localStorage.setItem('hospitalId', value);
         const selectName = hospital.filter((item: any) => item.id === value)
         setNameSelect(selectName[0]?.name);
+        
     };
 
     useEffect(() => {
