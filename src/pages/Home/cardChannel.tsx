@@ -15,10 +15,10 @@ const CardChannel: FC = () => {
             {
                 ThongKeQuaKenh.length > 0 && ThongKeQuaKenh.map((item: any, index: number) => {
                     return <Col key={item.name} xs={24} sm={24} md={11} lg={7} xl={6} xxl={4}  >
-                    <Badge.Ribbon text={item.name}>
+                    <Badge.Ribbon color="pink" text={item.name}>
                         <Col span={24} className="rounded border-green-700 border  ">
                             <Row justify="start" className=" gap-2 mt-7 bg-slate-200 p-2">
-                                <Col span={6}>
+                                <Col span={7}>
                                     Hôm nay:
                                 </Col>
                                
@@ -30,7 +30,7 @@ const CardChannel: FC = () => {
                                 </Col>
                             </Row>
                             <Row justify="start" className=" gap-2  p-2">
-                                <Col span={6}>
+                                <Col span={7}>
                                     Hôm qua:
                                 </Col>
                                
@@ -42,7 +42,7 @@ const CardChannel: FC = () => {
                                 </Col>
                             </Row>
                             <Row justify="start" className=" gap-2  bg-slate-200 p-2">
-                                <Col span={6}>
+                                <Col span={7}>
                                     Tháng này:
                                 </Col>
                                 
@@ -54,8 +54,8 @@ const CardChannel: FC = () => {
                                 </Col>
                             </Row>
                             <Row justify="start" className=" gap-2  p-2">
-                                <Col span={6    }>
-                                    Hằng năm:
+                                <Col span={7 }>
+                                Tháng trước:
                                 </Col>
                                 
                                 <Col span={8} className="flex gap-1" >

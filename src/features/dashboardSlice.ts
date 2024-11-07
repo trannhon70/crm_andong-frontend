@@ -25,10 +25,28 @@ export const getThongKeDangKy = createAsyncThunk(
     },
   )
 
+  export const getThongKeKhoa = createAsyncThunk(
+    'dashboard/getThongKeKhoa',
+    async ( hospitalId: number ,thunkAPI ) => {
+      const response = await patiantAPI.getThongKeKhoa(hospitalId)
+      return response.data.data
+    },
+  )
+
+  export const getThongKeBenh = createAsyncThunk(
+    'dashboard/getThongKeBenh',
+    async ( hospitalId: number ,thunkAPI ) => {
+      const response = await patiantAPI.getThongKeBenh(hospitalId)
+      return response.data.data
+    },
+  )
+
 interface DashboardState {
     ThongKeDangKy: any,
     DanhSachXepHang: any,
     ThongKeQuaKenh: any,
+    ThongKeKhoa: any,
+    ThongKeBenh: any,
     loading: 'idle' | 'pending' | 'succeeded' | 'failed',
     
   }
@@ -37,6 +55,8 @@ interface DashboardState {
     ThongKeDangKy: {},
     DanhSachXepHang: {},
     ThongKeQuaKenh: [],
+    ThongKeKhoa: [],
+    ThongKeBenh: [],
     loading: 'idle',
   
   } satisfies DashboardState as DashboardState
@@ -55,6 +75,12 @@ interface DashboardState {
       setThongKeQuaKenh(state, action) {
         state.ThongKeQuaKenh = action.payload;
       },
+      setThongKeKhoa(state, action) {
+        state.ThongKeKhoa = action.payload;
+      },
+      setThongKeBenh(state, action) {
+        state.ThongKeBenh = action.payload;
+      },
     },
     extraReducers: (builder) => {
       builder.addCase(getThongKeDangKy.fulfilled, (state, action) => {
@@ -71,8 +97,19 @@ interface DashboardState {
         state.ThongKeQuaKenh = action.payload;
         state.loading = 'succeeded';
       })
+
+      builder.addCase(getThongKeKhoa.fulfilled, (state, action) => {
+        state.ThongKeKhoa = action.payload;
+        state.loading = 'succeeded';
+      })
+
+      builder.addCase(getThongKeBenh.fulfilled, (state, action) => {
+        state.ThongKeBenh = action.payload;
+        state.loading = 'succeeded';
+      })
+
     },
   });
 
-  export const { setThongKeDangKy, setDanhSachXepHangThamKham, setThongKeQuaKenh } = dashboardSlice.actions;
+  export const { setThongKeDangKy, setDanhSachXepHangThamKham, setThongKeQuaKenh, setThongKeKhoa, setThongKeBenh } = dashboardSlice.actions;
   export const dashboardReducer = dashboardSlice.reducer;

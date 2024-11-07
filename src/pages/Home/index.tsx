@@ -8,7 +8,7 @@ import CardChannel from "./cardChannel";
 import ScienceStatistics from "./scienceStatistics";
 import DiseaseStatistics from "./diseaseStatistics";
 import Consultant from "./consultant";
-import { getDanhSachXepHangThamKham, getThongKeDangKy, getThongKeQuaKenh, setDanhSachXepHangThamKham, setThongKeDangKy, setThongKeQuaKenh } from "../../features/dashboardSlice";
+import { getDanhSachXepHangThamKham, getThongKeBenh, getThongKeDangKy, getThongKeKhoa, getThongKeQuaKenh, setDanhSachXepHangThamKham, setThongKeBenh, setThongKeDangKy, setThongKeKhoa, setThongKeQuaKenh } from "../../features/dashboardSlice";
 const { Option } = Select;
 
 const Home: React.FC = () => {
@@ -30,6 +30,8 @@ const Home: React.FC = () => {
             dispatch(getThongKeDangKy(Number(hospitalId)));
             dispatch(getDanhSachXepHangThamKham(Number(hospitalId)));
             dispatch(getThongKeQuaKenh(Number(hospitalId)));
+            dispatch(getThongKeKhoa(Number(hospitalId)));
+            dispatch(getThongKeBenh(Number(hospitalId)));
 
         }
     }, [hospitalId])
@@ -40,6 +42,8 @@ const Home: React.FC = () => {
             dispatch(setThongKeDangKy({}));
             dispatch(setDanhSachXepHangThamKham({}));
             dispatch(setThongKeQuaKenh([]));
+            dispatch(setThongKeKhoa([]))
+            dispatch(setThongKeBenh([]))
             
         } else {
            
