@@ -176,6 +176,9 @@ const DiseaseManagement: FC = () => {
         return<NotHospital/>
     }
     return <Fragment>
+         {
+            hospitalId ? 
+        <Fragment>
          <BreadcrumbComponent items={dataBreadcrumb} />
          <div className='mt-2 pb-2 flex justify-between ' >
             <div className="flex gap-3" >
@@ -209,6 +212,7 @@ const DiseaseManagement: FC = () => {
         {
             loading === 'succeeded' ? <TableComponent rowKey={true} columns={columns} data={data} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} /> : <Loading />
         }
+         </Fragment> : <NotHospital /> }
     </Fragment>
 }
 

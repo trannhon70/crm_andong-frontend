@@ -9,6 +9,8 @@ import ScienceStatistics from "./scienceStatistics";
 import DiseaseStatistics from "./diseaseStatistics";
 import Consultant from "./consultant";
 import { getDanhSachXepHangThamKham, getThongKeBenh, getThongKeDangKy, getThongKeKhoa, getThongKeQuaKenh, getThongKeTuVan, setDanhSachXepHangThamKham, setThongKeBenh, setThongKeDangKy, setThongKeKhoa, setThongKeQuaKenh, setThongKeTuVan } from "../../features/dashboardSlice";
+import useMenuData from "../../hooks/useMenuData";
+import NotHospital from "../../components/notHospital";
 const { Option } = Select;
 
 const Home: React.FC = () => {
@@ -19,6 +21,7 @@ const Home: React.FC = () => {
     const hospitalId = localStorage.getItem('hospitalId');
     const [nameSelect, setNameSelect] = useState<string | undefined>('')
     const [dataHospital, setDataHospital] = useState<any>([])
+    const menu = useMenuData();
 
     useEffect(() => {
         dispatch(getAllHospital());
@@ -49,7 +52,7 @@ const Home: React.FC = () => {
     }, [dispatch]);
 
     const onChangeHospital = useCallback((value: string) => {
-        if(value === undefined ){
+        if (value === undefined) {
             localStorage.removeItem('hospitalId');
             clearStatistics();
         } else {
@@ -58,8 +61,8 @@ const Home: React.FC = () => {
         dispatch(getByIdHospital(Number(value)));
         const selectName = hospital.filter((item: any) => item.id === value)
         setNameSelect(selectName[0]?.name);
-        
-    },[dispatch, hospital, clearStatistics]);
+
+    }, [dispatch, hospital, clearStatistics]);
 
     useEffect(() => {
         if (hospitalId && hospital.length > 0) {
@@ -100,18 +103,17 @@ const Home: React.FC = () => {
             {
                 hospitalId ? <>
                     <CartRanking />
-                    <CardChannel />
-                    <ScienceStatistics />
-                    <DiseaseStatistics />
-                    <Consultant />
-                </> : <div>
-                <Result
-                    title="Chọn bệnh viện để hoạt động"
-                    
-                />
-                </div>
+                    {
+                        menu?.[0].home === true ? <>
+                            <CardChannel />
+                            <ScienceStatistics />
+                            <DiseaseStatistics />
+                            <Consultant />
+                        </> : ''
+                    }
+                </> : <NotHospital />
             }
-            
+
 
         </div>
     );

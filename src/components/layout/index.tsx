@@ -10,12 +10,11 @@ import { IoHomeOutline, IoSettings } from "react-icons/io5";
 import { SiMicrosoftaccess } from "react-icons/si";
 import { TbReport, TbWebhook } from "react-icons/tb";
 import { VscServerEnvironment } from "react-icons/vsc";
-import { useSelector } from 'react-redux';
 import { Link, Outlet } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
-import { RootState } from '../../redux/store';
 import HeaderComponent from '../header';
 import { useLocation } from 'react-router-dom';
+import useMenuData from '../../hooks/useMenuData';
 
 const { Sider, Content } = Layout;
 type MenuItem = Required<MenuProps>['items'][number];
@@ -55,43 +54,28 @@ const LayoutComponent: React.FC = () => {
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
-    const users = useSelector((state: RootState) => state.users.entities);
-    const [menu, setMenu] = useState<any>([])
-    const [keyPath, setkeyPath] = useState<any>([])
+    const menu = useMenuData(); 
     const location = useLocation();
     const [openKeys, setOpenKeys] = useState<string[]>([]);
+    const {t } = useTranslation(['home'])
 
     useLayoutEffect(() => {
         if (sub7.includes(location.pathname)) {
-            setkeyPath(['sub7']);
             setOpenKeys(['sub7']); 
         } 
         if (sub6.includes(location.pathname)) {
-            setkeyPath(['sub6']);
             setOpenKeys(['sub6']); 
         } 
         if (sub5.includes(location.pathname)) {
-            setkeyPath(['sub5']);
             setOpenKeys(['sub5']); 
         } 
 
         if (sub1.includes(location.pathname)) {
-            setkeyPath(['sub1']);
             setOpenKeys(['sub1']); 
         } 
        
     }, [location.pathname, sub7])
     
-
-    useLayoutEffect(() => {
-        if (users?.role?.menu) {
-            const data = JSON.parse(users.role.menu);
-            setMenu(data);
-        }
-    }, [users?.role?.menu]);
-    
-    const {t } = useTranslation(['home'])
-
     const items: MenuItem[] = [
         getItem(<Link to={'/'}>{t("home:menu_left.home")}</Link>, '/', <IoHomeOutline size={20} />),
         

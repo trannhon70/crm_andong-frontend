@@ -17,6 +17,7 @@ import { AppDispatch, RootState } from "../../../redux/store";
 import ModalSearch from "./modalSearch";
 import ModalUpload from "./modalUpload";
 import ComponentThongKe from "./componentThongKe";
+import NotHospital from "../../../components/notHospital";
 
 type SearchProps = GetProps<typeof Input.Search>;
 
@@ -101,7 +102,7 @@ const AppointmentRegistrationList: FC = () => {
             type: 'separator',
         },
         {
-            title: 'Danh sách đăng ký hẹn',
+            title: 'Danh sách đăng ký hẹn ádsad',
         },
 
     ];
@@ -563,6 +564,9 @@ const AppointmentRegistrationList: FC = () => {
     }
 
     return <Fragment>
+        {
+            hospitalId ? 
+        <Fragment>
         <BreadcrumbComponent items={dataBreadcrumb} />
         <div className='mt-2 pb-2 flex justify-between gap-2 ' >
             <ComponentThongKe/>
@@ -575,7 +579,7 @@ const AppointmentRegistrationList: FC = () => {
         {
             loading === 'succeeded' ? <TableComponent rowKey={false} columns={columns} data={dataFormat} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} scroll={scrollProps} /> : <Loading />
         }
-
+        </Fragment> : <NotHospital /> }
     </Fragment>
 }
 

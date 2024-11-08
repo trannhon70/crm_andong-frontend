@@ -23,18 +23,18 @@ const DepartmentManagement: FC = () => {
     const { data, total, loading } = useSelector((state: RootState) => state.department);
     const [pageIndex, setPageIndex] = useState<number>(1)
     const [pageSize, setPageSize] = useState<number>(50)
-    const [search,setSearch] = useState<string>('')
+    const [search, setSearch] = useState<string>('')
     const hospitalId = localStorage.getItem('hospitalId')
     const dispatch = useDispatch<AppDispatch>();
 
 
     useEffect(() => {
-        if(hospitalId){
-            dispatch(getPagingDepartment({ pageSize, pageIndex, search, hospitalId : Number(hospitalId) }))
+        if (hospitalId) {
+            dispatch(getPagingDepartment({ pageSize, pageIndex, search, hospitalId: Number(hospitalId) }))
         }
-        
-    }, [dispatch,hospitalId, pageIndex, pageSize])
-    
+
+    }, [dispatch, hospitalId, pageIndex, pageSize])
+
 
     const dataBreadcrumb = [
         {
@@ -55,7 +55,7 @@ const DepartmentManagement: FC = () => {
 
     const onSearch: SearchProps['onSearch'] = (value, _e, info) => {
         setSearch(value);
-        dispatch(getPagingDepartment({ pageSize, pageIndex, search: value, hospitalId : Number(hospitalId) }))
+        dispatch(getPagingDepartment({ pageSize, pageIndex, search: value, hospitalId: Number(hospitalId) }))
     };
 
     const columns: TableProps<any>['columns'] = [
@@ -72,14 +72,14 @@ const DepartmentManagement: FC = () => {
             dataIndex: 'name',
             key: 'name',
         },
-       
+
         {
             title: 'Bệnh viện',
             key: 'hospital',
             dataIndex: 'hospital',
             render(value, record, index) {
-               
-                return <div style={{textTransform:'capitalize'}} className="" >{value.name}</div>;
+
+                return <div style={{ textTransform: 'capitalize' }} className="" >{value.name}</div>;
             },
         },
         {
@@ -87,11 +87,11 @@ const DepartmentManagement: FC = () => {
             key: 'user',
             dataIndex: 'user',
             render(value, record, index) {
-                
-                return <div style={{textTransform:'capitalize'}} className="" >{value.fullName}</div>;
+
+                return <div style={{ textTransform: 'capitalize' }} className="" >{value.fullName}</div>;
             },
         },
-        
+
         {
             title: 'Thời gian tạo',
             key: 'created_at',
@@ -105,34 +105,34 @@ const DepartmentManagement: FC = () => {
             key: 'id',
             dataIndex: 'id',
             render(value, record, index) {
-                
+
                 return <div className='flex gap-4 ' >
                     <PopconfirmComponent
                         title={<>Xóa khoa {record.name}</>}
                         description='Bạn có chắc chắn muốn xóa khoa này không?'
                         value={value}
-                      deleteRole={deleteDepartment}
+                        deleteRole={deleteDepartment}
                     />
-                    
-                    
+
+
                     <HiPencilSquare
-                        onClick={() => onClickEdit(value)} 
+                        onClick={() => onClickEdit(value)}
                         className='cursor-pointer text-green-700 ' color='primary' size={25} />
                 </div>
             },
         },
     ];
 
-    const deleteDepartment = async(id:number)=>{
+    const deleteDepartment = async (id: number) => {
         try {
             const result = await departmentAPI.deleteDepartment(id)
-            if(result.data.statusCode === 1){
+            if (result.data.statusCode === 1) {
                 toast.success('Xóa thành công!')
-                dispatch(getPagingDepartment({ pageSize, pageIndex, search, hospitalId : Number(hospitalId) }))
-           }
-       } catch (error) {
+                dispatch(getPagingDepartment({ pageSize, pageIndex, search, hospitalId: Number(hospitalId) }))
+            }
+        } catch (error) {
             console.log(error);
-       }
+        }
     }
 
     const onClickEdit = (id: number) => {
@@ -142,23 +142,26 @@ const DepartmentManagement: FC = () => {
         setPageIndex(page)
         setPageSize(pageSize)
     }
-    if(hospitalId === 'undefined'){
-        return<NotHospital/>
+    if (hospitalId === 'undefined') {
+        return <NotHospital />
     }
-    
+
     return <Fragment>
-        
-        <BreadcrumbComponent items={dataBreadcrumb} />
-        <div className='mt-2 pb-2 flex justify-between ' >
-            <div className="flex gap-3" >
-                 
-                <Search className='w-[250px]' placeholder="Nhập tên "  onSearch={onSearch} enterButton />
-            </div>
-            <Button onClick={onClickCreate} type="primary">Thêm mới</Button>
-        </div>
         {
-            loading === 'succeeded' ? <TableComponent rowKey={true} columns={columns} data={data} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} /> : <Loading />
-        }
+            hospitalId ?
+                <Fragment>
+                    <BreadcrumbComponent items={dataBreadcrumb} />
+                    <div className='mt-2 pb-2 flex justify-between ' >
+                        <div className="flex gap-3" >
+
+                            <Search className='w-[250px]' placeholder="Nhập tên " onSearch={onSearch} enterButton />
+                        </div>
+                        <Button onClick={onClickCreate} type="primary">Thêm mới</Button>
+                    </div>
+                    {
+                        loading === 'succeeded' ? <TableComponent rowKey={true} columns={columns} data={data} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} /> : <Loading />
+                    }
+                </Fragment> : <NotHospital />}
     </Fragment>
 }
 
