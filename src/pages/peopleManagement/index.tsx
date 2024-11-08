@@ -122,8 +122,8 @@ const PeopleManagement: FC = () => {
             key: 'id',
             dataIndex: 'id',
             render(value, record, index) {
-                
-                return <div className='flex gap-4 ' >
+                if(record?.role?.id !== 1){
+                    return <div className='flex gap-4 ' >
                     <PopconfirmComponent
                         title={<>Xóa {record.fullName}</>}
                         description='Bạn có chắc chắn muốn xóa tài khoản này không?'
@@ -140,6 +140,7 @@ const PeopleManagement: FC = () => {
                         onClick={() => onClickEdit(value)} 
                         className='cursor-pointer text-green-700 ' color='primary' size={25} />
                 </div>
+                }
             },
         },
     ];

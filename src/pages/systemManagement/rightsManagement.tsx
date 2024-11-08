@@ -89,7 +89,8 @@ const RightsManagement: FC = () => {
         key: 'id',
         dataIndex: 'id',
         render(value, record, index) {
-          return <div className='flex gap-4 ' >
+            if(record.id !== 1){
+              return <div className='flex gap-4 ' >
             <PopconfirmComponent 
               title ={<>Xóa quyền {record.name}</>} 
               description= 'Bạn có chắc chắn muốn xóa tác vụ này không?'
@@ -98,6 +99,9 @@ const RightsManagement: FC = () => {
             />
             <HiPencilSquare onClick={() => onClickEdit(value)} className='cursor-pointer text-green-700 ' color='primary' size={25} />
           </div>
+            }
+          
+          
         },
       },
   ];

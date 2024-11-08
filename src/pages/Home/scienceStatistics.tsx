@@ -12,7 +12,7 @@ const ScienceStatistics:FC = () => {
         </Row>
         <Row justify="start" className="mt-3 gap-3 " wrap>
         {
-                ThongKeKhoa.length > 0 && ThongKeKhoa.map((item: any, index: number) => {
+                ThongKeKhoa?.length > 0 && ThongKeKhoa?.map((item: any, index: number) => {
                     return <Col key={item.name} xs={24} sm={24} md={11} lg={7} xl={6} xxl={4}  >
                     <Badge.Ribbon text={item.name}>
                         <Col span={24} className="rounded border-green-700 border  ">

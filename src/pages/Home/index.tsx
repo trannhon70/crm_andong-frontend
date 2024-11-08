@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import { getAllHospital, getByIdHospital } from "../../features/hospitalSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
@@ -16,7 +16,6 @@ const Home: React.FC = () => {
     const hospital = useSelector((state: RootState) => state.hospital.hospital);
     const users = useSelector((state: RootState) => state.users);
 
-
     const hospitalId = localStorage.getItem('hospitalId');
     const [nameSelect, setNameSelect] = useState<string | undefined>('')
     const [dataHospital, setDataHospital] = useState<any>([])
@@ -27,36 +26,40 @@ const Home: React.FC = () => {
 
     useLayoutEffect(() => {
         if (hospitalId) {
-            dispatch(getThongKeDangKy(Number(hospitalId)));
-            dispatch(getDanhSachXepHangThamKham(Number(hospitalId)));
-            dispatch(getThongKeQuaKenh(Number(hospitalId)));
-            dispatch(getThongKeKhoa(Number(hospitalId)));
-            dispatch(getThongKeBenh(Number(hospitalId)));
-            dispatch(getThongKeTuVan(Number(hospitalId)));
-
+            getHospitalStatistics(Number(hospitalId));
         }
     }, [dispatch, hospitalId])
 
-    const onChangeHospital = (value: string) => {
+    const getHospitalStatistics = useCallback((hospitalId: number) => {
+        dispatch(getThongKeDangKy(hospitalId));
+        dispatch(getDanhSachXepHangThamKham(hospitalId));
+        dispatch(getThongKeQuaKenh(hospitalId));
+        dispatch(getThongKeKhoa(hospitalId));
+        dispatch(getThongKeBenh(hospitalId));
+        dispatch(getThongKeTuVan(hospitalId));
+    }, [dispatch]);
+
+    const clearStatistics = useCallback(() => {
+        dispatch(setThongKeDangKy({}));
+        dispatch(setDanhSachXepHangThamKham({}));
+        dispatch(setThongKeQuaKenh([]));
+        dispatch(setThongKeKhoa([]));
+        dispatch(setThongKeBenh([]));
+        dispatch(setThongKeTuVan([]));
+    }, [dispatch]);
+
+    const onChangeHospital = useCallback((value: string) => {
         if(value === undefined ){
             localStorage.removeItem('hospitalId');
-            dispatch(setThongKeDangKy({}));
-            dispatch(setDanhSachXepHangThamKham({}));
-            dispatch(setThongKeQuaKenh([]));
-            dispatch(setThongKeKhoa([]))
-            dispatch(setThongKeBenh([]))
-            dispatch(setThongKeTuVan([]))
-            
+            clearStatistics();
         } else {
-           
             localStorage.setItem('hospitalId', value);
-           
         }
         dispatch(getByIdHospital(Number(value)));
         const selectName = hospital.filter((item: any) => item.id === value)
         setNameSelect(selectName[0]?.name);
         
-    };
+    },[dispatch, hospital, clearStatistics]);
 
     useEffect(() => {
         if (hospitalId && hospital.length > 0) {

@@ -13,7 +13,7 @@ const CardChannel: FC = () => {
         
         <Row justify="start"  className="gap-3 mt-3" >
             {
-                ThongKeQuaKenh.length > 0 && ThongKeQuaKenh.map((item: any, index: number) => {
+                ThongKeQuaKenh?.length > 0 && ThongKeQuaKenh?.map((item: any, index: number) => {
                     return <Col key={item.name} xs={24} sm={24} md={11} lg={7} xl={6} xxl={4}  >
                     <Badge.Ribbon color="pink" text={item.name}>
                         <Col span={24} className="rounded border-green-700 border  ">

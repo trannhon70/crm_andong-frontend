@@ -12,7 +12,7 @@ const DiseaseStatistics: FC = () => {
         </Row>
         <Row justify="start" className="mt-3 gap-3 " wrap>
         {
-                ThongKeBenh.length > 0 && ThongKeBenh.map((item: any, index: number) => {
+                ThongKeBenh?.length > 0 && ThongKeBenh?.map((item: any, index: number) => {
                     return <Col key={item.name} xs={24} sm={24} md={11} lg={7} xl={6} xxl={4}  >
                     <Badge.Ribbon color="red" text={item.name}>
                         <Col span={24} className="rounded border-green-700 border  ">
