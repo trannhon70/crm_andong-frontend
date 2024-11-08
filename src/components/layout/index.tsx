@@ -98,8 +98,8 @@ const LayoutComponent: React.FC = () => {
         
         ]),
         getItem('Lịch sử thao tác', 'sub7', <FaHistory size={20}/>, [
-            getItem('Nhật ký hoạt động', '32'), 
-            getItem('Nhật ký lỗi đăng nhập', '33'),
+            getItem(<Link to={'/nhat-ky-hoat-dong'}>Nhật ký hoạt động</Link>, '32'), 
+            getItem(<Link to={'/nhat-ky-loi-dang-nhap'}>Nhật ký lỗi đăng nhập</Link>, '33'),
         ]),
         getItem('Đăng ký tự phục vụ', 'sub8', <VscServerEnvironment size={20}/>, [
             getItem('Danh sách đăng ký', '34'), 

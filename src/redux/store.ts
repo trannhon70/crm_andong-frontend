@@ -8,6 +8,7 @@ import { diseaseReducer } from '../features/diseaseSlice';
 import { doctorReducer } from '../features/doctorSlice';
 import { patientReducer } from '../features/patientSlice';
 import { dashboardReducer } from '../features/dashboardSlice';
+import { historyLoginReducer } from '../features/historyLoginSlice';
 
 
 export const store = configureStore({
@@ -20,7 +21,8 @@ export const store = configureStore({
     disease: diseaseReducer,
     doctor:doctorReducer,
     patient:patientReducer,
-    dashboard: dashboardReducer
+    dashboard: dashboardReducer,
+    historyLogin: historyLoginReducer
   },
 });
 

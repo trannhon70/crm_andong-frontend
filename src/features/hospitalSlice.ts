@@ -38,7 +38,7 @@ export const fetchGetPaging = createAsyncThunk(
   }
 
   const initialState = {
-    data: {},
+    data: [],
     pageSize: 5,
     pageIndex: 1,
     total: 0,

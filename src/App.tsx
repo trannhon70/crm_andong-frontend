@@ -25,6 +25,8 @@ import CreateDepartment from './pages/settings/departmentManagement/createDepart
 import { WebsocketContext } from './context/WebsocketContext';
 import AppointmentRegistrationListHistory from './pages/patientAppointmentManagement/appointmentRegistrationListHistory';
 import OperationHistory from './pages/patientAppointmentManagement/operationHistory';
+import ActivityLog from './pages/operationHistory/activityLog';
+import LogErrorLog from './pages/operationHistory/logErrorLog';
 
 
 const PrivateRoutes = () => {
@@ -116,6 +118,9 @@ const App: React.FC = () => {
           <Route path='/quan-ly-khoa/them-moi' element={<CreateDepartment />} />
           <Route path='/quan-ly-khoa/cap-nhat/:id' element={<CreateDepartment />} />
 
+          {/* lịch sử thao tác */}
+          <Route path='/nhat-ky-hoat-dong' element={<ActivityLog />} />
+          <Route path='/nhat-ky-loi-dang-nhap' element={<LogErrorLog />} />
 
         </Route>
       </Route>
