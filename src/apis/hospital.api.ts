@@ -4,7 +4,10 @@ import { IGetPaging } from "../interface/roles";
 export const hospitalAPI = {
     getPaging,
     getAllHospital,
-    getByIdHospital
+    getByIdHospital,
+    createHospital,
+    updateHospital,
+    deleteHospital
 }
 
 function getPaging(query: IGetPaging) {
@@ -17,4 +20,16 @@ function getAllHospital() {
 
 function getByIdHospital(id: number) {
     return instance.get(`/hospital/get-by-id/${id}`)
+}
+
+function createHospital(body: any) {
+    return instance.post(`/hospital/create`, body)
+}
+
+function updateHospital(id: number, body: any) {
+    return instance.put(`/hospital/update/${id}`, body)
+}
+
+function deleteHospital(id: number) {
+    return instance.delete(`/hospital/delete/${id}`)
 }

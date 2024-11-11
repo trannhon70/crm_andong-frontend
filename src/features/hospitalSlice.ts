@@ -52,9 +52,9 @@ export const fetchGetPaging = createAsyncThunk(
     name: 'hospital',
     initialState,
     reducers: {
-    //   setRoleData(state, action) {
-    //     state.role = action.payload;
-    //   },
+      setHospitalById(state, action) {
+        state.hospitalById = action.payload;
+      },
     },
     extraReducers: (builder) => {
       builder.addCase(fetchGetPaging.fulfilled, (state, action) => {
@@ -78,5 +78,5 @@ export const fetchGetPaging = createAsyncThunk(
     },
   });
 
-  export const {  } = hospitalSlice.actions;
+  export const { setHospitalById } = hospitalSlice.actions;
   export const hospitalReducer = hospitalSlice.reducer;

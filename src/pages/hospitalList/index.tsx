@@ -9,8 +9,11 @@ import TableComponent from "../../components/tableComponent";
 import PopconfirmComponent from "../../components/popconfirmComponent";
 import { HiPencilSquare } from "react-icons/hi2";
 import moment from "moment";
-import { fetchGetPaging } from "../../features/hospitalSlice";
+import { fetchGetPaging, setHospitalById } from "../../features/hospitalSlice";
 import Loading from "../../components/loading";
+import { toast } from "react-toastify";
+import { hospitalAPI } from "../../apis/hospital.api";
+import useMenuData from "../../hooks/useMenuData";
 
 type SearchProps = GetProps<typeof Input.Search>;
 const { Search } = Input;
@@ -33,18 +36,19 @@ const HospitalList: FC = () => {
   const [pageSize, setPageSize] = useState<number>(50)
   const [search] = useState<string>('')
   const { data, total, loading } = useSelector((state: RootState) => state.hospital);
+  const menu = useMenuData();
 
   useEffect(() => {
     dispatch(fetchGetPaging({ pageSize, pageIndex, search }));
   }, [dispatch, pageSize, pageIndex])
 
   const onSearch: SearchProps['onSearch'] = (value, _e, info) => {
-    dispatch(fetchGetPaging({ pageSize, pageIndex, search : value }));
+    dispatch(fetchGetPaging({ pageSize, pageIndex, search: value }));
   };
 
   const onClickCreate = () => {
     navige('/danh-sach-benh-vien/them-moi');
-    // dispatch(setRoleData({}))
+    dispatch(setHospitalById({}))
   }
 
   const columns: TableProps<any>['columns'] = [
@@ -76,24 +80,31 @@ const HospitalList: FC = () => {
         return <Fragment>{moment(value.created_at).format('DD-MM-YYYY hh:ss')}</Fragment>
       },
     },
-    // {
-    //   title: 'Thao tác',
-    //   key: 'id',
-    //   dataIndex: 'id',
-    //   render(value, record, index) {
-    //     return <div className='flex gap-4 ' >
-    //       {/* <PopconfirmComponent 
-    //               title ={<>Xóa quyền {record.name}</>} 
-    //               description= 'Bạn có chắc chắn muốn xóa tác vụ này không?'
-    //               value={value}
-    //             //   deleteRole={deleteRole}
-    //             /> */}
-    //       <HiPencilSquare
-    //         onClick={() => onClickEdit(value)}
-    //         className='cursor-pointer text-green-700 ' color='primary' size={25} />
-    //     </div>
-    //   },
-    // },
+    {
+      title: 'Thao tác',
+      key: 'id',
+      dataIndex: 'id',
+      render(value, record, index) {
+        return <div className='flex gap-4 ' >
+          {
+            menu?.[6].ds?.action_DSBV.delete === true ?
+              <PopconfirmComponent
+                title={<>Xóa bệnh viện {record.name}</>}
+                description='Bạn có chắc chắn muốn xóa tác vụ này không?'
+                value={value}
+                deleteRole={deleteHospital}
+              />
+              : null
+          }
+          {
+            menu?.[6].ds?.action_DSBV.update === true ?
+              <HiPencilSquare
+                onClick={() => onClickEdit(value)}
+                className='cursor-pointer text-green-700 ' color='primary' size={25} />
+              : null}
+        </div>
+      },
+    },
   ];
 
   const onChangePage = (page: number, pageSize: number) => {
@@ -101,18 +112,31 @@ const HospitalList: FC = () => {
     setPageSize(pageSize)
   }
 
-  // const onClickEdit = (id: number) => {
-  //   console.log(id, 'id');
-    
-  // }
+  const deleteHospital = async (value: number) => {
+    try {
+      const result = await hospitalAPI.deleteHospital(value)
+      if (result.data.statusCode === 1) {
+        toast.success('Xóa thành công!')
+        dispatch(fetchGetPaging({ pageSize, pageIndex, search }))
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const onClickEdit = (id: number) => {
+    navige(`/danh-sach-benh-vien/cap-nhat/${id}`);
+  }
   return <Fragment>
     <BreadcrumbComponent items={dataBreadcrumb} />
     <div className='mt-2 pb-2 flex justify-between ' >
       <Search className='w-[250px]' placeholder="Nhập tên quyền" onSearch={onSearch} enterButton />
-      {/* <Button onClick={onClickCreate} type="primary">Thêm mới</Button> */}
+      {
+        menu?.[6].ds?.action_DSBV.create === true ?
+          <Button onClick={onClickCreate} type="primary">Thêm mới</Button> : null}
     </div>
     {
-      loading === 'succeeded' ? <TableComponent columns={columns} data={data|| []} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} /> : <Loading />
+      loading === 'succeeded' ? <TableComponent columns={columns} data={data || []} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} /> : <Loading />
     }
   </Fragment>
 }

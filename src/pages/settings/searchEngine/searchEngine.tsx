@@ -11,7 +11,7 @@ import { HiPencilSquare } from "react-icons/hi2";
 import TableComponent from "../../../components/tableComponent";
 import NotHospital from "../../../components/notHospital";
 import Loading from "../../../components/loading";
-import { getPagingMedia } from "../../../features/mediaSlice";
+import { getPagingMedia, setMedia } from "../../../features/mediaSlice";
 import { toast } from "react-toastify";
 import { mediaAPI } from "../../../apis/media.api";
 
@@ -27,10 +27,6 @@ const SearchEngine: FC = () => {
     const hospitalId = localStorage.getItem('hospitalId')
     const dispatch = useDispatch<AppDispatch>();
     const menu = useMenuData();
-
-    console.log(menu, 'menu');
-    
-
 
     useEffect(() => {
         if(hospitalId){
@@ -53,7 +49,7 @@ const SearchEngine: FC = () => {
     ];
 
     const onClickCreate = () => {
-        // dispatch(setDisease({}))
+        dispatch(setMedia({}))
         navige('/cong-cu-tim-kiem/them-moi');
     }
 

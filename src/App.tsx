@@ -29,6 +29,7 @@ import ActivityLog from './pages/operationHistory/activityLog';
 import LogErrorLog from './pages/operationHistory/logErrorLog';
 import SearchEngine from './pages/settings/searchEngine/searchEngine';
 import CreateSearchEngine from './pages/settings/searchEngine/createSearchEngine';
+import CreateHospotal from './pages/hospitalList/createHospotal';
 
 
 const PrivateRoutes = () => {
@@ -94,6 +95,8 @@ const App: React.FC = () => {
           <Route path='/quan-ly-quyen/cap-nhat/:id' element={<CreateRight />} />
 
           <Route path='/danh-sach-benh-vien' element={<HospitalList />} />
+          <Route path='/danh-sach-benh-vien/them-moi' element={<CreateHospotal />} />
+          <Route path='/danh-sach-benh-vien/cap-nhat/:id' element={<CreateHospotal />} />
 
           <Route path='/quan-ly-con-nguoi' element={<PeopleManagement />} />
           <Route path='/quan-ly-con-nguoi/them-moi' element={<CreatePeople />} />

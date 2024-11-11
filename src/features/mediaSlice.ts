@@ -42,9 +42,9 @@ interface MediaState {
     name: 'media',
     initialState,
     reducers: {
-    //   setDoctor(state, action) {
-    //     state.doctor = action.payload;
-    //   },
+      setMedia(state, action) {
+        state.media = action.payload;
+      },
     },
     extraReducers: (builder) => {
       
@@ -65,5 +65,5 @@ interface MediaState {
     },
   });
 
-  export const {  } = mediaSlice.actions;
+  export const { setMedia } = mediaSlice.actions;
     export const mediaReducer = mediaSlice.reducer;
