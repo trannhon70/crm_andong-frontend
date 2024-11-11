@@ -13,6 +13,7 @@ import { getPagingDepartment, setDepartment } from "../../../features/department
 import NotHospital from "../../../components/notHospital";
 import { toast } from "react-toastify";
 import { departmentAPI } from "../../../apis/department.api";
+import useMenuData from "../../../hooks/useMenuData";
 
 type SearchProps = GetProps<typeof Input.Search>;
 
@@ -26,7 +27,8 @@ const DepartmentManagement: FC = () => {
     const [search, setSearch] = useState<string>('')
     const hospitalId = localStorage.getItem('hospitalId')
     const dispatch = useDispatch<AppDispatch>();
-
+    const menu = useMenuData();
+    
 
     useEffect(() => {
         if (hospitalId) {
@@ -107,17 +109,22 @@ const DepartmentManagement: FC = () => {
             render(value, record, index) {
 
                 return <div className='flex gap-4 ' >
-                    <PopconfirmComponent
-                        title={<>Xóa khoa {record.name}</>}
-                        description='Bạn có chắc chắn muốn xóa khoa này không?'
-                        value={value}
-                        deleteRole={deleteDepartment}
-                    />
+                    {
+                         menu?.[4].ds?.action_CDKBV.delete === true ?  <PopconfirmComponent
+                         title={<>Xóa khoa {record.name}</>}
+                         description='Bạn có chắc chắn muốn xóa khoa này không?'
+                         value={value}
+                         deleteRole={deleteDepartment}
+                     /> : null
+                    }
+                   
 
-
-                    <HiPencilSquare
+                    {
+                        menu?.[4].ds?.action_CDKBV.update === true ?  <HiPencilSquare
                         onClick={() => onClickEdit(value)}
-                        className='cursor-pointer text-green-700 ' color='primary' size={25} />
+                        className='cursor-pointer text-green-700 ' color='primary' size={25} /> : null
+                    }
+                    
                 </div>
             },
         },
@@ -156,7 +163,10 @@ const DepartmentManagement: FC = () => {
 
                             <Search className='w-[250px]' placeholder="Nhập tên " onSearch={onSearch} enterButton />
                         </div>
-                        <Button onClick={onClickCreate} type="primary">Thêm mới</Button>
+                        {
+                             menu?.[4].ds?.action_CDKBV.create === true ? <Button onClick={onClickCreate} type="primary">Thêm mới</Button> : null
+                        }
+                        
                     </div>
                     {
                         loading === 'succeeded' ? <TableComponent rowKey={true} columns={columns} data={data} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} /> : <Loading />

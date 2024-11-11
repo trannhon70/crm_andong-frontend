@@ -13,6 +13,7 @@ import moment from "moment";
 import { toast } from "react-toastify";
 import { doctorAPI } from "../../../apis/doctor.api";
 import NotHospital from "../../../components/notHospital";
+import useMenuData from "../../../hooks/useMenuData";
 
 type SearchProps = GetProps<typeof Input.Search>;
 
@@ -25,7 +26,8 @@ const DoctorManagement: FC = () => {
     const [pageSize, setPageSize] = useState<number>(50)
     const [search, setSearch] = useState<string>('')
     const hospitalId = localStorage.getItem('hospitalId')
-
+    const menu = useMenuData()
+    
     useEffect(() => {
         if (hospitalId) {
             dispatch(getPagingDoctor({ pageSize, pageIndex, search, hospitalId: Number(hospitalId) }))
@@ -109,17 +111,23 @@ const DoctorManagement: FC = () => {
             render(value, record, index) {
 
                 return <div className='flex gap-4 ' >
-                    <PopconfirmComponent
+                    {
+                         menu?.[4].ds?.action_CDBS.delete === true ?
+                         <PopconfirmComponent
                         title={<>Xóa bác sĩ {record.name}</>}
                         description='Bạn có chắc chắn muốn xóa bác sĩ này không?'
                         value={value}
                         deleteRole={deleteDoctor}
-                    />
+                    /> : null
+                    }
+                    
 
-
-                    <HiPencilSquare
+                    {
+                        menu?.[4].ds?.action_CDBS.update === true ? <HiPencilSquare
                         onClick={() => onClickEdit(value)}
-                        className='cursor-pointer text-green-700 ' color='primary' size={25} />
+                        className='cursor-pointer text-green-700 ' color='primary' size={25} /> : null
+                    }
+                   
                 </div>
             },
         },
@@ -158,7 +166,10 @@ const DoctorManagement: FC = () => {
                         <div className="flex gap-3" >
                             <Search className='w-[250px]' placeholder="Nhập tên " onSearch={onSearch} enterButton />
                         </div>
-                        <Button onClick={onClickCreate} type="primary">Thêm mới</Button>
+                        {
+                            menu?.[4].ds?.action_CDBS.create === true ? <Button onClick={onClickCreate} type="primary">Thêm mới</Button> : null
+                        }
+                        
                     </div>
                     {
                         loading === 'succeeded' ? <TableComponent rowKey={true} columns={columns} data={data} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} /> : <Loading />

@@ -13,6 +13,7 @@ import { getPagingDisease, setDisease } from "../../../features/diseaseSlice";
 import { diseaseAPI } from "../../../apis/disease.api";
 import { toast } from "react-toastify";
 import NotHospital from "../../../components/notHospital";
+import useMenuData from "../../../hooks/useMenuData";
 
 type SearchProps = GetProps<typeof Input.Search>;
 
@@ -26,16 +27,16 @@ const DiseaseManagement: FC = () => {
     const [search,setSearch] = useState<string>('')
     const hospitalId = localStorage.getItem('hospitalId')
     const dispatch = useDispatch<AppDispatch>();
-
+    const menu = useMenuData();
     const [isshow, setIsshow] = useState<any>('')
-    
-    
+
     useEffect(() => {
         if(hospitalId){
             dispatch(getPagingDisease({ pageSize, pageIndex, search, hospitalId : Number(hospitalId),isshow }))
         }
         
     }, [dispatch,hospitalId, pageIndex, pageSize, isshow])
+
     const dataBreadcrumb = [
         {
             href: '/thiet-lap-benh-tat',
@@ -126,17 +127,24 @@ const DiseaseManagement: FC = () => {
             render(value, record, index) {
                 
                 return <div className='flex gap-4 ' >
-                    <PopconfirmComponent
+                    {
+                        menu?.[4].ds?.action_TLBT.delete === true ?
+                        <PopconfirmComponent
                         title={<>Xóa bệnh {record.name}</>}
                         description='Bạn có chắc chắn muốn xóa bệnh này không?'
                         value={value}
                       deleteRole={deleteDesease}
-                    />
+                    /> : null
+                    }
+                   
                     
-                    
-                    <HiPencilSquare
-                        onClick={() => onClickEdit(value)} 
-                        className='cursor-pointer text-green-700 ' color='primary' size={25} />
+                    {
+                         menu?.[4].ds?.action_TLBT.update === true ?
+                         <HiPencilSquare
+                         onClick={() => onClickEdit(value)} 
+                         className='cursor-pointer text-green-700 ' color='primary' size={25} /> : null
+                    }
+                   
                 </div>
             },
         },
@@ -207,7 +215,10 @@ const DiseaseManagement: FC = () => {
                  
                 <Search className='w-[250px]' placeholder="Nhập tên "  onSearch={onSearch} enterButton />
             </div>
-            <Button onClick={onClickCreate} type="primary">Thêm mới</Button>
+            {
+                menu?.[4].ds?.action_TLBT.create === true ?<Button onClick={onClickCreate} type="primary">Thêm mới</Button> : null
+            }
+            
         </div>
         {
             loading === 'succeeded' ? <TableComponent rowKey={true} columns={columns} data={data} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} /> : <Loading />

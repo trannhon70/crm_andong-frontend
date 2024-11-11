@@ -18,6 +18,7 @@ import ModalSearch from "./modalSearch";
 import ModalUpload from "./modalUpload";
 import ComponentThongKe from "./componentThongKe";
 import NotHospital from "../../../components/notHospital";
+import useMenuData from "../../../hooks/useMenuData";
 
 type SearchProps = GetProps<typeof Input.Search>;
 
@@ -34,9 +35,11 @@ const AppointmentRegistrationList: FC = () => {
     const [search, setSearch] = useState<string>('')
     const { data, total, loading } = useSelector((state: RootState) => state.patient);
     const hospitalId = localStorage.getItem('hospitalId')
-    let dataFormat : any = []
+    let dataFormat: any = []
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
+    const menu = useMenuData();
+
 
     const query = {
         pageSize: pageSize,
@@ -56,18 +59,18 @@ const AppointmentRegistrationList: FC = () => {
         dispatch(getPagingPatient(query))
     }, [dispatch, pageSize, pageIndex, hospitalId])
 
-    if(data.length > 0){
-        const formatDataWithSummary = (data : any) => {
-            const formattedData : any = [];
-            const groupedData = data?.reduce((acc: any, record : any) => {
-                
+    if (data.length > 0) {
+        const formatDataWithSummary = (data: any) => {
+            const formattedData: any = [];
+            const groupedData = data?.reduce((acc: any, record: any) => {
+
                 // const date = dayjs(record.created_at).format('YYYY-MM-DD');
                 const date = moment(record.created_at * 1000).format('DD-MM-YYYY');
                 if (!acc[date]) acc[date] = [];
                 acc[date].push(record);
                 return acc;
             }, {});
-        
+
             Object.keys(groupedData).forEach((date) => {
                 const records = groupedData[date];
                 // Thêm hàng tổng kết cho ngày đó
@@ -78,14 +81,14 @@ const AppointmentRegistrationList: FC = () => {
                     summary: true, // Dùng để phân biệt hàng tổng kết
                 });
                 // Thêm các bản ghi của ngày đó
-                records.forEach((record : any) => {
+                records.forEach((record: any) => {
                     formattedData.push({ ...record, key: record.id });
                 });
             });
-        
+
             return formattedData;
         };
-        dataFormat =  formatDataWithSummary(data);
+        dataFormat = formatDataWithSummary(data);
     }
 
     useEffect(() => {
@@ -102,7 +105,7 @@ const AppointmentRegistrationList: FC = () => {
             type: 'separator',
         },
         {
-            title: 'Danh sách đăng ký hẹn ádsad',
+            title: 'Danh sách đăng ký hẹn',
         },
 
     ];
@@ -129,16 +132,16 @@ const AppointmentRegistrationList: FC = () => {
     }
 
     const className = (record: any) => {
-        if(record?.status === 'ĐÃ ĐẾN'){
+        if (record?.status === 'ĐÃ ĐẾN') {
             return 'text-[#389e0d] '
-        } 
-        if(record?.status === 'CHỜ ĐỢI'){
+        }
+        if (record?.status === 'CHỜ ĐỢI') {
             return 'text-[#c41d7f]'
         }
-        if(record?.status === 'KHÔNG XÁC ĐỊNH'){
+        if (record?.status === 'KHÔNG XÁC ĐỊNH') {
             return 'text-[#cf1322]'
         }
-        if(record?.status === 'CHƯA ĐẾN'){
+        if (record?.status === 'CHƯA ĐẾN') {
             return 'text-[#1613cf]'
         }
     }
@@ -155,7 +158,7 @@ const AppointmentRegistrationList: FC = () => {
         //             {index + 1}
         //             {
         //                record.status === 'ĐÃ ĐẾN' ? <FaCheck /> : ''
-                            
+
         //             }
         //             </div>
         //         </Fragment>
@@ -171,9 +174,9 @@ const AppointmentRegistrationList: FC = () => {
             // sorter: (a, b) => a.name.localeCompare(b.name),
             width: 150,
             render(value, record, index) {
-                const colSpan = record?.summary=== true?9:1;
+                const colSpan = record?.summary === true ? 9 : 1;
                 return {
-                    children: <div style={{display:"flex", gap:"5px", alignItems:"center" }} className={record?.summary=== true? "bg-orange-400 text-base text-white p-2 " :className(record)}>{value}{record.status === 'ĐÃ ĐẾN' ? <FaCheck /> : ''}</div>,
+                    children: <div style={{ display: "flex", gap: "5px", alignItems: "center" }} className={record?.summary === true ? "bg-orange-400 text-base text-white p-2 " : className(record)}>{value}{record.status === 'ĐÃ ĐẾN' ? <FaCheck /> : ''}</div>,
                     props: { colSpan },
                 };
             },
@@ -184,10 +187,10 @@ const AppointmentRegistrationList: FC = () => {
             key: 'gender',
             // sorter: (a, b) => a.gender.localeCompare(b.gender),
             render(value, record, index) {
-                const colSpan = record?.summary=== true?0:1;
+                const colSpan = record?.summary === true ? 0 : 1;
                 return {
                     children: <Tag style={{ textTransform: "uppercase" }} color="processing" >{value}</Tag>,
-                    props: {colSpan}
+                    props: { colSpan }
                 }
             },
             width: 150,
@@ -199,10 +202,10 @@ const AppointmentRegistrationList: FC = () => {
             // sorter: (a, b) => a.yearOld - b.yearOld,
             width: 100,
             render(value, record, index) {
-                const colSpan = record?.summary=== true?0:1;
+                const colSpan = record?.summary === true ? 0 : 1;
                 return {
                     children: <div className={className(record)} >{value}</div>,
-                    props: {colSpan}
+                    props: { colSpan }
                 }
             },
         },
@@ -213,10 +216,10 @@ const AppointmentRegistrationList: FC = () => {
             // sorter: (a, b) => a.phone - b.phone,
             width: 150,
             render(value, record, index) {
-                const colSpan = record?.summary=== true?0:1;
+                const colSpan = record?.summary === true ? 0 : 1;
                 return {
                     children: <div className={className(record)} >{value}</div>,
-                    props: {colSpan}
+                    props: { colSpan }
                 }
             },
         },
@@ -227,10 +230,10 @@ const AppointmentRegistrationList: FC = () => {
             width: 150,
             // sorter: (a, b) => a.code.localeCompare(b.code),
             render(value, record, index) {
-                const colSpan = record?.summary=== true?0:1;
+                const colSpan = record?.summary === true ? 0 : 1;
                 return {
                     children: <div className={className(record)} >{value}</div>,
-                    props: {colSpan}
+                    props: { colSpan }
                 }
             },
         },
@@ -239,10 +242,10 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'department',
             key: 'department',
             render(value, record, index) {
-                const colSpan = record?.summary=== true?0:1;
+                const colSpan = record?.summary === true ? 0 : 1;
                 return {
-                    children:<div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>,
-                    props:{colSpan}
+                    children: <div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>,
+                    props: { colSpan }
                 }
             },
             width: 150,
@@ -253,10 +256,10 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'diseases',
             key: 'diseases',
             render(value, record, index) {
-                const colSpan = record?.summary=== true?0:1;
+                const colSpan = record?.summary === true ? 0 : 1;
                 return {
-                    children:<div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>,
-                    props:{colSpan}
+                    children: <div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>,
+                    props: { colSpan }
                 }
             },
             width: 250,
@@ -267,10 +270,10 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'media',
             key: 'media',
             render(value, record, index) {
-                const colSpan = record?.summary=== true?0:1;
+                const colSpan = record?.summary === true ? 0 : 1;
                 return {
-                    children:<div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>,
-                    props:{colSpan}
+                    children: <div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>,
+                    props: { colSpan }
                 }
             },
             width: 150,
@@ -281,10 +284,10 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'city',
             key: 'city',
             render(value, record, index) {
-                const colSpan = record?.summary=== true?0:1;
+                const colSpan = record?.summary === true ? 0 : 1;
                 return {
-                    children:<div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>,
-                    props:{colSpan}
+                    children: <div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>,
+                    props: { colSpan }
                 }
             },
             width: 150,
@@ -295,10 +298,10 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'district',
             key: 'district',
             render(value, record, index) {
-                const colSpan = record?.summary=== true?0:1;
+                const colSpan = record?.summary === true ? 0 : 1;
                 return {
                     children: <div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>,
-                    props:{colSpan}
+                    props: { colSpan }
                 }
             },
             width: 150,
@@ -311,10 +314,10 @@ const AppointmentRegistrationList: FC = () => {
             key: 'appointmentTime',
             dataIndex: 'appointmentTime',
             render(value, record, index) {
-                const colSpan = record?.summary=== true?0:1;
+                const colSpan = record?.summary === true ? 0 : 1;
                 return {
                     children: <div className={className(record)}>{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</div >,
-                    props:{colSpan}
+                    props: { colSpan }
                 }
             },
             width: 150,
@@ -326,10 +329,10 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'reminderTime',
             width: 150,
             render(value, record, index) {
-                const colSpan = record?.summary=== true?0:1;
+                const colSpan = record?.summary === true ? 0 : 1;
                 return {
                     children: <div className={className(record)}>{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</div>,
-                    props:{colSpan}
+                    props: { colSpan }
                 }
             },
             // sorter: (a, b) => a.reminderTime - b.reminderTime,
@@ -339,10 +342,10 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'note',
             key: 'note',
             render(value, record, index) {
-                const colSpan = record?.summary=== true?0:1;
+                const colSpan = record?.summary === true ? 0 : 1;
                 return {
                     children: <div className={className(record)} >{value}</div>,
-                    props:{colSpan}
+                    props: { colSpan }
                 }
             },
             width: 150,
@@ -352,10 +355,10 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'editregistrationTime',
             key: 'editregistrationTime',
             render(value, record, index) {
-                const colSpan = record?.summary=== true?0:1;
+                const colSpan = record?.summary === true ? 0 : 1;
                 return {
                     children: <div className={className(record)} >{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</div  >,
-                    props:{colSpan}
+                    props: { colSpan }
                 }
             },
             width: 160,
@@ -366,10 +369,10 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'doctor',
             key: 'doctor',
             render(value, record, index) {
-                const colSpan = record?.summary=== true?0:1;
+                const colSpan = record?.summary === true ? 0 : 1;
                 return {
                     children: <div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>,
-                    props: {colSpan}
+                    props: { colSpan }
                 }
             },
             width: 150,
@@ -394,12 +397,12 @@ const AppointmentRegistrationList: FC = () => {
                     }
                     return null;
                 })();
-            
+
                 return {
                     children,
                     props: { colSpan },
                 };
-               
+
             },
             // sorter: (a, b) => a.status.localeCompare(b.status),
             width: 150,
@@ -412,7 +415,7 @@ const AppointmentRegistrationList: FC = () => {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
                     children: <div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.fullName}</div>,
-                    props:{colSpan}
+                    props: { colSpan }
                 }
             },
             width: 150,
@@ -426,14 +429,14 @@ const AppointmentRegistrationList: FC = () => {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
                     children: <div className="flex items-center justify-center cursor-pointer " >
-                    {
-                        value?.length > 0 ? <Popover content={historyMedical(value)} title="Lịch sử thăm khám">
-                        <HiStar size={20} color="red" />
-                    </Popover> : ''
-                    }
-                    
-                </div>,
-                props:{colSpan}
+                        {
+                            value?.length > 0 ? <Popover content={historyMedical(value)} title="Lịch sử thăm khám">
+                                <HiStar size={20} color="red" />
+                            </Popover> : ''
+                        }
+
+                    </div>,
+                    props: { colSpan }
                 }
             },
             width: 150,
@@ -446,7 +449,7 @@ const AppointmentRegistrationList: FC = () => {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
                     children: <div className={className(record)}>{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</div >,
-                    props: {colSpan}
+                    props: { colSpan }
                 }
             },
             width: 150,
@@ -478,49 +481,52 @@ const AppointmentRegistrationList: FC = () => {
                             </div>
                         )
                     },
-                    {
-                        key: '3',
-                        label: (
-                            <div onClick={() => { onClickHistory(value) }} className='flex items-center cursor-pointer'>
-                                <FaHistory className='cursor-pointer ' size={22} />
-                                <span className='ml-2'>Lịch sử thao tác</span>
-                            </div>
-                        )
-                    },
-                    {
-                        key: '4',
-                        label: (
-                            <div onClick={() => onClickEdit(value)} className='flex items-center cursor-pointer'>
-                                  <HiPencilSquare className='cursor-pointer text-green-700 ' color='primary' size={25} />
-                                  <span className='ml-2'>Cập nhật</span>
-                            </div>
-                        )
-                    },
-                    {
-                        key: '5',
-                        label: (
-                            <div className='flex items-center cursor-pointer'>
-                                <PopconfirmComponent
-                                    title={<>Xóa {record.name}</>}
-                                    description='Bạn có chắc chắn muốn xóa khách hàng này không?'
-                                    value={value}
-                                    deleteRole={deletePatient}
-                                    text='Xóa'
-                                />
-                            </div>
-                        )
-                    },
-                   
+                    menu?.[1].ds?.action_DSDKH.see === true ?
+                        {
+                            key: '3',
+                            label: (
+                                <div onClick={() => { onClickHistory(value) }} className='flex items-center cursor-pointer'>
+                                    <FaHistory className='cursor-pointer ' size={22} />
+                                    <span className='ml-2'>Lịch sử thao tác</span>
+                                </div>
+                            )
+                        } : null,
+                    menu?.[1].ds?.action_DSDKH.update === true ?
+                        {
+                            key: '4',
+                            label: (
+                                <div onClick={() => onClickEdit(value)} className='flex items-center cursor-pointer'>
+                                    <HiPencilSquare className='cursor-pointer text-green-700 ' color='primary' size={25} />
+                                    <span className='ml-2'>Cập nhật</span>
+                                </div>
+                            )
+                        } : null,
+                    menu?.[1].ds?.action_DSDKH.delete === true ?
+                        {
+                            key: '5',
+                            label: (
+                                <div className='flex items-center cursor-pointer'>
+                                    <PopconfirmComponent
+                                        title={<>Xóa {record.name}</>}
+                                        description='Bạn có chắc chắn muốn xóa khách hàng này không?'
+                                        value={value}
+                                        deleteRole={deletePatient}
+                                        text='Xóa'
+                                    />
+                                </div>
+                            )
+                        } : null,
+
 
                 ];
                 return {
                     children: <div className='flex items-center justify-center ' >
-                    <Dropdown menu={{ items }}>
-                        <IoSettingsSharp className='cursor-pointer ' size={23} />
-                    </Dropdown>
+                        <Dropdown menu={{ items }}>
+                            <IoSettingsSharp className='cursor-pointer ' size={23} />
+                        </Dropdown>
 
-                </div>,
-                props: {colSpan}
+                    </div>,
+                    props: { colSpan }
                 }
             },
         },
@@ -564,22 +570,26 @@ const AppointmentRegistrationList: FC = () => {
     }
 
     return <Fragment>
+        
         {
-            hospitalId ? 
-        <Fragment>
-        <BreadcrumbComponent items={dataBreadcrumb} />
-        <div className='mt-2 pb-2 flex justify-between gap-2 ' >
-            <ComponentThongKe/>
-            <div className="flex gap-3 w-[20%] justify-end ">
-                <ModalSearch />
-                <Button size="middle" onClick={onClickCreate} type="primary">Thêm mới</Button>
-            </div>
-           
-        </div>
-        {
-            loading === 'succeeded' ? <TableComponent rowKey={false} columns={columns} data={dataFormat} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} scroll={scrollProps} /> : <Loading />
-        }
-        </Fragment> : <NotHospital /> }
+            hospitalId ?
+                <Fragment>
+                    <BreadcrumbComponent items={dataBreadcrumb} />
+                    <div className='mt-2 pb-2 flex justify-between gap-2 ' >
+                        <ComponentThongKe />
+                        <div className="flex gap-3 w-[20%] justify-end ">
+                            <ModalSearch />
+                            {
+                                menu?.[1].ds?.action_DSDKH.create === true ? <Button size="middle" onClick={onClickCreate} type="primary">Thêm mới</Button> : ''
+                            }
+
+                        </div>
+
+                    </div>
+                    {
+                        loading === 'succeeded' ? <TableComponent rowKey={false} columns={columns} data={dataFormat} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} scroll={scrollProps} /> : <Loading />
+                    }
+                </Fragment> : <NotHospital />}
     </Fragment>
 }
 
