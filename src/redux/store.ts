@@ -9,6 +9,7 @@ import { doctorReducer } from '../features/doctorSlice';
 import { patientReducer } from '../features/patientSlice';
 import { dashboardReducer } from '../features/dashboardSlice';
 import { historyLoginReducer } from '../features/historyLoginSlice';
+import { mediaReducer } from '../features/mediaSlice';
 
 
 export const store = configureStore({
@@ -22,7 +23,8 @@ export const store = configureStore({
     doctor:doctorReducer,
     patient:patientReducer,
     dashboard: dashboardReducer,
-    historyLogin: historyLoginReducer
+    historyLogin: historyLoginReducer,
+    media: mediaReducer
   },
 });
 

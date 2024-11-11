@@ -27,6 +27,8 @@ import AppointmentRegistrationListHistory from './pages/patientAppointmentManage
 import OperationHistory from './pages/patientAppointmentManagement/operationHistory';
 import ActivityLog from './pages/operationHistory/activityLog';
 import LogErrorLog from './pages/operationHistory/logErrorLog';
+import SearchEngine from './pages/settings/searchEngine/searchEngine';
+import CreateSearchEngine from './pages/settings/searchEngine/createSearchEngine';
 
 
 const PrivateRoutes = () => {
@@ -117,6 +119,10 @@ const App: React.FC = () => {
           <Route path='/quan-ly-khoa' element={<DepartmentManagement />} />
           <Route path='/quan-ly-khoa/them-moi' element={<CreateDepartment />} />
           <Route path='/quan-ly-khoa/cap-nhat/:id' element={<CreateDepartment />} />
+
+          <Route path='/cong-cu-tim-kiem' element={<SearchEngine />} />
+          <Route path='/cong-cu-tim-kiem/them-moi' element={<CreateSearchEngine />} />
+          <Route path='/cong-cu-tim-kiem/cap-nhat/:id' element={<CreateSearchEngine />} />
 
           {/* lịch sử thao tác */}
           <Route path='/nhat-ky-hoat-dong' element={<ActivityLog />} />

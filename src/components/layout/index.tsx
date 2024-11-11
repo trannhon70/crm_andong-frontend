@@ -42,7 +42,7 @@ const sub6 = [
 ]
 
 const sub5 = [
-    '/thiet-lap-bac-si', '/thiet-lap-benh-tat', '/quan-ly-khoa'
+    '/thiet-lap-bac-si', '/thiet-lap-benh-tat', '/quan-ly-khoa', '/cong-cu-tim-kiem'
 ]
 
 const sub1 = [
@@ -116,7 +116,7 @@ const LayoutComponent: React.FC = () => {
             menu?.[4]?.ds.TLBT === true ? getItem(<Link to={'/thiet-lap-benh-tat'} >thiết lập bệnh tật</Link>, '/thiet-lap-benh-tat') : null,
             menu?.[4]?.ds.CDLDTYT === true ? getItem('Cài đặt loại điều trị y tế', '25') : null,
             menu?.[4]?.ds.CDKBV === true ? getItem(<Link to={'/quan-ly-khoa'}>Cài đặt khoa bệnh viện</Link>, '/quan-ly-khoa') : null,
-            menu?.[4]?.ds.CDCCTK === true ? getItem('Cài đặt công cụ tìm kiếm', '27') : null,
+            menu?.[4]?.ds.CDCCTK === true ? getItem( <Link to={'/cong-cu-tim-kiem'} >Cài đặt công cụ tìm kiếm</Link> , '/cong-cu-tim-kiem') : null,
         
         ]),] : []),
         
