@@ -31,6 +31,8 @@ import SearchEngine from './pages/settings/searchEngine/searchEngine';
 import CreateSearchEngine from './pages/settings/searchEngine/createSearchEngine';
 import CreateHospotal from './pages/hospitalList/createHospotal';
 import CustomerServiceDetailReport from './pages/patientAppointmentManagement/customerServiceDetailReport';
+import CurrentTrendReport from './pages/patientAppointmentManagement/currentTrendReport';
+import ExportPatientData from './pages/patientAppointmentManagement/exportPatientData';
 
 
 const PrivateRoutes = () => {
@@ -111,6 +113,8 @@ const App: React.FC = () => {
           <Route path='/danh-sach-dang-ky-hen/cap-nhat/:id' element={<CreateAppointmentRegistrationList />} />
           
           <Route path='/bao-cao-chi-tiet-dich-vu-khach-hang' element={<CustomerServiceDetailReport />} />
+          <Route path='/bao-cao-xu-huong-hang-thang' element={<CurrentTrendReport />} />
+          <Route path='/xuat-du-lieu-benh-nhan' element={<ExportPatientData />} />
 
           <Route path='/thay-doi-mat-khau' element={<ChangePassword />} />
 

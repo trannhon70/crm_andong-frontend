@@ -8,19 +8,6 @@ import { getThongKechiTietDichVuKhachHang } from "../../../features/hospitalSlic
 
 const { Column, ColumnGroup } = Table;
 
-interface DataType {
-    key: React.Key;
-    firstName: string;
-    lastName: string;
-    age: number;
-    address: string;
-    tags: string[];
-}
-
-const data: DataType[] = [
-    
-];
-
 const CustomerServiceDetailReport: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const {TKDVKH} = useSelector((state: RootState) => state.hospital);
@@ -51,7 +38,7 @@ const CustomerServiceDetailReport: FC = () => {
                     <div className="flex items-center justify-center text-lg text-red-600 p-2" style={{ textTransform: 'capitalize' }}>
                         {item.name}
                     </div>
-                    <Table<DataType> dataSource={item.users.user || []} bordered size="middle" pagination={false}>
+                    <Table<any> dataSource={item.users.user || []} bordered size="middle" pagination={false}>
                         {/* ColumnGroup needs a unique key */}
                         <ColumnGroup title="" key={`fullName-${item.name}`}>
                             <Column title="Tư vấn viên" dataIndex="fullName" key="fullName" />

@@ -2,7 +2,7 @@ import {
     UserOutlined
 } from '@ant-design/icons';
 import { Layout, Menu, MenuProps, theme } from 'antd';
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaHistory } from "react-icons/fa";
 import { GrSystem } from "react-icons/gr";
@@ -46,7 +46,7 @@ const sub5 = [
 ]
 
 const sub1 = [
-    '/danh-sach-dang-ky-hen', '/bao-cao-chi-tiet-dich-vu-khach-hang'
+    '/danh-sach-dang-ky-hen', '/bao-cao-chi-tiet-dich-vu-khach-hang', '/bao-cao-xu-huong-hang-thang', '/xuat-du-lieu-benh-nhan'
 ]
 
 const LayoutComponent: React.FC = () => {
@@ -58,6 +58,21 @@ const LayoutComponent: React.FC = () => {
     const location = useLocation();
     const [openKeys, setOpenKeys] = useState<string[]>([]);
     const {t } = useTranslation(['home'])
+
+    useEffect(() => {
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === "visible") {
+                console.log('aaa');
+                
+                // window.location.reload(); 
+            }
+        };
+        document.addEventListener("visibilitychange", handleVisibilityChange);
+        return () => {
+            document.removeEventListener("visibilitychange", handleVisibilityChange);
+        };
+    }, []);
+
 
     useLayoutEffect(() => {
         if (sub7.includes(location.pathname)) {
@@ -84,9 +99,9 @@ const LayoutComponent: React.FC = () => {
             menu?.[1]?.ds?.CHTKBN === true ? getItem(<Link to={'/tim-kiem-benh-nhan'}>Tìm kiếm bệnh nhân</Link>, '4') : null,
             menu?.[1]?.ds?.LLTVBN === true ? getItem(<Link to={'/tim-kiem-benh-nhan'}>Lặp lại truy vấn bệnh nhân</Link>, '5') : null,
             menu?.[1]?.ds?.BCCTDVKH === true ?getItem(<Link to={'/bao-cao-chi-tiet-dich-vu-khach-hang'}>Báo cáo chi tiết dịch vụ khách hàng</Link>, '/bao-cao-chi-tiet-dich-vu-khach-hang'): null,
-            menu?.[1]?.ds?.BCXHHT === true ?getItem(<Link to={'/'}>Báo cáo xu hướng hàng tháng</Link>, '7'): null,
+            menu?.[1]?.ds?.BCXHHT === true ?getItem(<Link to={'/bao-cao-xu-huong-hang-thang'}>Báo cáo xu hướng hàng tháng</Link>, '/bao-cao-xu-huong-hang-thang'): null,
             menu?.[1]?.ds?.BCDHTC === true ?getItem(<Link to={'/'}>Báo cáo đồ họa tùy chỉnh</Link>, '8'): null,
-            menu?.[1]?.ds?.XDLBN === true ?getItem(<Link to={'/'}>Xuất dữ liệu bệnh nhân</Link>, '9'): null,
+            menu?.[1]?.ds?.XDLBN === true ?getItem(<Link to={'/xuat-du-lieu-benh-nhan'}>Xuất dữ liệu bệnh nhân</Link>, '/xuat-du-lieu-benh-nhan'): null,
             menu?.[1]?.ds?.SSDLTCN === true ?getItem(<Link to={'/'}>So sánh dữ liệu theo chiều ngang</Link>, '10'): null,
         ]),] : []),
         ...(menu?.[2]?.TKKTC === true ? [getItem('Thống kê khách truy cập', 'sub2', <SiMicrosoftaccess  size={20}/>, [
