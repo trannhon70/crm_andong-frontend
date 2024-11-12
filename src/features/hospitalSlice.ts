@@ -26,6 +26,14 @@ export const fetchGetPaging = createAsyncThunk(
     },
   )
 
+  export const getThongKechiTietDichVuKhachHang = createAsyncThunk(
+    'hospital/getThongKechiTietDichVuKhachHang',
+    async ( thunkAPI ) => {
+      const response = await hospitalAPI.getThongKechiTietDichVuKhachHang()
+      return response.data.data
+    },
+  )
+
   interface HospitalState {
     data:any,
     pageSize: number,
@@ -34,6 +42,7 @@ export const fetchGetPaging = createAsyncThunk(
     totalPages: number,
     hospital: any,
     hospitalById: any,
+    TKDVKH: any
     loading: 'idle' | 'pending' | 'succeeded' | 'failed',
   }
 
@@ -45,6 +54,7 @@ export const fetchGetPaging = createAsyncThunk(
     totalPages: 0,
     hospital: [],
     hospitalById: {},
+    TKDVKH: [],
     loading: 'idle',
   } satisfies HospitalState as HospitalState
 
@@ -73,6 +83,11 @@ export const fetchGetPaging = createAsyncThunk(
 
       builder.addCase(getByIdHospital.fulfilled, (state, action) => {
         state.hospitalById = action.payload;
+        state.loading = 'succeeded';
+      })
+
+      builder.addCase(getThongKechiTietDichVuKhachHang.fulfilled, (state, action) => {
+        state.TKDVKH = action.payload;
         state.loading = 'succeeded';
       })
     },

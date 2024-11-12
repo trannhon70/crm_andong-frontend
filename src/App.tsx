@@ -30,6 +30,7 @@ import LogErrorLog from './pages/operationHistory/logErrorLog';
 import SearchEngine from './pages/settings/searchEngine/searchEngine';
 import CreateSearchEngine from './pages/settings/searchEngine/createSearchEngine';
 import CreateHospotal from './pages/hospitalList/createHospotal';
+import CustomerServiceDetailReport from './pages/patientAppointmentManagement/customerServiceDetailReport';
 
 
 const PrivateRoutes = () => {
@@ -102,11 +103,14 @@ const App: React.FC = () => {
           <Route path='/quan-ly-con-nguoi/them-moi' element={<CreatePeople />} />
           <Route path='/quan-ly-con-nguoi/cap-nhat/:id' element={<CreatePeople />} />
 
+          {/* quản lý cuộc hẹn bệnh nhân */}
           <Route path='/danh-sach-dang-ky-hen' element={<AppointmentRegistrationList />} />
           <Route path='/danh-sach-dang-ky-hen/view/:id' element={<AppointmentRegistrationListHistory />} />
           <Route path='/danh-sach-dang-ky-hen/history/:id' element={<OperationHistory />} />
           <Route path='/danh-sach-dang-ky-hen/them-moi' element={<CreateAppointmentRegistrationList />} />
           <Route path='/danh-sach-dang-ky-hen/cap-nhat/:id' element={<CreateAppointmentRegistrationList />} />
+          
+          <Route path='/bao-cao-chi-tiet-dich-vu-khach-hang' element={<CustomerServiceDetailReport />} />
 
           <Route path='/thay-doi-mat-khau' element={<ChangePassword />} />
 

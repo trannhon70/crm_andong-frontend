@@ -7,7 +7,8 @@ export const hospitalAPI = {
     getByIdHospital,
     createHospital,
     updateHospital,
-    deleteHospital
+    deleteHospital,
+    getThongKechiTietDichVuKhachHang
 }
 
 function getPaging(query: IGetPaging) {
@@ -32,4 +33,9 @@ function updateHospital(id: number, body: any) {
 
 function deleteHospital(id: number) {
     return instance.delete(`/hospital/delete/${id}`)
+}
+
+// thong-ke-chi-tiet-dich-vu-khach-hang
+function getThongKechiTietDichVuKhachHang () {
+    return instance.get(`/hospital/thong-ke-chi-tiet-dich-vu-khach-hang`);
 }

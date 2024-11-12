@@ -46,7 +46,7 @@ const sub5 = [
 ]
 
 const sub1 = [
-    '/danh-sach-dang-ky-hen'
+    '/danh-sach-dang-ky-hen', '/bao-cao-chi-tiet-dich-vu-khach-hang'
 ]
 
 const LayoutComponent: React.FC = () => {
@@ -83,7 +83,7 @@ const LayoutComponent: React.FC = () => {
             menu?.[1]?.ds?.DSDKH === true ? getItem(<Link to={'/danh-sach-dang-ky-hen'}>{t("home:menu_left.Appointment_registration_list")}</Link>, '/danh-sach-dang-ky-hen'): null,
             menu?.[1]?.ds?.CHTKBN === true ? getItem(<Link to={'/tim-kiem-benh-nhan'}>Tìm kiếm bệnh nhân</Link>, '4') : null,
             menu?.[1]?.ds?.LLTVBN === true ? getItem(<Link to={'/tim-kiem-benh-nhan'}>Lặp lại truy vấn bệnh nhân</Link>, '5') : null,
-            menu?.[1]?.ds?.BCCTDVKH === true ?getItem(<Link to={'/'}>Báo cáo chi tiết dịch vụ khách hàng</Link>, '6'): null,
+            menu?.[1]?.ds?.BCCTDVKH === true ?getItem(<Link to={'/bao-cao-chi-tiet-dich-vu-khach-hang'}>Báo cáo chi tiết dịch vụ khách hàng</Link>, '/bao-cao-chi-tiet-dich-vu-khach-hang'): null,
             menu?.[1]?.ds?.BCXHHT === true ?getItem(<Link to={'/'}>Báo cáo xu hướng hàng tháng</Link>, '7'): null,
             menu?.[1]?.ds?.BCDHTC === true ?getItem(<Link to={'/'}>Báo cáo đồ họa tùy chỉnh</Link>, '8'): null,
             menu?.[1]?.ds?.XDLBN === true ?getItem(<Link to={'/'}>Xuất dữ liệu bệnh nhân</Link>, '9'): null,
