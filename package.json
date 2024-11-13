@@ -57,7 +57,6 @@
     ]
   },
   "devDependencies": {
-    "@types/faker": "^6.6.11",
     "tailwindcss": "^3.4.13"
   }
 }

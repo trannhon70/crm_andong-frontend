@@ -46,7 +46,7 @@ const sub5 = [
 ]
 
 const sub1 = [
-    '/danh-sach-dang-ky-hen', '/bao-cao-chi-tiet-dich-vu-khach-hang', '/bao-cao-xu-huong-hang-thang', '/xuat-du-lieu-benh-nhan'
+    '/danh-sach-dang-ky-hen', '/bao-cao-chi-tiet-dich-vu-khach-hang', '/bao-cao-xu-huong-hang-thang', '/xuat-du-lieu-benh-nhan', '/bao-cao-do-hoa-tuy-chinh'
 ]
 
 const LayoutComponent: React.FC = () => {
@@ -96,13 +96,13 @@ const LayoutComponent: React.FC = () => {
         
         ...(menu?.[1]?.QLBN === true ? [ getItem(<div>{t("home:menu_left.Patient_Appointment_Management")}</div>, 'sub1', <UserOutlined size={20}/>, [
             menu?.[1]?.ds?.DSDKH === true ? getItem(<Link to={'/danh-sach-dang-ky-hen'}>{t("home:menu_left.Appointment_registration_list")}</Link>, '/danh-sach-dang-ky-hen'): null,
-            menu?.[1]?.ds?.CHTKBN === true ? getItem(<Link to={'/tim-kiem-benh-nhan'}>Tìm kiếm bệnh nhân</Link>, '4') : null,
-            menu?.[1]?.ds?.LLTVBN === true ? getItem(<Link to={'/tim-kiem-benh-nhan'}>Lặp lại truy vấn bệnh nhân</Link>, '5') : null,
+            // menu?.[1]?.ds?.CHTKBN === true ? getItem(<Link to={'/tim-kiem-benh-nhan'}>Tìm kiếm bệnh nhân</Link>, '4') : null,
+            // menu?.[1]?.ds?.LLTVBN === true ? getItem(<Link to={'/tim-kiem-benh-nhan'}>Lặp lại truy vấn bệnh nhân</Link>, '5') : null,
             menu?.[1]?.ds?.BCCTDVKH === true ?getItem(<Link to={'/bao-cao-chi-tiet-dich-vu-khach-hang'}>Báo cáo chi tiết dịch vụ khách hàng</Link>, '/bao-cao-chi-tiet-dich-vu-khach-hang'): null,
             menu?.[1]?.ds?.BCXHHT === true ?getItem(<Link to={'/bao-cao-xu-huong-hang-thang'}>Báo cáo xu hướng hàng tháng</Link>, '/bao-cao-xu-huong-hang-thang'): null,
-            menu?.[1]?.ds?.BCDHTC === true ?getItem(<Link to={'/'}>Báo cáo đồ họa tùy chỉnh</Link>, '8'): null,
+            menu?.[1]?.ds?.BCDHTC === true ?getItem(<Link to={'/bao-cao-do-hoa-tuy-chinh'}>Báo cáo đồ họa tùy chỉnh</Link>, '/bao-cao-do-hoa-tuy-chinh'): null,
             menu?.[1]?.ds?.XDLBN === true ?getItem(<Link to={'/xuat-du-lieu-benh-nhan'}>Xuất dữ liệu bệnh nhân</Link>, '/xuat-du-lieu-benh-nhan'): null,
-            menu?.[1]?.ds?.SSDLTCN === true ?getItem(<Link to={'/'}>So sánh dữ liệu theo chiều ngang</Link>, '10'): null,
+            // menu?.[1]?.ds?.SSDLTCN === true ?getItem(<Link to={'/so-sanh-du-lieu-theo-nam'}>So sánh dữ liệu theo từng năm</Link>, '/so-sanh-du-lieu-theo-nam'): null,
         ]),] : []),
         ...(menu?.[2]?.TKKTC === true ? [getItem('Thống kê khách truy cập', 'sub2', <SiMicrosoftaccess  size={20}/>, [
             menu?.[2]?.ds.CTDLM === true ? getItem('Chi tiết dữ liệu (mạng)', '11') : null, 

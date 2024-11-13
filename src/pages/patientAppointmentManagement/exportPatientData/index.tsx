@@ -9,7 +9,7 @@ import ModalSearch from "./modalSearch";
 const ExportPatientData: FC = () => {
     const { data } = useSelector((state: RootState) => state.patient)
     const [pageIndex, setPageIndex] = useState<number>(1)
-    const [pageSize, setPageSize] = useState<number>(100)
+    const [pageSize, setPageSize] = useState<number>(200)
     const [check, setCheck] = useState({
         name: true, gender: false, yearOld: false, phone: false, content: false, department: false, diseases: false, city: false,
         district: false, code: false, appointmentTime: false, reminderTime: false, note: false, status: false, doctor: false, user: false, treatment: false,
