@@ -97,6 +97,14 @@ export const fetchCity = createAsyncThunk(
       },
   )
 
+  export const getXuatDuLieuBenhNhan = createAsyncThunk(
+    'patient/getXuatDuLieuBenhNhan',
+    async ( query: any, thunkAPI ) => {
+        const response = await patiantAPI.getXuatDuLieuBenhNhan(query)
+        return response.data.data
+      },
+  )
+
 
   interface PatientState {
     data:any,
@@ -202,6 +210,15 @@ export const fetchCity = createAsyncThunk(
 
       builder.addCase(getThongKeAll.fulfilled, (state, action) => {
         state.thongkeAll = action.payload;
+        state.loading = 'succeeded';
+      })
+
+      builder.addCase(getXuatDuLieuBenhNhan.fulfilled, (state, action) => {
+        state.data = action.payload.data;
+        state.pageSize = action.payload.pageSize;
+        state.pageIndex = action.payload.pageIndex;
+        state.total = action.payload.total;
+        state.totalPages = action.payload.totalPages;
         state.loading = 'succeeded';
       })
     },
