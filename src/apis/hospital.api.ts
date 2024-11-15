@@ -9,7 +9,8 @@ export const hospitalAPI = {
     updateHospital,
     deleteHospital,
     getThongKechiTietDichVuKhachHang,
-    getBaoCaoXuHuongHangThang
+    getBaoCaoXuHuongHangThang,
+    getBaoCaoDoHoaTuyChinh
 }
 
 function getPaging(query: IGetPaging) {
@@ -43,4 +44,8 @@ function getThongKechiTietDichVuKhachHang () {
 
 function getBaoCaoXuHuongHangThang (hospitalId: number) {
     return instance.get(`/hospital/bao-cao-xu-huong-hang-thang?hospitalId=${hospitalId}`);
+}
+
+function getBaoCaoDoHoaTuyChinh (body: any) {
+    return instance.post(`/hospital/bao-cao-do-hoa-tuy-chinh`, body);
 }
