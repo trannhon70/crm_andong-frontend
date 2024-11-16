@@ -182,6 +182,20 @@ const AppointmentRegistrationList: FC = () => {
             },
         },
         {
+            title: 'chi phí',
+            dataIndex: 'money',
+            key: 'money',
+            // sorter: (a, b) => a.gender.localeCompare(b.gender),
+            render(value, record, index) {
+                const colSpan = record?.summary === true ? 0 : 1;
+                return {
+                    children: <div className={className(record)} >{value}</div>,
+                    props: { colSpan }
+                }
+            },
+            width: 100,
+        },
+        {
             title: 'Giới tính',
             dataIndex: 'gender',
             key: 'gender',
@@ -331,7 +345,7 @@ const AppointmentRegistrationList: FC = () => {
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
-                    children: <div className={className(record)}>{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</div>,
+                    children: <div className={className(record)}>{value !== 0 ? moment(value * 1000).format('DD-MM-YYYY HH:mm:ss') : ''}</div>,
                     props: { colSpan }
                 }
             },

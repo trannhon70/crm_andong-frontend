@@ -92,12 +92,13 @@ const CreateAppointmentRegistrationList: FC = () => {
             form.setFieldValue('code', patient.patient.code);
             form.setFieldValue('treatment', JSON.parse(patient.patient.treatment));
             form.setFieldValue('appointmentTime',dayjs( patient.patient.appointmentTime * 1000));
-            form.setFieldValue('reminderTime', dayjs(patient.patient.reminderTime * 1000));
+            form.setFieldValue('reminderTime', patient.patient.reminderTime == 0 ? undefined : dayjs(patient.patient.reminderTime * 1000));
             form.setFieldValue('note', patient.patient.note);
             form.setFieldValue('editregistrationTime', dayjs(patient.patient.editregistrationTime * 1000));
             form.setFieldValue('status', patient.patient.status);
             form.setFieldValue('doctorId', patient.patient.doctorId);
             form.setFieldValue('record', patient.patient.record);
+            form.setFieldValue('money', patient.patient.money);
         }
 
     }, [patient.patient.id])
@@ -125,7 +126,7 @@ const CreateAppointmentRegistrationList: FC = () => {
     const onFinish = async (body: IPatient) => {
         const appointmentTime = dayjs(body.appointmentTime).unix()
         const reminderTime = dayjs(body.reminderTime).unix()
-        if(appointmentTime < reminderTime){
+        if(appointmentTime < reminderTime && !id){
                 toast.warning('Thời gian hẹn phải lớn hơn thời gian nhắc hẹn!');
                 setError({
                     ...error,
@@ -146,7 +147,7 @@ const CreateAppointmentRegistrationList: FC = () => {
             districtId: body.districtId,
             code: body.code,
             appointmentTime: dayjs(body.appointmentTime).unix(),
-            reminderTime: dayjs(body.reminderTime).unix(),
+            reminderTime: body.reminderTime ? dayjs(body.reminderTime).unix() : 0,
             note: body.note,
             editregistrationTime: dayjs(body.editregistrationTime).unix(),
             status: body.status,
@@ -155,10 +156,8 @@ const CreateAppointmentRegistrationList: FC = () => {
             chat: body.chat,
             treatment: body.treatment,
             record: body.record,
+            money: body.money || ''
         }
-
-       
-        
 
         if(id){
             try {

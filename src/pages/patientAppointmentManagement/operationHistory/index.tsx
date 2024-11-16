@@ -140,7 +140,7 @@ const OperationHistory:FC = () => {
             key: 'reminderTime',
             dataIndex: 'reminderTime',
             render: (value) =>{
-                return <>{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</>
+                return <>{value !== 0 ?moment(value * 1000).format('DD-MM-YYYY HH:mm:ss') : ''}</>
               },
               width: 150,
           },

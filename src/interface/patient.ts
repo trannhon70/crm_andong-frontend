@@ -44,4 +44,6 @@ export interface IPatient {
      
      //hồ sơ tiếp nhận
      record?:string
+
+     money?: string
 }

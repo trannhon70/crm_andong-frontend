@@ -232,9 +232,9 @@ const FormCreateUser: FC<IProps> = (props) => {
                 <Form.Item label="Lưu ý ">
                     <Alert message="Thời gian nhắc hẹn phải nhỏ hơn thời gian hẹn" type="warning" />
                 </Form.Item>
-                <Form.Item name="reminderTime" label="Thời gian nhắc hẹn" rules={[
+                <Form.Item name="reminderTime" label="Thời gian nhắc hẹn" rules={!id ? [
                     { required: true, message: 'Thời gian nhắc hẹn không được bỏ trống!', }
-                ]}
+                ] : []}
                     // validateStatus={error.reminderTime ? "error" : ""}
                     // help={error.reminderTime}
                 >
@@ -303,6 +303,12 @@ const FormCreateUser: FC<IProps> = (props) => {
                     />
 
                 </Form.Item>
+                {
+                    id ? <Form.Item name="money" label="Chi phí" >
+                    <InputNumber className="w-[100%]" />
+
+                </Form.Item> : ''
+                }
 
                 {  id ?
                    patient.patient.status === 'ĐÃ ĐẾN' && <>
