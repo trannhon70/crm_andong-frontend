@@ -8,13 +8,14 @@ import { FaHistory } from "react-icons/fa";
 import { GrSystem } from "react-icons/gr";
 import { IoHomeOutline, IoSettings } from "react-icons/io5";
 import { SiMicrosoftaccess } from "react-icons/si";
-import { TbReport, TbWebhook } from "react-icons/tb";
-import { VscServerEnvironment } from "react-icons/vsc";
-import { Link, Outlet } from 'react-router-dom';
+import { TbReport } from "react-icons/tb";
+import { useDispatch } from 'react-redux';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
-import HeaderComponent from '../header';
-import { useLocation } from 'react-router-dom';
+import { getPagingNotication } from '../../features/noticationSlice';
 import useMenuData from '../../hooks/useMenuData';
+import { AppDispatch } from '../../redux/store';
+import HeaderComponent from '../header';
 
 const { Sider, Content } = Layout;
 type MenuItem = Required<MenuProps>['items'][number];
@@ -51,6 +52,8 @@ const sub1 = [
 
 const LayoutComponent: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
+    const dispatch = useDispatch<AppDispatch>();
+    const hospitalId = localStorage.getItem('hospitalId');
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
@@ -59,11 +62,17 @@ const LayoutComponent: React.FC = () => {
     const [openKeys, setOpenKeys] = useState<string[]>([]);
     const {t } = useTranslation(['home'])
 
+    const query = {
+        pageSize: 100,
+        pageIndex: 1,
+        hospitalId: hospitalId
+    }
+
     useEffect(() => {
         const handleVisibilityChange = () => {
             if (document.visibilityState === "visible") {
                 console.log('aaa');
-                
+                dispatch(getPagingNotication(query))
                 // window.location.reload(); 
             }
         };

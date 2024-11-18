@@ -10,6 +10,7 @@ import { patientReducer } from '../features/patientSlice';
 import { dashboardReducer } from '../features/dashboardSlice';
 import { historyLoginReducer } from '../features/historyLoginSlice';
 import { mediaReducer } from '../features/mediaSlice';
+import { noticationReducer } from '../features/noticationSlice';
 
 
 export const store = configureStore({
@@ -24,7 +25,8 @@ export const store = configureStore({
     patient:patientReducer,
     dashboard: dashboardReducer,
     historyLogin: historyLoginReducer,
-    media: mediaReducer
+    media: mediaReducer,
+    notication: noticationReducer
   },
 });
 
