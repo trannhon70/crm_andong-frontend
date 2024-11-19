@@ -1,11 +1,11 @@
 import instance from "../helper/api.helper";
 
 export const noticationAPI = {
-    getPaging,
+    getPagingNotication,
     updateStatus,
 }
 
-function getPaging(query: any) {
+function getPagingNotication(query: any) {
     return instance.get(`/notication/get-paging?pageIndex=${query.pageIndex}&pageSize=${query.pageSize}&hospitalId=${query.hospitalId}`);
 }
 

@@ -12,7 +12,7 @@ moment.locale("vi");
 
 
 const Notication: FC = () => {
-    const notication = useSelector((state: RootState) => state.notication);
+    const notication = useSelector((state: RootState) => state?.notication);
     const dispatch = useDispatch<AppDispatch>();
     const [pageSize, setPageSize] = useState<number>(100);
     const [pageIndex, setPageIndex] = useState<number>(1);
@@ -29,8 +29,22 @@ const Notication: FC = () => {
         if (hospitalId) {
             dispatch(getPagingNotication(query))
         }
-    }, [pageSize, pageIndex, dispatch, hospitalId])
+    }, [ hospitalId])
 
+    useEffect(() => {
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === "visible") {
+                console.log('aaaa');
+                
+                dispatch(getPagingNotication(query)) 
+                // window.location.reload(); 
+            }
+        };
+        document.addEventListener("visibilitychange", handleVisibilityChange);
+        return () => {
+            document.removeEventListener("visibilitychange", handleVisibilityChange);
+        };
+    }, []);
 
     const handleOk = () => {
         setIsModalOpen(false);

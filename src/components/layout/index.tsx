@@ -61,26 +61,10 @@ const LayoutComponent: React.FC = () => {
     const location = useLocation();
     const [openKeys, setOpenKeys] = useState<string[]>([]);
     const {t } = useTranslation(['home'])
+    
+    
 
-    const query = {
-        pageSize: 100,
-        pageIndex: 1,
-        hospitalId: hospitalId
-    }
-
-    useEffect(() => {
-        const handleVisibilityChange = () => {
-            if (document.visibilityState === "visible") {
-                console.log('aaa');
-                dispatch(getPagingNotication(query))
-                // window.location.reload(); 
-            }
-        };
-        document.addEventListener("visibilitychange", handleVisibilityChange);
-        return () => {
-            document.removeEventListener("visibilitychange", handleVisibilityChange);
-        };
-    }, []);
+    
 
 
     useLayoutEffect(() => {

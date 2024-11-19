@@ -6,7 +6,7 @@ import { noticationAPI } from "../apis/nitication.api"
 export const getPagingNotication = createAsyncThunk(
     'notication/getPagingNotication',
     async ( query: any ,thunkAPI ) => {
-      const response = await noticationAPI.getPaging(query)
+      const response = await noticationAPI.getPagingNotication(query)
       return response.data.data
     },
   )
