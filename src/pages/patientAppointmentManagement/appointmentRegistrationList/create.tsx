@@ -90,7 +90,7 @@ const CreateAppointmentRegistrationList: FC = () => {
             form.setFieldValue('cityId', patient.patient.cityId);
             form.setFieldValue('districtId', patient.patient.districtId);
             form.setFieldValue('code', patient.patient.code);
-            form.setFieldValue('treatment', JSON.parse(patient.patient.treatment));
+            form.setFieldValue('treatment', patient.patient.treatment ? JSON.parse(patient.patient.treatment) : []);
             form.setFieldValue('appointmentTime',dayjs( patient.patient.appointmentTime * 1000));
             form.setFieldValue('reminderTime', patient.patient.reminderTime == 0 ? undefined : dayjs(patient.patient.reminderTime * 1000));
             form.setFieldValue('note', patient.patient.note);
