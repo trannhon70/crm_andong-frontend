@@ -91,10 +91,10 @@ const CreateAppointmentRegistrationList: FC = () => {
             form.setFieldValue('districtId', patient.patient.districtId);
             form.setFieldValue('code', patient.patient.code);
             form.setFieldValue('treatment', patient.patient.treatment ? JSON.parse(patient.patient.treatment) : []);
-            form.setFieldValue('appointmentTime',dayjs( patient.patient.appointmentTime * 1000));
+            form.setFieldValue('appointmentTime',patient.patient.appointmentTime == 0 ? undefined : dayjs( patient.patient.appointmentTime * 1000));
             form.setFieldValue('reminderTime', patient.patient.reminderTime == 0 ? undefined : dayjs(patient.patient.reminderTime * 1000));
             form.setFieldValue('note', patient.patient.note);
-            form.setFieldValue('editregistrationTime', dayjs(patient.patient.editregistrationTime * 1000));
+            form.setFieldValue('editregistrationTime', patient.patient.editregistrationTime == 0 ? undefined : dayjs(patient.patient.editregistrationTime * 1000));
             form.setFieldValue('status', patient.patient.status);
             form.setFieldValue('doctorId', patient.patient.doctorId);
             form.setFieldValue('record', patient.patient.record);
@@ -149,7 +149,7 @@ const CreateAppointmentRegistrationList: FC = () => {
             appointmentTime: dayjs(body.appointmentTime).unix(),
             reminderTime: body.reminderTime ? dayjs(body.reminderTime).unix() : 0,
             note: body.note,
-            editregistrationTime: dayjs(body.editregistrationTime).unix(),
+            editregistrationTime: body.editregistrationTime ? dayjs(body.editregistrationTime).unix() : 0,
             status: body.status,
             doctorId: body.doctorId,
             hospitalId: Number(hospitalId),
