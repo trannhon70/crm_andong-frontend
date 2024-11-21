@@ -1,6 +1,5 @@
 import instance from "../helper/api.helper";
 import { IPatient } from "../interface/patient";
-import { IGetPaging } from "../interface/roles";
 
 export const patiantAPI = {
     createPatiant,
@@ -17,7 +16,8 @@ export const patiantAPI = {
     getThongKeKhoa,
     getThongKeBenh,
     getThongKeTuVan,
-    getXuatDuLieuBenhNhan
+    getXuatDuLieuBenhNhan,
+    getBaoCaoTongHop
 }
 
 function createPatiant(body : IPatient) {
@@ -87,4 +87,8 @@ function getThongKeTuVan(hospitalId : number) {
 
 function getXuatDuLieuBenhNhan(query : any) {
     return instance.get(`/patient/xuat-du-lieu-benh-nhan?hospitalId=${query.hospitalId}&pageSize=${query.pageSize}&pageIndex=${query.pageIndex}&created_at=${query.created_at}&appointmentTime=${query.appointmentTime}&doctorId=${query.doctorId}&status=${query.status}&departmentId=${query.departmentId}&diseasesId=${query.diseasesId}&cityId=${query.cityId}&districtId=${query.districtId}`);
+}
+
+function getBaoCaoTongHop(query : any) {
+    return instance.get(`/patient/bao-cao-tong-hop?hospitalId=${query.hospitalId}`)
 }

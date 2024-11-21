@@ -11,6 +11,7 @@ import { dashboardReducer } from '../features/dashboardSlice';
 import { historyLoginReducer } from '../features/historyLoginSlice';
 import { mediaReducer } from '../features/mediaSlice';
 import { noticationReducer } from '../features/noticationSlice';
+import { dataReportReducer } from '../features/dataReportSlice';
 
 
 export const store = configureStore({
@@ -26,7 +27,8 @@ export const store = configureStore({
     dashboard: dashboardReducer,
     historyLogin: historyLoginReducer,
     media: mediaReducer,
-    notication: noticationReducer
+    notication: noticationReducer,
+    dataReport: dataReportReducer,
   },
 });
 
