@@ -14,6 +14,7 @@ import { Languege } from "../../utils";
 import { HiMiniLockClosed } from "react-icons/hi2";
 import { userAPI } from "../../apis/user.api";
 import { toast } from "react-toastify";
+import useMenuData from "../../hooks/useMenuData";
 
 const dataBreadcrumb = [
     {
@@ -36,19 +37,19 @@ const PeopleManagement: FC = () => {
     const navige = useNavigate()
     const [pageIndex, setPageIndex] = useState<number>(1)
     const [pageSize, setPageSize] = useState<number>(50)
-    const [search,setSearch] = useState<string>('')
+    const [search, setSearch] = useState<string>('')
     const [isshow, setIsshow] = useState<any>('')
     const [language, setLanguage] = useState<string>('')
-    const { data, total, loading } = useSelector((state: RootState) => state.users);
-
+    const { data, total, loading, entities } = useSelector((state: RootState) => state.users);
+    const menu = useMenuData();
 
     useEffect(() => {
         dispatch(fetchGetPaging({ pageSize, pageIndex, search, isshow, language }))
-    }, [dispatch, pageSize, pageIndex,isshow, language])
+    }, [dispatch, pageSize, pageIndex, isshow, language])
 
     const onSearch: SearchProps['onSearch'] = (value, _e, info) => {
         setSearch(value);
-        dispatch(fetchGetPaging({ pageSize, pageIndex, search: value ,isshow ,language}));
+        dispatch(fetchGetPaging({ pageSize, pageIndex, search: value, isshow, language }));
     };
 
     const onClickCreate = () => {
@@ -114,7 +115,7 @@ const PeopleManagement: FC = () => {
             key: 'created_at',
             dataIndex: 'created_at',
             render(value, record, index) {
-                return <Fragment>{moment(value.created_at).format('DD-MM-YYYY hh:ss')}</Fragment>
+                return <Fragment>{moment(value * 1000).format('DD-MM-YYYY hh:ss')}</Fragment>
             },
         },
         {
@@ -122,24 +123,57 @@ const PeopleManagement: FC = () => {
             key: 'id',
             dataIndex: 'id',
             render(value, record, index) {
-                if(record?.role?.id !== 1){
+                if (entities.role.id === 1) {
                     return <div className='flex gap-4 ' >
-                    <PopconfirmComponent
-                        title={<>Xóa {record.fullName}</>}
-                        description='Bạn có chắc chắn muốn xóa tài khoản này không?'
-                        value={value}
-                      deleteRole={deleteRole}
-                    />
-                    {
-                        record.isshow == true ? 
-                        <HiMiniLockOpen onClick={() => onClickUnActiveUser(value)} color='primary' className='cursor-pointer' size={25}/> :
-                         <HiMiniLockClosed onClick={() => onClickActiveUser(value)} color='warning' className='cursor-pointer' size={25}/>
-                    }
-                    
-                    <HiPencilSquare
-                        onClick={() => onClickEdit(value)} 
-                        className='cursor-pointer text-green-700 ' color='primary' size={25} />
-                </div>
+                        {
+                            record?.role?.id !== 1 ? <>
+                                <PopconfirmComponent
+                                    title={<>Xóa {record.fullName}</>}
+                                    description='Bạn có chắc chắn muốn xóa tài khoản này không?'
+                                    value={value}
+                                    deleteRole={deleteRole}
+                                />
+                                {
+                                    record.isshow == true ?
+                                        <HiMiniLockOpen onClick={() => onClickUnActiveUser(value)} color='primary' className='cursor-pointer' size={25} /> :
+                                        <HiMiniLockClosed onClick={() => onClickActiveUser(value)} color='warning' className='cursor-pointer' size={25} />
+                                }
+                            </> : ''
+                        }
+
+
+                        <HiPencilSquare
+                            onClick={() => onClickEdit(value)}
+                            className='cursor-pointer text-green-700 ' color='primary' size={25} />
+                    </div>
+                }
+                if (record?.role?.id !== 1) {
+                    return <div className='flex gap-4 ' >
+                        {
+                             menu?.[6].ds?.action_QLCN.delete === true && <PopconfirmComponent
+                             title={<>Xóa {record.fullName}</>}
+                             description='Bạn có chắc chắn muốn xóa tài khoản này không?'
+                             value={value}
+                             deleteRole={deleteRole}
+                         />
+                        }
+                        {
+                            menu?.[6].ds?.action_QLCN.close === true && <>
+                                 {
+                                record.isshow == true ?
+                                    <HiMiniLockOpen onClick={() => onClickUnActiveUser(value)} color='primary' className='cursor-pointer' size={25} /> :
+                                    <HiMiniLockClosed onClick={() => onClickActiveUser(value)} color='warning' className='cursor-pointer' size={25} />
+                            }
+                            </>
+                        }
+                        {
+                             menu?.[6].ds?.action_QLCN.update === true &&  <HiPencilSquare
+                             onClick={() => onClickEdit(value)}
+                             className='cursor-pointer text-green-700 ' color='primary' size={25} />
+                        }
+
+                       
+                    </div>
                 }
             },
         },
@@ -149,56 +183,56 @@ const PeopleManagement: FC = () => {
         navige(`/quan-ly-con-nguoi/cap-nhat/${id}`)
     }
 
-    const deleteRole = async(id : number) => {
+    const deleteRole = async (id: number) => {
         try {
             const result = await userAPI.deleteUser(id)
-            if(result.data.statusCode === 1){
+            if (result.data.statusCode === 1) {
                 toast.success('Xóa thành công!')
                 dispatch(fetchGetPaging({ pageSize, pageIndex, search, isshow, language }))
-           }
+            }
         } catch (error) {
             console.log(error);
-            
+
         }
-        
+
     }
 
-    const onClickActiveUser = async (id:number)=>{
-            const result = await userAPI.activeUser(id)
-            if(result.data.statusCode === 1){
-                toast.success('Mở khóa thành công!')
-                dispatch(fetchGetPaging({ pageSize, pageIndex, search, isshow, language }))
-           }
+    const onClickActiveUser = async (id: number) => {
+        const result = await userAPI.activeUser(id)
+        if (result.data.statusCode === 1) {
+            toast.success('Mở khóa thành công!')
+            dispatch(fetchGetPaging({ pageSize, pageIndex, search, isshow, language }))
+        }
     }
 
-    const onClickUnActiveUser = async(id: number) => {
+    const onClickUnActiveUser = async (id: number) => {
         const result = await userAPI.unActiveUser(id)
-            if(result.data.statusCode === 1){
-                toast.success('khóa tài khoản thành công!')
-                dispatch(fetchGetPaging({ pageSize, pageIndex, search, isshow, language }))
-           }
+        if (result.data.statusCode === 1) {
+            toast.success('khóa tài khoản thành công!')
+            dispatch(fetchGetPaging({ pageSize, pageIndex, search, isshow, language }))
+        }
     }
     const onChangePage = (page: number, pageSize: number) => {
         setPageIndex(page)
         setPageSize(pageSize)
     }
 
-    const handleChangeTinhTrang = (e : any) => {
-        if(e ===  undefined){
+    const handleChangeTinhTrang = (e: any) => {
+        if (e === undefined) {
             setIsshow('')
-        }else {
+        } else {
             setIsshow(e)
         }
-        
+
     }
 
     const handleChangeNgonNgu = (e: any) => {
-        if(e === undefined){
+        if (e === undefined) {
             setLanguage('')
         } else {
             setLanguage(e)
         }
-        
+
     }
 
 
@@ -225,10 +259,10 @@ const PeopleManagement: FC = () => {
                             value: '0',
                             label: 'Không hoạt động',
                         },
-                       
+
                     ]}
                 />
-                 <Select
+                <Select
                     onChange={handleChangeNgonNgu}
                     showSearch
                     allowClear
@@ -240,9 +274,12 @@ const PeopleManagement: FC = () => {
                     }
                     options={Languege}
                 />
-                <Search className='w-[250px]' placeholder="Nhập tên quyền"  onSearch={onSearch} enterButton />
+                <Search className='w-[250px]' placeholder="Nhập tên quyền" onSearch={onSearch} enterButton />
             </div>
-            <Button onClick={onClickCreate} type="primary">Thêm mới</Button>
+            {
+                 menu?.[6].ds?.action_QLCN.create === true &&  <Button onClick={onClickCreate} type="primary">Thêm mới</Button>
+            }
+            
         </div>
         {
             loading === 'succeeded' ? <TableComponent rowKey={true} columns={columns} data={data} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} /> : <Loading />

@@ -77,7 +77,7 @@ const HospitalList: FC = () => {
       key: 'created_at',
       dataIndex: 'created_at',
       render(value, record, index) {
-        return <Fragment>{moment(value.created_at).format('DD-MM-YYYY hh:ss')}</Fragment>
+        return <Fragment>{moment(value * 1000).format('DD-MM-YYYY hh:ss')}</Fragment>
       },
     },
     {

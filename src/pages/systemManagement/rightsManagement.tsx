@@ -12,6 +12,7 @@ import { fetchGetPaging, setRoleData } from '../../features/rolesSlice';
 import { AppDispatch, RootState } from '../../redux/store';
 import { rolesAPI } from '../../apis/roles.api';
 import { toast } from 'react-toastify';
+import useMenuData from '../../hooks/useMenuData';
 const moment = require('moment');
 
 const dataBreadcrumb = [
@@ -38,6 +39,7 @@ const RightsManagement: FC = () => {
   const [pageSize, setPageSize] = useState<number>(50)
   const [search] = useState<string>('')
   const { data, total,loading } = useSelector((state: RootState) => state.roles);
+  const menu = useMenuData();
 
   const onSearch: SearchProps['onSearch'] = (value, _e, info) => {
     dispatch(fetchGetPaging({ pageSize, pageIndex, search : value }));
@@ -81,7 +83,7 @@ const RightsManagement: FC = () => {
       key: 'created_at',
       dataIndex: 'created_at',
       render(value, record, index) {
-        return <Fragment>{moment(value.created_at).format('DD-MM-YYYY hh:ss')}</Fragment>
+        return <Fragment>{moment(value * 1000).format('DD-MM-YYYY')}</Fragment>
       },
     },
     {
@@ -91,13 +93,19 @@ const RightsManagement: FC = () => {
         render(value, record, index) {
             if(record.id !== 1){
               return <div className='flex gap-4 ' >
-            <PopconfirmComponent 
-              title ={<>Xóa quyền {record.name}</>} 
-              description= 'Bạn có chắc chắn muốn xóa tác vụ này không?'
-              value={value}
-              deleteRole={deleteRole}
-            />
-            <HiPencilSquare onClick={() => onClickEdit(value)} className='cursor-pointer text-green-700 ' color='primary' size={25} />
+                {
+                   menu?.[6].ds?.action_QLQ.delete === true && <PopconfirmComponent 
+                   title ={<>Xóa quyền {record.name}</>} 
+                   description= 'Bạn có chắc chắn muốn xóa tác vụ này không?'
+                   value={value}
+                   deleteRole={deleteRole}
+                 />
+                }
+                {
+                   menu?.[6].ds?.action_QLQ.update === true && <HiPencilSquare onClick={() => onClickEdit(value)} className='cursor-pointer text-green-700 ' color='primary' size={25} />
+                }
+           
+            
           </div>
             }
           
@@ -138,7 +146,10 @@ const RightsManagement: FC = () => {
       <BreadcrumbComponent items={dataBreadcrumb} />
       <div className='mt-2 pb-2 flex justify-between ' >
         <Search className='w-[250px]' placeholder="Nhập tên quyền" onSearch={onSearch} enterButton />
-        <Button onClick={onClickCreate} type="primary">Thêm mới</Button>
+        {
+          menu?.[6].ds?.action_QLQ.create === true && <Button onClick={onClickCreate} type="primary">Thêm mới</Button>
+        }
+        
       </div>
       {
         loading === 'succeeded' ? <TableComponent columns={columns} data={data} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} /> : <Loading />

@@ -46,6 +46,10 @@ const sub5 = [
     '/thiet-lap-bac-si', '/thiet-lap-benh-tat', '/quan-ly-khoa', '/cong-cu-tim-kiem'
 ]
 
+const sub4 = [
+    '/bao-cao-tong-hop'
+]
+
 const sub1 = [
     '/danh-sach-dang-ky-hen', '/bao-cao-chi-tiet-dich-vu-khach-hang', '/bao-cao-xu-huong-hang-thang', '/xuat-du-lieu-benh-nhan', '/bao-cao-do-hoa-tuy-chinh'
 ]
@@ -62,10 +66,6 @@ const LayoutComponent: React.FC = () => {
     const [openKeys, setOpenKeys] = useState<string[]>([]);
     const {t } = useTranslation(['home'])
     
-    
-
-    
-
 
     useLayoutEffect(() => {
         if (sub7.includes(location.pathname)) {
@@ -81,6 +81,10 @@ const LayoutComponent: React.FC = () => {
         if (sub1.includes(location.pathname)) {
             setOpenKeys(['sub1']); 
         } 
+
+        if(sub4.includes(location.pathname)){
+            setOpenKeys(['sub4'])
+        }
        
     }, [location.pathname, sub7])
     
@@ -108,8 +112,8 @@ const LayoutComponent: React.FC = () => {
         //     getItem('Cài đặt đăng ký trang web', '13'),
         
         // ]),
-        ...(menu?.[3]?.BCDL === true ? [getItem('Báo cáo dữ liệu', 'sub4', <TbReport size={20}/>, [
-            menu?.[3]?.ds.BCTH === true ?getItem('Báo cáo tổng hợp', '15') : null, 
+        ...(menu?.[3]?.BCDL === true ? [getItem( 'Báo cáo dữ liệu', 'sub4', <TbReport size={20}/>, [
+            menu?.[3]?.ds.BCTH === true ?getItem(<Link to={'/bao-cao-tong-hop'}>Báo cáo tổng hợp</Link>, '/bao-cao-tong-hop') : null, 
             menu?.[3]?.ds.GT === true ? getItem('Giới tính', '16') : null,
             menu?.[3]?.ds.TUOI === true ? getItem('Tuổi', '17') : null,
             menu?.[3]?.ds.LBN === true ? getItem('Loại bệnh nhân', '18') : null,

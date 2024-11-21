@@ -569,11 +569,11 @@ const AppointmentRegistrationList: FC = () => {
             const result = await patiantAPI.deletePatiant(id)
             if (result.data.statusCode === 1) {
                 toast.success('Xóa thành công!')
-                dispatch(getPagingPatient({ pageSize, pageIndex, search, hospitalId }))
+                dispatch(getPagingPatient(query))
             }
         } catch (error) {
             console.log(error);
-
+            toast.warning('khách hàng đã có hố sơ thăm khám!')
         }
     }
 

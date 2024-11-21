@@ -34,6 +34,7 @@ import CustomerServiceDetailReport from './pages/patientAppointmentManagement/cu
 import CurrentTrendReport from './pages/patientAppointmentManagement/currentTrendReport';
 import ExportPatientData from './pages/patientAppointmentManagement/exportPatientData';
 import CustomGraphicalReports from './pages/patientAppointmentManagement/customGraphicalReports';
+import SummaryReport from './pages/dataReport/summaryReport';
 
 
 const PrivateRoutes = () => {
@@ -119,6 +120,9 @@ const App: React.FC = () => {
           <Route path='/bao-cao-do-hoa-tuy-chinh' element={<CustomGraphicalReports />} />
 
           <Route path='/thay-doi-mat-khau' element={<ChangePassword />} />
+
+          {/* báo cáo dữ liệu */}
+          <Route path='/bao-cao-tong-hop' element={<SummaryReport />} />
 
           {/* cài đặt */}
           <Route path='/thiet-lap-benh-tat' element={<DiseaseManagement />} />
