@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getAllByIdHospital, getAllDoctor, getAllMedia, getByIdDepartment } from '../../../features/patientSlice';
 import { AppDispatch, RootState } from '../../../redux/store';
-import { SATUS } from '../../../utils';
+import { STATUS } from '../../../utils';
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
@@ -172,7 +172,7 @@ const ModalSearch: FC<IProps> = (props) => {
                         filterOption={(input, option) =>
                             typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                         }
-                        options={SATUS}
+                        options={STATUS}
                     />
                 </Form.Item>
                 <Form.Item name="departmentId" label="Khoa">

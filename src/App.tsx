@@ -35,6 +35,7 @@ import CurrentTrendReport from './pages/patientAppointmentManagement/currentTren
 import ExportPatientData from './pages/patientAppointmentManagement/exportPatientData';
 import CustomGraphicalReports from './pages/patientAppointmentManagement/customGraphicalReports';
 import SummaryReport from './pages/dataReport/summaryReport';
+import Gender from './pages/dataReport/gender';
 
 
 const PrivateRoutes = () => {
@@ -123,6 +124,7 @@ const App: React.FC = () => {
 
           {/* báo cáo dữ liệu */}
           <Route path='/bao-cao-tong-hop' element={<SummaryReport />} />
+          <Route path='/thong-ke-gioi-tinh' element={<Gender />} />
 
           {/* cài đặt */}
           <Route path='/thiet-lap-benh-tat' element={<DiseaseManagement />} />

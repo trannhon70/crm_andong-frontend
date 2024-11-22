@@ -12,11 +12,18 @@ export const GENDER = [
     {id: '3', value:'KHÔNG XÁC ĐỊNH', label: 'KHÔNG XÁC ĐỊNH'},
 ]
 
-export const SATUS = [
+export const STATUS = [
     {id: '1', value:'CHỜ ĐỢI', label: 'CHỜ ĐỢI'},
-    {id: '1', value:'ĐÃ ĐẾN', label: 'ĐÃ ĐẾN'},
-    {id: '1', value:'CHƯA ĐẾN', label: 'CHƯA ĐẾN'},
-    {id: '1', value:'KHÔNG XÁC ĐỊNH', label: 'KHÔNG XÁC ĐỊNH'},
+    {id: '2', value:'ĐÃ ĐẾN', label: 'ĐÃ ĐẾN'},
+    {id: '3', value:'CHƯA ĐẾN', label: 'CHƯA ĐẾN'},
+    {id: '4', value:'KHÔNG XÁC ĐỊNH', label: 'KHÔNG XÁC ĐỊNH'},
+]
+
+export const TIME = [
+  { id: 1, value: "week", label: "Tuần" },
+  { id: 2, value: "month", label: "Tháng" },
+  { id: 3, value: "quarter", label: "Quí" },
+  { id: 4, value: "year", label: "Năm" },
 ]
 
 export function telephoneCheck(phone: string) {

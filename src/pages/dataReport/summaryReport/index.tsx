@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import BreadcrumbComponent from "../../../components/breadcrumbComponent";
 import { getBaoCaoTongHop } from "../../../features/dataReportSlice";
 import { AppDispatch, RootState } from "../../../redux/store";
+import NotHospital from '../../../components/notHospital';
 
 interface DataYear {
     key: string;
@@ -119,16 +120,21 @@ const SummaryReport: FC = () => {
     ];
 
     return <Fragment>
-        <BreadcrumbComponent items={dataBreadcrumb} />
-        <div className="mt-2 mb-2 font-bold text-lg text-lime-700 " >
-            Thống kê theo năm (thống kê 3 năm gần nhất)
-        </div>
-        <Table<DataYear> columns={columns} dataSource={resultYear || []} size="middle" bordered pagination={false} />
+        {
+            hospitalId ? <>
+                <BreadcrumbComponent items={dataBreadcrumb} />
+                <div className="mt-2 mb-2 font-bold text-lg text-lime-700 " >
+                    Thống kê theo năm (thống kê 3 năm gần nhất)
+                </div>
+                <Table<DataYear> columns={columns} dataSource={resultYear || []} size="middle" bordered pagination={false} />
 
-        <div className="mt-2 mb-2 font-bold text-lg text-lime-700 " >
-            Thống kê theo tháng (thống kê 12 tháng gần nhất)
-        </div>
-        <Table<DataMonths> columns={columnsMonths} dataSource={resultMonth || []} size="middle" bordered pagination={false} />
+                <div className="mt-2 mb-2 font-bold text-lg text-lime-700 " >
+                    Thống kê theo tháng (thống kê 12 tháng gần nhất)
+                </div>
+                <Table<DataMonths> columns={columnsMonths} dataSource={resultMonth || []} size="middle" bordered pagination={false} />
+            </> : <NotHospital />
+        }
+
     </Fragment>
 }
 

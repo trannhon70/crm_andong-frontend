@@ -10,15 +10,25 @@ export const getBaoCaoTongHop = createAsyncThunk(
     },
   )
 
+  export const getThongkeGioitinh = createAsyncThunk(
+    'report/getThongkeGioitinh',
+    async ( body: any ,thunkAPI ) => {
+      const response = await patiantAPI.getThongkeGioitinh(body)
+      return response.data.data
+    },
+  )
+
 interface dataReportState {
     resultYear:any,
     resultMonth: any,
+    gender: any,
     loading: 'idle' | 'pending' | 'succeeded' | 'failed',
   }
 
   const initialState = {
     resultYear: [],
     resultMonth: [],
+    gender: [],
     loading: 'idle',
   } satisfies dataReportState as dataReportState
 
@@ -32,6 +42,11 @@ interface dataReportState {
       builder.addCase(getBaoCaoTongHop.fulfilled, (state, action) => {
         state.resultYear = action.payload.resultYear;
         state.resultMonth = action.payload.resultMonth;
+        state.loading = 'succeeded';
+      });
+
+      builder.addCase(getThongkeGioitinh.fulfilled, (state, action) => {
+        state.gender = action.payload;
         state.loading = 'succeeded';
       });
       

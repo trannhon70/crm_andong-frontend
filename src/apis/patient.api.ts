@@ -17,7 +17,8 @@ export const patiantAPI = {
     getThongKeBenh,
     getThongKeTuVan,
     getXuatDuLieuBenhNhan,
-    getBaoCaoTongHop
+    getBaoCaoTongHop,
+    getThongkeGioitinh
 }
 
 function createPatiant(body : IPatient) {
@@ -91,4 +92,8 @@ function getXuatDuLieuBenhNhan(query : any) {
 
 function getBaoCaoTongHop(query : any) {
     return instance.get(`/patient/bao-cao-tong-hop?hospitalId=${query.hospitalId}`)
+}
+
+function getThongkeGioitinh(body : any) {
+    return instance.post(`/patient/thong-ke-gioi-tinh`,body)
 }

@@ -15,7 +15,7 @@ import { Button, DatePicker, Select, Space } from "antd";
 import type { DatePickerProps } from 'antd';
 import dayjs from "dayjs";
 import isoWeek from 'dayjs/plugin/isoWeek';
-import { getDaysInQuarter, getMonthsInYear } from "../../../utils";
+import { getDaysInQuarter, getMonthsInYear, TIME } from "../../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { getBaoCaoDoHoaTuyChinh } from "../../../features/hospitalSlice";
@@ -172,12 +172,7 @@ const CustomGraphicalReports: FC = () => {
             (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
           }
           value={picker}
-          options={[
-            { value: "week", label: "Tuần" },
-            { value: "month", label: "Tháng" },
-            { value: "quarter", label: "Quí" },
-            { value: "year", label: "Năm" },
-          ]}
+          options={TIME}
           onChange={onChangeTime}
         />
       </div>

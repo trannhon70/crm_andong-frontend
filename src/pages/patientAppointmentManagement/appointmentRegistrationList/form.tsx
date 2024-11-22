@@ -1,6 +1,6 @@
 import { Alert, Button, DatePicker, Form, GetProps, Input, InputNumber, Select, Tag } from "antd";
 import { FC, Fragment } from "react";
-import { GENDER, SATUS } from "../../../utils";
+import { GENDER, STATUS } from "../../../utils";
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import moment from "moment";
 type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
@@ -279,7 +279,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                         filterOption={(input, option) =>
                             (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                         }
-                        options={SATUS}
+                        options={STATUS}
                     />
 
                 </Form.Item>
