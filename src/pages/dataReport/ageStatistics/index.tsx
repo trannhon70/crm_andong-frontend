@@ -34,7 +34,6 @@ interface DataType {
     _60Year: number,
 }
 
-
 const AgeStatistics: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const hospitalId = localStorage.getItem('hospitalId')
@@ -45,10 +44,6 @@ const AgeStatistics: FC = () => {
     const [media, setMedia] = useState<string>('');
     const { patient, dataReport } = useSelector((state: RootState) => state);
     const currentWeek = dayjs();
-
-    // console.log(currentWeek);
-
-
 
     useEffect(() => {
         if (hospitalId) {
@@ -117,8 +112,6 @@ const AgeStatistics: FC = () => {
         }
     }
 
-  
-
     const convertTime = time?.map((item: any) => {
         const [year, month, day] = item.split('-');
         const date = dayjs(item);
@@ -165,10 +158,27 @@ const AgeStatistics: FC = () => {
     }
     
     useEffect(() => {
-        if(picker === 'week'){
-            const defaultWeek = currentWeek.format('YYYY-ww');
-            onChange(currentWeek, defaultWeek);
-            dispatch(getThongkeTuoi({hospitalId, time: convertTime, picker, status, media}))
+        switch (picker) {
+            case 'week':
+                const defaultWeek = currentWeek.format('YYYY-ww');
+                onChange(currentWeek, defaultWeek);
+                dispatch(getThongkeTuoi({hospitalId, time: convertTime, picker, status, media}))
+                break;
+
+            case 'month':
+                onChange(currentWeek, currentWeek.format('YYYY-MM'));
+                break;
+
+            case 'quarter':
+                onChange(currentWeek, currentWeek.format('YYYY-Q'));
+                break;
+
+            case 'year':
+                onChange(currentWeek, currentWeek.format('YYYY'));
+                break;
+
+            default:
+                break;
         }
         
     }, [picker,hospitalId, time.length > 0])
