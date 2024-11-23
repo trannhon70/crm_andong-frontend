@@ -3,7 +3,6 @@ import React, { useContext, useEffect } from 'react';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import LayoutComponent from './components/layout';
 import { AuthContext } from './context/AuthContext';
-import Home from './pages/home';
 import Login from './pages/login';
 import Error from './pages/error';
 import ProfileUser from './pages/profile';
@@ -38,6 +37,7 @@ import SummaryReport from './pages/dataReport/summaryReport';
 import Gender from './pages/dataReport/gender';
 import AgeStatistics from './pages/dataReport/ageStatistics';
 import StatisticsByDisease from './pages/dataReport/statisticsByDisease';
+import Home from './pages/Home';
 
 
 const PrivateRoutes = () => {
