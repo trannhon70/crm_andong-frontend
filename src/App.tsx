@@ -37,6 +37,7 @@ import CustomGraphicalReports from './pages/patientAppointmentManagement/customG
 import SummaryReport from './pages/dataReport/summaryReport';
 import Gender from './pages/dataReport/gender';
 import AgeStatistics from './pages/dataReport/ageStatistics';
+import StatisticsByDisease from './pages/dataReport/statisticsByDisease';
 
 
 const PrivateRoutes = () => {
@@ -127,6 +128,7 @@ const App: React.FC = () => {
           <Route path='/bao-cao-tong-hop' element={<SummaryReport />} />
           <Route path='/thong-ke-gioi-tinh' element={<Gender />} />
           <Route path='/thong-ke-tuoi' element={<AgeStatistics />} />
+          <Route path='/thong-ke-theo-benh' element={<StatisticsByDisease />} />
 
           {/* cài đặt */}
           <Route path='/thiet-lap-benh-tat' element={<DiseaseManagement />} />
