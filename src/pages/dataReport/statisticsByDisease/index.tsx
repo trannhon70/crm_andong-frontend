@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 import isoWeek from 'dayjs/plugin/isoWeek';
 import { getAllByIdHospital, getAllMedia } from "../../../features/patientSlice";
 import NotHospital from "../../../components/notHospital";
-import { getThongkeTheoBenh, getThongkeTuoi } from "../../../features/dataReportSlice";
+import { getThongkeTheoBenh } from "../../../features/dataReportSlice";
 import 'dayjs/locale/vi';
 dayjs.extend(isoWeek);
 
@@ -173,7 +173,7 @@ const StatisticsByDisease:FC = () => {
             case 'week':
                 const defaultWeek = currentWeek.format('YYYY-ww');
                 onChange(currentWeek, defaultWeek);
-                // dispatch(getThongkeTuoi({hospitalId, time: convertTime, picker, status, media}))
+                dispatch(getThongkeTheoBenh({hospitalId, time: convertTime, picker, status, media, departmentId: department}))
                 break;
 
             case 'month':
