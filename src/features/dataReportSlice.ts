@@ -42,6 +42,13 @@ export const getBaoCaoTongHop = createAsyncThunk(
     },
   )
 
+  export const getThongkeTheoTinhTrang = createAsyncThunk(
+    'report/getThongkeTheoTinhTrang',
+    async ( body: any ,thunkAPI ) => {
+      const response = await patiantAPI.getThongkeTheoTinhTrang(body)
+      return response.data.data
+    },
+  )
 interface dataReportState {
     resultYear:any,
     resultMonth: any,
@@ -49,6 +56,7 @@ interface dataReportState {
     tuoi: any,
     TKTB: any,
     TKMedia: any,
+    TKStatus: any,
     loading: 'idle' | 'pending' | 'succeeded' | 'failed',
   }
 
@@ -59,6 +67,7 @@ interface dataReportState {
     tuoi: [],
     TKTB: [],
     TKMedia: [],
+    TKStatus: [],
     loading: 'idle',
   } satisfies dataReportState as dataReportState
 
@@ -92,6 +101,11 @@ interface dataReportState {
 
       builder.addCase(getThongkeTheoNguonTruyenThong.fulfilled, (state, action) => {
         state.TKMedia = action.payload;
+        state.loading = 'succeeded';
+      });
+
+      builder.addCase(getThongkeTheoTinhTrang.fulfilled, (state, action) => {
+        state.TKStatus = action.payload;
         state.loading = 'succeeded';
       });
       

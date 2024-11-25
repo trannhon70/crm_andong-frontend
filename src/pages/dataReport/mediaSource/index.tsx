@@ -7,7 +7,7 @@ import { getDaysInQuarter, getMonthsInYear, TIME } from "../../../utils";
 import dayjs from "dayjs";
 import isoWeek from 'dayjs/plugin/isoWeek';
 import NotHospital from "../../../components/notHospital";
-import { getThongkeTheoNguonTruyenThong, getThongkeTuoi } from "../../../features/dataReportSlice";
+import { getThongkeTheoNguonTruyenThong } from "../../../features/dataReportSlice";
 import 'dayjs/locale/vi';
 dayjs.extend(isoWeek);
 
@@ -134,6 +134,7 @@ const MediaSource:FC = () => {
             case 'week':
                 const defaultWeek = currentWeek.format('YYYY-ww');
                 onChange(currentWeek, defaultWeek);
+                dispatch(getThongkeTheoNguonTruyenThong({hospitalId, time: convertTime, picker, timeType, status}))
                 // dispatch(getThongkeTuoi({hospitalId, time: convertTime, picker, status}))
                 break;
 

@@ -8,7 +8,7 @@ import dayjs from "dayjs";
 import isoWeek from 'dayjs/plugin/isoWeek';
 import { getAllMedia } from "../../../features/patientSlice";
 import NotHospital from "../../../components/notHospital";
-import { getThongkeTuoi } from "../../../features/dataReportSlice";
+import { getThongkeTheoTinhTrang, getThongkeTuoi } from "../../../features/dataReportSlice";
 import 'dayjs/locale/vi';
 dayjs.extend(isoWeek);
 
@@ -20,27 +20,19 @@ interface DataType {
     year: string,
     day?: string,
     total: number,
-    _0To9Year: number,
-    _10To14Year: number,
-    _15To19Year: number,
-    _20To24Year: number,
-    _25To29Year: number,
-    _30To34Year: number,
-    _35To39Year: number,
-    _40To44Year: number,
-    _45To49Year: number,
-    _50To54Year: number,
-    _55To59Year: number,
-    _60Year: number,
+    CHODOI : number,
+    CHUADEN: number,
+    DADEN: number,
+    KHONGXACDINH: number,
+    percent: number
 }
 
-const AgeStatistics: FC = () => {
+const HospitalizationStatus: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const hospitalId = localStorage.getItem('hospitalId')
     const [picker, setPicker] = useState<any>('week');
     const [time, setTime] = useState<any>([]);
     const [timeType, setTimeType] = useState<string>('appointmentTime');
-    const [status, setStatus] = useState<string>('');
     const [media, setMedia] = useState<string>('');
     const { patient, dataReport } = useSelector((state: RootState) => state);
     const currentWeek = dayjs();
@@ -61,7 +53,7 @@ const AgeStatistics: FC = () => {
         },
         {
 
-            title: 'Thống kê tuổi',
+            title: 'Thống kê tình trạng nhập viện',
         },
 
     ];
@@ -136,10 +128,6 @@ const AgeStatistics: FC = () => {
         setTimeType(e);
     }
 
-    const onChangeStatus = (e: any) => {
-        setStatus(e)
-    }
-
     const onChangeMedia = (e: any) => {
         setMedia(e);
     }
@@ -151,10 +139,9 @@ const AgeStatistics: FC = () => {
             time: picker === 'year' ? convertTimeYear : convertTime,
             picker: picker,
             timeType: timeType,
-            status: status,
             media: media
         }
-        dispatch(getThongkeTuoi(body))
+        dispatch(getThongkeTheoTinhTrang(body))
     }
     
     useEffect(() => {
@@ -162,7 +149,7 @@ const AgeStatistics: FC = () => {
             case 'week':
                 const defaultWeek = currentWeek.format('YYYY-ww');
                 onChange(currentWeek, defaultWeek);
-                dispatch(getThongkeTuoi({hospitalId, time: convertTime, picker,timeType, status, media}))
+                dispatch(getThongkeTheoTinhTrang({hospitalId, time: convertTime, picker, timeType, media}))
                 break;
 
             case 'month':
@@ -210,9 +197,9 @@ const AgeStatistics: FC = () => {
             },
         },
         {
-            title: '0~9',
-            dataIndex: '_0To9Year',
-            key: '_0To9Year',
+            title: 'Đã đến',
+            dataIndex: 'DADEN',
+            key: 'DADEN',
             render(value, record, index) {
                 if(Number(value) > 0){
                     return <span className="px-2 py-1 rounded-full bg-orange-500 text-white " > {value}</span>
@@ -222,22 +209,9 @@ const AgeStatistics: FC = () => {
             },
         },
         {
-            title: '10~14',
-            key: '_10To14Year',
-            dataIndex: '_10To14Year',
-            render(value, record, index) {
-                if(Number(value) > 0){
-                    return <span className="px-2 py-1 rounded-full bg-orange-500 text-white " > {value}</span>
-                } else {
-                    return <>{value}</>
-                }
-            },
-
-        },
-        {
-            title: '15~19',
-            key: '_15To19Year',
-            dataIndex: '_15To19Year',
+            title: 'Chưa đến',
+            dataIndex: 'CHUADEN',
+            key: 'CHUADEN',
             render(value, record, index) {
                 if(Number(value) > 0){
                     return <span className="px-2 py-1 rounded-full bg-orange-500 text-white " > {value}</span>
@@ -247,22 +221,9 @@ const AgeStatistics: FC = () => {
             },
         },
         {
-            title: '20~24',
-            key: '_20To24Year',
-            dataIndex: '_20To24Year',
-            render(value, record, index) {
-                if(Number(value) > 0){
-                    return <span className="px-2 py-1 rounded-full bg-orange-500 text-white " > {value}</span>
-                } else {
-                    return <>{value}</>
-                }
-            },
-
-        },
-        {
-            title: '25~29',
-            key: '_25To29Year',
-            dataIndex: '_25To29Year',
+            title: 'Chờ đợi',
+            dataIndex: 'CHODOI',
+            key: 'CHODOI',
             render(value, record, index) {
                 if(Number(value) > 0){
                     return <span className="px-2 py-1 rounded-full bg-orange-500 text-white " > {value}</span>
@@ -272,95 +233,20 @@ const AgeStatistics: FC = () => {
             },
         },
         {
-            title: '30~34',
-            key: '_30To34Year',
-            dataIndex: '_30To34Year',
+            title: 'Tỉ lệ %',
+            dataIndex: 'percent',
+            key: 'percent',
             render(value, record, index) {
                 if(Number(value) > 0){
-                    return <span className="px-2 py-1 rounded-full bg-orange-500 text-white " > {value}</span>
+                    return <span className="px-2 py-1 rounded-full bg-orange-500 text-white " > {value }%</span>
                 } else {
-                    return <>{value}</>
-                }
-            },
-
-        },
-        {
-            title: '35~39',
-            key: '_35To39Year',
-            dataIndex: '_35To39Year',
-            render(value, record, index) {
-                if(Number(value) > 0){
-                    return <span className="px-2 py-1 rounded-full bg-orange-500 text-white " > {value}</span>
-                } else {
-                    return <>{value}</>
+                    return <>{value}%</>
                 }
             },
         },
-        {
-            title: '40~44',
-            key: '_40To44Year',
-            dataIndex: '_40To44Year',
-            render(value, record, index) {
-                if(Number(value) > 0){
-                    return <span className="px-2 py-1 rounded-full bg-orange-500 text-white " > {value}</span>
-                } else {
-                    return <>{value}</>
-                }
-            },
-
-        },
-        {
-            title: '45~49',
-            key: '_45To49Year',
-            dataIndex: '_45To49Year',
-            render(value, record, index) {
-                if(Number(value) > 0){
-                    return <span className="px-2 py-1 rounded-full bg-orange-500 text-white " > {value}</span>
-                } else {
-                    return <>{value}</>
-                }
-            },
-        },
-        {
-            title: '50~54',
-            key: '_50To54Year',
-            dataIndex: '_50To54Year',
-            render(value, record, index) {
-                if(Number(value) > 0){
-                    return <span className="px-2 py-1 rounded-full bg-orange-500 text-white " > {value}</span>
-                } else {
-                    return <>{value}</>
-                }
-            },
-
-        },
-        {
-            title: '55~59',
-            key: '_55To59Year',
-            dataIndex: '_55To59Year',
-            render(value, record, index) {
-                if(Number(value) > 0){
-                    return <span className="px-2 py-1 rounded-full bg-orange-500 text-white " > {value}</span>
-                } else {
-                    return <>{value}</>
-                }
-            },
-        },
-        {
-            title: '60+',
-            key: '_60Year',
-            dataIndex: '_60Year',
-            render(value, record, index) {
-                if(Number(value) > 0){
-                    return <span className="px-2 py-1 rounded-full bg-orange-500 text-white " > {value}</span>
-                } else {
-                    return <>{value}</>
-                }
-            },
-        },
+        
 
     ];
-
     return <Fragment>
         {
             hospitalId ? <>
@@ -403,23 +289,6 @@ const AgeStatistics: FC = () => {
                         <DatePicker allowClear={false} onChange={onChange} picker={picker} defaultValue={currentWeek} />
                     </div>
                     <div>
-                        <div>Tình Trạng :</div>
-                        <Select
-                            className="w-[150px]"
-                            allowClear
-                            showSearch
-                            placeholder="--- Tùy Chọn ---"
-                            filterOption={(input, option) =>
-                                (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                            }
-                            options={[
-                                { id: '2', value: 'ĐÃ ĐẾN', label: 'ĐÃ ĐẾN' },
-                                { id: '3', value: 'CHƯA ĐẾN', label: 'CHƯA ĐẾN' }
-                            ]}
-                            onChange={onChangeStatus}
-                        />
-                    </div>
-                    <div>
                         <div>Nguồn đến :</div>
                         <Select
                             className="w-[150px]"
@@ -441,11 +310,10 @@ const AgeStatistics: FC = () => {
 
                     <Button onClick={onClickSearch} className="mt-5" type="primary" >Tìm kiếm</Button>
                 </Space>
-                <Table<DataType> columns={columns} dataSource={dataReport.tuoi || []} bordered pagination={false} />
+                <Table<DataType> columns={columns} dataSource={dataReport.TKStatus || []} bordered pagination={false} />
             </> : <NotHospital />
         }
-
     </Fragment>
 }
 
-export default AgeStatistics
+export default HospitalizationStatus
