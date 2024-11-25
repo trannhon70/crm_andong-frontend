@@ -40,6 +40,7 @@ import StatisticsByDisease from './pages/dataReport/statisticsByDisease';
 import Home from './pages/home';
 import MediaSource from './pages/dataReport/mediaSource';
 import HospitalizationStatus from './pages/dataReport/hospitalizationStatus';
+import Receptionist from './pages/dataReport/receptionist';
 
 
 const PrivateRoutes = () => {
@@ -133,6 +134,7 @@ const App: React.FC = () => {
           <Route path='/thong-ke-theo-benh' element={<StatisticsByDisease />} />
           <Route path='/thong-ke-theo-nguon-truyen-thong' element={<MediaSource />} />
           <Route path='/thong-ke-theo-tinh-trang-nhap-vien' element={<HospitalizationStatus />} />
+          <Route path='/thong-ke-theo-bac-si' element={<Receptionist />} />
 
           {/* cài đặt */}
           <Route path='/thiet-lap-benh-tat' element={<DiseaseManagement />} />
