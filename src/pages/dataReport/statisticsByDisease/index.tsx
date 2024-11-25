@@ -197,14 +197,21 @@ const StatisticsByDisease:FC = () => {
     const dynamicColumns = Array.isArray(dataReport?.TKTB?.diseases)
     ? dataReport.TKTB.diseases.map((group: any) => ({
           title: group?.name,
-          key: group?.id, 
-          dataIndex: group?.id,
-          render: (value: any) =>
-              Number(value) > 0 ? (
-                  <span className="px-2 py-1 rounded-full bg-orange-500 text-white">{value}</span>
-              ) : (
-                  <>{value}</>
-              ),
+          key: group?.id, // Đảm bảo key duy nhất
+          dataIndex: 'benh',
+          render: (value: any) => {
+              if (Array.isArray(value)) {
+                  const matchedItem = value.find((item: any) => item?.id === group?.id); // Tìm item phù hợp
+                  return matchedItem ? (
+                      <span key={group?.id} className="px-2 py-1 rounded-full bg-orange-500 text-white">
+                          {matchedItem?.count || 0}
+                      </span>
+                  ) : (
+                      0
+                  );
+              }
+              return 0; // Nếu value không phải mảng
+          },
       }))
     : [];
 
@@ -235,23 +242,8 @@ const StatisticsByDisease:FC = () => {
             },
         },
         ...dynamicColumns,
-        // ...dataReport?.TKTB?.diseases?.map((group : any) => ({
-        //     title: group.name,
-        //     key: '',
-        //     dataIndex: '',
-        //     render(value : any) {
-        //         if (Number(value) > 0) {
-        //             return <span className="px-2 py-1 rounded-full bg-orange-500 text-white">{value}</span>;
-        //         } else {
-        //             return <>{value}</>;
-        //         }
-        //     },
-        // })),
-
     ];
 
-// console.log(dataReport.TKTB.diseases)
-console.log(dataReport.TKTB.data)
     return <Fragment>
     {
         hospitalId ? <>

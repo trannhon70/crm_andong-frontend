@@ -37,7 +37,7 @@ import SummaryReport from './pages/dataReport/summaryReport';
 import Gender from './pages/dataReport/gender';
 import AgeStatistics from './pages/dataReport/ageStatistics';
 import StatisticsByDisease from './pages/dataReport/statisticsByDisease';
-import Home from './pages/Home';
+import Home from './pages/home';
 
 
 const PrivateRoutes = () => {
