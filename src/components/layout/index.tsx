@@ -47,7 +47,7 @@ const sub5 = [
 ]
 
 const sub4 = [
-    '/bao-cao-tong-hop', '/thong-ke-gioi-tinh', '/thong-ke-tuoi', '/thong-ke-theo-benh'
+    '/bao-cao-tong-hop', '/thong-ke-gioi-tinh', '/thong-ke-tuoi', '/thong-ke-theo-benh', '/thong-ke-theo-nguon-truyen-thong'
 ]
 
 const sub1 = [
@@ -117,7 +117,7 @@ const LayoutComponent: React.FC = () => {
             menu?.[3]?.ds.GT === true ? getItem(<Link to={'/thong-ke-gioi-tinh'}>Giới tính</Link>, '/thong-ke-gioi-tinh') : null,
             menu?.[3]?.ds.TUOI === true ? getItem(<Link to={'/thong-ke-tuoi'}>Tuổi</Link>, '/thong-ke-tuoi') : null,
             menu?.[3]?.ds.LBN === true ? getItem(<Link to={'/thong-ke-theo-benh'}>Loại bệnh nhân</Link>, '/thong-ke-theo-benh') : null,
-            menu?.[3]?.ds.NTT === true ? getItem('Nguồn truyền thông', '19') : null,
+            menu?.[3]?.ds.NTT === true ? getItem(<Link to={'/thong-ke-theo-nguon-truyen-thong'}>Nguồn truyền thông</Link>, '/thong-ke-theo-nguon-truyen-thong') : null,
             menu?.[3]?.ds.TTNV === true ? getItem('tình trạng nhập viện', '20') : null,
             menu?.[3]?.ds.BSLT === true ? getItem('Bác sĩ lễ tân', '21') : null,
             menu?.[3]?.ds.DVKH === true ? getItem('dịch vụ khách hàng', '22') : null,

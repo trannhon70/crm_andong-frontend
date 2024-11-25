@@ -20,7 +20,8 @@ export const patiantAPI = {
     getBaoCaoTongHop,
     getThongkeGioitinh,
     getThongkeTuoi,
-    getThongkeTheoBenh
+    getThongkeTheoBenh,
+    getThongkeTheoNguonTruyenThong
 }
 
 function createPatiant(body : IPatient) {
@@ -106,4 +107,8 @@ function getThongkeTuoi(body : any) {
 
 function getThongkeTheoBenh(body : any) {
     return instance.post(`/patient/thong-ke-theo-benh`,body)
+}
+
+function getThongkeTheoNguonTruyenThong(body : any) {
+    return instance.post(`/patient/thong-ke-theo-nguon-truyen-thong`,body)
 }

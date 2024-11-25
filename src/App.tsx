@@ -38,6 +38,7 @@ import Gender from './pages/dataReport/gender';
 import AgeStatistics from './pages/dataReport/ageStatistics';
 import StatisticsByDisease from './pages/dataReport/statisticsByDisease';
 import Home from './pages/home';
+import MediaSource from './pages/dataReport/mediaSource';
 
 
 const PrivateRoutes = () => {
@@ -129,6 +130,7 @@ const App: React.FC = () => {
           <Route path='/thong-ke-gioi-tinh' element={<Gender />} />
           <Route path='/thong-ke-tuoi' element={<AgeStatistics />} />
           <Route path='/thong-ke-theo-benh' element={<StatisticsByDisease />} />
+          <Route path='/thong-ke-theo-nguon-truyen-thong' element={<MediaSource />} />
 
           {/* cài đặt */}
           <Route path='/thiet-lap-benh-tat' element={<DiseaseManagement />} />
