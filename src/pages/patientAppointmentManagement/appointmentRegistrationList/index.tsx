@@ -19,6 +19,7 @@ import ModalUpload from "./modalUpload";
 import ComponentThongKe from "./componentThongKe";
 import NotHospital from "../../../components/notHospital";
 import useMenuData from "../../../hooks/useMenuData";
+import useClipboard from "../../../hooks/useClipboard";
 
 type SearchProps = GetProps<typeof Input.Search>;
 
@@ -39,6 +40,7 @@ const AppointmentRegistrationList: FC = () => {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const menu = useMenuData();
+    const {copyToClipboard} = useClipboard()
 
 
     const query = {
@@ -189,7 +191,7 @@ const AppointmentRegistrationList: FC = () => {
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
-                    children: <div className={className(record)} >{value}</div>,
+                    children: <div className={className(record)} >{value || 0}</div>,
                     props: { colSpan }
                 }
             },
@@ -207,14 +209,14 @@ const AppointmentRegistrationList: FC = () => {
                     props: { colSpan }
                 }
             },
-            width: 150,
+            width: 100,
         },
         {
             title: 'Tuổi',
             dataIndex: 'yearOld',
             key: 'yearOld',
             // sorter: (a, b) => a.yearOld - b.yearOld,
-            width: 100,
+            width: 50,
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
@@ -228,7 +230,7 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'phone',
             key: 'phone',
             // sorter: (a, b) => a.phone - b.phone,
-            width: 150,
+            width: 120,
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
@@ -241,7 +243,7 @@ const AppointmentRegistrationList: FC = () => {
             title: 'Mã chuyên gia',
             dataIndex: 'code',
             key: 'code',
-            width: 150,
+            width: 120,
             // sorter: (a, b) => a.code.localeCompare(b.code),
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
@@ -290,7 +292,7 @@ const AppointmentRegistrationList: FC = () => {
                     props: { colSpan }
                 }
             },
-            width: 150,
+            width: 120,
             // sorter: (a, b) => a.media?.name.localeCompare(b.media?.name),
         },
         {
@@ -358,11 +360,13 @@ const AppointmentRegistrationList: FC = () => {
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
-                    children: <div className={className(record)} >{value}</div>,
+                    children: <div className={className(record)}  title={value} // Hiển thị tooltip khi di chuột
+                    onClick={() => copyToClipboard(value)}
+                    style={{ cursor: "pointer", textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden", textDecoration: "underline", }} >{value}</div>,
                     props: { colSpan }
                 }
             },
-            width: 150,
+            width: 100,
         },
         {
             title: 'Sửa thời gian đăng ký',
@@ -389,11 +393,11 @@ const AppointmentRegistrationList: FC = () => {
                     props: { colSpan }
                 }
             },
-            width: 150,
+            width: 120,
             // sorter: (a, b) => a.doctor?.name.localeCompare(b.doctor?.name),
         },
         {
-            title: 'Tình trạng cuộc hẹn',
+            title: 'Trạng thái',
             dataIndex: 'status',
             key: 'status',
             render(value, record, index) {
@@ -419,7 +423,7 @@ const AppointmentRegistrationList: FC = () => {
 
             },
             // sorter: (a, b) => a.status.localeCompare(b.status),
-            width: 150,
+            width: 130,
         },
         {
             title: 'Người thêm',
@@ -432,7 +436,7 @@ const AppointmentRegistrationList: FC = () => {
                     props: { colSpan }
                 }
             },
-            width: 150,
+            width: 120,
             // sorter: (a, b) => a.user?.fullName.localeCompare(b.user?.fullName),
         },
         {
@@ -453,7 +457,7 @@ const AppointmentRegistrationList: FC = () => {
                     props: { colSpan }
                 }
             },
-            width: 150,
+            width: 130,
         },
         {
             title: 'Ngày tạo',
