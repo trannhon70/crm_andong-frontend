@@ -180,8 +180,6 @@ const CustomerService: FC = () => {
             render: (value: any) => {
                 if (Array.isArray(value)) {
                     const matchedItem = value.find((item: any) => item?.id === group?.id); // Tìm item phù hợp
-                    console.log(matchedItem, 'matchedItem');
-                    
                     return matchedItem ? (
                         <span key={group?.id} className="px-2 py-1 rounded-full bg-orange-500 text-white">
                             {matchedItem?.count || 0}
