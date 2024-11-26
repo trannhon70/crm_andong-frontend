@@ -1,6 +1,6 @@
 import { Button, Dropdown, GetProps, Input, MenuProps, Popover, TableProps, Tag } from "antd";
 import moment from "moment";
-import { FC, Fragment, useEffect, useState } from "react";
+import { FC, Fragment, useEffect, useLayoutEffect, useState } from "react";
 import { FaCheck, FaFile, FaHistory } from "react-icons/fa";
 import { HiPencilSquare, HiStar } from "react-icons/hi2";
 import { IoSettingsSharp } from "react-icons/io5";
@@ -34,6 +34,7 @@ const AppointmentRegistrationList: FC = () => {
     const [pageIndex, setPageIndex] = useState<number>(1)
     const [pageSize, setPageSize] = useState<number>(25)
     const { data, total, loading } = useSelector((state: RootState) => state.patient);
+    const {entities} = useSelector((state: RootState) => state.users)
     const hospitalId = localStorage.getItem('hospitalId')
     let dataFormat: any = []
     const location = useLocation();
@@ -54,13 +55,16 @@ const AppointmentRegistrationList: FC = () => {
         mediaId: Number(queryParams.get('mediaId')) || '',
         created_at: queryParams.get('created_at'),
         appointmentTime: queryParams.get('appointmentTime'),
-        viewAllData: menu?.[1].ds?.action_DSDKH.viewAllData || false
+        userId: menu?.[1].ds?.action_DSDKH.viewAllData === true ? '' : entities.id
     };
     
-    useEffect(() => {
-       
-        dispatch(getPagingPatient(query))
-    }, [dispatch, pageSize, pageIndex, hospitalId, menu?.[1].ds?.action_DSDKH.viewAllData])
+    
+    useLayoutEffect(() => {
+       if(menu?.[1].ds?.action_DSDKH.viewAllData && hospitalId){
+            dispatch(getPagingPatient(query))
+       }
+        
+    }, [dispatch, pageSize, pageIndex, hospitalId, menu?.[1].ds?.action_DSDKH.viewAllData, entities.id])
 
     if (data.length > 0) {
         const formatDataWithSummary = (data: any) => {
@@ -94,10 +98,14 @@ const AppointmentRegistrationList: FC = () => {
         dataFormat = formatDataWithSummary(data);
     }
 
-    useEffect(() => {
-        setPageIndex(1);
-        dispatch(getPagingPatient(query));
-    }, [location.search, dispatch, pageSize, hospitalId]);
+    useLayoutEffect(() => {
+       
+        if( hospitalId || menu?.[1].ds?.action_DSDKH.viewAllData){
+            setPageIndex(1);
+            dispatch(getPagingPatient(query));
+        }
+        
+    }, [location.search, dispatch, pageSize, hospitalId, menu?.[1].ds?.action_DSDKH.viewAllData, entities.id]);
 
 
     const dataBreadcrumb = [
