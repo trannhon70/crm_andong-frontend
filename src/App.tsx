@@ -41,6 +41,7 @@ import Home from './pages/home';
 import MediaSource from './pages/dataReport/mediaSource';
 import HospitalizationStatus from './pages/dataReport/hospitalizationStatus';
 import Receptionist from './pages/dataReport/receptionist';
+import CustomerService from './pages/dataReport/customerService';
 
 
 const PrivateRoutes = () => {
@@ -135,6 +136,7 @@ const App: React.FC = () => {
           <Route path='/thong-ke-theo-nguon-truyen-thong' element={<MediaSource />} />
           <Route path='/thong-ke-theo-tinh-trang-nhap-vien' element={<HospitalizationStatus />} />
           <Route path='/thong-ke-theo-bac-si' element={<Receptionist />} />
+          <Route path='/thong-ke-theo-dich-vu-khach-hang' element={<CustomerService />} />
 
           {/* cài đặt */}
           <Route path='/thiet-lap-benh-tat' element={<DiseaseManagement />} />

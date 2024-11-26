@@ -6,7 +6,7 @@ import { FC, Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BreadcrumbComponent from "../../../components/breadcrumbComponent";
 import NotHospital from "../../../components/notHospital";
-import { getThongkeTheoBacSi } from "../../../features/dataReportSlice";
+import { getThongkeTheoBacSi, getThongkeTheoDichvuKhachHang } from "../../../features/dataReportSlice";
 import { getAllMedia } from "../../../features/patientSlice";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { getDaysInQuarter, getMonthsInYear, TIME } from "../../../utils";
@@ -23,7 +23,8 @@ interface DataType {
 
 }
 
-const Receptionist: FC = () => {
+
+const CustomerService: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const hospitalId = localStorage.getItem('hospitalId')
     const [picker, setPicker] = useState<any>('week');
@@ -142,7 +143,7 @@ const Receptionist: FC = () => {
             status: status,
             media: media,
         }
-        dispatch(getThongkeTheoBacSi(body))
+        dispatch(getThongkeTheoDichvuKhachHang(body))
     }
 
     useEffect(() => {
@@ -150,7 +151,7 @@ const Receptionist: FC = () => {
             case 'week':
                 const defaultWeek = currentWeek.format('YYYY-ww');
                 onChange(currentWeek, defaultWeek);
-                dispatch(getThongkeTheoBacSi({ hospitalId, time: convertTime, picker,timeType, status, media }))
+                dispatch(getThongkeTheoDichvuKhachHang({ hospitalId, time: convertTime, picker,timeType, status, media }))
                 break;
 
             case 'month':
@@ -171,14 +172,16 @@ const Receptionist: FC = () => {
 
     }, [picker, hospitalId, time.length > 0])
 
-    const dynamicColumns = Array.isArray(dataReport?.TKDoctor.doctor)
-        ? dataReport.TKDoctor.doctor.map((group: any) => ({
-            title: group?.name,
+    const dynamicColumns = Array.isArray(dataReport?.TKDVKH.users)
+        ? dataReport?.TKDVKH.users.map((group: any) => ({
+            title: group?.fullName,
             key: group?.id, // Đảm bảo key duy nhất
-            dataIndex: 'doctor',
+            dataIndex: 'users',
             render: (value: any) => {
                 if (Array.isArray(value)) {
                     const matchedItem = value.find((item: any) => item?.id === group?.id); // Tìm item phù hợp
+                    console.log(matchedItem, 'matchedItem');
+                    
                     return matchedItem ? (
                         <span key={group?.id} className="px-2 py-1 rounded-full bg-orange-500 text-white">
                             {matchedItem?.count || 0}
@@ -222,7 +225,7 @@ const Receptionist: FC = () => {
     ];
 
     return <Fragment>
-        {
+       {
             hospitalId ? <>
                 <BreadcrumbComponent items={dataBreadcrumb} />
                 <Space direction="horizontal" className="mb-2" >
@@ -302,10 +305,10 @@ const Receptionist: FC = () => {
 
                     <Button onClick={onClickSearch} className="mt-5" type="primary" >Tìm kiếm</Button>
                 </Space>
-                <Table<DataType> columns={columns} dataSource={dataReport.TKDoctor.data || []} bordered pagination={false} />
+                <Table<DataType> columns={columns} dataSource={dataReport.TKDVKH.data || []} bordered pagination={false} />
             </> : <NotHospital />
         }
     </Fragment>
 }
 
-export default Receptionist
+export default CustomerService
