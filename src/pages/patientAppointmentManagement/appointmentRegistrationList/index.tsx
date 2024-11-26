@@ -33,7 +33,6 @@ const AppointmentRegistrationList: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const [pageIndex, setPageIndex] = useState<number>(1)
     const [pageSize, setPageSize] = useState<number>(25)
-    const [search, setSearch] = useState<string>('')
     const { data, total, loading } = useSelector((state: RootState) => state.patient);
     const hospitalId = localStorage.getItem('hospitalId')
     let dataFormat: any = []
@@ -54,12 +53,14 @@ const AppointmentRegistrationList: FC = () => {
         diseasesId: Number(queryParams.get('diseasesId')) || '',
         mediaId: Number(queryParams.get('mediaId')) || '',
         created_at: queryParams.get('created_at'),
-        appointmentTime: queryParams.get('appointmentTime')
+        appointmentTime: queryParams.get('appointmentTime'),
+        viewAllData: menu?.[1].ds?.action_DSDKH.viewAllData || false
     };
-
+    
     useEffect(() => {
+       
         dispatch(getPagingPatient(query))
-    }, [dispatch, pageSize, pageIndex, hospitalId])
+    }, [dispatch, pageSize, pageIndex, hospitalId, menu?.[1].ds?.action_DSDKH.viewAllData])
 
     if (data.length > 0) {
         const formatDataWithSummary = (data: any) => {
@@ -173,7 +174,6 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'name',
             key: 'name',
             fixed: 'left',
-            // sorter: (a, b) => a.name.localeCompare(b.name),
             width: 150,
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 9 : 1;
@@ -187,7 +187,6 @@ const AppointmentRegistrationList: FC = () => {
             title: 'chi phí',
             dataIndex: 'money',
             key: 'money',
-            // sorter: (a, b) => a.gender.localeCompare(b.gender),
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
@@ -201,7 +200,6 @@ const AppointmentRegistrationList: FC = () => {
             title: 'Giới tính',
             dataIndex: 'gender',
             key: 'gender',
-            // sorter: (a, b) => a.gender.localeCompare(b.gender),
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
@@ -215,7 +213,6 @@ const AppointmentRegistrationList: FC = () => {
             title: 'Tuổi',
             dataIndex: 'yearOld',
             key: 'yearOld',
-            // sorter: (a, b) => a.yearOld - b.yearOld,
             width: 50,
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
@@ -229,7 +226,6 @@ const AppointmentRegistrationList: FC = () => {
             title: 'Số điện thoại',
             dataIndex: 'phone',
             key: 'phone',
-            // sorter: (a, b) => a.phone - b.phone,
             width: 120,
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
@@ -244,7 +240,6 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'code',
             key: 'code',
             width: 120,
-            // sorter: (a, b) => a.code.localeCompare(b.code),
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
@@ -265,7 +260,6 @@ const AppointmentRegistrationList: FC = () => {
                 }
             },
             width: 150,
-            // sorter: (a, b) => a.department?.name.localeCompare(b.department?.name),
         },
         {
             title: 'Bệnh',
@@ -279,7 +273,6 @@ const AppointmentRegistrationList: FC = () => {
                 }
             },
             width: 250,
-            // sorter: (a, b) => a.diseases?.name.localeCompare(b.diseases?.name),
         },
         {
             title: 'Nguồn đến',
@@ -293,7 +286,6 @@ const AppointmentRegistrationList: FC = () => {
                 }
             },
             width: 120,
-            // sorter: (a, b) => a.media?.name.localeCompare(b.media?.name),
         },
         {
             title: 'tỉnh/TP',
@@ -307,7 +299,6 @@ const AppointmentRegistrationList: FC = () => {
                 }
             },
             width: 150,
-            // sorter: (a, b) => a.city?.name.localeCompare(b.city?.name),
         },
         {
             title: 'Quận/huyện',
@@ -321,7 +312,6 @@ const AppointmentRegistrationList: FC = () => {
                 }
             },
             width: 150,
-            // sorter: (a, b) => a.district?.name.localeCompare(b.district?.name),
         },
 
 
@@ -337,7 +327,6 @@ const AppointmentRegistrationList: FC = () => {
                 }
             },
             width: 150,
-            // sorter: (a, b) => a.appointmentTime - b.appointmentTime,
         },
         {
             title: 'Thời gian nhắc hẹn',
@@ -351,7 +340,6 @@ const AppointmentRegistrationList: FC = () => {
                     props: { colSpan }
                 }
             },
-            // sorter: (a, b) => a.reminderTime - b.reminderTime,
         },
         {
             title: 'Ghi chú',
@@ -380,7 +368,6 @@ const AppointmentRegistrationList: FC = () => {
                 }
             },
             width: 160,
-            // sorter: (a, b) => a.editregistrationTime - b.editregistrationTime,
         },
         {
             title: 'Bác sĩ',
@@ -394,7 +381,6 @@ const AppointmentRegistrationList: FC = () => {
                 }
             },
             width: 120,
-            // sorter: (a, b) => a.doctor?.name.localeCompare(b.doctor?.name),
         },
         {
             title: 'Trạng thái',
@@ -402,7 +388,6 @@ const AppointmentRegistrationList: FC = () => {
             key: 'status',
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
-                // Đảm bảo `children` không hiển thị khi `colSpan` là `0`
                 const children = colSpan === 0 ? null : (() => {
                     if (value === 'CHỜ ĐỢI') {
                         return <Tag style={{ textTransform: "uppercase" }} color="magenta">{value}</Tag>;
@@ -422,7 +407,6 @@ const AppointmentRegistrationList: FC = () => {
                 };
 
             },
-            // sorter: (a, b) => a.status.localeCompare(b.status),
             width: 130,
         },
         {
@@ -437,7 +421,6 @@ const AppointmentRegistrationList: FC = () => {
                 }
             },
             width: 120,
-            // sorter: (a, b) => a.user?.fullName.localeCompare(b.user?.fullName),
         },
         {
             title: 'Hồ sơ thăm khám',

@@ -101,12 +101,12 @@ const LayoutComponent: React.FC = () => {
             menu?.[1]?.ds?.XDLBN === true ?getItem(<Link to={'/xuat-du-lieu-benh-nhan'}>Xuất dữ liệu bệnh nhân</Link>, '/xuat-du-lieu-benh-nhan'): null,
             // menu?.[1]?.ds?.SSDLTCN === true ?getItem(<Link to={'/so-sanh-du-lieu-theo-nam'}>So sánh dữ liệu theo từng năm</Link>, '/so-sanh-du-lieu-theo-nam'): null,
         ]),] : []),
-        ...(menu?.[2]?.TKKTC === true ? [getItem('Thống kê khách truy cập', 'sub2', <SiMicrosoftaccess  size={20}/>, [
-            menu?.[2]?.ds.CTDLM === true ? getItem('Chi tiết dữ liệu (mạng)', '11') : null, 
-            menu?.[2]?.ds.CDDABVM === true ? getItem('Cài đặt dự án bệnh viện (mạng)', '12') : null,
-            menu?.[2]?.ds.CTDLDT === true ? getItem('Chi tiết dữ liệu (số điện thoại)', '13') : null,
-            menu?.[2]?.ds.CDDABVDT === true ? getItem('Cài đặt dự án bệnh viện (điện thoại)', '14') : null,
-        ]),] : []),
+        // ...(menu?.[2]?.TKKTC === true ? [getItem('Thống kê khách truy cập', 'sub2', <SiMicrosoftaccess  size={20}/>, [
+        //     menu?.[2]?.ds.CTDLM === true ? getItem('Chi tiết dữ liệu (mạng)', '11') : null, 
+        //     menu?.[2]?.ds.CDDABVM === true ? getItem('Cài đặt dự án bệnh viện (mạng)', '12') : null,
+        //     menu?.[2]?.ds.CTDLDT === true ? getItem('Chi tiết dữ liệu (số điện thoại)', '13') : null,
+        //     menu?.[2]?.ds.CDDABVDT === true ? getItem('Cài đặt dự án bệnh viện (điện thoại)', '14') : null,
+        // ]),] : []),
         // getItem('Quản lý đăng ký trang web', 'sub3', <TbWebhook size={20}/>, [
         //     getItem('Danh sách đăng ký trang web', '12'), 
         //     getItem('Cài đặt đăng ký trang web', '13'),
@@ -126,7 +126,7 @@ const LayoutComponent: React.FC = () => {
         ...(menu?.[4]?.CD === true ? [getItem('Cài đặt', 'sub5', <IoSettings size={20}/>, [
             menu?.[4]?.ds.CDBS === true ? getItem(<Link to={'/thiet-lap-bac-si'}>Cài đặt bác sĩ</Link>, '/thiet-lap-bac-si') : null, 
             menu?.[4]?.ds.TLBT === true ? getItem(<Link to={'/thiet-lap-benh-tat'} >thiết lập bệnh tật</Link>, '/thiet-lap-benh-tat') : null,
-            menu?.[4]?.ds.CDLDTYT === true ? getItem('Cài đặt loại điều trị y tế', '25') : null,
+            // menu?.[4]?.ds.CDLDTYT === true ? getItem('Cài đặt loại điều trị y tế', '25') : null,
             menu?.[4]?.ds.CDKBV === true ? getItem(<Link to={'/quan-ly-khoa'}>Cài đặt khoa bệnh viện</Link>, '/quan-ly-khoa') : null,
             menu?.[4]?.ds.CDCCTK === true ? getItem( <Link to={'/cong-cu-tim-kiem'} >Cài đặt công cụ tìm kiếm</Link> , '/cong-cu-tim-kiem') : null,
         
@@ -136,7 +136,7 @@ const LayoutComponent: React.FC = () => {
             menu?.[6]?.ds.QLCN === true ? getItem(<Link to={'/quan-ly-con-nguoi'}>quản lý con người</Link>, '/quan-ly-con-nguoi') : null, 
             menu?.[6]?.ds.QLQ === true ? getItem(<Link to={'/quan-ly-quyen'}>Quản lý quyền</Link>, '/quan-ly-quyen') : null,
             menu?.[6]?.ds.DSBV === true ? getItem(<Link to={'/danh-sach-benh-vien'}>Danh sách bệnh viện</Link>, '/danh-sach-benh-vien') : null,
-            menu?.[6]?.ds.QLTB === true ? getItem('Quản lý thông báo', '31') : null,
+            // menu?.[6]?.ds.QLTB === true ? getItem('Quản lý thông báo', '31') : null,
         ]),] : []),
         ...(menu?.[7]?.LSTT === true ? [getItem('Lịch sử thao tác', 'sub7', <FaHistory size={20}/>, [
             menu?.[7]?.ds.NKHD === true ?  getItem(<Link to={'/nhat-ky-hoat-dong'}>Nhật ký hoạt động</Link>, '/nhat-ky-hoat-dong') : null, 

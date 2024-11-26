@@ -8,8 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
 import { fetchGetById } from '../../features/rolesSlice';
 
-
-
 const CreateRight: FC = () => {
     const [form, setForm] = useState<any[]>([
         {
@@ -23,7 +21,8 @@ const CreateRight: FC = () => {
                     create: false,
                     update: false,
                     delete: false,
-                    see: false
+                    see: false,
+                    viewAllData: false,
                 },
                 CHTKBN: false,
                 LLTVBN: false,
@@ -271,6 +270,7 @@ const CreateRight: FC = () => {
             updatedForm[1].ds.action_DSDKH.update = checked; 
             updatedForm[1].ds.action_DSDKH.delete = checked; 
             updatedForm[1].ds.action_DSDKH.see = checked; 
+            updatedForm[1].ds.action_DSDKH.viewAllData = checked; 
             return updatedForm; 
         });
     }
@@ -285,6 +285,7 @@ const CreateRight: FC = () => {
             updatedForm[1].ds.action_DSDKH.update = checked; 
             updatedForm[1].ds.action_DSDKH.delete = checked; 
             updatedForm[1].ds.action_DSDKH.see = checked; 
+            updatedForm[1].ds.action_DSDKH.viewAllData = checked; 
             return updatedForm; 
         });
 
@@ -330,6 +331,17 @@ const CreateRight: FC = () => {
             updatedForm[1].QLBN = true;
             updatedForm[1].ds.DSDKH = true;
             updatedForm[1].ds.action_DSDKH.see = checked; 
+            return updatedForm; 
+        });
+    }
+
+    const onChangeDSDKHViewAllData: CheckboxProps['onChange'] = (e) => {
+        const checked = e.target.checked; 
+        setForm((prevForm: any[]) => {
+            const updatedForm = [...prevForm]; 
+            updatedForm[1].QLBN = true;
+            updatedForm[1].ds.DSDKH = true;
+            updatedForm[1].ds.action_DSDKH.viewAllData = checked; 
             return updatedForm; 
         });
     }
@@ -1297,7 +1309,8 @@ const CreateRight: FC = () => {
                         create: true,
                         update: true,
                         delete: true,
-                        see: true
+                        see: true,
+                        viewAllData: true,
                     },
                     CHTKBN: true,
                     LLTVBN: true,
@@ -1446,7 +1459,8 @@ const CreateRight: FC = () => {
                         create: false,
                         update: false,
                         delete: false,
-                        see: false
+                        see: false,
+                        viewAllData: false,
                     },
                     CHTKBN: false,
                     LLTVBN: false,
@@ -1637,7 +1651,8 @@ const CreateRight: FC = () => {
                         <Checkbox onChange={onChangeDSDKHCreate} checked={form[1].ds.action_DSDKH.create} >Thêm mới</Checkbox>
                         <Checkbox onChange={onChangeDSDKHUpdate} checked={form[1].ds.action_DSDKH.update} >Cập nhật</Checkbox>
                         <Checkbox onChange={onChangeDSDKHDelete} checked={form[1].ds.action_DSDKH.delete}>Xóa</Checkbox>
-                        <Checkbox onChange={onChangeDSDKHSee} checked={form[1].ds.action_DSDKH.see}>Xem</Checkbox>
+                        <Checkbox onChange={onChangeDSDKHSee} checked={form[1].ds.action_DSDKH.see}>Xem lịch sử</Checkbox>
+                        <Checkbox onChange={onChangeDSDKHViewAllData} checked={form[1].ds.action_DSDKH.viewAllData}>Xem tất cả dữ liệu</Checkbox>
                     </td>
                 </tr>
                 <tr className="bg-[#f2f2f2]">
@@ -1675,7 +1690,7 @@ const CreateRight: FC = () => {
                         <Checkbox onChange={onChangeSSDLTCN} checked={form[1].ds.SSDLTCN} >So sánh dữ liệu theo chiều ngang</Checkbox>
                     </td>
                 </tr>
-                <tr className="bg-[#f2f2f2]" >
+                {/* <tr className="bg-[#f2f2f2]" >
                     <td rowSpan={5}  className="border border-slate-300 ..." >
                         <Checkbox onChange={onChangeTKKTC} checked={form[2].TKKTC} >Thống kê khách truy cập</Checkbox>
                     </td>
@@ -1709,7 +1724,7 @@ const CreateRight: FC = () => {
                         <Checkbox onChange={onChangeActionCDDABVDTUpdate} checked={form[2].ds.action_CDDABVDT.update}>Cập nhật</Checkbox>
                         <Checkbox onChange={onChangeActionCDDABVDTDelete} checked={form[2].ds.action_CDDABVDT.delete}>Xóa</Checkbox>
                     </td>
-                </tr>
+                </tr> */}
 
                 <tr>
                     <td rowSpan={9}  className="border border-slate-300 ..." >

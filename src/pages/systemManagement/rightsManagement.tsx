@@ -91,10 +91,10 @@ const RightsManagement: FC = () => {
         key: 'id',
         dataIndex: 'id',
         render(value, record, index) {
-            if(record.id !== 1){
+            // if(record.id !== 1){
               return <div className='flex gap-4 ' >
                 {
-                   menu?.[6].ds?.action_QLQ.delete === true && <PopconfirmComponent 
+                  record.id !== 1 &&  menu?.[6].ds?.action_QLQ.delete === true && <PopconfirmComponent 
                    title ={<>Xóa quyền {record.name}</>} 
                    description= 'Bạn có chắc chắn muốn xóa tác vụ này không?'
                    value={value}
@@ -102,12 +102,13 @@ const RightsManagement: FC = () => {
                  />
                 }
                 {
-                   menu?.[6].ds?.action_QLQ.update === true && <HiPencilSquare onClick={() => onClickEdit(value)} className='cursor-pointer text-green-700 ' color='primary' size={25} />
+                   menu?.[6].ds?.action_QLQ.update === true && 
+                   <HiPencilSquare onClick={() => onClickEdit(value)} className='cursor-pointer text-green-700 ' color='primary' size={25} />
                 }
            
             
           </div>
-            }
+            // }
           
           
         },
