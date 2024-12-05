@@ -95,10 +95,10 @@ const LayoutComponent: React.FC = () => {
             menu?.[1]?.ds?.DSDKH === true ? getItem(<Link to={'/danh-sach-dang-ky-hen'}>{t("home:menu_left.Appointment_registration_list")}</Link>, '/danh-sach-dang-ky-hen'): null,
             // menu?.[1]?.ds?.CHTKBN === true ? getItem(<Link to={'/tim-kiem-benh-nhan'}>Tìm kiếm bệnh nhân</Link>, '4') : null,
             // menu?.[1]?.ds?.LLTVBN === true ? getItem(<Link to={'/tim-kiem-benh-nhan'}>Lặp lại truy vấn bệnh nhân</Link>, '5') : null,
-            menu?.[1]?.ds?.BCCTDVKH === true ?getItem(<Link to={'/bao-cao-chi-tiet-dich-vu-khach-hang'}>Báo cáo chi tiết dịch vụ khách hàng</Link>, '/bao-cao-chi-tiet-dich-vu-khach-hang'): null,
-            menu?.[1]?.ds?.BCXHHT === true ?getItem(<Link to={'/bao-cao-xu-huong-hang-thang'}>Báo cáo xu hướng hàng tháng</Link>, '/bao-cao-xu-huong-hang-thang'): null,
-            menu?.[1]?.ds?.BCDHTC === true ?getItem(<Link to={'/bao-cao-do-hoa-tuy-chinh'}>Báo cáo đồ họa tùy chỉnh</Link>, '/bao-cao-do-hoa-tuy-chinh'): null,
-            menu?.[1]?.ds?.XDLBN === true ?getItem(<Link to={'/xuat-du-lieu-benh-nhan'}>Xuất dữ liệu bệnh nhân</Link>, '/xuat-du-lieu-benh-nhan'): null,
+            menu?.[1]?.ds?.BCCTDVKH === true ?getItem(<Link to={'/bao-cao-chi-tiet-dich-vu-khach-hang'}>{t("home:menu_left.bao_cao_chi_tiet_dich_vu_khach_hang")}</Link>, '/bao-cao-chi-tiet-dich-vu-khach-hang'): null,
+            menu?.[1]?.ds?.BCXHHT === true ?getItem(<Link to={'/bao-cao-xu-huong-hang-thang'}>{t("home:menu_left.bao_cao_xu_huong_hang_thang")}</Link>, '/bao-cao-xu-huong-hang-thang'): null,
+            menu?.[1]?.ds?.BCDHTC === true ?getItem(<Link to={'/bao-cao-do-hoa-tuy-chinh'}>{t("home:menu_left.bao_cao_do_hoa_tuy_chinh")}</Link>, '/bao-cao-do-hoa-tuy-chinh'): null,
+            menu?.[1]?.ds?.XDLBN === true ?getItem(<Link to={'/xuat-du-lieu-benh-nhan'}>{t("home:menu_left.xuat_du_lieu_benh_nhanh")}</Link>, '/xuat-du-lieu-benh-nhan'): null,
             // menu?.[1]?.ds?.SSDLTCN === true ?getItem(<Link to={'/so-sanh-du-lieu-theo-nam'}>So sánh dữ liệu theo từng năm</Link>, '/so-sanh-du-lieu-theo-nam'): null,
         ]),] : []),
         // ...(menu?.[2]?.TKKTC === true ? [getItem('Thống kê khách truy cập', 'sub2', <SiMicrosoftaccess  size={20}/>, [
@@ -112,35 +112,35 @@ const LayoutComponent: React.FC = () => {
         //     getItem('Cài đặt đăng ký trang web', '13'),
         
         // ]),
-        ...(menu?.[3]?.BCDL === true ? [getItem( 'Báo cáo dữ liệu', 'sub4', <TbReport size={20}/>, [
-            menu?.[3]?.ds.BCTH === true ?getItem(<Link to={'/bao-cao-tong-hop'}>Báo cáo tổng hợp</Link>, '/bao-cao-tong-hop') : null, 
-            menu?.[3]?.ds.GT === true ? getItem(<Link to={'/thong-ke-gioi-tinh'}>Giới tính</Link>, '/thong-ke-gioi-tinh') : null,
-            menu?.[3]?.ds.TUOI === true ? getItem(<Link to={'/thong-ke-tuoi'}>Tuổi</Link>, '/thong-ke-tuoi') : null,
-            menu?.[3]?.ds.LBN === true ? getItem(<Link to={'/thong-ke-theo-benh'}>Loại bệnh nhân</Link>, '/thong-ke-theo-benh') : null,
-            menu?.[3]?.ds.NTT === true ? getItem(<Link to={'/thong-ke-theo-nguon-truyen-thong'}>Nguồn truyền thông</Link>, '/thong-ke-theo-nguon-truyen-thong') : null,
-            menu?.[3]?.ds.TTNV === true ? getItem(<Link to={'/thong-ke-theo-tinh-trang-nhap-vien'}>tình trạng nhập viện</Link>, '/thong-ke-theo-tinh-trang-nhap-vien') : null,
-            menu?.[3]?.ds.BSLT === true ? getItem(<Link to={'/thong-ke-theo-bac-si'} >Bác sĩ lễ tân</Link>, '/thong-ke-theo-bac-si') : null,
-            menu?.[3]?.ds.DVKH === true ? getItem(<Link to={'/thong-ke-theo-dich-vu-khach-hang'} >dịch vụ khách hàng</Link>, '/thong-ke-theo-dich-vu-khach-hang') : null,
+        ...(menu?.[3]?.BCDL === true ? [getItem( <div>{t("home:menu_left.bao_cao_du_lieu")}</div>, 'sub4', <TbReport size={20}/>, [
+            menu?.[3]?.ds.BCTH === true ?getItem(<Link to={'/bao-cao-tong-hop'}>{t("home:menu_left.bao_cao_tong_hop")}</Link>, '/bao-cao-tong-hop') : null, 
+            menu?.[3]?.ds.GT === true ? getItem(<Link to={'/thong-ke-gioi-tinh'}>{t("home:menu_left.gioi_tinh")}</Link>, '/thong-ke-gioi-tinh') : null,
+            menu?.[3]?.ds.TUOI === true ? getItem(<Link to={'/thong-ke-tuoi'}>{t("home:menu_left.tuoi")}</Link>, '/thong-ke-tuoi') : null,
+            menu?.[3]?.ds.LBN === true ? getItem(<Link to={'/thong-ke-theo-benh'}>{t("home:menu_left.loai_benh_nhan")}</Link>, '/thong-ke-theo-benh') : null,
+            menu?.[3]?.ds.NTT === true ? getItem(<Link to={'/thong-ke-theo-nguon-truyen-thong'}>{t("home:menu_left.nguon_truyen_thong")}</Link>, '/thong-ke-theo-nguon-truyen-thong') : null,
+            menu?.[3]?.ds.TTNV === true ? getItem(<Link to={'/thong-ke-theo-tinh-trang-nhap-vien'}>{t("home:menu_left.tinh_trang_nhap_vien")}</Link>, '/thong-ke-theo-tinh-trang-nhap-vien') : null,
+            menu?.[3]?.ds.BSLT === true ? getItem(<Link to={'/thong-ke-theo-bac-si'} >{t("home:menu_left.bac_si")}</Link>, '/thong-ke-theo-bac-si') : null,
+            menu?.[3]?.ds.DVKH === true ? getItem(<Link to={'/thong-ke-theo-dich-vu-khach-hang'} >{t("home:menu_left.dich_vu_khach_hang")}</Link>, '/thong-ke-theo-dich-vu-khach-hang') : null,
         
         ]),] : []), 
-        ...(menu?.[4]?.CD === true ? [getItem('Cài đặt', 'sub5', <IoSettings size={20}/>, [
-            menu?.[4]?.ds.CDBS === true ? getItem(<Link to={'/thiet-lap-bac-si'}>Cài đặt bác sĩ</Link>, '/thiet-lap-bac-si') : null, 
-            menu?.[4]?.ds.TLBT === true ? getItem(<Link to={'/thiet-lap-benh-tat'} >thiết lập bệnh tật</Link>, '/thiet-lap-benh-tat') : null,
+        ...(menu?.[4]?.CD === true ? [getItem(<>{t("home:menu_left.cai_dat")}</>, 'sub5', <IoSettings size={20}/>, [
+            menu?.[4]?.ds.CDBS === true ? getItem(<Link to={'/thiet-lap-bac-si'}>{t("home:menu_left.cai_dat_bac_si")}</Link>, '/thiet-lap-bac-si') : null, 
+            menu?.[4]?.ds.TLBT === true ? getItem(<Link to={'/thiet-lap-benh-tat'} >{t("home:menu_left.thet_lap_benh_tat")}</Link>, '/thiet-lap-benh-tat') : null,
             // menu?.[4]?.ds.CDLDTYT === true ? getItem('Cài đặt loại điều trị y tế', '25') : null,
-            menu?.[4]?.ds.CDKBV === true ? getItem(<Link to={'/quan-ly-khoa'}>Cài đặt khoa bệnh viện</Link>, '/quan-ly-khoa') : null,
-            menu?.[4]?.ds.CDCCTK === true ? getItem( <Link to={'/cong-cu-tim-kiem'} >Cài đặt công cụ tìm kiếm</Link> , '/cong-cu-tim-kiem') : null,
+            menu?.[4]?.ds.CDKBV === true ? getItem(<Link to={'/quan-ly-khoa'}>{t("home:menu_left.cai_dat_khoa_benh_vien")}</Link>, '/quan-ly-khoa') : null,
+            menu?.[4]?.ds.CDCCTK === true ? getItem( <Link to={'/cong-cu-tim-kiem'} >{t("home:menu_left.Cai_dat_cong_cu_tim_kiem")}</Link> , '/cong-cu-tim-kiem') : null,
         
         ]),] : []),
         
-        ...(menu?.[6]?.QLHT === true ? [getItem('Quản lý hệ thống', 'sub6', <GrSystem size={20}/>, [
-            menu?.[6]?.ds.QLCN === true ? getItem(<Link to={'/quan-ly-con-nguoi'}>quản lý con người</Link>, '/quan-ly-con-nguoi') : null, 
-            menu?.[6]?.ds.QLQ === true ? getItem(<Link to={'/quan-ly-quyen'}>Quản lý quyền</Link>, '/quan-ly-quyen') : null,
-            menu?.[6]?.ds.DSBV === true ? getItem(<Link to={'/danh-sach-benh-vien'}>Danh sách bệnh viện</Link>, '/danh-sach-benh-vien') : null,
+        ...(menu?.[6]?.QLHT === true ? [getItem(<>{t("home:menu_left.quan_ly_he_thong")}</>, 'sub6', <GrSystem size={20}/>, [
+            menu?.[6]?.ds.QLCN === true ? getItem(<Link to={'/quan-ly-con-nguoi'}>{t("home:menu_left.quan_ly_con_nguoi")}</Link>, '/quan-ly-con-nguoi') : null, 
+            menu?.[6]?.ds.QLQ === true ? getItem(<Link to={'/quan-ly-quyen'}>{t("home:menu_left.quan_ly_quyen")}</Link>, '/quan-ly-quyen') : null,
+            menu?.[6]?.ds.DSBV === true ? getItem(<Link to={'/danh-sach-benh-vien'}>{t("home:menu_left.danh_sach_benh_vien")}</Link>, '/danh-sach-benh-vien') : null,
             // menu?.[6]?.ds.QLTB === true ? getItem('Quản lý thông báo', '31') : null,
         ]),] : []),
-        ...(menu?.[7]?.LSTT === true ? [getItem('Lịch sử thao tác', 'sub7', <FaHistory size={20}/>, [
-            menu?.[7]?.ds.NKHD === true ?  getItem(<Link to={'/nhat-ky-hoat-dong'}>Nhật ký hoạt động</Link>, '/nhat-ky-hoat-dong') : null, 
-            menu?.[7]?.ds.NKLDN === true ?  getItem(<Link to={'/nhat-ky-loi-dang-nhap'}>Nhật ký lỗi đăng nhập</Link>, '/nhat-ky-loi-dang-nhap') : null,
+        ...(menu?.[7]?.LSTT === true ? [getItem(<>{t("home:menu_left.lich_su_thao_tac")}</>, 'sub7', <FaHistory size={20}/>, [
+            menu?.[7]?.ds.NKHD === true ?  getItem(<Link to={'/nhat-ky-hoat-dong'}>{t("home:menu_left.nhat_ky_hoat_dong")}</Link>, '/nhat-ky-hoat-dong') : null, 
+            menu?.[7]?.ds.NKLDN === true ?  getItem(<Link to={'/nhat-ky-loi-dang-nhap'}>{t("home:menu_left.nhat_ky_loi_dang_nhap")}</Link>, '/nhat-ky-loi-dang-nhap') : null,
         ]),] : []),
         // getItem('Đăng ký tự phục vụ', 'sub8', <VscServerEnvironment size={20}/>, [
         //     getItem('Danh sách đăng ký', '34'), 

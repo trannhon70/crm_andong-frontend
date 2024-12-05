@@ -11,6 +11,7 @@ import Consultant from "./consultant";
 import { getDanhSachXepHangThamKham, getThongKeBenh, getThongKeDangKy, getThongKeKhoa, getThongKeQuaKenh, getThongKeTuVan, setDanhSachXepHangThamKham, setThongKeBenh, setThongKeDangKy, setThongKeKhoa, setThongKeQuaKenh, setThongKeTuVan } from "../../features/dashboardSlice";
 import useMenuData from "../../hooks/useMenuData";
 import NotHospital from "../../components/notHospital";
+import { useTranslation } from "react-i18next";
 const { Option } = Select;
 
 const Home: React.FC = () => {
@@ -22,6 +23,7 @@ const Home: React.FC = () => {
     const [nameSelect, setNameSelect] = useState<string | undefined>('')
     const [dataHospital, setDataHospital] = useState<any>([])
     const menu = useMenuData();
+    const {t } = useTranslation(['home'])
 
     useEffect(() => {
         dispatch(getAllHospital());
@@ -84,10 +86,10 @@ const Home: React.FC = () => {
     return (
         <div>
             <div className="flex gap-2 items-center "  >
-                <label htmlFor="">Chọn bệnh viện hoạt động : </label>
+                <label htmlFor="">{t("home:chon_benh_vien_hoat_dong")} : </label>
 
                 <Select
-                    placeholder="Vui lòng chọn bệnh viện"
+                    placeholder={t("home:chon_benh_vien")}
                     allowClear
                     onChange={onChangeHospital}
                     className="min-w-[200px]"
