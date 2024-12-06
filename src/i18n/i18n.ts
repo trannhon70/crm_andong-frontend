@@ -4,19 +4,24 @@ import HOME_VN from "../locales/vn/home.json";
 import HOME_EN from "../locales/en/home.json";
 import HOME_TQ from "../locales/tq/home.json";
 
+import PROFILE_TQ from "../locales/tq/profile.json";
+import PROFILE_VN from "../locales/vn/profile.json";
+
 
 export const resources = {
-  en: {
-    home: HOME_EN,
-    product:''
-  },
+  // en: {
+  //   home: HOME_EN,
+  //   product:''
+  // },
   vi: {
     home: HOME_VN,
-    product:''
+    product:'',
+    profile: PROFILE_VN
   },
   tq: {
     home: HOME_TQ,
-    product:''
+    product:'',
+    profile: PROFILE_TQ
   }
 };
 
@@ -26,7 +31,7 @@ i18n
   .init({
     resources,
     lng: "vi",
-    ns:['home', 'product'],
+    ns:['home', 'product', 'profile'],
     fallbackLng: 'vi' , 
     defaultNS,
     interpolation: {

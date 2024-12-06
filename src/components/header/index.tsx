@@ -20,6 +20,7 @@ import { AppDispatch, RootState } from '../../redux/store';
 import ModalInvalidToken from '../modalInvalidToken';
 
 import Notication from './notication';
+import { useTranslation } from 'react-i18next';
 
 
 interface IHeaderProps {
@@ -33,6 +34,7 @@ const HeaderComponent: FC<IHeaderProps> = ({ collapsed, setCollapsed }) => {
     const hospitalId = localStorage.getItem('hospitalId')
     const users = useSelector((state: RootState) => state.users);
     const hospital = useSelector((state: RootState) => state.hospital);
+    const {t } = useTranslation(['home'])
   
 
     useEffect(() => {
@@ -58,7 +60,7 @@ const HeaderComponent: FC<IHeaderProps> = ({ collapsed, setCollapsed }) => {
         {
             key: 'a',
             label: (
-                <Link className='text-base' to='profile'>Thông tin cá nhân</Link>
+                <Link className='text-base' to='profile'>{t("home:thong_tin_ca_nhan")}</Link>
             ),
             icon: <PiUserSwitchDuotone size={30} />,
         },
@@ -66,7 +68,7 @@ const HeaderComponent: FC<IHeaderProps> = ({ collapsed, setCollapsed }) => {
         {
             key: 'c',
             label: (
-                <Link className='text-base' to='thay-doi-mat-khau'>Thay đổi mật khẩu</Link>
+                <Link className='text-base' to='thay-doi-mat-khau'>{t("home:thay_doi_mat_khau")}</Link>
             ),
             icon: <PiPasswordFill size={30} />,
         },
@@ -74,7 +76,7 @@ const HeaderComponent: FC<IHeaderProps> = ({ collapsed, setCollapsed }) => {
         {
             key: 'b',
             danger: true,
-            label: <div onClick={logout} >Đăng xuất</div>,
+            label: <div onClick={logout} >{t("home:dang_xuat")}</div>,
             icon: <CiLogout size={30} />,
         },
     ];
@@ -100,7 +102,7 @@ const HeaderComponent: FC<IHeaderProps> = ({ collapsed, setCollapsed }) => {
             </div>
             <div className='flex items-center gap-3 ' >
                 <div>
-                    <Badge color="green" text={<>online : {users.userOnline} người</>} />
+                    <Badge color="green" text={<>online : {users.userOnline} {t("home:nguoi")}</>} />
                 </div>
                 <Notication />
                 

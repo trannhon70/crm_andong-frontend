@@ -220,7 +220,7 @@ const CreatePeople: FC = () => {
                         allowClear
                     >
                         {
-                            Languege.map((item: any) => {
+                            Languege().map((item: any) => {
                                 return <Option key={item.value} value={item.value}>{item.label}</Option>
                             })
                         }

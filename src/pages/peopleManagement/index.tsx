@@ -272,7 +272,7 @@ const PeopleManagement: FC = () => {
                     filterSort={(optionA, optionB) =>
                         (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                     }
-                    options={Languege}
+                    options={Languege()}
                 />
                 <Search className='w-[250px]' placeholder="Nhập tên quyền" onSearch={onSearch} enterButton />
             </div>

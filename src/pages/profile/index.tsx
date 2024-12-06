@@ -7,6 +7,7 @@ import { userAPI } from '../../apis/user.api';
 import { fetchUserById } from '../../features/usersSlice';
 import { AppDispatch, RootState } from '../../redux/store';
 import { Languege } from '../../utils';
+import { useTranslation } from 'react-i18next';
 
 type FieldType = {
     email?: string;
@@ -18,7 +19,7 @@ const ProfileUser: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const [form] = Form.useForm(); // Create a form instance
     const users = useSelector((state: RootState) => state.users.entities);
-    
+    const {t } = useTranslation(['profile'])
 
     useEffect(() => {
         // Ensure users has the properties before setting values
@@ -41,11 +42,11 @@ const ProfileUser: FC = () => {
        try {
         const result = await userAPI.UpdateUserId(users.id, body)
         if(result.data.statusCode === 1){
-            toast.success('Cập nhật thành công!')
+            toast.success(`${t("profile:cap_nhat_thanh_cong")}`)
             dispatch(fetchUserById());
         }
        } catch (error) {
-        toast.error('Cập nhật không thành công!')
+        toast.error(`${t("profile:cap_nhat_khong_thanh_cong")}`)
        }
     };
 
@@ -60,10 +61,10 @@ const ProfileUser: FC = () => {
                 separator=">"
                 items={[
                     {
-                        title: 'Home',
+                        title: t("profile:trang_chu"),
                     },
                     {
-                        title: 'Thông tin cá nhân',
+                        title: t("profile:thong_tin_ca_nhan"),
                         href: '',
                     },
                 ]}
@@ -88,7 +89,7 @@ const ProfileUser: FC = () => {
                 </Form.Item>
 
                 <Form.Item<FieldType>
-                    label="Họ và tên"
+                    label={t("profile:ho_va_ten")}
                     name="fullName"
                     rules={[{ required: true, message: 'Vui lòng nhập Họ và tên!' }]}
                 >
@@ -96,7 +97,7 @@ const ProfileUser: FC = () => {
                 </Form.Item>
 
                 <Form.Item<FieldType>
-                    label="Ngôn ngữ"
+                    label={t("profile:ngon_ngu")}
                     name="language"
                     rules={[{ required: true, message: 'Vui lòng chọn ngôn ngữ!' }]}
                 >
@@ -106,13 +107,13 @@ const ProfileUser: FC = () => {
                         filterOption={(input, option) =>
                             (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                         }
-                        options={Languege}
+                        options={Languege()}
                     />
                 </Form.Item>
 
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                     <Button type="primary" htmlType="submit">
-                        Cập nhật
+                    {t("profile:cap_nhat")}
                     </Button>
                 </Form.Item>
             </Form>

@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { userAPI } from "../../apis/user.api";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 const formItemLayout = {
     labelCol: {
@@ -32,19 +33,17 @@ const tailFormItemLayout = {
 const ChangePassword: FC = () => {
     const [form] = Form.useForm();
     const {id } = useSelector((state: RootState) => state.users.entities);
-
-    console.log(id);
-    
+    const {t } = useTranslation(['profile'])
 
     const dataBreadcrumb = [
         {
-            title: 'Trang chủ',
+            title: t("profile:trang_chu"),
         },
         {
             type: 'separator',
         },
         {
-            title: 'Thay đổi mật khẩu',
+            title: t("profile:thay_doi_mat_khau"),
         },
 
     ];
@@ -53,10 +52,10 @@ const ChangePassword: FC = () => {
         try {
             const result = await userAPI.resetPassword(id, values)
             if(result?.data?.error?.message === "Mật khẩu gốc không đúng"){
-                toast.warning('Mật khẩu gốc không đúng!');
+                toast.warning(`${t("profile:mat_khau_goc_khong_dung")}`);
             }
             if(result?.data?.statusCode === 1){
-                toast.success('Cập nhật thành công!');
+                toast.success(`${t("profile:cap_nhat_thanh_cong")}`);
            }
         } catch (error) {
             console.log(error);
@@ -69,10 +68,10 @@ const ChangePassword: FC = () => {
         <BreadcrumbComponent items={dataBreadcrumb} />
         <Alert className="mt-2" message={
             <div>
-                <div>Mẹo sửa đổi:</div>
+                <div>{t("profile:meo_sua_doi")}:</div>
                 <ul style={{ listStyle: 'inside' }} >
-                    <li>Bạn phải nhập đúng mật khẩu ban đầu và mật khẩu mới ít nhất 6 chữ số 2 lần</li>
-                    <li>Mật khẩu mới của bạn sẽ có hiệu lực ngay sau khi sửa đổi thành công và bạn nên sử dụng mật khẩu mới này ở bất cứ nơi nào cần có mật khẩu cá nhân của bạn</li>
+                    <li>{t("profile:meo_1")}</li>
+                    <li>{t("profile:meo_2")}</li>
 
                 </ul>
             </div>
@@ -90,8 +89,8 @@ const ChangePassword: FC = () => {
             >
                 <Form.Item
                     name="password"
-                    label="Mật khẩu gốc"
-                    rules={[{ required: true, message: 'Vui lòng nhập mật khẩu của bạn!', whitespace: true }]}
+                    label={t("profile:mat_khau_goc")}
+                    rules={[{ required: true, message: `${t("profile:vui_long_nhap_mat_khau_cua_ban")}`, whitespace: true }]}
                 >
                     <Input.Password />
                 </Form.Item>
@@ -99,11 +98,11 @@ const ChangePassword: FC = () => {
 
                 <Form.Item
                     name="passwordnew"
-                    label="Mật khẩu mới"
+                    label={t("profile:mat_khau_moi")}
                     rules={[
                         {
                             required: true,
-                            message: 'Vui lòng nhập mật khẩu mới của bạn!',
+                            message: `${t("profile:vui_long_nhap_mat_khau_moi_cua_ban")}`,
                         },
                     ]}
                     hasFeedback
@@ -113,20 +112,20 @@ const ChangePassword: FC = () => {
 
                 <Form.Item
                     name="confirm"
-                    label="Nhập lại mật khẩu mới"
+                    label={t("profile:nhap_lại_mat_khau_moi")}
                     dependencies={['passwordNew']}
                     hasFeedback
                     rules={[
                         {
                             required: true,
-                            message: 'Vui lòng xác nhận mật khẩu mới của bạn!',
+                            message: `${t("profile:vui_long_xac_nhap_mat_khau_moi_cua_ban")}` ,
                         },
                         ({ getFieldValue }) => ({
                             validator(_, value) {
                                 if (!value || getFieldValue('passwordnew') === value) {
                                     return Promise.resolve();
                                 }
-                                return Promise.reject(new Error('Mật khẩu mới bạn nhập không khớp!'));
+                                return Promise.reject(new Error(`${t("profile:mat_khau_moi_ban_nhap_khong_khop")}`));
                             },
                         }),
                     ]}
@@ -137,7 +136,7 @@ const ChangePassword: FC = () => {
 
                 <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">
-                        Cập nhật
+                         {t("profile:cap_nhat")}
                     </Button>
                 </Form.Item>
             </Form>

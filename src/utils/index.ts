@@ -1,11 +1,14 @@
 import dayjs from "dayjs";
+import { useTranslation } from "react-i18next";
 
-// 'vi', 'en', 'tq'
-export const Languege = [
-    {id: '1', value:'vi', label: 'Tiếng Việt'},
-    {id: '2', value:'en', label: 'Tiếng Anh'},
-    {id: '1', value:'tq', label: 'Tiếng Trung'},
-]
+
+export const Languege = () => {
+  const { t } = useTranslation(['profile']);
+  return [
+      { id: '1', value: 'vi', label: t("profile:tieng_viet") },
+      { id: '2', value: 'tq', label: t("profile:tieng_trung") },
+  ];
+};
 export const GENDER = [
     {id: '1', value:'NAM', label: 'NAM'},
     {id: '2', value:'NỮ', label: 'NỮ'},

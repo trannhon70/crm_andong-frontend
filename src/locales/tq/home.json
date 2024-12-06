@@ -51,5 +51,8 @@
     "nguoi": "人员",
     "chon_benh_vien": "選擇醫院",
     "thong_ke_cac_cuoc_hen_chua_quyet_dinh": "未定任命統計",
-    "den":"到達"
+    "den":"到達",
+    "thong_tin_ca_nhan": "个人信息",
+    "thay_doi_mat_khau":"更换密码",
+    "dang_xuat":"登出"
 }
