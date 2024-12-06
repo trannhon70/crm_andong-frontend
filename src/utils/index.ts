@@ -15,12 +15,16 @@ export const GENDER = [
     {id: '3', value:'KHÔNG XÁC ĐỊNH', label: 'KHÔNG XÁC ĐỊNH'},
 ]
 
-export const STATUS = [
+export const STATUS = () => {
+  const { t } = useTranslation(['DSDangKyHen']);
+  return [
     {id: '1', value:'CHỜ ĐỢI', label: 'CHỜ ĐỢI'},
     {id: '2', value:'ĐÃ ĐẾN', label: 'ĐÃ ĐẾN'},
     {id: '3', value:'CHƯA ĐẾN', label: 'CHƯA ĐẾN'},
     {id: '4', value:'KHÔNG XÁC ĐỊNH', label: 'KHÔNG XÁC ĐỊNH'},
 ]
+}
+
 
 export const TIME = [
   { id: 1, value: "week", label: "Tuần" },

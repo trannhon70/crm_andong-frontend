@@ -5,6 +5,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import type { UploadFile } from 'antd/es/upload/interface';
 import { patiantAPI } from '../../../apis/patient.api';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {
     id?: number
@@ -14,6 +15,7 @@ const ModalUpload: FC<IProps> = (props) => {
     const {id} = props
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [fileList, setFileList] = useState<UploadFile[]>([]);
+    const { t } = useTranslation(['DSDangKyHen']);
 
     const showModal = () => {
         setIsModalOpen(true);
@@ -31,17 +33,17 @@ const ModalUpload: FC<IProps> = (props) => {
             try {
                 const result = await patiantAPI.uploadPatient(formData, Number(id))
                 if (result.data.statusCode === 1) {
-                    toast.success('Lưu file thành công!')
+                    toast.success(`${t("DSDangKyHen:luu_file_thanh_cong")}`)
                     setIsModalOpen(false); // Đóng modal
                     setFileList([]); // Xóa danh sách file
                 }
                 
             } catch (error) {
                 console.log(error);
-                toast.error('Lưu file không thành công!')
+                toast.error(`${t("DSDangKyHen:luu_file_khong_thanh_cong")}`)
             }
         } else {
-            message.warning("No files to save!");
+            message.warning(`${t("DSDangKyHen:khong_co_tap_tin")}`);
         }
         // setIsModalOpen(false);
     };
@@ -59,11 +61,11 @@ const ModalUpload: FC<IProps> = (props) => {
         <>
             <div onClick={showModal} className='flex justify-center items-center gap-1 ' >
                 <FaCloudUploadAlt  className="cursor-pointer text-orange-500" size={25} />
-                <span>Upload file</span>
+                <span>{t("DSDangKyHen:tai_tap_tin")}</span>
             </div>
 
             <Modal
-                title="Upload file"
+                title={t("DSDangKyHen:tai_tap_tin")}
                 open={isModalOpen}
                 footer={null}
                 onOk={handleOk}
@@ -77,12 +79,12 @@ const ModalUpload: FC<IProps> = (props) => {
                         onChange={handleUploadChange}
                         maxCount={1} // Số lượng file tối đa
                     >
-                        <Button icon={<UploadOutlined />}>Upload</Button>
+                        <Button icon={<UploadOutlined />}>{t("DSDangKyHen:tai_tap_tin")}</Button>
                     </Upload>
                 </Space>
                 <div className="flex justify-end items-center gap-2 mt-4">
-                    <Button type="primary" onClick={handleOk}>Lưu</Button>
-                    <Button onClick={handleCancel} danger type="dashed">Hủy</Button>
+                    <Button type="primary" onClick={handleOk}>{t("DSDangKyHen:luu")}</Button>
+                    <Button onClick={handleCancel} danger type="dashed">{t("DSDangKyHen:huy")}</Button>
                 </div>
             </Modal>
         </>

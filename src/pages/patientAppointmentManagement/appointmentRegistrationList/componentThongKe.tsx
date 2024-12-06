@@ -3,12 +3,14 @@ import { FC, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { getThongKeAll, getThongKeNgayHienTai } from "../../../features/patientSlice";
+import { useTranslation } from "react-i18next";
 
 
 const ComponentThongKe: FC = () => {
     const hospitalId = localStorage.getItem('hospitalId')
     const dispatch = useDispatch<AppDispatch>();
     const { thongKeTheoNgayHienTai, thongkeAll } = useSelector((state: RootState) => state.patient);
+    const { t } = useTranslation(['DSDangKyHen']);
 
     useEffect(() => {
         if(hospitalId){
@@ -20,17 +22,17 @@ const ComponentThongKe: FC = () => {
 
     return <div className="flex items-center justify-between w-[80%] bg-slate-200 p-1 " >
         <div className="flex gap-2 " >
-            <Tag color="#2db7f5">Thống kê </Tag>
-            <div>Tổng cộng: <strong>{thongkeAll?.total}</strong> </div>
-            <div>Đã đến: <strong>{thongkeAll?.daden}</strong> </div>
-            <div>Chưa đến: <strong>{thongkeAll?.chuaden}</strong> </div>
+            <Tag color="#2db7f5">{t("DSDangKyHen:thong_ke")} </Tag>
+            <div>{t("DSDangKyHen:tong_cong")}: <strong>{thongkeAll?.total}</strong> </div>
+            <div>{t("DSDangKyHen:da_den")}: <strong>{thongkeAll?.daden}</strong> </div>
+            <div>{t("DSDangKyHen:chua_den")}: <strong>{thongkeAll?.chuaden}</strong> </div>
         </div>
 
         <div className="flex gap-2 ">
-            <Tag color="#f50">Dữ liệu hôm nay </Tag>
-            <div>Tổng cộng: <strong>{thongKeTheoNgayHienTai?.total}</strong> </div>
-            <div>Đã đến: <strong>{thongKeTheoNgayHienTai?.daden}</strong> </div>
-            <div>Chưa đến: <strong>{thongKeTheoNgayHienTai?.chuaden}</strong> </div>
+            <Tag color="#f50">{t("DSDangKyHen:du_lieu_hom_nay")} </Tag>
+            <div>{t("DSDangKyHen:tong_cong")}: <strong>{thongKeTheoNgayHienTai?.total}</strong> </div>
+            <div>{t("DSDangKyHen:da_den")}: <strong>{thongKeTheoNgayHienTai?.daden}</strong> </div>
+            <div>{t("DSDangKyHen:chua_den")}: <strong>{thongKeTheoNgayHienTai?.chuaden}</strong> </div>
         </div>
     </div>
 }

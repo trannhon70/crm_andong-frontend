@@ -12,6 +12,7 @@ import { fetchCity, fetchDistrictbyIdCity, getAllByIdHospital, getAllDoctor, get
 import { IPatient } from "../../../interface/patient";
 import { AppDispatch, RootState } from "../../../redux/store";
 import FormCreateUser from "./form";
+import { useTranslation } from 'react-i18next';
 
 
 type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
@@ -51,6 +52,7 @@ const CreateAppointmentRegistrationList: FC = () => {
     const [error, setError] = useState<any>({
         reminderTime: false
     })
+    const {t } = useTranslation(['DSDangKyHen'])
 
     useEffect(() => {
         dispatch(fetchCity());
@@ -106,20 +108,20 @@ const CreateAppointmentRegistrationList: FC = () => {
     const dataBreadcrumb = [
         {
 
-            title: 'Quản lý cuộc hẹn bệnh nhân',
+            title: t("DSDangKyHen:quan_ly_cuoc_hen") ,
         },
         {
             type: 'separator',
         },
         {
             href: '/danh-sach-dang-ky-hen',
-            title: 'Danh sách đăng ký hẹn',
+            title:t("DSDangKyHen:danh_sach_dang_ky_hen") ,
         },
         {
             type: 'separator',
         },
         {
-            title: <>{id ? 'Cập nhật' : 'Thêm mới'}</>,
+            title: <>{id ? t("DSDangKyHen:cap_nhat") : t("DSDangKyHen:them_moi")}</>,
         },
     ];
 

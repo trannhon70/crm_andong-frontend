@@ -3,6 +3,7 @@ import { FC, Fragment } from "react";
 import { GENDER, STATUS } from "../../../utils";
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
 interface IProps {
     formItemLayout: any;
@@ -20,6 +21,7 @@ interface IProps {
 }
 const FormCreateUser: FC<IProps> = (props) => {
     const { formItemLayout, tailFormItemLayout, form, onFinish, patient, handleChangeDepartment, handleChangeCity, id, onOk, error, setError, onClickPrev } = props
+    const {t } = useTranslation(['DSDangKyHen'])
     return <Fragment>
         <Form
             {...formItemLayout}
@@ -33,19 +35,19 @@ const FormCreateUser: FC<IProps> = (props) => {
 
         >
             <div className="w-[50%] border-solid border-2 border-indigo-600 p-3 rounded-l  " >
-                <div className="text-xl font-bold text-slate-600 mb-3 " > Thông tin cơ bản :   </div>
-                <Form.Item name="name" label="Họ và tên" rules={[
-                    { required: true, message: 'Họ và tên không được bỏ trống!', }
+                <div className="text-xl font-bold text-slate-600 mb-3 " > {t("DSDangKyHen:thong_tin_co_ban")} :   </div>
+                <Form.Item name="name" label={t("DSDangKyHen:ho_va_ten")} rules={[
+                    { required: true, message: t("DSDangKyHen:ho_va_ten_err") }
                 ]}>
                     <Input />
 
                 </Form.Item>
-                <Form.Item name="gender" label="Giới tính" rules={[
-                    { required: true, message: 'Giới tính không được bỏ trống!', }
+                <Form.Item name="gender" label={t("DSDangKyHen:gioi_tinh")} rules={[
+                    { required: true, message: t("DSDangKyHen:gioi_tinh_err"), }
                 ]}>
                     <Select
                         showSearch
-                        placeholder="Chọn giới tính"
+                        placeholder={t("DSDangKyHen:chon_gioi_tinh")}
                         filterOption={(input, option) =>
                             (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                         }
@@ -53,29 +55,29 @@ const FormCreateUser: FC<IProps> = (props) => {
                     />
 
                 </Form.Item>
-                <Form.Item name="yearOld" label="Nhập tuổi" rules={[
-                    { required: true, message: 'Tuổi không được bỏ trống!', }
+                <Form.Item name="yearOld" label={t("DSDangKyHen:nhap_tuoi")} rules={[
+                    { required: true, message: t("DSDangKyHen:tuoi_err"), }
                 ]}>
                     <InputNumber style={{ width: '100%' }} />
 
                 </Form.Item>
-                <Form.Item name="phone" label="Nhập số điện thoại" rules={[
-                    { required: true, message: 'Số điện thoại không được bỏ trống!', }
+                <Form.Item name="phone" label={t("DSDangKyHen:nhap_so_dien_thoai")} rules={[
+                    { required: true, message:t("DSDangKyHen:so_dien_thoai_err") , }
                 ]}>
                     <Input style={{ width: '100%' }} />
 
                 </Form.Item>
-                <Form.Item name="content" label="Nội dung tư vấn" >
+                <Form.Item name="content" label={t("DSDangKyHen:noi_dung_tu_van")} >
                     <Input.TextArea rows={3} />
 
                 </Form.Item>
-                <Form.Item name="departmentId" label="Chọn khoa" rules={[
-                    { required: true, message: 'Khoa không được bỏ trống!', }
+                <Form.Item name="departmentId" label={t("DSDangKyHen:chon_khoa")} rules={[
+                    { required: true, message: t("DSDangKyHen:khoa_err") , }
                 ]}>
                     <Select
 
                         showSearch
-                        placeholder="--Chọn khoa--"
+                        placeholder={`--${t("DSDangKyHen:chon_khoa")}--`}
                         filterOption={(input, option) =>
                             typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                         }
@@ -90,12 +92,12 @@ const FormCreateUser: FC<IProps> = (props) => {
                     />
 
                 </Form.Item>
-                <Form.Item name="diseasesId" label="Chọn bệnh" rules={[
-                    { required: true, message: 'Bệnh không được bỏ trống!', }
+                <Form.Item name="diseasesId" label={t("DSDangKyHen:chon_benh")} rules={[
+                    { required: true, message: t("DSDangKyHen:benh_err") , }
                 ]}>
                     <Select
                         showSearch
-                        placeholder="--Chọn bệnh--"
+                        placeholder={`--${t("DSDangKyHen:chon_benh")}--`}
                         filterOption={(input, option) =>
                             typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                         }
@@ -108,12 +110,12 @@ const FormCreateUser: FC<IProps> = (props) => {
                     />
 
                 </Form.Item>
-                <Form.Item name="mediaId" label="Nguồn đến" rules={[
-                    { required: true, message: 'Nguồn đến không được bỏ trống!', }
+                <Form.Item name="mediaId" label={t("DSDangKyHen:nguon_den")} rules={[
+                    { required: true, message:t("DSDangKyHen:nguon_den_err") , }
                 ]}>
                     <Select
                         showSearch
-                        placeholder="Nguồn đến"
+                        placeholder={`--${t("DSDangKyHen:nguon_den")}--`}
                         filterOption={(input, option) =>
                             typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                         }
@@ -126,12 +128,12 @@ const FormCreateUser: FC<IProps> = (props) => {
                     />
 
                 </Form.Item>
-                <Form.Item name="cityId" label="Tỉnh/TP" rules={[
-                    { required: true, message: 'Tỉnh/TP không được bỏ trống!', }
+                <Form.Item name="cityId" label={t("DSDangKyHen:tinh/TP")} rules={[
+                    { required: true, message: t("DSDangKyHen:tinh/TP_err"), }
                 ]}>
                     <Select
                         showSearch
-                        placeholder="--chọn tỉnh/thành phố--"
+                        placeholder={`--${t("DSDangKyHen:chon_tinh/tp")}--`}
                         filterOption={(input, option) =>
                             typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                         }
@@ -145,11 +147,11 @@ const FormCreateUser: FC<IProps> = (props) => {
                     />
 
                 </Form.Item>
-                <Form.Item name="districtId" label="Quận/huyện" >
+                <Form.Item name="districtId" label={t("DSDangKyHen:quan/huyen")} >
                     <Select
 
                         showSearch
-                        placeholder="--chọn quận/huyện--"
+                        placeholder={`--${t("DSDangKyHen:chon_quan/huyen")}--`}
                         filterOption={(input, option) =>
                             typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                         }
@@ -162,8 +164,8 @@ const FormCreateUser: FC<IProps> = (props) => {
                     />
 
                 </Form.Item>
-                <Form.Item name="code" label="Mã chuyên gia" rules={[
-                    { required: true, message: 'Mã chuyên gia không được bỏ trống!', }
+                <Form.Item name="code" label={t("DSDangKyHen:ma_chuyen_gia")} rules={[
+                    { required: true, message:t("DSDangKyHen:ma_chuyen_gia_err") , }
                 ]}>
                     <Input />
                 </Form.Item>
@@ -175,7 +177,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                                 {fields.map((field, index) => (
                                     <Form.Item
                                         {...formItemLayout}
-                                        label={`${index === 0 ? 'Mục điều trị' : ''} `}
+                                        label={`${index === 0 ? t("DSDangKyHen:muc_dieu_tri") : ''} `}
                                         required={false}
                                         key={field.key}
                                         colon={index === 0 ? true : false}
@@ -202,7 +204,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                                         style={{ width: '60%' }}
                                         icon={<PlusOutlined />}
                                     >
-                                        Thêm mục điều trị
+                                     {t("DSDangKyHen:them_muc_dieu_tri")}  
                                     </Button>
                                 </Form.Item>
                             </>
@@ -215,11 +217,11 @@ const FormCreateUser: FC<IProps> = (props) => {
             <div className="w-[50%] border-solid border-2 border-indigo-600 p-3 rounded-r ">
 
 
-                <Form.Item name="appointmentTime" label="Thời gian hẹn" rules={[
-                    { required: true, message: 'Thời gian hẹn không được bỏ trống!', }
+                <Form.Item name="appointmentTime" label={t("DSDangKyHen:thoi_gian_hen")} rules={[
+                    { required: true, message:t("DSDangKyHen:thoi_gian_hen_err") , }
                 ]}>
                     <DatePicker
-                        placeholder="Chọn thời gian hẹn"
+                        placeholder={`--${t("DSDangKyHen:chon_thoi_gian_hen")}--`}
                         showTime
                         onChange={(value, dateString) => {
                             console.log('Selected Time: ', value);
@@ -229,17 +231,17 @@ const FormCreateUser: FC<IProps> = (props) => {
                     />
 
                 </Form.Item>
-                <Form.Item label="Lưu ý ">
-                    <Alert message="Thời gian nhắc hẹn phải nhỏ hơn thời gian hẹn" type="warning" />
+                <Form.Item label={t("DSDangKyHen:luu_y")}>
+                    <Alert message={t("DSDangKyHen:thoi_gian_nhac_hen_phai_nho_hon_thoi_gian_hen")} type="warning" />
                 </Form.Item>
-                <Form.Item name="reminderTime" label="Thời gian nhắc hẹn" rules={!id ? [
-                    { required: true, message: 'Thời gian nhắc hẹn không được bỏ trống!', }
+                <Form.Item name="reminderTime" label={t("DSDangKyHen:thoi_gian_nhac_hen")} rules={!id ? [
+                    { required: true, message: t("DSDangKyHen:thoi_gian_nhac_hen_err") , }
                 ] : []}
                     // validateStatus={error.reminderTime ? "error" : ""}
                     // help={error.reminderTime}
                 >
                     <DatePicker
-                        placeholder="Chọn thời gian nhắc hẹn"
+                        placeholder={t("DSDangKyHen:chon_thoi_gian_nhac_hen")}
                         showTime
                         onChange={(value, dateString) => {
                             console.log('Selected Time: ', value);
@@ -253,16 +255,16 @@ const FormCreateUser: FC<IProps> = (props) => {
                     />
 
                 </Form.Item>
-                <Form.Item name="note" label="Ghi chú" >
+                <Form.Item name="note" label={t("DSDangKyHen:ghi_chu")} >
                     <Input.TextArea rows={3} />
 
                 </Form.Item>
 
 
-                <div className="text-xl font-bold text-slate-600 mb-3 " > Đến khám chưa :   </div>
-                <Form.Item name="editregistrationTime" label="Sửa đổi thời gian đăng ký" >
+                <div className="text-xl font-bold text-slate-600 mb-3 " > {t("DSDangKyHen:den_kham_chua")}  :   </div>
+                <Form.Item name="editregistrationTime" label={t("DSDangKyHen:sua_thoi_gian_dang_ky")} >
                     <DatePicker
-                        placeholder="Chọn thời gian sửa đổi"
+                        placeholder={t("DSDangKyHen:chon_thoi_gian_sua_doi")}
                         showTime
                         onChange={(value, dateString) => {
                             console.log('Selected Time: ', value);
@@ -272,25 +274,25 @@ const FormCreateUser: FC<IProps> = (props) => {
                     />
 
                 </Form.Item>
-                <Form.Item name="status" label="Trạng thái" >
+                <Form.Item name="status" label={t("DSDangKyHen:trang_thai")}>
                     <Select
                         showSearch
-                        placeholder="Trạng thái"
+                        placeholder={t("DSDangKyHen:trang_thai")}
                         filterOption={(input, option) =>
                             (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                         }
-                        options={STATUS}
+                        options={STATUS()}
                     />
 
                 </Form.Item>
-                <Form.Item label="Lưu ý ">
-                    <Alert message="Khi bệnh nhân tới khám mới chọn bác sĩ tiếp bệnh" type="warning" />
+                <Form.Item label={t("DSDangKyHen:luu_y")}>
+                    <Alert message={t("DSDangKyHen:khi_benh_nhan_toi_kham_moi_chon_bac_si_tiep_benh")}type="warning" />
                 </Form.Item>
 
-                <Form.Item name="doctorId" label="Bác sĩ tiếp bệnh" >
+                <Form.Item name="doctorId" label={t("DSDangKyHen:bac_si_tiep_benh")} >
                     <Select
                         showSearch
-                        placeholder="---Lựa chọn---"
+                        placeholder={`--${t("DSDangKyHen:lua_chon")}--`}
                         filterOption={(input, option) =>
                             typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                         }
@@ -304,7 +306,7 @@ const FormCreateUser: FC<IProps> = (props) => {
 
                 </Form.Item>
                 {
-                    id ? <Form.Item name="money" label="Chi phí" >
+                    id ? <Form.Item name="money" label={t("DSDangKyHen:chi_phi")} >
                     <InputNumber className="w-[100%]" />
 
                 </Form.Item> : ''
@@ -312,8 +314,8 @@ const FormCreateUser: FC<IProps> = (props) => {
 
                 {  id ?
                    patient.patient.status === 'ĐÃ ĐẾN' && <>
-                        <div className="text-xl font-bold text-slate-600 mb-3 " > Hồ sơ tiếp nhận :   </div>
-                        <Form.Item name="record" label="Nội dung tiếp nhận" >
+                        <div className="text-xl font-bold text-slate-600 mb-3 " > {t("DSDangKyHen:ho_so_tiep_nhan")}  :   </div>
+                        <Form.Item name="record" label={t("DSDangKyHen:noi_dung_tiep_nhan")} >
                             <Input.TextArea rows={3} />
 
                         </Form.Item>
@@ -322,9 +324,9 @@ const FormCreateUser: FC<IProps> = (props) => {
                 {
                     id ? <>
                         <div className="text-xl font-bold text-slate-600 mb-3 " >
-                            Hồ sơ thăm khám qua điện thoại :   </div>
+                           {t("DSDangKyHen:ho_so_tham_kham_qua_dien_thoại")}  :   </div>
 
-                        {patient?.patient?.chatPatients && patient?.patient?.chatPatients.length > 0 && <Form.Item label="Nội dung thăm khám" >
+                        {patient?.patient?.chatPatients && patient?.patient?.chatPatients.length > 0 && <Form.Item label={t("DSDangKyHen:noi_dung_tham_kham")} >
 
                             {
                                 patient?.patient?.chatPatients.map((item: any, index: number) => {
@@ -342,7 +344,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                                 })
                             }
                         </Form.Item>}
-                        <Form.Item name="chat" label="Nhập hồ sơ thăm khám" >
+                        <Form.Item name="chat" label={t("DSDangKyHen:nhap_ho_so_tham_kham")} >
                             <Input.TextArea rows={3} />
 
                         </Form.Item>
@@ -352,10 +354,10 @@ const FormCreateUser: FC<IProps> = (props) => {
 
                 <Form.Item  {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">
-                        {id ? 'Cập nhật' : 'Thêm mới'}
+                        {id ? t("DSDangKyHen:cap_nhat") : t("DSDangKyHen:them_moi")}
                     </Button>
                     <Button className="ml-2" danger type="dashed" onClick={onClickPrev} >
-                        Quay lại
+                        {t("DSDangKyHen:quay_lai")}
                     </Button>
                 </Form.Item>
             </div>

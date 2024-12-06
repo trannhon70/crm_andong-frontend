@@ -1,6 +1,7 @@
 import type { PopconfirmProps } from 'antd';
 import { Popconfirm } from 'antd';
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { MdDelete } from 'react-icons/md';
 
 interface IPopconfirm {
@@ -12,6 +13,7 @@ interface IPopconfirm {
 }
 const PopconfirmComponent: FC<IPopconfirm> = (props) => {
   const { title, description, value, deleteRole, text } = props
+  const { t } = useTranslation(['DSDangKyHen']);
   const confirm: PopconfirmProps['onConfirm'] = (e) => {
     if (deleteRole) {
       deleteRole(value); // Ensure deleteRole is called safely
@@ -25,8 +27,8 @@ const PopconfirmComponent: FC<IPopconfirm> = (props) => {
     description={description}
     onConfirm={confirm}
     onCancel={cancel}
-    okText="Yes"
-    cancelText="No"
+    okText={t("DSDangKyHen:co")}
+    cancelText={t("DSDangKyHen:khong")}
      placement="topLeft"
   > {
       text ? <div className='flex items-center gap-1 ' >

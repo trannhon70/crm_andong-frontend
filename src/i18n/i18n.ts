@@ -7,6 +7,9 @@ import HOME_TQ from "../locales/tq/home.json";
 import PROFILE_TQ from "../locales/tq/profile.json";
 import PROFILE_VN from "../locales/vn/profile.json";
 
+import DSDangKyHen_TQ from "../locales/tq/DSDangKyHen.json";
+import DSDangKyHen_VN from "../locales/vn/DSDangKyHen.json";
+
 
 export const resources = {
   // en: {
@@ -16,12 +19,14 @@ export const resources = {
   vi: {
     home: HOME_VN,
     product:'',
-    profile: PROFILE_VN
+    profile: PROFILE_VN,
+    DSDangKyHen: DSDangKyHen_VN
   },
   tq: {
     home: HOME_TQ,
     product:'',
-    profile: PROFILE_TQ
+    profile: PROFILE_TQ,
+    DSDangKyHen: DSDangKyHen_TQ
   }
 };
 
@@ -31,7 +36,7 @@ i18n
   .init({
     resources,
     lng: "vi",
-    ns:['home', 'product', 'profile'],
+    ns:['home', 'product', 'profile', 'DSDangKyHen'],
     fallbackLng: 'vi' , 
     defaultNS,
     interpolation: {

@@ -20,6 +20,7 @@ import ComponentThongKe from "./componentThongKe";
 import NotHospital from "../../../components/notHospital";
 import useMenuData from "../../../hooks/useMenuData";
 import useClipboard from "../../../hooks/useClipboard";
+import { useTranslation } from "react-i18next";
 
 type SearchProps = GetProps<typeof Input.Search>;
 
@@ -40,8 +41,8 @@ const AppointmentRegistrationList: FC = () => {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const menu = useMenuData();
-    const {copyToClipboard} = useClipboard()
-
+    const {copyToClipboard} = useClipboard();
+    const { t } = useTranslation(['DSDangKyHen']);
 
     const query = {
         pageSize: pageSize,
@@ -84,7 +85,7 @@ const AppointmentRegistrationList: FC = () => {
                 formattedData.push({
                     key: `${date}-summary`,
                     date,
-                    name: `Tổng số bản ghi trong ngày ${date} : ${records.length}`, // Hàng tổng kết
+                    name: `${t("DSDangKyHen:tong_so_ban_ghi_trong_ngay")} ${date} : ${records.length}`, // Hàng tổng kết
                     summary: true, // Dùng để phân biệt hàng tổng kết
                 });
                 // Thêm các bản ghi của ngày đó
@@ -110,13 +111,13 @@ const AppointmentRegistrationList: FC = () => {
 
     const dataBreadcrumb = [
         {
-            title: 'Quản lý cuộc hẹn',
+            title: t("DSDangKyHen:quan_ly_cuoc_hen"),
         },
         {
             type: 'separator',
         },
         {
-            title: 'Danh sách đăng ký hẹn',
+            title: t("DSDangKyHen:danh_sach_dang_ky_hen") ,
         },
 
     ];
@@ -178,7 +179,7 @@ const AppointmentRegistrationList: FC = () => {
         //     className:''
         // },
         {
-            title: 'Họ và tên',
+            title: t("DSDangKyHen:ho_va_ten") ,
             dataIndex: 'name',
             key: 'name',
             fixed: 'left',
@@ -192,7 +193,7 @@ const AppointmentRegistrationList: FC = () => {
             },
         },
         {
-            title: 'chi phí',
+            title:t("DSDangKyHen:chi_phi") ,
             dataIndex: 'money',
             key: 'money',
             render(value, record, index) {
@@ -205,7 +206,7 @@ const AppointmentRegistrationList: FC = () => {
             width: 100,
         },
         {
-            title: 'Giới tính',
+            title:t("DSDangKyHen:gioi_tinh") ,
             dataIndex: 'gender',
             key: 'gender',
             render(value, record, index) {
@@ -218,7 +219,7 @@ const AppointmentRegistrationList: FC = () => {
             width: 100,
         },
         {
-            title: 'Tuổi',
+            title: t("DSDangKyHen:tuoi") ,
             dataIndex: 'yearOld',
             key: 'yearOld',
             width: 50,
@@ -231,7 +232,7 @@ const AppointmentRegistrationList: FC = () => {
             },
         },
         {
-            title: 'Số điện thoại',
+            title: t("DSDangKyHen:so_dien_thoai") ,
             dataIndex: 'phone',
             key: 'phone',
             width: 120,
@@ -244,7 +245,7 @@ const AppointmentRegistrationList: FC = () => {
             },
         },
         {
-            title: 'Mã chuyên gia',
+            title:t("DSDangKyHen:ma_chuyen_gia") ,
             dataIndex: 'code',
             key: 'code',
             width: 120,
@@ -257,7 +258,7 @@ const AppointmentRegistrationList: FC = () => {
             },
         },
         {
-            title: 'khoa',
+            title: t("DSDangKyHen:khoa"),
             dataIndex: 'department',
             key: 'department',
             render(value, record, index) {
@@ -270,7 +271,7 @@ const AppointmentRegistrationList: FC = () => {
             width: 150,
         },
         {
-            title: 'Bệnh',
+            title: t("DSDangKyHen:benh"),
             dataIndex: 'diseases',
             key: 'diseases',
             render(value, record, index) {
@@ -283,7 +284,7 @@ const AppointmentRegistrationList: FC = () => {
             width: 250,
         },
         {
-            title: 'Nguồn đến',
+            title:t("DSDangKyHen:nguon_den") ,
             dataIndex: 'media',
             key: 'media',
             render(value, record, index) {
@@ -296,7 +297,7 @@ const AppointmentRegistrationList: FC = () => {
             width: 120,
         },
         {
-            title: 'tỉnh/TP',
+            title: t("DSDangKyHen:tinh/TP") ,
             dataIndex: 'city',
             key: 'city',
             render(value, record, index) {
@@ -309,7 +310,7 @@ const AppointmentRegistrationList: FC = () => {
             width: 150,
         },
         {
-            title: 'Quận/huyện',
+            title: t("DSDangKyHen:quan/huyen"),
             dataIndex: 'district',
             key: 'district',
             render(value, record, index) {
@@ -324,7 +325,7 @@ const AppointmentRegistrationList: FC = () => {
 
 
         {
-            title: 'Thời gian hẹn',
+            title:t("DSDangKyHen:thoi_gian_hen") ,
             key: 'appointmentTime',
             dataIndex: 'appointmentTime',
             render(value, record, index) {
@@ -337,7 +338,7 @@ const AppointmentRegistrationList: FC = () => {
             width: 150,
         },
         {
-            title: 'Thời gian nhắc hẹn',
+            title:t("DSDangKyHen:thoi_gian_nhac_hen"),
             key: 'reminderTime',
             dataIndex: 'reminderTime',
             width: 150,
@@ -350,7 +351,7 @@ const AppointmentRegistrationList: FC = () => {
             },
         },
         {
-            title: 'Ghi chú',
+            title: t("DSDangKyHen:ghi_chu") ,
             dataIndex: 'note',
             key: 'note',
             render(value, record, index) {
@@ -365,7 +366,7 @@ const AppointmentRegistrationList: FC = () => {
             width: 100,
         },
         {
-            title: 'Sửa thời gian đăng ký',
+            title: t("DSDangKyHen:sua_thoi_gian_dang_ky"),
             dataIndex: 'editregistrationTime',
             key: 'editregistrationTime',
             render(value, record, index) {
@@ -378,7 +379,7 @@ const AppointmentRegistrationList: FC = () => {
             width: 160,
         },
         {
-            title: 'Bác sĩ',
+            title: t("DSDangKyHen:bac_si") ,
             dataIndex: 'doctor',
             key: 'doctor',
             render(value, record, index) {
@@ -391,7 +392,7 @@ const AppointmentRegistrationList: FC = () => {
             width: 120,
         },
         {
-            title: 'Trạng thái',
+            title: t("DSDangKyHen:trang_thai") ,
             dataIndex: 'status',
             key: 'status',
             render(value, record, index) {
@@ -418,7 +419,7 @@ const AppointmentRegistrationList: FC = () => {
             width: 130,
         },
         {
-            title: 'Người thêm',
+            title:t("DSDangKyHen:nguoi_them") ,
             dataIndex: 'user',
             key: 'user',
             render(value, record, index) {
@@ -431,7 +432,7 @@ const AppointmentRegistrationList: FC = () => {
             width: 120,
         },
         {
-            title: 'Hồ sơ thăm khám',
+            title:t("DSDangKyHen:ho_so_tham_kham") ,
             dataIndex: 'chatPatients',
             key: 'chatPatients',
             render(value, record, index) {
@@ -451,7 +452,7 @@ const AppointmentRegistrationList: FC = () => {
             width: 130,
         },
         {
-            title: 'Ngày tạo',
+            title: t("DSDangKyHen:ngay_tao"),
             dataIndex: 'created_at',
             key: 'created_at',
             render(value, record, index) {
@@ -464,7 +465,7 @@ const AppointmentRegistrationList: FC = () => {
             width: 150,
         },
         {
-            title: 'Thao tác',
+            title: t("DSDangKyHen:thao_tac"),
             key: 'id',
             dataIndex: 'id',
             fixed: 'right',
@@ -478,7 +479,7 @@ const AppointmentRegistrationList: FC = () => {
                         label: (
                             <div onClick={() => onClickView(value)} className='flex items-center cursor-pointer'>
                                 <FaFile className='text-fuchsia-500' size={20} />
-                                <span className='ml-2'>Xem chi tiết</span>
+                                <span className='ml-2'>{t("DSDangKyHen:xem_chi_tiet")}</span>
                             </div>
                         )
                     },
@@ -496,7 +497,7 @@ const AppointmentRegistrationList: FC = () => {
                             label: (
                                 <div onClick={() => { onClickHistory(value) }} className='flex items-center cursor-pointer'>
                                     <FaHistory className='cursor-pointer ' size={22} />
-                                    <span className='ml-2'>Lịch sử thao tác</span>
+                                    <span className='ml-2'>{t("DSDangKyHen:lich_su_thao_tac")}</span>
                                 </div>
                             )
                         } : null,
@@ -506,7 +507,7 @@ const AppointmentRegistrationList: FC = () => {
                             label: (
                                 <div onClick={() => onClickEdit(value)} className='flex items-center cursor-pointer'>
                                     <HiPencilSquare className='cursor-pointer text-green-700 ' color='primary' size={25} />
-                                    <span className='ml-2'>Cập nhật</span>
+                                    <span className='ml-2'>{t("DSDangKyHen:cap_nhat")}</span>
                                 </div>
                             )
                         } : null,
@@ -516,11 +517,11 @@ const AppointmentRegistrationList: FC = () => {
                             label: (
                                 <div className='flex items-center cursor-pointer'>
                                     <PopconfirmComponent
-                                        title={<>Xóa {record.name}</>}
-                                        description='Bạn có chắc chắn muốn xóa khách hàng này không?'
+                                        title={<>{t("DSDangKyHen:xoa")} {record.name}</>}
+                                        description={t("DSDangKyHen:ban_co_chac_chan_muon_xoa_khach_hang_nay_không")}
                                         value={value}
                                         deleteRole={deletePatient}
-                                        text='Xóa'
+                                        text={t("DSDangKyHen:xoa")}
                                     />
                                 </div>
                             )
@@ -589,7 +590,7 @@ const AppointmentRegistrationList: FC = () => {
                         <div className="flex gap-3 w-[20%] justify-end ">
                             <ModalSearch />
                             {
-                                menu?.[1].ds?.action_DSDKH.create === true ? <Button size="middle" onClick={onClickCreate} type="primary">Thêm mới</Button> : ''
+                                menu?.[1].ds?.action_DSDKH.create === true ? <Button size="middle" onClick={onClickCreate} type="primary">{t("DSDangKyHen:them_moi")}</Button> : ''
                             }
 
                         </div>

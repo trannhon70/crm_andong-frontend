@@ -7,12 +7,15 @@ import { AppDispatch, RootState } from "../../../redux/store";
 import { Space, Table, Tag } from 'antd';
 import type { TableProps } from 'antd';
 import moment from "moment";
+import { useTranslation } from "react-i18next";
 
 
 const OperationHistory:FC = () => {
     let { id } = useParams();
     const dispatch = useDispatch<AppDispatch>();
     const { history } = useSelector((state: RootState) => state.patient);
+    const {t } = useTranslation(['DSDangKyHen'])
+
     useEffect(() =>{ 
         if(id){
             dispatch(getAllHistoryPatiant(Number(id)))
@@ -21,7 +24,7 @@ const OperationHistory:FC = () => {
 
     const columns: TableProps<any>['columns'] = [
         {
-          title: 'Thao tác',
+          title: t("DSDangKyHen:thao_tac") ,
           dataIndex: 'action',
           key: 'action',
           render: (value) =>{
@@ -38,7 +41,7 @@ const OperationHistory:FC = () => {
           fixed: 'left',
         },
         {
-          title: 'Thời gian thao tác',
+          title: t("DSDangKyHen:thoi_gian_thao_tac"),
           dataIndex: 'created_at',
           key: 'created_at',
           render: (value) =>{
@@ -47,7 +50,7 @@ const OperationHistory:FC = () => {
           width: 150,
         },
         {
-            title: 'Người thay đổi',
+            title: t("DSDangKyHen:nguoi_thay_doi") ,
             dataIndex: 'user',
             key: 'user',
             render: (value) =>{
@@ -56,33 +59,33 @@ const OperationHistory:FC = () => {
               width: 150,
           },
         {
-          title: 'Họ và tên',
+          title: t("DSDangKyHen:ho_va_ten"),
           dataIndex: 'name',
           key: 'name',
           width: 150,
         },
         {
-          title: 'Giới tính',
+          title: t("DSDangKyHen:gioi_tinh"),
           key: 'gender',
           dataIndex: 'gender',
           width: 150,
           
         },
         {
-          title: 'Điện thoại',
+          title: t("DSDangKyHen:so_dien_thoai"),
           key: 'phone',
           dataIndex: 'phone',
           width: 150,
          
         },
         {
-            title: 'Mã chuyên gia',
+            title:t("DSDangKyHen:ma_chuyen_gia") ,
             key: 'code',
             dataIndex: 'code',
             width: 120,
           },
           {
-            title: 'khoa',
+            title: t("DSDangKyHen:khoa"),
             key: 'department',
             dataIndex: 'department',
             render: (value) =>{
@@ -91,7 +94,7 @@ const OperationHistory:FC = () => {
               width: 120,
           },
           {
-            title: 'Bệnh',
+            title:t("DSDangKyHen:benh"),
             key: 'diseases',
             dataIndex: 'diseases',
             render: (value) =>{
@@ -100,7 +103,7 @@ const OperationHistory:FC = () => {
               width: 150,
           },
           {
-            title: 'Nguồn đến',
+            title: t("DSDangKyHen:nguon_den"),
             key: 'media',
             dataIndex: 'media',
             render: (value) =>{
@@ -109,7 +112,7 @@ const OperationHistory:FC = () => {
               width: 150,
           },
           {
-            title: 'tỉnh/TP',
+            title: t("DSDangKyHen:tinh/TP") ,
             key: 'city',
             dataIndex: 'city',
             render: (value) =>{
@@ -118,7 +121,7 @@ const OperationHistory:FC = () => {
               width: 150,
           },
           {
-            title: 'tỉnh/TP',
+            title: t("DSDangKyHen:quan/huyen") ,
             key: 'district',
             dataIndex: 'district',
             render: (value) =>{
@@ -127,7 +130,7 @@ const OperationHistory:FC = () => {
               width: 150,
           },
           {
-            title: 'Thời gian hẹn',
+            title: t("DSDangKyHen:thoi_gian_hen") ,
             key: 'appointmentTime',
             dataIndex: 'appointmentTime',
             render: (value) =>{
@@ -136,7 +139,7 @@ const OperationHistory:FC = () => {
               width: 150,
           },
           {
-            title: 'Thời gian nhắc hẹn',
+            title: t("DSDangKyHen:thoi_gian_nhac_hen") ,
             key: 'reminderTime',
             dataIndex: 'reminderTime',
             render: (value) =>{
@@ -145,7 +148,7 @@ const OperationHistory:FC = () => {
               width: 150,
           },
           {
-            title: 'Bác sĩ',
+            title: t("DSDangKyHen:bac_si") ,
             key: 'doctor',
             dataIndex: 'doctor',
             render: (value) =>{
@@ -154,7 +157,7 @@ const OperationHistory:FC = () => {
               width: 150,
           },
           {
-            title: 'Tình trạng cuộc hẹn',
+            title: t("DSDangKyHen:tinh_trang_cuoc_hen") ,
             key: 'status',
             dataIndex: 'status',
             render: (value) =>{
@@ -168,19 +171,19 @@ const OperationHistory:FC = () => {
 
     const dataBreadcrumb = [
         {
-            title: 'Quản lý cuộc hẹn',
+            title: t("DSDangKyHen:quan_ly_cuoc_hen"),
         },
         {
             type: 'separator',
         },
         {
-            title: <Link to={'/danh-sach-dang-ky-hen'} >Danh sách đăng ký hẹn</Link>,
+            title: <Link to={'/danh-sach-dang-ky-hen'} > {t("DSDangKyHen:danh_sach_dang_ky_hen")} </Link>,
         },
         {
             type: 'separator',
         },
         {
-            title: 'lịch sử thao tác',
+            title: t("DSDangKyHen:lich_su_thao_tac") ,
         },
        
     ];
