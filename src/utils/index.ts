@@ -16,7 +16,6 @@ export const GENDER = [
 ]
 
 export const STATUS = () => {
-  const { t } = useTranslation(['DSDangKyHen']);
   return [
     {id: '1', value:'CHỜ ĐỢI', label: 'CHỜ ĐỢI'},
     {id: '2', value:'ĐÃ ĐẾN', label: 'ĐÃ ĐẾN'},

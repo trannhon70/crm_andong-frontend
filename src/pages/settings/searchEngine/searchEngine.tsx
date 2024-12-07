@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { FC, Fragment, useEffect, useState } from "react";
 import BreadcrumbComponent from "../../../components/breadcrumbComponent";
 import { Button, GetProps, Input, Select, TableProps, Tag } from "antd";

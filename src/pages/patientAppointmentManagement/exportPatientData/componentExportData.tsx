@@ -2,6 +2,7 @@ import { FC, Fragment } from "react";
 import { Button, Checkbox } from "antd";
 import type { CheckboxProps } from 'antd';
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 interface IProps {
     check: any,
     setCheck: any
@@ -9,6 +10,7 @@ interface IProps {
 const ComponentExportData: FC<IProps> = (props) => {
     const {check, setCheck} = props;
     const navigate = useNavigate();
+    const {t } = useTranslation(['BCCTDVKH','DSDangKyHen'])
 
     const onChangeHVT: CheckboxProps['onChange'] = (e) => {
         setCheck((form : any)=> ({...form, name: e.target.checked }))
@@ -105,27 +107,27 @@ const ComponentExportData: FC<IProps> = (props) => {
       }
     return <Fragment>
         <div className="flex items-center gap-1 flex-wrap " >
-                <div className="text-base text-red-500 font-bold " >Dữ liệu xuất :</div>
-                <Checkbox onChange={onChangeHVT} checked={check.name}>Họ và tên</Checkbox>
-                <Checkbox onChange={onChangeGT} checked={check.gender} >Giới tính</Checkbox>
-                <Checkbox onChange={onChangeT} checked={check.yearOld}>Tuổi</Checkbox>
-                <Checkbox onChange={onChangeSDT} checked={check.phone}>Số điện thoại</Checkbox>
-                <Checkbox onChange={onChangeNDTV} checked={check.content}>Nội dung tư vấn</Checkbox>
-                <Checkbox onChange={onChangeKhoa} checked={check.department}>Khoa</Checkbox>
-                <Checkbox onChange={onChangeBenh} checked={check.diseases}>Bệnh</Checkbox>
-                <Checkbox onChange={onChangeTinh} checked={check.city}>tỉnh/TP</Checkbox>
-                <Checkbox onChange={onChangeHuyen} checked={check.district}>quận/huyện</Checkbox>
-                <Checkbox onChange={onChangeMCG} checked={check.code}>Mã chuyên gia</Checkbox>
-                <Checkbox onChange={onChangeTGH} checked={check.appointmentTime}>Thời gian hẹn</Checkbox>
-                <Checkbox onChange={onChangeTGNH} checked={check.reminderTime}>Thời gian nhắc hẹn</Checkbox>
-                <Checkbox onChange={onChangeGC} checked={check.note}>Ghi chú</Checkbox>
-                <Checkbox onChange={onChangeTT} checked={check.status}>Trạng thái</Checkbox>
-                <Checkbox onChange={onChangeBS} checked={check.doctor}>Bác sĩ</Checkbox>
-                <Checkbox onChange={onChangeNT} checked={check.user}>Người tạo</Checkbox>
-                <Checkbox onChange={onChangeMDT} checked={check.treatment}>Mục điều trị</Checkbox>
-                <Checkbox onChange={onChangeTGT} checked={check.created_at}>Thời gian thêm</Checkbox>
-                <Button onClick={onClickCheckAll} variant="dashed" color="primary" type="default" >Tất cả</Button>
-                <Button onClick={onClickComeBack} variant="outlined" color="danger" type="primary" >Quay lại</Button>
+                <div className="text-base text-red-500 font-bold " >{t("BCCTDVKH:du_lieu_xuat")} :</div>
+                <Checkbox onChange={onChangeHVT} checked={check.name}>{t("DSDangKyHen:ho_va_ten")}</Checkbox>
+                <Checkbox onChange={onChangeGT} checked={check.gender} >{t("DSDangKyHen:gioi_tinh")}</Checkbox>
+                <Checkbox onChange={onChangeT} checked={check.yearOld}>{t("DSDangKyHen:tuoi")}</Checkbox>
+                <Checkbox onChange={onChangeSDT} checked={check.phone}>{t("DSDangKyHen:so_dien_thoai")}</Checkbox>
+                <Checkbox onChange={onChangeNDTV} checked={check.content}>{t("DSDangKyHen:noi_dung_tu_van")}</Checkbox>
+                <Checkbox onChange={onChangeKhoa} checked={check.department}>{t("DSDangKyHen:khoa")}</Checkbox>
+                <Checkbox onChange={onChangeBenh} checked={check.diseases}>{t("DSDangKyHen:benh")}</Checkbox>
+                <Checkbox onChange={onChangeTinh} checked={check.city}>{t("DSDangKyHen:tinh/TP")}</Checkbox>
+                <Checkbox onChange={onChangeHuyen} checked={check.district}>{t("DSDangKyHen:quan/huyen")}</Checkbox>
+                <Checkbox onChange={onChangeMCG} checked={check.code}>{t("DSDangKyHen:ma_chuyen_gia")}</Checkbox>
+                <Checkbox onChange={onChangeTGH} checked={check.appointmentTime}>{t("DSDangKyHen:thoi_gian_hen")}</Checkbox>
+                <Checkbox onChange={onChangeTGNH} checked={check.reminderTime}>{t("DSDangKyHen:thoi_gian_nhac_hen")}</Checkbox>
+                <Checkbox onChange={onChangeGC} checked={check.note}>{t("DSDangKyHen:ghi_chu")}</Checkbox>
+                <Checkbox onChange={onChangeTT} checked={check.status}>{t("DSDangKyHen:trang_thai")}</Checkbox>
+                <Checkbox onChange={onChangeBS} checked={check.doctor}>{t("DSDangKyHen:bac_si")}</Checkbox>
+                <Checkbox onChange={onChangeNT} checked={check.user}>{t("DSDangKyHen:nguoi_them")}</Checkbox>
+                <Checkbox onChange={onChangeMDT} checked={check.treatment}>{t("DSDangKyHen:muc_dieu_tri")}</Checkbox>
+                <Checkbox onChange={onChangeTGT} checked={check.created_at}>{t("DSDangKyHen:thoi_gian_them")}</Checkbox>
+                <Button onClick={onClickCheckAll} variant="dashed" color="primary" type="default" >{t("BCCTDVKH:tat_ca")}</Button>
+                <Button onClick={onClickComeBack} variant="outlined" color="danger" type="primary" >{t("DSDangKyHen:quay_lai")}</Button>
             </div>
     </Fragment>
 }

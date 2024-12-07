@@ -19,6 +19,7 @@ import { getDaysInQuarter, getMonthsInYear, TIME } from "../../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { getBaoCaoDoHoaTuyChinh } from "../../../features/hospitalSlice";
+import { useTranslation } from "react-i18next";
 dayjs.extend(isoWeek);
 
 ChartJS.register(
@@ -31,18 +32,7 @@ ChartJS.register(
   Legend
 );
 
-export const options = {
-  responsive: true,
-  plugins: {
-    legend: {
-      position: 'top' as const,
-    },
-    title: {
-      display: true,
-      text: 'Thống kê tùy chỉnh',
-    },
-  },
-};
+export
 
 const CustomGraphicalReports: FC = () => {
   const [picker, setPicker] = useState<any>('week');
@@ -50,27 +40,40 @@ const CustomGraphicalReports: FC = () => {
   const hospitalId = localStorage.getItem('hospitalId')
   const dispatch = useDispatch<AppDispatch>();
   const {BCDHTC} = useSelector((state: RootState) => state.hospital);
+  const {t } = useTranslation(['BCCTDVKH'])
 
   const labels = BCDHTC?.map((item:any)=> item.picker === 'year' ? `${item.month}/${item.year}` :`${item.day}/${item.month}`);
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+      },
+      title: {
+        display: true,
+        text:t("BCCTDVKH:thong_ke_tuy_chinh") ,
+      },
+    },
+  };
   const data = {
     labels,
     datasets: [
       {
-        label: 'Chưa đến',
+        label: t("BCCTDVKH:chua_den") ,
         data: BCDHTC?.map((item : any) => item.totalChuaDen ),
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
         tension: 0.4,
       },
       {
-        label: 'Đã đến',
+        label:t("BCCTDVKH:da_den") ,
         data: BCDHTC?.map((item : any) => item.totalDaDen ),
         borderColor: 'rgb(53, 162, 235)',
         backgroundColor: 'rgba(53, 162, 235, 0.5)',
         tension: 0.4,
       },
       {
-        label: 'Tổng',
+        label: t("BCCTDVKH:tong") ,
         data: BCDHTC?.map((item : any) => item.total ),
         borderColor: '#2e8502',
         backgroundColor: '#52c41a',
@@ -162,7 +165,7 @@ const CustomGraphicalReports: FC = () => {
   return <Fragment>
     <Space direction="horizontal">
       <div>
-        <div >Chọn móc thời gian : </div>
+        <div >{t("BCCTDVKH:chon_moc_thoi_gian")} : </div>
         <Select
           className="w-[150px]"
           allowClear
@@ -177,11 +180,11 @@ const CustomGraphicalReports: FC = () => {
         />
       </div>
       <div>
-        <div>Thời gian :</div>
+        <div>{t("BCCTDVKH:thoi_gian")} :</div>
         <DatePicker allowClear={false} onChange={onChange} picker={picker} />
       </div>
 
-      <Button onClick={onClickSearch} className="mt-5" type="primary" >Tìm kiếm</Button>
+      <Button onClick={onClickSearch} className="mt-5" type="primary" >{t("BCCTDVKH:tim_kiem")}</Button>
     </Space>
     <Line options={options} data={data} />
   </Fragment>

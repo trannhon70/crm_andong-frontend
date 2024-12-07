@@ -10,6 +10,9 @@ import PROFILE_VN from "../locales/vn/profile.json";
 import DSDangKyHen_TQ from "../locales/tq/DSDangKyHen.json";
 import DSDangKyHen_VN from "../locales/vn/DSDangKyHen.json";
 
+import BCCTDVKH_TQ from "../locales/tq/BCCTDVKH.json";
+import BCCTDVKH_VN from "../locales/vn/BCCTDVKH.json";
+
 
 export const resources = {
   // en: {
@@ -20,13 +23,15 @@ export const resources = {
     home: HOME_VN,
     product:'',
     profile: PROFILE_VN,
-    DSDangKyHen: DSDangKyHen_VN
+    DSDangKyHen: DSDangKyHen_VN,
+    BCCTDVKH: BCCTDVKH_VN
   },
   tq: {
     home: HOME_TQ,
     product:'',
     profile: PROFILE_TQ,
-    DSDangKyHen: DSDangKyHen_TQ
+    DSDangKyHen: DSDangKyHen_TQ,
+    BCCTDVKH: BCCTDVKH_TQ
   }
 };
 
@@ -36,7 +41,7 @@ i18n
   .init({
     resources,
     lng: "vi",
-    ns:['home', 'product', 'profile', 'DSDangKyHen'],
+    ns:['home', 'product', 'profile', 'DSDangKyHen', 'BCCTDVKH'],
     fallbackLng: 'vi' , 
     defaultNS,
     interpolation: {

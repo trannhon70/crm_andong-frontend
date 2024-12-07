@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchCity, fetchDistrictbyIdCity, getAllByIdHospital, getAllDoctor, getAllMedia, getByIdDepartment, getXuatDuLieuBenhNhan } from '../../../features/patientSlice';
 import { AppDispatch, RootState } from '../../../redux/store';
 import { STATUS } from '../../../utils';
+import { useTranslation } from 'react-i18next';
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
@@ -26,6 +27,7 @@ const ModalSearch: FC<IProps> = (props) => {
     const dispatch = useDispatch<AppDispatch>();
     const hospitalId = localStorage.getItem('hospitalId')
     const { patient } = useSelector((state: RootState) => state);
+    const {t } = useTranslation(['BCCTDVKH','DSDangKyHen'])
 
     useEffect(() => {
         dispatch(fetchCity())
@@ -80,9 +82,9 @@ const ModalSearch: FC<IProps> = (props) => {
     }
     return <Fragment>
        <Button type="primary" onClick={showModal}>
-        Tìm kiếm
+         {t("DSDangKyHen:tim_kiem")}
       </Button>
-      <Modal title="Tìm kiếm" open={isModalOpen}  onCancel={handleCancel} footer={false} >
+      <Modal title= {t("DSDangKyHen:tim_kiem")} open={isModalOpen}  onCancel={handleCancel} footer={false} >
       <Form
                 form={form}
                 {...layout}
@@ -93,18 +95,18 @@ const ModalSearch: FC<IProps> = (props) => {
                  size="middle"
             >
                
-                <Form.Item name="created_at" label="Thời gian thêm">
+                <Form.Item name="created_at" label= {t("DSDangKyHen:thoi_gian_them")}>
                     <RangePicker className='w-[100%]' />
                 </Form.Item>
-                <Form.Item name="appointmentTime" label="Thời gian hẹn">
+                <Form.Item name="appointmentTime" label= {t("DSDangKyHen:thoi_gian_hen")}>
                     <RangePicker className='w-[100%]' />
                 </Form.Item>
-                <Form.Item name="doctorId" label="Bác sĩ">
+                <Form.Item name="doctorId" label= {t("DSDangKyHen:bac_si")}>
                     <Select
                         allowClear
                         className='w-[100%]'
                         showSearch
-                        placeholder="---Lựa chọn---"
+                        placeholder={`---${t("DSDangKyHen:lua_chon")}---`}
                         filterOption={(input, option) =>
                             typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                         }
@@ -116,24 +118,25 @@ const ModalSearch: FC<IProps> = (props) => {
                         })}
                     />
                 </Form.Item>
-                <Form.Item name="status" label="Tình trạng cuộc hẹn">
+                <Form.Item name="status" label={t("DSDangKyHen:tinh_trang_cuoc_hen")}>
                     <Select
                         allowClear
                         className='w-[100%]'
                         showSearch
-                        placeholder="---Lựa chọn---"
+                        placeholder={`---${t("DSDangKyHen:lua_chon")}---`}
                         filterOption={(input, option) =>
                             typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                         }
                         options={STATUS()}
                     />
                 </Form.Item>
-                <Form.Item name="departmentId" label="Khoa">
+                <Form.Item name="departmentId" label={t("DSDangKyHen:khoa")}>
                     <Select
                         allowClear
                         className='w-[100%]'
                         showSearch
-                        placeholder="---Lựa chọn---"
+                        placeholder={`---${t("DSDangKyHen:lua_chon")}---`}
+                        
                         filterOption={(input, option) =>
                             typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                         }
@@ -146,12 +149,12 @@ const ModalSearch: FC<IProps> = (props) => {
                         onChange={handleChangeDiseases}
                     />
                 </Form.Item>
-                <Form.Item name="diseasesId" label="Bệnh">
+                <Form.Item name="diseasesId" label={t("DSDangKyHen:benh")}>
                     <Select
                         allowClear
                         className='w-[100%]'
                         showSearch
-                        placeholder="---Lựa chọn---"
+                        placeholder={`---${t("DSDangKyHen:lua_chon")}---`}
                         filterOption={(input, option) =>
                             typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                         }
@@ -163,12 +166,13 @@ const ModalSearch: FC<IProps> = (props) => {
                         })}
                     />
                 </Form.Item>
-                <Form.Item name="cityId" label="Tỉnh/TP">
+                <Form.Item name="cityId" label={t("DSDangKyHen:tinh/TP")}>
                     <Select
                         allowClear
                         className='w-[100%]'
                         showSearch
-                        placeholder="---Lựa chọn---"
+                        placeholder={`---${t("DSDangKyHen:lua_chon")}---`}
+                        
                         filterOption={(input, option) =>
                             typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                         }
@@ -181,12 +185,13 @@ const ModalSearch: FC<IProps> = (props) => {
                         onChange={handleChangeCity}
                     />
                 </Form.Item>
-                <Form.Item name="districtId" label="Quận/huyện">
+                <Form.Item name="districtId" label={t("DSDangKyHen:quan/huyen")}>
                     <Select
                         allowClear
                         className='w-[100%]'
                         showSearch
-                        placeholder="---Lựa chọn---"
+                        placeholder={`---${t("DSDangKyHen:lua_chon")}---`}
+                        
                         filterOption={(input, option) =>
                             typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                         }
@@ -201,8 +206,8 @@ const ModalSearch: FC<IProps> = (props) => {
                 
                 <Form.Item {...tailLayout}>
                     <div className='flex items-center justify-end gap-1' >
-                        <Button type="primary" htmlType="submit" variant='solid' color='primary' >Tìm Kiếm</Button>
-                        <Button onClick={onclickClose} variant='solid' color='danger' >Thoát</Button>
+                        <Button type="primary" htmlType="submit" variant='solid' color='primary' >{t("DSDangKyHen:tim_kiem")}</Button>
+                        <Button onClick={onclickClose} variant='solid' color='danger' >{t("DSDangKyHen:thoat")}</Button>
                     </div>
                 </Form.Item>
             </Form>

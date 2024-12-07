@@ -5,6 +5,7 @@ import BreadcrumbComponent from "../../../components/breadcrumbComponent";
 import { RootState } from "../../../redux/store";
 import ComponentExportData from "./componentExportData";
 import ModalSearch from "./modalSearch";
+import { useTranslation } from "react-i18next";
 
 const ExportPatientData: FC = () => {
     const { data } = useSelector((state: RootState) => state.patient)
@@ -15,16 +16,17 @@ const ExportPatientData: FC = () => {
         district: false, code: false, appointmentTime: false, reminderTime: false, note: false, status: false, doctor: false, user: false, treatment: false,
         created_at: false,
     })
+    const {t } = useTranslation(['BCCTDVKH','DSDangKyHen'])
 
     const dataBreadcrumb = [
         {
-            title: 'Quản lý cuộc hẹn bệnh nhân',
+            title: t("BCCTDVKH:quan_ly_cuoc_hen_benh_nhan") ,
         },
         {
             type: 'separator',
         },
         {
-            title: 'Xuất dữ liệu bệnh nhân',
+            title: t("BCCTDVKH:xuat_du_lieu_benh_nhan"),
         },
 
     ];

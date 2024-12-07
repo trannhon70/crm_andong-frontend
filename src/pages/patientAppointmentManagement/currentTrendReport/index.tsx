@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { getBaoCaoXuHuongHangThang } from "../../../features/hospitalSlice";
 import NotHospital from "../../../components/notHospital";
+import { useTranslation } from "react-i18next";
 
 ChartJS.register(
   CategoryScale,
@@ -31,6 +32,7 @@ const CurrentTrendReport:FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const {BCXHHT} = useSelector((state: RootState) => state.hospital);
     const hospitalId = localStorage.getItem('hospitalId')
+    const {t } = useTranslation(['BCCTDVKH'])
 
     useEffect(() => {
         if(hospitalId){
@@ -47,7 +49,7 @@ const CurrentTrendReport:FC = () => {
           },
           title: {
             display: true,
-            text: 'Thống kê biểu đồ danh sách hẹn theo tháng',
+            text: t("BCCTDVKH:thong_ke_bieu_do_ds_hen_theo_thang") ,
             font: {
               size: 20, // Kích thước chữ
             
@@ -62,17 +64,17 @@ const CurrentTrendReport:FC = () => {
         labels,
         datasets: [
           {
-              label: 'Tổng',
+              label: t("BCCTDVKH:tong"),
               data: BCXHHT.map((item : any) => item.total ),
               backgroundColor: 'rgba(245, 40, 145, 0.8)',
             },
           {
-            label: 'Đã đến',
+            label:t("BCCTDVKH:da_den") ,
             data:BCXHHT.map((item : any) => item.totalDaDen ),
             backgroundColor: 'rgba(54, 156, 29, 0.8)',
           },
           {
-            label: 'Chưa đến',
+            label:t("BCCTDVKH:chua_den") ,
             data: BCXHHT.map((item : any) => item.totalChuaDen ),
             backgroundColor: 'rgba(238, 94, 38, 0.8)',
           },

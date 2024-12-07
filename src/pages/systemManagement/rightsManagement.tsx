@@ -48,7 +48,7 @@ const RightsManagement: FC = () => {
 
   useEffect(() => {
     dispatch(fetchGetPaging({ pageSize, pageIndex, search }));
-  }, [dispatch, pageSize,pageIndex ])
+  }, [dispatch, pageSize,pageIndex , search])
 
   const columns: TableProps<any>['columns'] = [
     {
