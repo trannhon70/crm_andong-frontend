@@ -14,6 +14,7 @@ import NotHospital from "../../../components/notHospital";
 import { toast } from "react-toastify";
 import { departmentAPI } from "../../../apis/department.api";
 import useMenuData from "../../../hooks/useMenuData";
+import { useTranslation } from "react-i18next";
 
 type SearchProps = GetProps<typeof Input.Search>;
 
@@ -28,6 +29,7 @@ const DepartmentManagement: FC = () => {
     const hospitalId = localStorage.getItem('hospitalId')
     const dispatch = useDispatch<AppDispatch>();
     const menu = useMenuData();
+    const {t } = useTranslation(['setting'])
     
 
     useEffect(() => {
@@ -40,14 +42,13 @@ const DepartmentManagement: FC = () => {
 
     const dataBreadcrumb = [
         {
-            href: '/quan-ly-khoa',
-            title: 'Cài đặt',
+            title: t("setting:cai_dat"),
         },
         {
             type: 'separator',
         },
         {
-            title: 'Quản lý khoa',
+            title: t("setting:quan_ly_khoa"),
         },
     ];
     const onClickCreate = () => {
@@ -62,7 +63,7 @@ const DepartmentManagement: FC = () => {
 
     const columns: TableProps<any>['columns'] = [
         {
-            title: 'STT',
+            title:t("setting:stt") ,
             dataIndex: 'age',
             key: 'age',
             render(value, record, index) {
@@ -70,13 +71,13 @@ const DepartmentManagement: FC = () => {
             },
         },
         {
-            title: 'Tên Bệnh',
+            title: t("setting:ten_benh"),
             dataIndex: 'name',
             key: 'name',
         },
 
         {
-            title: 'Bệnh viện',
+            title: t("setting:benh_vien"),
             key: 'hospital',
             dataIndex: 'hospital',
             render(value, record, index) {
@@ -85,7 +86,7 @@ const DepartmentManagement: FC = () => {
             },
         },
         {
-            title: 'Người tạo',
+            title:t("setting:nguoi_tao") ,
             key: 'user',
             dataIndex: 'user',
             render(value, record, index) {
@@ -95,7 +96,7 @@ const DepartmentManagement: FC = () => {
         },
 
         {
-            title: 'Thời gian tạo',
+            title: t("setting:thoi_gian_tao"),
             key: 'created_at',
             dataIndex: 'created_at',
             render(value, record, index) {
@@ -103,7 +104,7 @@ const DepartmentManagement: FC = () => {
             },
         },
         {
-            title: 'Thao tác',
+            title: t("setting:thao_tac"),
             key: 'id',
             dataIndex: 'id',
             render(value, record, index) {
@@ -111,8 +112,8 @@ const DepartmentManagement: FC = () => {
                 return <div className='flex gap-4 ' >
                     {
                          menu?.[4].ds?.action_CDKBV.delete === true ?  <PopconfirmComponent
-                         title={<>Xóa khoa {record.name}</>}
-                         description='Bạn có chắc chắn muốn xóa khoa này không?'
+                         title={<>{t("setting:xoa_khoa")} {record.name}</>}
+                         description={t("setting:ban_co_chac_chan_muon_xoa_khoa")}
                          value={value}
                          deleteRole={deleteDepartment}
                      /> : null
@@ -134,7 +135,7 @@ const DepartmentManagement: FC = () => {
         try {
             const result = await departmentAPI.deleteDepartment(id)
             if (result.data.statusCode === 1) {
-                toast.success('Xóa thành công!')
+                toast.success(`${t("setting:xoa_thanh_cong")}`)
                 dispatch(getPagingDepartment({ pageSize, pageIndex, search, hospitalId: Number(hospitalId) }))
             }
         } catch (error) {
@@ -161,10 +162,10 @@ const DepartmentManagement: FC = () => {
                     <div className='mt-2 pb-2 flex justify-between ' >
                         <div className="flex gap-3" >
 
-                            <Search className='w-[250px]' placeholder="Nhập tên " onSearch={onSearch} enterButton />
+                            <Search className='w-[250px]' placeholder={t("setting:nhap_ten")} onSearch={onSearch} enterButton />
                         </div>
                         {
-                             menu?.[4].ds?.action_CDKBV.create === true ? <Button onClick={onClickCreate} type="primary">Thêm mới</Button> : null
+                             menu?.[4].ds?.action_CDKBV.create === true ? <Button onClick={onClickCreate} type="primary">{t("setting:them_moi")}</Button> : null
                         }
                         
                     </div>

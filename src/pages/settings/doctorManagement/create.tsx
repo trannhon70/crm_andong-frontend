@@ -7,6 +7,7 @@ import { doctorAPI } from "../../../apis/doctor.api";
 import { getByIdDoctor } from "../../../features/doctorSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
+import { useTranslation } from "react-i18next";
 
 const formItemLayout = {
     labelCol: {
@@ -38,6 +39,7 @@ const CreateDocTor:FC = () => {
     const hospitalId = localStorage.getItem('hospitalId')
     const dispatch = useDispatch<AppDispatch>();
     const { doctor} = useSelector((state: RootState) => state.doctor);
+    const {t } = useTranslation(['setting'])
 
     useEffect(() =>{ 
         if(id){
@@ -55,20 +57,20 @@ const CreateDocTor:FC = () => {
 
     const dataBreadcrumb = [
         {
-            title: 'Cài đặt',
+            title: t("setting:cai_dat"),
         },
         {
             type: 'separator',
         },
         {
             href: '/thiet-lap-bac-si',
-            title: 'Quản lý bác sĩ',
+            title: t("setting:quan_ly_bac_si"),
         },
         {
             type: 'separator',
         },
         {
-            title: <>{id ? 'Cập nhật' : 'Thêm mới'}</>,
+            title: <>{id ? t("setting:cap_nhat") : t("setting:them_moi")}</>,
         },
     ];
 
@@ -82,14 +84,14 @@ const CreateDocTor:FC = () => {
         if(id){
             const update = await doctorAPI.updateDoctor(Number(id), body)
             if(update.data.statusCode === 1){
-                toast.success('Cập nhật thành công!')
+                toast.success(`${t("setting:cap_nhat_thanh_cong")}`)
                 navige('/thiet-lap-bac-si')
             }
         } else {
             try {
                 const result = await doctorAPI.createdoctor(body);
                 if(result.data.statusCode === 1){
-                    toast.success('Thêm mới thành công!')
+                    toast.success(`${t("setting:them_moi_thanh_cong")}`)
                     form.resetFields();
                 }
             } catch (error) {
@@ -113,22 +115,22 @@ const CreateDocTor:FC = () => {
                 
                 <Form.Item
                     name="name"
-                    label="Tên bác sĩ"
-                    rules={[{ required: true, message: 'Vui lòng nhập tên bác sĩ của bạn!', whitespace: true }]}
+                    label={t("setting:ten_bac_si")}
+                    rules={[{ required: true, message: t("setting:ten_bac_si_err"), whitespace: true }]}
                 >
                     <Input />
                 </Form.Item>
                 <Form.Item
                     name="doctor_office"
-                    label="Phòng"
-                    rules={[{ required: true, message: 'Vui lòng nhập phòng của bạn!', whitespace: true }]}
+                    label={t("setting:phong")}
+                    rules={[{ required: true, message: t("setting:phong_err"), whitespace: true }]}
                 >
                     <Input />
                 </Form.Item>
 
                 <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">
-                    {id ? 'Cập nhật' : 'Thêm mới'} 
+                    {id ? t("setting:cap_nhat") : t("setting:them_moi")} 
                     </Button>
                 </Form.Item>
             </Form>

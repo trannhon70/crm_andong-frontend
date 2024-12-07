@@ -2,6 +2,7 @@ import type { PaginationProps } from 'antd';
 import { Pagination, Table } from 'antd';
 import { TableRowSelection } from 'antd/es/table/interface';
 import { FC, Fragment, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 type TableProps = {
   columns?: any;
@@ -17,7 +18,7 @@ type TableProps = {
 const TableComponent: FC<TableProps> = (props) => {
   const { columns, data, total, rowKey = false, pageIndex, pageSize, onChangePage ,scroll} = props;
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]); 
-
+  const {t } = useTranslation(['setting'])
   
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
     console.log('Selected Row Keys changed: ', newSelectedRowKeys);
@@ -32,7 +33,7 @@ const TableComponent: FC<TableProps> = (props) => {
   : undefined;
 
 
-  const showTotal: PaginationProps['showTotal'] = (total) => `Total ${total} items`;
+  const showTotal: PaginationProps['showTotal'] = (total) => `${t("setting:tong")} ${total} ${t("setting:muc")}`;
 
   return (
     <Fragment>

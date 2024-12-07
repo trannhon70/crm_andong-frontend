@@ -7,6 +7,7 @@ import { departmentAPI } from "../../../apis/department.api";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { getByIdDepartment } from "../../../features/departmentSlice";
+import { useTranslation } from "react-i18next";
 
 const formItemLayout = {
     labelCol: {
@@ -39,6 +40,7 @@ const CreateDepartment: FC = () =>{
     const dispatch = useDispatch<AppDispatch>();
     const { department } = useSelector((state: RootState) => state.department);
     const navige = useNavigate()
+    const {t } = useTranslation(['setting'])
 
     useEffect(()=>{
         
@@ -56,25 +58,25 @@ const CreateDepartment: FC = () =>{
 
     const dataBreadcrumb = [
         {
-            title: 'Cài đặt',
+            title: t("setting:cai_dat"),
         },
         {
             type: 'separator',
         },
         {
             href: '/quan-ly-khoa',
-            title: 'Quản lý khoa',
+            title: t("setting:quan_ly_khoa"),
         },
         {
             type: 'separator',
         },
         {
-            title: <>{id ? 'Cập nhật' : 'Thêm mới'}</>,
+            title: <>{id ? t("setting:cap_nhat") : t("setting:them_moi")}</>,
         },
     ];
 
     const onFinish = async(values: any) => {
-        console.log(values)
+
         const body = {
             name: values.name,
             hospitalId: hospitalId
@@ -83,14 +85,14 @@ const CreateDepartment: FC = () =>{
         if(id){
             const update = await departmentAPI.updateDepartment(Number(id), body)
             if(update.data.statusCode === 1){
-                toast.success('Cập nhật thành công!')
+                toast.success(`${t("setting:cap_nhat_thanh_cong")}`)
                 navige('/quan-ly-khoa')
             }
         }else {
             try {
                 const result = await departmentAPI.createDepartment(body);
                 if(result.data.statusCode === 1){
-                    toast.success('Thêm mới thành công!')
+                    toast.success(`${t("setting:them_moi_thanh_cong")}`)
                     form.resetFields();
                 }
             } catch (error) {
@@ -114,8 +116,8 @@ const CreateDepartment: FC = () =>{
                 
                 <Form.Item
                     name="name"
-                    label="Tên khoa"
-                    rules={[{ required: true, message: 'Vui lòng nhập tên khoa của bạn!', whitespace: true }]}
+                    label={t("setting:ten_khoa")}
+                    rules={[{ required: true, message:t("setting:ten_khoa_err") , whitespace: true }]}
                 >
                     <Input />
                 </Form.Item>
@@ -123,7 +125,7 @@ const CreateDepartment: FC = () =>{
 
                 <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">
-                      {id ? 'Cập nhật' : 'Thêm mới'} 
+                      {id ? t("setting:cap_nhat") : t("setting:them_moi")} 
                     </Button>
                 </Form.Item>
             </Form>

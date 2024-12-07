@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { diseaseAPI } from "../../../apis/disease.api";
 import { useNavigate, useParams } from "react-router-dom";
 import { getByIdDisease } from "../../../features/diseaseSlice";
+import { useTranslation } from "react-i18next";
 
 
 
@@ -44,7 +45,8 @@ const CreateDiseaseManagement: FC =() => {
     const hospitalId = localStorage.getItem('hospitalId')
     const { department, disease } = useSelector((state: RootState) => state);
     let { id } = useParams();
-    const navige = useNavigate()
+    const navige = useNavigate();
+    const {t } = useTranslation(['setting']);
 
     useEffect(() => {
         if(disease.disease.id){
@@ -67,20 +69,20 @@ const CreateDiseaseManagement: FC =() => {
 
     const dataBreadcrumb = [
         {
-            title: 'Cài đặt',
+            title: t("setting:cai_dat"),
         },
         {
             type: 'separator',
         },
         {
             href: '/thiet-lap-benh-tat',
-            title: 'Quản lý bệnh',
+            title: t("setting:thiet_lap_benh"),
         },
         {
             type: 'separator',
         },
         {
-            title: <>{id ? 'Cập nhật' : 'Thêm mới'}</>,
+            title: <>{id ? t("setting:cap_nhat") : t("setting:them_moi")}</>,
         },
     ];
 
@@ -93,14 +95,14 @@ const CreateDiseaseManagement: FC =() => {
         if(id){
             const update = await diseaseAPI.updateDisease(Number(id), body)
             if(update.data.statusCode === 1){
-                toast.success('Cập nhật thành công!')
+                toast.success(`${t("setting:cap_nhat_thanh_cong")}`)
                 navige('/thiet-lap-benh-tat')
             }
         }else {
             try {
                 const result = await diseaseAPI.createdisease(body);
                 if(result.data.statusCode === 1){
-                    toast.success('Thêm mới thành công!')
+                    toast.success(`${t("setting:them_moi_thanh_cong")}`)
                     form.resetFields();
                 }
             } catch (error) {
@@ -122,12 +124,12 @@ const CreateDiseaseManagement: FC =() => {
                 scrollToFirstError
                 size="middle"
             >
-                <Form.Item name="departmentId" label="Chuyên khoa" rules={[
-                    { required: true, message: 'Vui lòng chọn chuyên khoa của bạn!', }
+                <Form.Item name="departmentId" label={t("setting:chuyen_khoa")} rules={[
+                    { required: true, message:t("setting:chuyen_khoa_err") , }
                 ]}>
                     <Select
                         style={{textTransform:'capitalize'}}
-                        placeholder="Vui lòng chọn chuyên khoa hoạt động"
+                        placeholder={t("setting:chuyen_khoa_placeholder")}
                         allowClear
                         options={department.loading==='succeeded' && department.dataAll.map((item: any,index:number)=> {
                             return {
@@ -140,8 +142,8 @@ const CreateDiseaseManagement: FC =() => {
                 </Form.Item>
                 <Form.Item
                     name="name"
-                    label="Tên bệnh"
-                    rules={[{ required: true, message: 'Vui lòng nhập tên bệnh của bạn!', whitespace: true }]}
+                    label={t("setting:ten_benh")}
+                    rules={[{ required: true, message:t("setting:ten_benh_err") , whitespace: true }]}
                 >
                     <Input />
                 </Form.Item>
@@ -149,7 +151,7 @@ const CreateDiseaseManagement: FC =() => {
 
                 <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">
-                      {id ? 'Cập nhật' : 'Thêm mới'} 
+                      {id ? t("setting:cap_nhat"): t("setting:them_moi")} 
                     </Button>
                 </Form.Item>
             </Form>

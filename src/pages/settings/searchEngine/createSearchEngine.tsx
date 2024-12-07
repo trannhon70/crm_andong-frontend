@@ -7,6 +7,7 @@ import { mediaAPI } from "../../../apis/media.api";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { getByIdMedia } from "../../../features/mediaSlice";
+import { useTranslation } from "react-i18next";
 
 const formItemLayout = {
     labelCol: {
@@ -39,6 +40,7 @@ const CreateSearchEngine: FC = () =>{
     const navige = useNavigate()
     const dispatch = useDispatch<AppDispatch>();
     const { media} = useSelector((state: RootState) => state.media);
+    const {t } = useTranslation(['setting'])
 
     useEffect(() =>{ 
         if(id){
@@ -54,20 +56,20 @@ const CreateSearchEngine: FC = () =>{
 
     const dataBreadcrumb = [
         {
-            title: 'Cài đặt',
+            title: t("setting:cai_dat"),
         },
         {
             type: 'separator',
         },
         {
             href: '/cong-cu-tim-kiem',
-            title: 'Công cụ tìm kiếm',
+            title:t("setting:cong_cu_tim_kiem") ,
         },
         {
             type: 'separator',
         },
         {
-            title: <>{id ? 'Cập nhật' : 'Thêm mới'}</>,
+            title: <>{id ? t("setting:cap_nhat") : t("setting:them_moi")}</>,
         },
     ];
 
@@ -80,14 +82,14 @@ const CreateSearchEngine: FC = () =>{
         if(id){
             const update = await mediaAPI.updateMedia(Number(id), body)
             if(update.data.statusCode === 1){
-                toast.success('Cập nhật thành công!')
+                toast.success(`${t("setting:cap_nhat_thanh_cong")}`)
                 navige('/cong-cu-tim-kiem')
             }
         } else {
             try {
                 const result = await mediaAPI.createMedia(body);
                 if(result.data.statusCode === 1){
-                    toast.success('Thêm mới thành công!')
+                    toast.success(`${t("setting:them_moi_thanh_cong")}`)
                     form.resetFields();
                 }
             } catch (error : any) {
@@ -119,8 +121,8 @@ const CreateSearchEngine: FC = () =>{
                 
                 <Form.Item
                     name="name"
-                    label="Tên media"
-                    rules={[{ required: true, message: 'Vui lòng nhập tên media của bạn!', whitespace: true }]}
+                    label={t("setting:ten_media")}
+                    rules={[{ required: true, message:t("setting:ten_media_err"), whitespace: true }]}
                 >
                     <Input />
                 </Form.Item>
@@ -128,9 +130,9 @@ const CreateSearchEngine: FC = () =>{
 
                 <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">
-                    {id ? 'Cập nhật' : 'Thêm mới'} 
+                    {id ? t("setting:cap_nhat") : t("setting:them_moi")} 
                     </Button>
-                    <Button className="ml-2" type="dashed" color="danger" variant="outlined"  onClick={onClickPrev} >Quay lại</Button>
+                    <Button className="ml-2" type="dashed" color="danger" variant="outlined"  onClick={onClickPrev} >{t("setting:quay_lai")}</Button>
                 </Form.Item>
             </Form>
             </div>
