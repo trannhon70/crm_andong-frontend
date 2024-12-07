@@ -13,6 +13,9 @@ import DSDangKyHen_VN from "../locales/vn/DSDangKyHen.json";
 import BCCTDVKH_TQ from "../locales/tq/BCCTDVKH.json";
 import BCCTDVKH_VN from "../locales/vn/BCCTDVKH.json";
 
+import BaoCaoDuLieu_TQ from "../locales/tq/bacCaoDuLieu.json";
+import BaoCaoDuLieu_VN from "../locales/vn/bacCaoDuLieu.json";
+
 
 export const resources = {
   // en: {
@@ -24,14 +27,16 @@ export const resources = {
     product:'',
     profile: PROFILE_VN,
     DSDangKyHen: DSDangKyHen_VN,
-    BCCTDVKH: BCCTDVKH_VN
+    BCCTDVKH: BCCTDVKH_VN,
+    baoCaoDuLieu: BaoCaoDuLieu_VN
   },
   tq: {
     home: HOME_TQ,
     product:'',
     profile: PROFILE_TQ,
     DSDangKyHen: DSDangKyHen_TQ,
-    BCCTDVKH: BCCTDVKH_TQ
+    BCCTDVKH: BCCTDVKH_TQ,
+    baoCaoDuLieu: BaoCaoDuLieu_TQ
   }
 };
 
@@ -41,7 +46,7 @@ i18n
   .init({
     resources,
     lng: "vi",
-    ns:['home', 'product', 'profile', 'DSDangKyHen', 'BCCTDVKH'],
+    ns:['home', 'product', 'profile', 'DSDangKyHen', 'BCCTDVKH', 'baoCaoDuLieu'],
     fallbackLng: 'vi' , 
     defaultNS,
     interpolation: {

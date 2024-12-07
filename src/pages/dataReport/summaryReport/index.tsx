@@ -6,6 +6,7 @@ import BreadcrumbComponent from "../../../components/breadcrumbComponent";
 import { getBaoCaoTongHop } from "../../../features/dataReportSlice";
 import { AppDispatch, RootState } from "../../../redux/store";
 import NotHospital from '../../../components/notHospital';
+import { useTranslation } from 'react-i18next';
 
 interface DataYear {
     key: string;
@@ -30,6 +31,7 @@ const SummaryReport: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const { resultMonth, resultYear, loading } = useSelector((state: RootState) => state.dataReport);
     const hospitalId = localStorage.getItem('hospitalId')
+    const {t } = useTranslation(['baoCaoDuLieu','DSDangKyHen'])
 
     useEffect(() => {
         if (hospitalId) {
@@ -39,43 +41,43 @@ const SummaryReport: FC = () => {
 
     const dataBreadcrumb = [
         {
-            title: 'Báo cáo dữ liệu',
+            title: t("baoCaoDuLieu:bao_cao_du_lieu") ,
         },
         {
             type: 'separator',
         },
         {
 
-            title: 'Báo cáo tổng hợp theo thời gian hẹn ',
+            title: t("baoCaoDuLieu:bao_cao_tong_hop_theo_thoi_gian_hen") ,
         },
 
     ];
 
     const columns: TableProps<DataYear>['columns'] = [
         {
-            title: 'Năm',
+            title: t("baoCaoDuLieu:năm") ,
             dataIndex: 'year',
             key: 'year',
             render: (text) => <a>{text}</a>,
         },
         {
-            title: 'Tổng',
+            title: t("baoCaoDuLieu:tong"),
             dataIndex: 'total',
             key: 'total',
             render: (text) => <a>{text}</a>,
         },
         {
-            title: 'Đã đến',
+            title: t("baoCaoDuLieu:da_den") ,
             dataIndex: 'daDen',
             key: 'daDen',
         },
         {
-            title: 'Chưa đến',
+            title: t("baoCaoDuLieu:chua_den") ,
             dataIndex: 'chuaDen',
             key: 'chuaDen',
         },
         {
-            title: 'Tỷ lệ',
+            title: t("baoCaoDuLieu:ty_le") ,
             dataIndex: 'tile',
             key: 'tile',
             render(value, record, index) {
@@ -87,29 +89,29 @@ const SummaryReport: FC = () => {
 
     const columnsMonths: TableProps<DataMonths>['columns'] = [
         {
-            title: 'Tháng',
+            title: t("baoCaoDuLieu:thang") ,
             dataIndex: 'month',
             key: 'month',
             render: (text) => <a>{text}</a>,
         },
         {
-            title: 'Tổng',
+            title:t("baoCaoDuLieu:tong") ,
             dataIndex: 'total',
             key: 'total',
             render: (text) => <a>{text}</a>,
         },
         {
-            title: 'Đã đến',
+            title: t("baoCaoDuLieu:da_den") ,
             dataIndex: 'daDen',
             key: 'daDen',
         },
         {
-            title: 'Chưa đến',
+            title:t("baoCaoDuLieu:chua_den") ,
             dataIndex: 'chuaDen',
             key: 'chuaDen',
         },
         {
-            title: 'Tỷ lệ',
+            title: t("baoCaoDuLieu:ty_le") ,
             dataIndex: 'tile',
             key: 'tile',
             render(value, record, index) {
@@ -124,12 +126,12 @@ const SummaryReport: FC = () => {
             hospitalId ? <>
                 <BreadcrumbComponent items={dataBreadcrumb} />
                 <div className="mt-2 mb-2 font-bold text-lg text-lime-700 " >
-                    Thống kê theo năm (thống kê 3 năm gần nhất)
+                  {t("baoCaoDuLieu:thong_ke_theo_nam")}  
                 </div>
                 <Table<DataYear> columns={columns} dataSource={resultYear || []} size="middle" bordered pagination={false} />
 
                 <div className="mt-2 mb-2 font-bold text-lg text-lime-700 " >
-                    Thống kê theo tháng (thống kê 12 tháng gần nhất)
+                  {t("baoCaoDuLieu:thong_ke_theo_thang")}  
                 </div>
                 <Table<DataMonths> columns={columnsMonths} dataSource={resultMonth || []} size="middle" bordered pagination={false} />
             </> : <NotHospital />

@@ -20,6 +20,7 @@ import isoWeek from 'dayjs/plugin/isoWeek';
 import { getAllMedia } from "../../../features/patientSlice";
 import { getThongkeGioitinh } from "../../../features/dataReportSlice";
 import NotHospital from "../../../components/notHospital";
+import { useTranslation } from "react-i18next";
 dayjs.extend(isoWeek);
 
 ChartJS.register(
@@ -52,6 +53,7 @@ const Gender: FC = () => {
     const [status, setStatus] = useState<string>('');
     const [media, setMedia] = useState<string>('');
     const { patient, dataReport } = useSelector((state: RootState) => state);
+    const {t } = useTranslation(['baoCaoDuLieu','DSDangKyHen'])
     
     const labels = dataReport.gender?.map((item:any)=> item?.picker === 'year' ? `${item?.month}/${item?.year}` :`${item?.day}/${item?.month}`);
 
@@ -65,28 +67,28 @@ const Gender: FC = () => {
         labels,
         datasets: [
             {
-                label: 'Nam',
+                label: t("baoCaoDuLieu:nam") ,
                 data: dataReport.gender?.map((item : any) => item?.NAM ),
                 borderColor: 'rgb(255, 99, 132)',
                 backgroundColor: 'rgba(255, 99, 132, 0.5)',
                 tension: 0.4,
             },
             {
-                label: 'Nữ',
+                label:t("baoCaoDuLieu:nu") ,
                 data: dataReport.gender?.map((item : any) => item?.NU ),
                 borderColor: 'rgb(53, 162, 235)',
                 backgroundColor: 'rgba(53, 162, 235, 0.5)',
                 tension: 0.4,
             },
             {
-                label: 'Không xác định',
+                label:t("baoCaoDuLieu:khong_xac_dinh") ,
                 data: dataReport.gender?.map((item : any) => item?.KHONGXACDINH ),
                 borderColor: '#f1e016',
                 backgroundColor: '#f1e016',
                 tension: 0.4,
             },
             {
-                label: 'Tổng',
+                label: t("baoCaoDuLieu:tong"),
                 data: dataReport.gender?.map((item : any) => item?.total ),
                 borderColor: '#2e8502',
                 backgroundColor: '#52c41a',
@@ -97,14 +99,14 @@ const Gender: FC = () => {
 
     const dataBreadcrumb = [
         {
-            title: 'Báo cáo dữ liệu',
+            title:t("baoCaoDuLieu:bao_cao_du_lieu") ,
         },
         {
             type: 'separator',
         },
         {
 
-            title: 'Thống kê giới tính',
+            title:t("baoCaoDuLieu:thong_ke_gioi_tinh") ,
         },
 
     ];
@@ -205,7 +207,7 @@ const Gender: FC = () => {
         <BreadcrumbComponent items={dataBreadcrumb} />
         <Space direction="horizontal" className="mb-2" >
             <div>
-                <div >Chọn loại thời gian : </div>
+                <div >{t("baoCaoDuLieu:chon_loai_thoi_gian")} : </div>
                 <Select
                     className="w-[150px]"
                     showSearch
@@ -222,7 +224,7 @@ const Gender: FC = () => {
                 />
             </div>
             <div>
-                <div >Chọn móc thời gian : </div>
+                <div >{t("baoCaoDuLieu:chon_moc_thoi_gian")}: </div>
                 <Select
                     className="w-[150px]"
                     allowClear
@@ -237,16 +239,16 @@ const Gender: FC = () => {
                 />
             </div>
             <div>
-                <div>Thời gian :</div>
+                <div>{t("baoCaoDuLieu:thoi_gian")} :</div>
                 <DatePicker allowClear={false} onChange={onChange} picker={picker} />
             </div>
             <div>
-                <div>Tình Trạng :</div>
+                <div>{t("baoCaoDuLieu:tinh_trang")} :</div>
                 <Select
                     className="w-[150px]"
                     allowClear
                     showSearch
-                    placeholder="--- Tùy Chọn ---"
+                    placeholder={`---${t("baoCaoDuLieu:tuy_chon")}---`}
                     filterOption={(input, option) =>
                         (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                     }
@@ -258,12 +260,12 @@ const Gender: FC = () => {
                 />
             </div>
             <div>
-                <div>Nguồn đến :</div>
+                <div>{t("baoCaoDuLieu:nguon_den")} :</div>
                 <Select
                     className="w-[150px]"
                     allowClear
                     showSearch
-                    placeholder="--- Tùy Chọn ---"
+                    placeholder={`---${t("baoCaoDuLieu:tuy_chon")}---`}
                     filterOption={(input, option) =>
                         typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                     }
@@ -277,7 +279,7 @@ const Gender: FC = () => {
                 />
             </div>
 
-            <Button onClick={onClickSearch} className="mt-5" type="primary" >Tìm kiếm</Button>
+            <Button onClick={onClickSearch} className="mt-5" type="primary" >{t("baoCaoDuLieu:tim_kiem")}</Button>
         </Space>
         <Line options={options} data={data} />
         </> : <NotHospital />

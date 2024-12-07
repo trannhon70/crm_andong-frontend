@@ -10,6 +10,7 @@ import { getThongkeTheoBacSi, getThongkeTheoDichvuKhachHang } from "../../../fea
 import { getAllMedia } from "../../../features/patientSlice";
 import { AppDispatch, RootState } from "../../../redux/store";
 import { getDaysInQuarter, getMonthsInYear, TIME } from "../../../utils";
+import { useTranslation } from "react-i18next";
 dayjs.extend(isoWeek);
 
 interface DataType {
@@ -32,7 +33,7 @@ const CustomerService: FC = () => {
     const [timeType, setTimeType] = useState<string>('appointmentTime');
     const [status, setStatus] = useState<string>('');
     const [media, setMedia] = useState<string>('');
-
+    const {t } = useTranslation(['baoCaoDuLieu','DSDangKyHen'])
     const { patient, dataReport } = useSelector((state: RootState) => state);
     const currentWeek = dayjs();
 
@@ -44,13 +45,13 @@ const CustomerService: FC = () => {
 
     const dataBreadcrumb = [
         {
-            title: 'Báo cáo dữ liệu',
+            title: t("baoCaoDuLieu:bao_cao_du_lieu"),
         },
         {
             type: 'separator',
         },
         {
-            title: 'Thống kê theo bác sĩ lễ tân ',
+            title:t("baoCaoDuLieu:thong_ke_theo_bac_si") ,
         },
 
     ];
@@ -195,7 +196,7 @@ const CustomerService: FC = () => {
 
     const columns: TableProps<DataType>['columns'] = [
         {
-            title: 'Thời gian',
+            title: t("baoCaoDuLieu:thoi_gian"),
             dataIndex: 'year',
             key: 'year',
             render(value, record, index) {
@@ -208,7 +209,7 @@ const CustomerService: FC = () => {
             },
         },
         {
-            title: 'Tổng số người',
+            title: t("baoCaoDuLieu:tong_so_nguoi"),
             dataIndex: 'total',
             key: 'total',
             render(value, record, index) {
@@ -229,7 +230,7 @@ const CustomerService: FC = () => {
                 <Space direction="horizontal" className="mb-2" >
 
                     <div>
-                        <div >Chọn loại thời gian : </div>
+                        <div >{t("baoCaoDuLieu:chon_loai_thoi_gian")} : </div>
                         <Select
                             className="w-[150px]"
                             showSearch
@@ -246,7 +247,7 @@ const CustomerService: FC = () => {
                         />
                     </div>
                     <div>
-                        <div >Chọn móc thời gian : </div>
+                        <div >{t("baoCaoDuLieu:chon_moc_thoi_gian")}: </div>
                         <Select
                             className="w-[150px]"
                             allowClear
@@ -261,16 +262,16 @@ const CustomerService: FC = () => {
                         />
                     </div>
                     <div>
-                        <div>Thời gian :</div>
+                        <div>{t("baoCaoDuLieu:thoi_gian")} :</div>
                         <DatePicker allowClear={false} onChange={onChange} picker={picker} defaultValue={currentWeek} />
                     </div>
                     <div>
-                        <div>Tình Trạng :</div>
+                        <div>{t("baoCaoDuLieu:tinh_trang")} :</div>
                         <Select
                             className="w-[150px]"
                             allowClear
                             showSearch
-                            placeholder="--- Tùy Chọn ---"
+                            placeholder={`---${t("baoCaoDuLieu:tuy_chon")}---`}
                             filterOption={(input, option) =>
                                 (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                             }
@@ -282,12 +283,12 @@ const CustomerService: FC = () => {
                         />
                     </div>
                     <div>
-                        <div>Nguồn đến :</div>
+                        <div>{t("baoCaoDuLieu:nguon_den")} :</div>
                         <Select
                             className="w-[150px]"
                             allowClear
                             showSearch
-                            placeholder="--- Tùy Chọn ---"
+                            placeholder={`---${t("baoCaoDuLieu:tuy_chon")}---`}
                             filterOption={(input, option) =>
                                 typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                             }
@@ -301,7 +302,7 @@ const CustomerService: FC = () => {
                         />
                     </div>
 
-                    <Button onClick={onClickSearch} className="mt-5" type="primary" >Tìm kiếm</Button>
+                    <Button onClick={onClickSearch} className="mt-5" type="primary" >{t("baoCaoDuLieu:tim_kiem")}</Button>
                 </Space>
                 <Table<DataType> columns={columns} dataSource={dataReport.TKDVKH.data || []} bordered pagination={false} />
             </> : <NotHospital />
