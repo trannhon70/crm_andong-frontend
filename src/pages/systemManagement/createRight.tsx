@@ -7,8 +7,10 @@ import BreadcrumbComponent from "../../components/breadcrumbComponent";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
 import { fetchGetById } from '../../features/rolesSlice';
+import { useTranslation } from 'react-i18next';
 
 const CreateRight: FC = () => {
+    const {t } = useTranslation(['QLHT'])
     const [form, setForm] = useState<any[]>([
         {
             home: false
@@ -165,20 +167,20 @@ const CreateRight: FC = () => {
     
     const dataBreadcrumb = [
         {
-            title: 'Quản lý hệ thống',
+            title: t("QLHT:quan_ly_he_thong"),
         },
         {
             type: 'separator',
         },
         {
             href: '/quan-ly-quyen',
-            title: 'Quản lý quyền',
+            title: t("QLHT:quan_ly_quyen"),
         },
         {
             type: 'separator',
         },
         {
-            title: <>{id ? 'Cập nhật': 'Thêm quyền'}</>,
+            title: <>{id ? t("QLHT:cap_nhat"): t("QLHT:them_moi")}</>,
         },
     ];
 
@@ -206,7 +208,7 @@ const CreateRight: FC = () => {
         if(name === '') {
             return (
                 setNameErr('error'),
-                toast.error('Tên quyền không được bỏ trống!')
+                toast.error(`${t("QLHT:ten_quyen_khong_duoc_bo_trong")}`)
             )
         }
         const body = {
@@ -217,7 +219,7 @@ const CreateRight: FC = () => {
             try {
                 const resultUpdate = await rolesAPI.updateRole(Number(id), body)
                 if(resultUpdate.data.statusCode === 1){
-                    toast.success('Cập nhật thành công!');
+                    toast.success(`${t("QLHT:cap_nhat_thanh_cong")}`);
                     // navige('/quan-ly-quyen')
                 }
             } catch (error) {
@@ -230,7 +232,7 @@ const CreateRight: FC = () => {
                 
                 const result = await rolesAPI.create(body)
                 if(result.data.statusCode === 1){
-                    toast.success('Thêm mới thành công!');
+                    toast.success(`${t("QLHT:them_moi_thanh_cong")}`);
                     navige('/quan-ly-quyen')
                 }
             } catch (error: any) {
@@ -346,25 +348,25 @@ const CreateRight: FC = () => {
         });
     }
 
-    const onChangeCHTKBN: CheckboxProps['onChange'] = (e) => {
-        const checked = e.target.checked; 
-        setForm((prevForm: any[]) => {
-            const updatedForm = [...prevForm]; 
-            updatedForm[1].QLBN = true;
-            updatedForm[1].ds.CHTKBN = checked; 
-            return updatedForm; 
-        });
-    }
+    // const onChangeCHTKBN: CheckboxProps['onChange'] = (e) => {
+    //     const checked = e.target.checked; 
+    //     setForm((prevForm: any[]) => {
+    //         const updatedForm = [...prevForm]; 
+    //         updatedForm[1].QLBN = true;
+    //         updatedForm[1].ds.CHTKBN = checked; 
+    //         return updatedForm; 
+    //     });
+    // }
 
-    const onChangeLLTVBN: CheckboxProps['onChange'] = (e) => {
-        const checked = e.target.checked; 
-        setForm((prevForm: any[]) => {
-            const updatedForm = [...prevForm]; 
-            updatedForm[1].QLBN = true;
-            updatedForm[1].ds.LLTVBN = checked; 
-            return updatedForm; 
-        });
-    }
+    // const onChangeLLTVBN: CheckboxProps['onChange'] = (e) => {
+    //     const checked = e.target.checked; 
+    //     setForm((prevForm: any[]) => {
+    //         const updatedForm = [...prevForm]; 
+    //         updatedForm[1].QLBN = true;
+    //         updatedForm[1].ds.LLTVBN = checked; 
+    //         return updatedForm; 
+    //     });
+    // }
 
     const onChangeBCCTDVKH: CheckboxProps['onChange'] = (e) => {
         const checked = e.target.checked; 
@@ -406,15 +408,15 @@ const CreateRight: FC = () => {
         });
     }
 
-    const onChangeSSDLTCN: CheckboxProps['onChange'] = (e) => {
-        const checked = e.target.checked; 
-        setForm((prevForm: any[]) => {
-            const updatedForm = [...prevForm]; 
-            updatedForm[1].QLBN = true;
-            updatedForm[1].ds.SSDLTCN = checked; 
-            return updatedForm; 
-        });
-    }
+    // const onChangeSSDLTCN: CheckboxProps['onChange'] = (e) => {
+    //     const checked = e.target.checked; 
+    //     setForm((prevForm: any[]) => {
+    //         const updatedForm = [...prevForm]; 
+    //         updatedForm[1].QLBN = true;
+    //         updatedForm[1].ds.SSDLTCN = checked; 
+    //         return updatedForm; 
+    //     });
+    // }
 
     // Thống kê khách truy cập
 
@@ -776,51 +778,51 @@ const CreateRight: FC = () => {
     }
 
     //
-    const onChangeCDLDTYT: CheckboxProps['onChange'] = (e) => {
-        const checked = e.target.checked; 
-        setForm((prevForm: any[]) => {
-            const updatedForm = [...prevForm]; 
-            updatedForm[4].CD = true; 
-            updatedForm[4].ds.CDLDTYT = checked; 
-            updatedForm[4].ds.action_CDLDTYT.create = checked; 
-            updatedForm[4].ds.action_CDLDTYT.update = checked; 
-            updatedForm[4].ds.action_CDLDTYT.delete = checked; 
-            return updatedForm; 
-        });
-    }
+    // const onChangeCDLDTYT: CheckboxProps['onChange'] = (e) => {
+    //     const checked = e.target.checked; 
+    //     setForm((prevForm: any[]) => {
+    //         const updatedForm = [...prevForm]; 
+    //         updatedForm[4].CD = true; 
+    //         updatedForm[4].ds.CDLDTYT = checked; 
+    //         updatedForm[4].ds.action_CDLDTYT.create = checked; 
+    //         updatedForm[4].ds.action_CDLDTYT.update = checked; 
+    //         updatedForm[4].ds.action_CDLDTYT.delete = checked; 
+    //         return updatedForm; 
+    //     });
+    // }
 
-    const onChangeCDLDTYTCreate: CheckboxProps['onChange'] = (e) => {
-        const checked = e.target.checked; 
-        setForm((prevForm: any[]) => {
-            const updatedForm = [...prevForm]; 
-            updatedForm[4].CD = true; 
-            updatedForm[4].ds.CDLDTYT = true; 
-            updatedForm[4].ds.action_CDLDTYT.create = checked; 
-            return updatedForm; 
-        });
-    }
+    // const onChangeCDLDTYTCreate: CheckboxProps['onChange'] = (e) => {
+    //     const checked = e.target.checked; 
+    //     setForm((prevForm: any[]) => {
+    //         const updatedForm = [...prevForm]; 
+    //         updatedForm[4].CD = true; 
+    //         updatedForm[4].ds.CDLDTYT = true; 
+    //         updatedForm[4].ds.action_CDLDTYT.create = checked; 
+    //         return updatedForm; 
+    //     });
+    // }
 
-    const onChangeCDLDTYTUpdate: CheckboxProps['onChange'] = (e) => {
-        const checked = e.target.checked; 
-        setForm((prevForm: any[]) => {
-            const updatedForm = [...prevForm]; 
-            updatedForm[4].CD = true; 
-            updatedForm[4].ds.CDLDTYT = true; 
-            updatedForm[4].ds.action_CDLDTYT.update = checked; 
-            return updatedForm; 
-        });
-    }
+    // const onChangeCDLDTYTUpdate: CheckboxProps['onChange'] = (e) => {
+    //     const checked = e.target.checked; 
+    //     setForm((prevForm: any[]) => {
+    //         const updatedForm = [...prevForm]; 
+    //         updatedForm[4].CD = true; 
+    //         updatedForm[4].ds.CDLDTYT = true; 
+    //         updatedForm[4].ds.action_CDLDTYT.update = checked; 
+    //         return updatedForm; 
+    //     });
+    // }
 
-    const onChangeCDLDTYTDelete: CheckboxProps['onChange'] = (e) => {
-        const checked = e.target.checked; 
-        setForm((prevForm: any[]) => {
-            const updatedForm = [...prevForm]; 
-            updatedForm[4].CD = true; 
-            updatedForm[4].ds.CDLDTYT = true; 
-            updatedForm[4].ds.action_CDLDTYT.delete = checked; 
-            return updatedForm; 
-        });
-    }
+    // const onChangeCDLDTYTDelete: CheckboxProps['onChange'] = (e) => {
+    //     const checked = e.target.checked; 
+    //     setForm((prevForm: any[]) => {
+    //         const updatedForm = [...prevForm]; 
+    //         updatedForm[4].CD = true; 
+    //         updatedForm[4].ds.CDLDTYT = true; 
+    //         updatedForm[4].ds.action_CDLDTYT.delete = checked; 
+    //         return updatedForm; 
+    //     });
+    // }
 
     //
 
@@ -1604,92 +1606,92 @@ const CreateRight: FC = () => {
         <BreadcrumbComponent items={dataBreadcrumb} />
         <Alert className="mt-2" message={
             <div>
-                <div>Gợi ý:</div>
+                <div>{t("QLHT:goi_y")}:</div>
                 <ul style={{ listStyle: 'inside' }} >
-                    <li>Hãy cẩn thận khi phân bổ quyền cho mục "Quản lý hệ thống". Những người không quen với hệ thống có thể tùy ý thiết lập hệ thống, gây ra sự cố nghiêm trọng và khiến hệ thống không thể sử dụng được.</li>
-                    <li>Cột "Nhật ký hệ thống" liên quan đến dữ liệu vận hành quan trọng của hệ thống và yêu cầu phân bổ quyền cẩn thận.</li>
+                    <li>{t("QLHT:meo_phan_quyen")}</li>
+                    <li>{t("QLHT:meo_phan_quyen_1")}</li>
                 </ul>
             </div>
         } type="warning" />
         <table style={{width:'100%'}} className="border-collapse border border-slate-400 mt-2 tableSetting ">
             <thead>
                 <tr>
-                    <th colSpan={4} className="border border-slate-300 text-lg ">Cài đặt quyền</th>
+                    <th colSpan={4} className="border border-slate-300 text-lg ">{t("QLHT:cai_dat_quyen")}</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td colSpan={1} className="text-right">Tên quyền :</td>
+                    <td colSpan={1} className="text-right">{t("QLHT:ten_quyen")} :</td>
                     <td colSpan={3} className="">
-                        <Input status={nameErr} value={name} onChange={handleChangeName} className="w-[300px]" placeholder="Nhập tên quyền" />
+                        <Input status={nameErr} value={name} onChange={handleChangeName} className="w-[300px]" placeholder={t("QLHT:nhap_ten_quyen")} />
                     </td>
                 </tr>
                 <tr className="bg-[#f2f2f2]" >
-                    <td colSpan={1} rowSpan={50} className="border border-slate-300 text-right">Chi tiết quyền:</td>
+                    <td colSpan={1} rowSpan={50} className="border border-slate-300 text-right">{t("QLHT:chi_tiet_quyen")}:</td>
                 </tr>
                 <tr>
                     <td  colSpan={4} className="border border-slate-300">
-                        <Button onClick={onClickSelectAll} color="primary" variant="solid"> Chọn tất cả </Button>
-                        <Button onClick={onClickUnselect} className="ml-2" color="danger" variant="outlined" > Bỏ chọn </Button>
-                        {id ? <Button onClick={onclickComeBack} className="ml-2" color="primary" variant="outlined"> Trở lại </Button> :''}
+                        <Button onClick={onClickSelectAll} color="primary" variant="solid">{t("QLHT:chon_tat_cả")}  </Button>
+                        <Button onClick={onClickUnselect} className="ml-2" color="danger" variant="outlined" >{t("QLHT:bo_chon")}  </Button>
+                        {id ? <Button onClick={onclickComeBack} className="ml-2" color="primary" variant="outlined">{t("QLHT:tro_lai")} </Button> :''}
                     </td>
                 </tr>
                 <tr className="bg-[#f2f2f2]">
-                    <td  colSpan={4} className="border border-slate-300 ..."> <Checkbox onChange={onChangeHome} checked={form[0].home} >Trang đầu</Checkbox></td>
+                    <td  colSpan={4} className="border border-slate-300 ..."> <Checkbox onChange={onChangeHome} checked={form[0].home} >{t("QLHT:trang_dau")}</Checkbox></td>
                 </tr>
                 <tr >
-                    <td rowSpan={9}  className="border border-slate-300 ...">
+                    <td rowSpan={6}  className="border border-slate-300 ...">
                     <Checkbox onChange={onChangeQLBN} 
                     checked={form[1].QLBN} 
-                    >Quản lý bệnh nhân</Checkbox></td>
+                    >{t("QLHT:quan_ly_benh_nhan")}</Checkbox></td>
                 </tr>
                 <tr>
                     <td className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeDSDKH} checked={form[1].ds.DSDKH} >Danh sách đăng ký hẹn</Checkbox>
+                        <Checkbox onChange={onChangeDSDKH} checked={form[1].ds.DSDKH} >{t("QLHT:danh_sach_dang_ky_hen")}</Checkbox>
                     </td>
                     <td className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeDSDKHCreate} checked={form[1].ds.action_DSDKH.create} >Thêm mới</Checkbox>
-                        <Checkbox onChange={onChangeDSDKHUpdate} checked={form[1].ds.action_DSDKH.update} >Cập nhật</Checkbox>
-                        <Checkbox onChange={onChangeDSDKHDelete} checked={form[1].ds.action_DSDKH.delete}>Xóa</Checkbox>
-                        <Checkbox onChange={onChangeDSDKHSee} checked={form[1].ds.action_DSDKH.see}>Xem lịch sử</Checkbox>
-                        <Checkbox onChange={onChangeDSDKHViewAllData} checked={form[1].ds.action_DSDKH.viewAllData}>Xem tất cả dữ liệu</Checkbox>
+                        <Checkbox onChange={onChangeDSDKHCreate} checked={form[1].ds.action_DSDKH.create} >{t("QLHT:them_moi")}</Checkbox>
+                        <Checkbox onChange={onChangeDSDKHUpdate} checked={form[1].ds.action_DSDKH.update} >{t("QLHT:cap_nhat")}</Checkbox>
+                        <Checkbox onChange={onChangeDSDKHDelete} checked={form[1].ds.action_DSDKH.delete}>{t("QLHT:xoa")}</Checkbox>
+                        <Checkbox onChange={onChangeDSDKHSee} checked={form[1].ds.action_DSDKH.see}>{t("QLHT:xem_lich_su")}</Checkbox>
+                        <Checkbox onChange={onChangeDSDKHViewAllData} checked={form[1].ds.action_DSDKH.viewAllData}>{t("QLHT:xem_tat_ca_du_lieu")}</Checkbox>
                     </td>
                 </tr>
-                <tr className="bg-[#f2f2f2]">
+                {/* <tr className="bg-[#f2f2f2]">
                     <td colSpan={2} className="border border-slate-300 ..." >
                         <Checkbox onChange={onChangeCHTKBN} checked={form[1].ds.CHTKBN} >Cuộc hẹn tìm kiếm bệnh nhân</Checkbox>
                     </td>
-                </tr>
-                <tr>
+                </tr> */}
+                {/* <tr>
                     <td colSpan={2} className="border border-slate-300 ..." >
                         <Checkbox onChange={onChangeLLTVBN} checked={form[1].ds.LLTVBN} >Lặp lại truy vấn bệnh nhân</Checkbox>
                     </td>
-                </tr>
+                </tr> */}
                 <tr className="bg-[#f2f2f2]">
                     <td colSpan={2} className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeBCCTDVKH} checked={form[1].ds.BCCTDVKH} >Báo cáo chi tiết dịch vụ khách hàng</Checkbox>
+                        <Checkbox onChange={onChangeBCCTDVKH} checked={form[1].ds.BCCTDVKH} >{t("QLHT:bao_cao_chi_tiet_dich_vu_khach_hang")}</Checkbox>
                     </td>
                 </tr>
                 <tr>
                     <td colSpan={2} className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeBCXHHT} checked={form[1].ds.BCXHHT}>báo cáo xu hướng hàng tháng</Checkbox>
+                        <Checkbox onChange={onChangeBCXHHT} checked={form[1].ds.BCXHHT}>{t("QLHT:bao_cao_xu_huong_hang_thang")}</Checkbox>
                     </td>
                 </tr>
                 <tr className="bg-[#f2f2f2]">
                     <td colSpan={2} className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeBCDHTC} checked={form[1].ds.BCDHTC}>Báo cáo đồ họa tùy chỉnh</Checkbox>
+                        <Checkbox onChange={onChangeBCDHTC} checked={form[1].ds.BCDHTC}>{t("QLHT:bao_cao_do_hoa_tuy_chinh")}</Checkbox>
                     </td>
                 </tr>
                 <tr>
                     <td colSpan={2} className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeXDLBN} checked={form[1].ds.XDLBN}>Xuất dữ liệu bệnh nhân</Checkbox>
+                        <Checkbox onChange={onChangeXDLBN} checked={form[1].ds.XDLBN}>{t("QLHT:xuat_du_lieu_benh_nhan")}</Checkbox>
                     </td>
                 </tr>
-                <tr className="bg-[#f2f2f2]">
+                {/* <tr className="bg-[#f2f2f2]">
                     <td colSpan={2} className="border border-slate-300 ..." >
                         <Checkbox onChange={onChangeSSDLTCN} checked={form[1].ds.SSDLTCN} >So sánh dữ liệu theo chiều ngang</Checkbox>
                     </td>
-                </tr>
+                </tr> */}
                 {/* <tr className="bg-[#f2f2f2]" >
                     <td rowSpan={5}  className="border border-slate-300 ..." >
                         <Checkbox onChange={onChangeTKKTC} checked={form[2].TKKTC} >Thống kê khách truy cập</Checkbox>
@@ -1728,155 +1730,155 @@ const CreateRight: FC = () => {
 
                 <tr>
                     <td rowSpan={9}  className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeBCDL} checked={form[3].BCDL} >Báo cáo dữ liệu</Checkbox>
+                        <Checkbox onChange={onChangeBCDL} checked={form[3].BCDL} >{t("QLHT:bao_cao_du_lieu")}</Checkbox>
                     </td>
                 </tr>
                 <tr>
                     <td colSpan={2} className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeBCTH} checked={form[3].ds.BCTH}>Báo cáo tổng hợp</Checkbox>
+                        <Checkbox onChange={onChangeBCTH} checked={form[3].ds.BCTH}>{t("QLHT:bao_cao_tong_hop")}</Checkbox>
                     </td>
                 </tr>
                 <tr className="bg-[#f2f2f2]">
                     <td colSpan={2} className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeGT} checked={form[3].ds.GT}>giới tính</Checkbox>
+                        <Checkbox onChange={onChangeGT} checked={form[3].ds.GT}>{t("QLHT:gioi_tinh")}</Checkbox>
                     </td>
                     
                 </tr>
                 <tr>
                     <td colSpan={2} className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeTUOI} checked={form[3].ds.TUOI}>tuổi</Checkbox>
+                        <Checkbox onChange={onChangeTUOI} checked={form[3].ds.TUOI}>{t("QLHT:tuoi")}</Checkbox>
                     </td>
                 </tr>
                 <tr className="bg-[#f2f2f2]">
-                    <td colSpan={2} className="border border-slate-300 ..." ><Checkbox onChange={onChangeLBN} checked={form[3].ds.LBN}>Loại bệnh nhân</Checkbox></td>
+                    <td colSpan={2} className="border border-slate-300 ..." ><Checkbox onChange={onChangeLBN} checked={form[3].ds.LBN}>{t("QLHT:loại_benh_nhan")}</Checkbox></td>
                     
                 </tr>
                 <tr>
-                    <td colSpan={2} className="border border-slate-300 ..." ><Checkbox onChange={onChangeNTT} checked={form[3].ds.NTT}>nguồn truyền thông</Checkbox></td>
+                    <td colSpan={2} className="border border-slate-300 ..." ><Checkbox onChange={onChangeNTT} checked={form[3].ds.NTT}>{t("QLHT:nguon_truyen_thong")}</Checkbox></td>
                 </tr>
                 <tr className="bg-[#f2f2f2]">
-                    <td colSpan={2} className="border border-slate-300 ..." ><Checkbox onChange={onChangeTTNV} checked={form[3].ds.TTNV}>tình trạng nhập viện</Checkbox></td>
+                    <td colSpan={2} className="border border-slate-300 ..." ><Checkbox onChange={onChangeTTNV} checked={form[3].ds.TTNV}>{t("QLHT:tinh_trang_nhap_vien")}</Checkbox></td>
                 </tr>
                 <tr>
-                    <td colSpan={2} className="border border-slate-300 ..." ><Checkbox onChange={onChangeBSLT} checked={form[3].ds.BSLT}>Bác sĩ lễ tân</Checkbox></td>
+                    <td colSpan={2} className="border border-slate-300 ..." ><Checkbox onChange={onChangeBSLT} checked={form[3].ds.BSLT}>{t("QLHT:bac_si")}</Checkbox></td>
                 </tr>
                 <tr className="bg-[#f2f2f2]">
-                    <td colSpan={2} className="border border-slate-300 ..." ><Checkbox onChange={onChangeDVKH} checked={form[3].ds.DVKH}>dịch vụ khách hàng</Checkbox></td>
+                    <td colSpan={2} className="border border-slate-300 ..." ><Checkbox onChange={onChangeDVKH} checked={form[3].ds.DVKH}>{t("QLHT:dich_vu_khach_hang")}</Checkbox></td>
                 </tr>
 
 
                 <tr className="bg-[#f2f2f2]">
-                    <td rowSpan={6}  className="border border-slate-300 ..." ><Checkbox onChange={onChangeCD} checked={form[4].CD}>cài đặt</Checkbox></td>
+                    <td rowSpan={5}  className="border border-slate-300 ..." ><Checkbox onChange={onChangeCD} checked={form[4].CD}>{t("QLHT:cai_dat")}</Checkbox></td>
                 </tr>
                 <tr>
-                    <td className="border border-slate-300 ..." ><Checkbox onChange={onChangeCDBS} checked={form[4].ds.CDBS}>Cài đặt bác sĩ</Checkbox></td>
+                    <td className="border border-slate-300 ..." ><Checkbox onChange={onChangeCDBS} checked={form[4].ds.CDBS}>{t("QLHT:cai_dat_bac_si")}</Checkbox></td>
                     <td className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeCDBSCreate} checked={form[4].ds.action_CDBS.create} >Thêm mới</Checkbox>
-                        <Checkbox onChange={onChangeCDBSUpdate} checked={form[4].ds.action_CDBS.update}>Cập nhật</Checkbox>
-                        <Checkbox onChange={onChangeCDBSDelete} checked={form[4].ds.action_CDBS.delete}>Xóa</Checkbox>
+                        <Checkbox onChange={onChangeCDBSCreate} checked={form[4].ds.action_CDBS.create} >{t("QLHT:them_moi")}</Checkbox>
+                        <Checkbox onChange={onChangeCDBSUpdate} checked={form[4].ds.action_CDBS.update}>{t("QLHT:cap_nhat")}</Checkbox>
+                        <Checkbox onChange={onChangeCDBSDelete} checked={form[4].ds.action_CDBS.delete}>{t("QLHT:xoa")}</Checkbox>
                     </td>
                 </tr>
                 <tr className="bg-[#f2f2f2]">
-                    <td className="border border-slate-300 ..." ><Checkbox onChange={onChangeTLBT} checked={form[4].ds.TLBT}>thiết lập bệnh tật</Checkbox></td>
+                    <td className="border border-slate-300 ..." ><Checkbox onChange={onChangeTLBT} checked={form[4].ds.TLBT}>{t("QLHT:thiet_lap_benh_tat")}</Checkbox></td>
                     <td className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeTLBTCreate} checked={form[4].ds.action_TLBT.create} >Thêm mới</Checkbox>
-                        <Checkbox onChange={onChangeTLBTUpdate} checked={form[4].ds.action_TLBT.update}>Cập nhật</Checkbox>
-                        <Checkbox onChange={onChangeTLBTDelete} checked={form[4].ds.action_TLBT.delete}>Xóa</Checkbox>
+                        <Checkbox onChange={onChangeTLBTCreate} checked={form[4].ds.action_TLBT.create} >{t("QLHT:them_moi")}</Checkbox>
+                        <Checkbox onChange={onChangeTLBTUpdate} checked={form[4].ds.action_TLBT.update}>{t("QLHT:cap_nhat")}</Checkbox>
+                        <Checkbox onChange={onChangeTLBTDelete} checked={form[4].ds.action_TLBT.delete}>{t("QLHT:xoa")}</Checkbox>
                     </td>
                 </tr>
-                <tr>
+                {/* <tr>
                     <td className="border border-slate-300 ..." ><Checkbox onChange={onChangeCDLDTYT} checked={form[4].ds.CDLDTYT}>Cài đặt loại điều trị y tế</Checkbox></td>
                     <td className="border border-slate-300 ..." >
                         <Checkbox onChange={onChangeCDLDTYTCreate} checked={form[4].ds.action_CDLDTYT.create} >Thêm mới</Checkbox>
                         <Checkbox onChange={onChangeCDLDTYTUpdate} checked={form[4].ds.action_CDLDTYT.update}>Cập nhật</Checkbox>
                         <Checkbox onChange={onChangeCDLDTYTDelete} checked={form[4].ds.action_CDLDTYT.delete}>Xóa</Checkbox>
                     </td>
-                </tr>
+                </tr> */}
                 <tr className="bg-[#f2f2f2]">
-                    <td className="border border-slate-300 ..." ><Checkbox onChange={onChangeCDKBV} checked={form[4].ds.CDKBV}>Cài đặt khoa bệnh viện</Checkbox></td>
+                    <td className="border border-slate-300 ..." ><Checkbox onChange={onChangeCDKBV} checked={form[4].ds.CDKBV}>{t("QLHT:cai_dat_khoa_benh_vien")}</Checkbox></td>
                     <td className="border border-slate-300 ..." >
-                    <Checkbox onChange={onChangeCDKBVCreate} checked={form[4].ds.action_CDKBV.create} >Thêm mới</Checkbox>
-                        <Checkbox onChange={onChangeCDKBVUpdate} checked={form[4].ds.action_CDKBV.update}>Cập nhật</Checkbox>
-                        <Checkbox onChange={onChangeCDKBVDelete} checked={form[4].ds.action_CDKBV.delete}>Xóa</Checkbox>
+                    <Checkbox onChange={onChangeCDKBVCreate} checked={form[4].ds.action_CDKBV.create} >{t("QLHT:them_moi")}</Checkbox>
+                        <Checkbox onChange={onChangeCDKBVUpdate} checked={form[4].ds.action_CDKBV.update}>{t("QLHT:cap_nhat")}</Checkbox>
+                        <Checkbox onChange={onChangeCDKBVDelete} checked={form[4].ds.action_CDKBV.delete}>{t("QLHT:xoa")}</Checkbox>
                     </td>
                 </tr>
                 <tr>
-                    <td className="border border-slate-300 ..." ><Checkbox onChange={onChangeCDCCTK} checked={form[4].ds.CDCCTK}>Cài đặt công cụ tìm kiếm</Checkbox></td>
+                    <td className="border border-slate-300 ..." ><Checkbox onChange={onChangeCDCCTK} checked={form[4].ds.CDCCTK}>{t("QLHT:cai_dat_cong_cu_tim_kiem")}</Checkbox></td>
                     <td className="border border-slate-300 ..." >
-                    <Checkbox onChange={onChangeCDCCTKCreate} checked={form[4].ds.action_CDCCTK.create} >Thêm mới</Checkbox>
-                        <Checkbox onChange={onChangeCDCCTKUpdate} checked={form[4].ds.action_CDCCTK.update}>Cập nhật</Checkbox>
-                        <Checkbox onChange={onChangeCDCCTKDelete} checked={form[4].ds.action_CDCCTK.delete}>Xóa</Checkbox>
+                    <Checkbox onChange={onChangeCDCCTKCreate} checked={form[4].ds.action_CDCCTK.create} >{t("QLHT:them_moi")}</Checkbox>
+                        <Checkbox onChange={onChangeCDCCTKUpdate} checked={form[4].ds.action_CDCCTK.update}>{t("QLHT:cap_nhat")}</Checkbox>
+                        <Checkbox onChange={onChangeCDCCTKDelete} checked={form[4].ds.action_CDCCTK.delete}>{t("QLHT:xoa")}</Checkbox>
                     </td>
                 </tr>
 
 
                 <tr >
-                    <td rowSpan={4}  className="border border-slate-300 ..." ><Checkbox onChange={onChangeTTCT} checked={form[5].TTCT}>thông tin của tôi</Checkbox></td>
+                    <td rowSpan={4}  className="border border-slate-300 ..." ><Checkbox onChange={onChangeTTCT} checked={form[5].TTCT}>{t("QLHT:thong_tin_cua_toi")}</Checkbox></td>
                 </tr>
                 <tr className="bg-[#f2f2f2]">
-                    <td colSpan={2} className="border border-slate-300 ..." ><Checkbox onChange={onChangeSDTTCT} checked={form[5].ds.SDTTCT}>Sửa đổi thông tin của tôi</Checkbox></td>
+                    <td colSpan={2} className="border border-slate-300 ..." ><Checkbox onChange={onChangeSDTTCT} checked={form[5].ds.SDTTCT}>{t("QLHT:sua_doi_thong_tin_cua_toi")}</Checkbox></td>
                 </tr>
                 <tr>
-                    <td colSpan={2} className="border border-slate-300 ..." ><Checkbox onChange={onChangeTDMK} checked={form[5].ds.TDMK}>Thay đổi mật khẩu</Checkbox></td>
+                    <td colSpan={2} className="border border-slate-300 ..." ><Checkbox onChange={onChangeTDMK} checked={form[5].ds.TDMK}>{t("QLHT:thay_doi_mat_khau")}</Checkbox></td>
                 </tr>
                 <tr className="bg-[#f2f2f2]">
-                    <td colSpan={2} className="border border-slate-300 ..." ><Checkbox onChange={onChangeCDTC} checked={form[5].ds.CDTC}>Cài đặt tùy chọn</Checkbox></td>
+                    <td colSpan={2} className="border border-slate-300 ..." ><Checkbox onChange={onChangeCDTC} checked={form[5].ds.CDTC}>{t("QLHT:cai_dat_tuy_chon")}</Checkbox></td>
                 </tr>
 
 
                 <tr className="bg-[#f2f2f2]">
-                    <td rowSpan={5}  className="border border-slate-300 ..." ><Checkbox onChange={onChangeQLHT} checked={form[6].QLHT}>Quản lý hệ thống</Checkbox></td>
+                    <td rowSpan={5}  className="border border-slate-300 ..." ><Checkbox onChange={onChangeQLHT} checked={form[6].QLHT}>{t("QLHT:quan_ly_he_thong")}</Checkbox></td>
                 </tr>
                 <tr>
-                    <td  className="border border-slate-300 ..." ><Checkbox  onChange={onChangeQLCN} checked={form[6].ds.QLCN}>quản lý con người</Checkbox></td>
+                    <td  className="border border-slate-300 ..." ><Checkbox  onChange={onChangeQLCN} checked={form[6].ds.QLCN}>{t("QLHT:quan_ly_con_nguoi")}</Checkbox></td>
                     <td className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeQLCNCreate} checked={form[6].ds.action_QLCN.create}>Thêm mới</Checkbox>
-                        <Checkbox onChange={onChangeQLCNUpdate} checked={form[6].ds.action_QLCN.update}>Cập nhật</Checkbox>
-                        <Checkbox onChange={onChangeQLCNDelete} checked={form[6].ds.action_QLCN.delete}>Xóa</Checkbox>
-                        <Checkbox onChange={onChangeQLCNSee} checked={form[6].ds.action_QLCN.see}>Xem</Checkbox>
-                        <Checkbox onChange={onChangeQLCNClose} checked={form[6].ds.action_QLCN.close}>Đóng</Checkbox>
+                        <Checkbox onChange={onChangeQLCNCreate} checked={form[6].ds.action_QLCN.create}>{t("QLHT:them_moi")}</Checkbox>
+                        <Checkbox onChange={onChangeQLCNUpdate} checked={form[6].ds.action_QLCN.update}>{t("QLHT:cap_nhat")}</Checkbox>
+                        <Checkbox onChange={onChangeQLCNDelete} checked={form[6].ds.action_QLCN.delete}>{t("QLHT:xoa")}</Checkbox>
+                        <Checkbox onChange={onChangeQLCNSee} checked={form[6].ds.action_QLCN.see}>{t("QLHT:xem")}</Checkbox>
+                        <Checkbox onChange={onChangeQLCNClose} checked={form[6].ds.action_QLCN.close}>{t("QLHT:dong")}</Checkbox>
                     </td>
                 </tr>
                 <tr className="bg-[#f2f2f2]">
-                    <td className="border border-slate-300 ..." ><Checkbox onChange={onChangeQLQ} checked={form[6].ds.QLQ}>Quản lý quyền</Checkbox></td>
+                    <td className="border border-slate-300 ..." ><Checkbox onChange={onChangeQLQ} checked={form[6].ds.QLQ}>{t("QLHT:quan_ly_quyen")}</Checkbox></td>
                     <td className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeQLQCreate} checked={form[6].ds.action_QLQ.create}>Thêm mới</Checkbox>
-                        <Checkbox onChange={onChangeQLQUpdate} checked={form[6].ds.action_QLQ.update}>Cập nhật</Checkbox>
-                        <Checkbox onChange={onChangeQLQDelete} checked={form[6].ds.action_QLQ.delete}>Xóa</Checkbox>
+                        <Checkbox onChange={onChangeQLQCreate} checked={form[6].ds.action_QLQ.create}>{t("QLHT:them_moi")}</Checkbox>
+                        <Checkbox onChange={onChangeQLQUpdate} checked={form[6].ds.action_QLQ.update}>{t("QLHT:cap_nhat")}</Checkbox>
+                        <Checkbox onChange={onChangeQLQDelete} checked={form[6].ds.action_QLQ.delete}>{t("QLHT:xoa")}</Checkbox>
                     </td>
                 </tr>
                 <tr>
-                    <td className="border border-slate-300 ..." ><Checkbox onChange={onChangeDSBV} checked={form[6].ds.DSBV}>Danh sách bệnh viện</Checkbox></td>
+                    <td className="border border-slate-300 ..." ><Checkbox onChange={onChangeDSBV} checked={form[6].ds.DSBV}>{t("QLHT:danh_sach_benh_vien")}</Checkbox></td>
                     <td className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeDSBVCreate} checked={form[6].ds.action_DSBV.create}>Thêm mới</Checkbox>
-                        <Checkbox onChange={onChangeDSBVUpdate} checked={form[6].ds.action_DSBV.update}>Cập nhật</Checkbox>
-                        <Checkbox onChange={onChangeDSBVDelete} checked={form[6].ds.action_DSBV.delete}>Xóa</Checkbox>
+                        <Checkbox onChange={onChangeDSBVCreate} checked={form[6].ds.action_DSBV.create}>{t("QLHT:them_moi")}</Checkbox>
+                        <Checkbox onChange={onChangeDSBVUpdate} checked={form[6].ds.action_DSBV.update}>{t("QLHT:cap_nhat")}</Checkbox>
+                        <Checkbox onChange={onChangeDSBVDelete} checked={form[6].ds.action_DSBV.delete}>{t("QLHT:xoa")}</Checkbox>
                     </td>
                 </tr>
                 <tr className="bg-[#f2f2f2]">
-                    <td className="border border-slate-300 ..." ><Checkbox onChange={onChangeQLTB} checked={form[6].ds.QLTB}>Quản lý thông báo</Checkbox></td>
+                    <td className="border border-slate-300 ..." ><Checkbox onChange={onChangeQLTB} checked={form[6].ds.QLTB}>{t("QLHT:quan_ly_thong_bao")}</Checkbox></td>
                     <td className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeQLTBCreate} checked={form[6].ds.action_QLTB.create}>Thêm mới</Checkbox>
-                        <Checkbox onChange={onChangeQLTBUpdate} checked={form[6].ds.action_QLTB.update}>Cập nhật</Checkbox>
-                        <Checkbox onChange={onChangeQLTBDelete} checked={form[6].ds.action_QLTB.delete}>Xóa</Checkbox>
-                        <Checkbox onChange={onChangeQLTBClose} checked={form[6].ds.action_QLTB.close}>Đóng</Checkbox>
+                        <Checkbox onChange={onChangeQLTBCreate} checked={form[6].ds.action_QLTB.create}>{t("QLHT:them_moi")}</Checkbox>
+                        <Checkbox onChange={onChangeQLTBUpdate} checked={form[6].ds.action_QLTB.update}>{t("QLHT:cap_nhat")}</Checkbox>
+                        <Checkbox onChange={onChangeQLTBDelete} checked={form[6].ds.action_QLTB.delete}>{t("QLHT:xoa")}</Checkbox>
+                        <Checkbox onChange={onChangeQLTBClose} checked={form[6].ds.action_QLTB.close}>{t("QLHT:dong")}</Checkbox>
                     </td>
                 </tr>
 
                 <tr>
-                    <td rowSpan={3}  className="border border-slate-300 ..." ><Checkbox onChange={onChangeLSTT} checked={form[7].LSTT} >Lịch sử thao tác</Checkbox></td>
+                    <td rowSpan={3}  className="border border-slate-300 ..." ><Checkbox onChange={onChangeLSTT} checked={form[7].LSTT} >{t("QLHT:lich_su_thao_tac")}</Checkbox></td>
                 </tr>
                 <tr>
-                    <td className="border border-slate-300 ..." ><Checkbox onChange={onChangeNKHD} checked={form[7].ds.NKHD}>Nhật ký hoạt động</Checkbox></td>
+                    <td className="border border-slate-300 ..." ><Checkbox onChange={onChangeNKHD} checked={form[7].ds.NKHD}>{t("QLHT:nhat_ky_hoat_dong")}</Checkbox></td>
                     <td className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeNKHDDelete} checked={form[7].ds.action_NKHD.delete}>Xóa</Checkbox>
-                        <Checkbox onChange={onChangeNKHDSee} checked={form[7].ds.action_NKHD.see}>Xem</Checkbox>
+                        <Checkbox onChange={onChangeNKHDDelete} checked={form[7].ds.action_NKHD.delete}>{t("QLHT:xoa")}</Checkbox>
+                        <Checkbox onChange={onChangeNKHDSee} checked={form[7].ds.action_NKHD.see}>{t("QLHT:xem")}</Checkbox>
                     </td>
                 </tr>
                 <tr className="bg-[#f2f2f2]">
-                    <td className="border border-slate-300 ..." ><Checkbox onChange={onChangeNKLDN} checked={form[7].ds.NKLDN}>Nhật ký lỗi đăng nhập</Checkbox></td>
+                    <td className="border border-slate-300 ..." ><Checkbox onChange={onChangeNKLDN} checked={form[7].ds.NKLDN}>{t("QLHT:nhat_ky_loi_dang_nhap")}</Checkbox></td>
                     <td className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeNKLDNDelete} checked={form[7].ds.action_NKLDN.delete}>Xóa</Checkbox>
+                        <Checkbox onChange={onChangeNKLDNDelete} checked={form[7].ds.action_NKLDN.delete}>{t("QLHT:xoa")}</Checkbox>
                     </td>
                 </tr>
             </tbody>
@@ -1884,7 +1886,7 @@ const CreateRight: FC = () => {
         </table>
         <div className="flex items-center justify-center mt-2 " >
             <Button onClick={onclickCreate} color="primary" variant="solid" >
-              {id ? 'Cập nhật' : 'Thêm mới'}  
+              {id ? t("QLHT:cap_nhat") : t("QLHT:them_moi")}  
             </Button>
         </div>
     </Fragment>

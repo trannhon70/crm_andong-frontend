@@ -19,6 +19,9 @@ import BaoCaoDuLieu_VN from "../locales/vn/bacCaoDuLieu.json";
 import SETTING_TQ from "../locales/tq/setting.json";
 import SETTING_VN from "../locales/vn/setting.json";
 
+import QLHT_TQ from "../locales/tq/QLHT.json";
+import QLHT_VN from "../locales/vn/QLHT.json";
+
 
 export const resources = {
   // en: {
@@ -32,7 +35,8 @@ export const resources = {
     DSDangKyHen: DSDangKyHen_VN,
     BCCTDVKH: BCCTDVKH_VN,
     baoCaoDuLieu: BaoCaoDuLieu_VN,
-    setting: SETTING_VN
+    setting: SETTING_VN,
+    QLHT: QLHT_VN
   },
   tq: {
     home: HOME_TQ,
@@ -41,7 +45,8 @@ export const resources = {
     DSDangKyHen: DSDangKyHen_TQ,
     BCCTDVKH: BCCTDVKH_TQ,
     baoCaoDuLieu: BaoCaoDuLieu_TQ,
-    setting: SETTING_TQ
+    setting: SETTING_TQ,
+    QLHT: QLHT_TQ
   }
 };
 

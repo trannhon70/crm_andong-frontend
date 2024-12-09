@@ -13,20 +13,10 @@ import { AppDispatch, RootState } from '../../redux/store';
 import { rolesAPI } from '../../apis/roles.api';
 import { toast } from 'react-toastify';
 import useMenuData from '../../hooks/useMenuData';
+import { useTranslation } from 'react-i18next';
 const moment = require('moment');
 
-const dataBreadcrumb = [
-  {
-    href: '/quan-ly-quyen',
-    title: 'Quản lý hệ thống',
-  },
-  {
-    type: 'separator',
-  },
-  {
-    title: 'Quản lý quyền',
-  },
-];
+
 
 type SearchProps = GetProps<typeof Input.Search>;
 
@@ -40,11 +30,24 @@ const RightsManagement: FC = () => {
   const [search] = useState<string>('')
   const { data, total,loading } = useSelector((state: RootState) => state.roles);
   const menu = useMenuData();
+  const {t } = useTranslation(['QLHT'])
 
   const onSearch: SearchProps['onSearch'] = (value, _e, info) => {
     dispatch(fetchGetPaging({ pageSize, pageIndex, search : value }));
   };
 
+  const dataBreadcrumb = [
+    {
+      href: '/quan-ly-quyen',
+      title: t("QLHT:quan_ly_he_thong"),
+    },
+    {
+      type: 'separator',
+    },
+    {
+      title: t("QLHT:quan_ly_quyen"),
+    },
+  ];
 
   useEffect(() => {
     dispatch(fetchGetPaging({ pageSize, pageIndex, search }));
@@ -52,7 +55,7 @@ const RightsManagement: FC = () => {
 
   const columns: TableProps<any>['columns'] = [
     {
-      title: 'STT',
+      title: t("QLHT:stt"),
       dataIndex: 'age',
       key: 'age',
       render(value, record, index) {
@@ -60,12 +63,12 @@ const RightsManagement: FC = () => {
       },
     },
     {
-      title: 'Tên Quyền',
+      title: t("QLHT:ten_quyen"),
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: 'Người dùng hiện tại',
+      title: t("QLHT:nguoi_dung_hien_tai") ,
       key: 'users',
       dataIndex: 'users',
       render(value, record, index) {
@@ -79,7 +82,7 @@ const RightsManagement: FC = () => {
       },
     },
     {
-      title: 'Thời gian tạo',
+      title: t("QLHT:thoi_gian_tao"),
       key: 'created_at',
       dataIndex: 'created_at',
       render(value, record, index) {
@@ -87,7 +90,7 @@ const RightsManagement: FC = () => {
       },
     },
     {
-        title: 'Thao tác',
+        title:t("QLHT:thao_tac") ,
         key: 'id',
         dataIndex: 'id',
         render(value, record, index) {
@@ -95,8 +98,8 @@ const RightsManagement: FC = () => {
               return <div className='flex gap-4 ' >
                 {
                   record.id !== 1 &&  menu?.[6].ds?.action_QLQ.delete === true && <PopconfirmComponent 
-                   title ={<>Xóa quyền {record.name}</>} 
-                   description= 'Bạn có chắc chắn muốn xóa tác vụ này không?'
+                   title ={<>{t("QLHT:xoa")}  {record.name}</>} 
+                   description= {t("QLHT:ban_co_chac_muon_xoa_quyen")}
                    value={value}
                    deleteRole={deleteRole}
                  />
@@ -129,7 +132,7 @@ const RightsManagement: FC = () => {
       try {
           const result = await rolesAPI.deleteRole(id)
           if(result.data.statusCode === 1){
-            toast.success('Xóa thành công!')
+            toast.success(`${t("QLHT:xoa_thanh_cong")}`)
             dispatch(fetchGetPaging({ pageSize, pageIndex, search }));
           }
       } catch (error) {
@@ -146,9 +149,9 @@ const RightsManagement: FC = () => {
     <Fragment>
       <BreadcrumbComponent items={dataBreadcrumb} />
       <div className='mt-2 pb-2 flex justify-between ' >
-        <Search className='w-[250px]' placeholder="Nhập tên quyền" onSearch={onSearch} enterButton />
+        <Search className='w-[250px]' placeholder={t("QLHT:nhap_ten_quyen")} onSearch={onSearch} enterButton />
         {
-          menu?.[6].ds?.action_QLQ.create === true && <Button onClick={onClickCreate} type="primary">Thêm mới</Button>
+          menu?.[6].ds?.action_QLQ.create === true && <Button onClick={onClickCreate} type="primary">{t("QLHT:them_moi")}</Button>
         }
         
       </div>

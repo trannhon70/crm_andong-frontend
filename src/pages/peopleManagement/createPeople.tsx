@@ -16,6 +16,7 @@ import { userAPI } from "../../apis/user.api";
 import { IUser } from "../../interface/users";
 import { toast } from "react-toastify";
 import { fecthByIdUser } from "../../features/usersSlice";
+import { useTranslation } from "react-i18next";
 const { Option } = Select;
 
 
@@ -50,6 +51,7 @@ const CreatePeople: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const navige = useNavigate()
     const { hospital,roles, users } = useSelector((state: RootState) => state);
+    const {t } = useTranslation(['QLHT'])
     
     useEffect(() => {
         if(users.user.fullName){
@@ -87,7 +89,7 @@ const CreatePeople: FC = () => {
            try {
                 const update = await  userAPI.UpdateUserId(Number(id), body)
                 if(update.data.statusCode === 1){
-                    toast.success('Cập nhật thành công!');
+                    toast.success(`${t("QLHT:cap_nhat_thanh_cong")}`);
                     // navige('/quan-ly-con-nguoi');
                }
            } catch (error) {
@@ -97,7 +99,7 @@ const CreatePeople: FC = () => {
             try {
                 const result = await userAPI.create(body)
                if(result.data.statusCode === 1){
-                    toast.success('Thêm mới thành công!')
+                    toast.success(`${t("QLHT:them_moi_thanh_cong")}`)
                     form.resetFields();
                }
             } catch (error : any) {
@@ -109,20 +111,20 @@ const CreatePeople: FC = () => {
 
     const dataBreadcrumb = [
         {
-            title: 'Quản lý hệ thống',
+            title: t("QLHT:quan_ly_he_thong"),
         },
         {
             type: 'separator',
         },
         {
             href: '/quan-ly-con-nguoi',
-            title: 'Quản lý con người',
+            title: t("QLHT:quan_ly_con_nguoi"),
         },
         {
             type: 'separator',
         },
         {
-            title: <>{id ? 'Cập nhật' : 'Thêm mới'}</>,
+            title: <>{id ? t("QLHT:cap_nhat") : t("QLHT:them_moi")}</>,
         },
     ];
 
@@ -135,9 +137,9 @@ const CreatePeople: FC = () => {
         <BreadcrumbComponent items={dataBreadcrumb} />
         <Alert className="mt-2" message={
             <div>
-                <div>Mẹo sửa đổi:</div>
+                <div>{t("QLHT:meo_sua_doi")}:</div>
                 <ul style={{ listStyle: 'inside' }} >
-                    <li><span className="text-red-600" >Mỗi mục</span> dữ liệu trên trang này cần phải được điền cẩn thận . Nếu điền sai có thể dẫn đến những hậu quả rất nghiêm trọng <span className="text-red-600">như mất dữ liệu, tài khoản không thể đăng nhập</span>, v.v. Nếu bạn có bất kỳ câu hỏi nào về việc điền, vui lòng tham khảo ý kiến ​​​​của nhà phát triển.</li>
+                    <li><span className="text-red-600" >{t("QLHT:moi_muc")}</span>{t("QLHT:meo_1")} <span className="text-red-600">{t("QLHT:meo_2")}</span>{t("QLHT:meo_3")}</li>
 
                 </ul>
             </div>
@@ -154,8 +156,8 @@ const CreatePeople: FC = () => {
             >
                 <Form.Item
                     name="fullName"
-                    label="Họ và tên"
-                    rules={[{ required: true, message: 'Vui lòng nhập họ và tên của bạn!', whitespace: true }]}
+                    label={t("QLHT:ho_va_ten")}
+                    rules={[{ required: true, message: t("QLHT:ho_va_ten_err"), whitespace: true }]}
                 >
                     <Input />
                 </Form.Item>
@@ -165,11 +167,11 @@ const CreatePeople: FC = () => {
                     rules={[
                         {
                             type: 'email',
-                            message: 'Email đầu vào không hợp lệ!',
+                            message: t("QLHT:email_err"),
                         },
                         {
                             required: true,
-                            message: 'Vui lòng nhập E-mail của bạn!',
+                            message: t("QLHT:email_err1"),
                         },
                     ]}
                 >
@@ -178,11 +180,11 @@ const CreatePeople: FC = () => {
 
                 <Form.Item
                     name="password"
-                    label="Mật khẩu"
+                    label={t("QLHT:mat_khau")}
                     rules={[
                         {
                             required: id ? false : true,
-                            message: 'Vui lòng nhập mật khẩu của bạn!',
+                            message: t("QLHT:mat_khau_err"),
                         },
                     ]}
                     hasFeedback
@@ -192,31 +194,31 @@ const CreatePeople: FC = () => {
 
                 <Form.Item
                     name="confirm"
-                    label="Nhập lại mật khẩu"
+                    label={t("QLHT:nhap_lai_mat_khau")}
                     dependencies={['password']}
                     hasFeedback
                     rules={[
                         {
                             required: id ? false : true,
-                            message: 'Vui lòng xác nhận mật khẩu của bạn!',
+                            message: t("QLHT:nhap_lai_mat_khau_err"),
                         },
                         ({ getFieldValue }) => ({
                             validator(_, value) {
                                 if (!value || getFieldValue('password') === value) {
                                     return Promise.resolve();
                                 }
-                                return Promise.reject(new Error('Mật khẩu mới bạn nhập không khớp!'));
+                                return Promise.reject(new Error(t("QLHT:mat_khau_moi_ban_nhap_khong_khop")));
                             },
                         }),
                     ]}
                 >
                     <Input.Password />
                 </Form.Item>
-                <Form.Item name="language" label="Ngôn ngữ" rules={[
-                    { required: true, message: 'Vui lòng chọn ngôn ngữ của bạn!', }
+                <Form.Item name="language" label={t("QLHT:ngon_ngu")} rules={[
+                    { required: true, message:t("QLHT:ngon_ngu_placeholder") , }
                 ]}>
                     <Select
-                        placeholder="Vui lòng chọn ngôn ngữ hoạt động"
+                        placeholder={t("QLHT:ngon_ngu_placeholder")}
                         allowClear
                     >
                         {
@@ -230,8 +232,8 @@ const CreatePeople: FC = () => {
                 <Form.Item name="isshow" label="Hoạt động" valuePropName="checked" initialValue={false}>
                     <Switch />
                 </Form.Item>
-                <div className="text-xl text-red-800 font-bold " >Ủy quyền:</div>
-                <Form.Item name="hospitalId" label="Bệnh viện" >
+                <div className="text-xl text-red-800 font-bold " >{t("QLHT:uy_quyen")}:</div>
+                <Form.Item name="hospitalId" label={t("QLHT:benh_vien")} >
                     <Select
                         mode="multiple"
                         allowClear
@@ -248,9 +250,9 @@ const CreatePeople: FC = () => {
                     />
                 </Form.Item>
 
-                <Form.Item name="roleId" label="Chọn quyền" >
+                <Form.Item name="roleId" label={t("QLHT:chon_quyen")} >
                     <Select
-                        placeholder="Chọn quyền"
+                        placeholder={t("QLHT:chon_quyen")}
                         allowClear
                     >
                         {
@@ -264,7 +266,7 @@ const CreatePeople: FC = () => {
 
                 <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">
-                        {id ? 'Cập nhật' : 'Thêm mới'}
+                        {id ? t("QLHT:cap_nhat") : t("QLHT:them_moi")}
                     </Button>
                 </Form.Item>
             </Form>

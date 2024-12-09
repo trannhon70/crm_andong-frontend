@@ -14,21 +14,11 @@ import Loading from "../../components/loading";
 import { toast } from "react-toastify";
 import { hospitalAPI } from "../../apis/hospital.api";
 import useMenuData from "../../hooks/useMenuData";
+import { useTranslation } from "react-i18next";
 
 type SearchProps = GetProps<typeof Input.Search>;
 const { Search } = Input;
-const dataBreadcrumb = [
-  {
-    href: '/danh-sach-benh-vien',
-    title: 'Quản lý hệ thống',
-  },
-  {
-    type: 'separator',
-  },
-  {
-    title: 'Danh sách bệnh viện',
-  },
-];
+
 const HospitalList: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navige = useNavigate()
@@ -37,6 +27,7 @@ const HospitalList: FC = () => {
   const [search] = useState<string>('')
   const { data, total, loading } = useSelector((state: RootState) => state.hospital);
   const menu = useMenuData();
+  const {t } = useTranslation(['QLHT']);
 
   useEffect(() => {
     dispatch(fetchGetPaging({ pageSize, pageIndex, search }));
@@ -46,6 +37,19 @@ const HospitalList: FC = () => {
     dispatch(fetchGetPaging({ pageSize, pageIndex, search: value }));
   };
 
+  const dataBreadcrumb = [
+    {
+      href: '/danh-sach-benh-vien',
+      title: t("QLHT:quan_ly_he_thong"),
+    },
+    {
+      type: 'separator',
+    },
+    {
+      title: t("QLHT:danh_sach_benh_vien"),
+    },
+  ];
+
   const onClickCreate = () => {
     navige('/danh-sach-benh-vien/them-moi');
     dispatch(setHospitalById({}))
@@ -53,7 +57,7 @@ const HospitalList: FC = () => {
 
   const columns: TableProps<any>['columns'] = [
     {
-      title: 'STT',
+      title: t("QLHT:stt"),
       dataIndex: 'age',
       key: 'age',
       render(value, record, index) {
@@ -61,19 +65,19 @@ const HospitalList: FC = () => {
       },
     },
     {
-      title: 'Tên bệnh viện',
+      title: t("QLHT:ten_benh_vien"),
       dataIndex: 'name',
       key: 'name',
     },
 
     {
-      title: 'Người tạo',
+      title: t("QLHT:nguoi_tao"),
       key: 'author',
       dataIndex: 'author',
 
     },
     {
-      title: 'Thời gian tạo',
+      title: t("QLHT:thoi_gian_tao"),
       key: 'created_at',
       dataIndex: 'created_at',
       render(value, record, index) {
@@ -81,7 +85,7 @@ const HospitalList: FC = () => {
       },
     },
     {
-      title: 'Thao tác',
+      title: t("QLHT:thao_tac"),
       key: 'id',
       dataIndex: 'id',
       render(value, record, index) {
@@ -89,8 +93,8 @@ const HospitalList: FC = () => {
           {
             menu?.[6].ds?.action_DSBV.delete === true ?
               <PopconfirmComponent
-                title={<>Xóa bệnh viện {record.name}</>}
-                description='Bạn có chắc chắn muốn xóa tác vụ này không?'
+                title={<>{t("QLHT:xoa_benh_vien")} {record.name}</>}
+                description={t("QLHT:ban_co_chac_muon_xoa_benh_vien")}
                 value={value}
                 deleteRole={deleteHospital}
               />
@@ -116,7 +120,7 @@ const HospitalList: FC = () => {
     try {
       const result = await hospitalAPI.deleteHospital(value)
       if (result.data.statusCode === 1) {
-        toast.success('Xóa thành công!')
+        toast.success(`${t("QLHT:xoa_thanh_cong")}`)
         dispatch(fetchGetPaging({ pageSize, pageIndex, search }))
       }
     } catch (error) {
@@ -130,10 +134,10 @@ const HospitalList: FC = () => {
   return <Fragment>
     <BreadcrumbComponent items={dataBreadcrumb} />
     <div className='mt-2 pb-2 flex justify-between ' >
-      <Search className='w-[250px]' placeholder="Nhập tên quyền" onSearch={onSearch} enterButton />
+      <Search className='w-[250px]' placeholder={t("QLHT:nhap_ten_benh_vien")} onSearch={onSearch} enterButton />
       {
         menu?.[6].ds?.action_DSBV.create === true ?
-          <Button onClick={onClickCreate} type="primary">Thêm mới</Button> : null}
+          <Button onClick={onClickCreate} type="primary">{t("QLHT:them_moi")}</Button> : null}
     </div>
     {
       loading === 'succeeded' ? <TableComponent columns={columns} data={data || []} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} /> : <Loading />

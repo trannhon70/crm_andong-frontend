@@ -15,19 +15,9 @@ import { HiMiniLockClosed } from "react-icons/hi2";
 import { userAPI } from "../../apis/user.api";
 import { toast } from "react-toastify";
 import useMenuData from "../../hooks/useMenuData";
+import { useTranslation } from "react-i18next";
 
-const dataBreadcrumb = [
-    {
-        href: '/quan-ly-con-nguoi',
-        title: 'Quản lý hệ thống',
-    },
-    {
-        type: 'separator',
-    },
-    {
-        title: 'Quản lý con người',
-    },
-];
+
 
 type SearchProps = GetProps<typeof Input.Search>;
 
@@ -42,6 +32,20 @@ const PeopleManagement: FC = () => {
     const [language, setLanguage] = useState<string>('')
     const { data, total, loading, entities } = useSelector((state: RootState) => state.users);
     const menu = useMenuData();
+    const {t } = useTranslation(['QLHT'])
+
+    const dataBreadcrumb = [
+        {
+            href: '/quan-ly-con-nguoi',
+            title:t("QLHT:quan_ly_he_thong") ,
+        },
+        {
+            type: 'separator',
+        },
+        {
+            title:t("QLHT:quan_ly_con_nguoi") ,
+        },
+    ];
 
     useEffect(() => {
         dispatch(fetchGetPaging({ pageSize, pageIndex, search, isshow, language }))
@@ -59,7 +63,7 @@ const PeopleManagement: FC = () => {
 
     const columns: TableProps<any>['columns'] = [
         {
-            title: 'STT',
+            title: t("QLHT:stt") ,
             dataIndex: 'age',
             key: 'age',
             render(value, record, index) {
@@ -67,7 +71,7 @@ const PeopleManagement: FC = () => {
             },
         },
         {
-            title: 'Họ và tên',
+            title: t("QLHT:ho_va_ten"),
             dataIndex: 'fullName',
             key: 'fullName',
         },
@@ -77,7 +81,7 @@ const PeopleManagement: FC = () => {
             key: 'email',
         },
         {
-            title: 'Ngôn ngữ',
+            title:t("QLHT:ngon_ngu") ,
             key: 'language',
             dataIndex: 'language',
             render(value, record, index) {
@@ -91,7 +95,7 @@ const PeopleManagement: FC = () => {
             },
         },
         {
-            title: 'Phân quyền',
+            title:t("QLHT:phan_quyen") ,
             key: 'role',
             dataIndex: 'role',
             render(value, record, index) {
@@ -100,7 +104,7 @@ const PeopleManagement: FC = () => {
             },
         },
         {
-            title: 'Tình trạng',
+            title:t("QLHT:tinh_trang") ,
             key: 'isshow',
             dataIndex: 'isshow',
             render(value, record, index) {
@@ -111,7 +115,7 @@ const PeopleManagement: FC = () => {
             },
         },
         {
-            title: 'Thời gian tạo',
+            title: t("QLHT:thoi_gian_tao"),
             key: 'created_at',
             dataIndex: 'created_at',
             render(value, record, index) {
@@ -119,7 +123,7 @@ const PeopleManagement: FC = () => {
             },
         },
         {
-            title: 'Thao tác',
+            title:t("QLHT:thao_tac") ,
             key: 'id',
             dataIndex: 'id',
             render(value, record, index) {
@@ -128,8 +132,8 @@ const PeopleManagement: FC = () => {
                         {
                             record?.role?.id !== 1 ? <>
                                 <PopconfirmComponent
-                                    title={<>Xóa {record.fullName}</>}
-                                    description='Bạn có chắc chắn muốn xóa tài khoản này không?'
+                                    title={<>{t("QLHT:xoa")} {record.fullName}</>}
+                                    description={t("QLHT:ban_co_chac_muon_xoa_tai_khoan")}
                                     value={value}
                                     deleteRole={deleteRole}
                                 />
@@ -151,8 +155,8 @@ const PeopleManagement: FC = () => {
                     return <div className='flex gap-4 ' >
                         {
                              menu?.[6].ds?.action_QLCN.delete === true && <PopconfirmComponent
-                             title={<>Xóa {record.fullName}</>}
-                             description='Bạn có chắc chắn muốn xóa tài khoản này không?'
+                             title={<>{t("QLHT:xoa")} {record.fullName}</>}
+                             description={t("QLHT:ban_co_chac_muon_xoa_tai_khoan")}
                              value={value}
                              deleteRole={deleteRole}
                          />
@@ -200,7 +204,7 @@ const PeopleManagement: FC = () => {
     const onClickActiveUser = async (id: number) => {
         const result = await userAPI.activeUser(id)
         if (result.data.statusCode === 1) {
-            toast.success('Mở khóa thành công!')
+            toast.success(`${t("QLHT:mo_tai_khoan_thanh_cong")}`)
             dispatch(fetchGetPaging({ pageSize, pageIndex, search, isshow, language }))
         }
     }
@@ -208,7 +212,7 @@ const PeopleManagement: FC = () => {
     const onClickUnActiveUser = async (id: number) => {
         const result = await userAPI.unActiveUser(id)
         if (result.data.statusCode === 1) {
-            toast.success('khóa tài khoản thành công!')
+            toast.success(`${t("QLHT:khoa_tai_khoan")}}`)
             dispatch(fetchGetPaging({ pageSize, pageIndex, search, isshow, language }))
         }
     }
@@ -245,7 +249,7 @@ const PeopleManagement: FC = () => {
                     showSearch
                     allowClear
                     style={{ width: 200 }}
-                    placeholder="Tình trạng"
+                    placeholder={t("QLHT:tinh_trang")}
                     optionFilterProp="label"
                     filterSort={(optionA, optionB) =>
                         (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
@@ -267,17 +271,17 @@ const PeopleManagement: FC = () => {
                     showSearch
                     allowClear
                     style={{ width: 200 }}
-                    placeholder="Ngôn ngữ"
+                    placeholder={t("QLHT:ngon_ngu")}
                     optionFilterProp="label"
                     filterSort={(optionA, optionB) =>
                         (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                     }
                     options={Languege()}
                 />
-                <Search className='w-[250px]' placeholder="Nhập tên quyền" onSearch={onSearch} enterButton />
+                <Search className='w-[250px]' placeholder={t("QLHT:nhap_ten_quyen")} onSearch={onSearch} enterButton />
             </div>
             {
-                 menu?.[6].ds?.action_QLCN.create === true &&  <Button onClick={onClickCreate} type="primary">Thêm mới</Button>
+                 menu?.[6].ds?.action_QLCN.create === true &&  <Button onClick={onClickCreate} type="primary">{t("QLHT:them_moi")}</Button>
             }
             
         </div>

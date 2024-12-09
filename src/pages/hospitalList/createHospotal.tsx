@@ -7,6 +7,7 @@ import { AppDispatch, RootState } from "../../redux/store";
 import { hospitalAPI } from "../../apis/hospital.api";
 import { toast } from "react-toastify";
 import { getByIdHospital } from "../../features/hospitalSlice";
+import { useTranslation } from "react-i18next";
 
 const formItemLayout = {
     labelCol: {
@@ -37,6 +38,7 @@ const CreateHospotal: FC = () => {
     const navige = useNavigate()
     const dispatch = useDispatch<AppDispatch>();
     const {  hospitalById } = useSelector((state: RootState) => state.hospital);
+    const {t } = useTranslation(['QLHT'])
 
     useEffect(() =>{ 
         if(id){
@@ -53,20 +55,20 @@ const CreateHospotal: FC = () => {
 
     const dataBreadcrumb = [
         {
-            title: 'Quản lý hệ thống',
+            title: t("QLHT:quan_ly_he_thong"),
         },
         {
             type: 'separator',
         },
         {
             href: '/danh-sach-benh-vien',
-            title: 'Danh sách bệnh viện',
+            title: t("QLHT:danh_sach_benh_vien"),
         },
         {
             type: 'separator',
         },
         {
-            title: <>{id ? 'Cập nhật' : 'Thêm mới'}</>,
+            title: <>{id ? t("QLHT:cap_nhat") : t("QLHT:them_moi")}</>,
         },
     ];
 
@@ -79,14 +81,14 @@ const CreateHospotal: FC = () => {
         if (id) {
             const update = await hospitalAPI.updateHospital(Number(id), body)
             if(update.data.statusCode === 1){
-                toast.success('Cập nhật thành công!')
+                toast.success(`${t("QLHT:cap_nhat_thanh_cong")}`)
                 navige('/danh-sach-benh-vien')
             }
         } else {
             try {
                 const result = await hospitalAPI.createHospital(body);
                 if(result.data.statusCode === 1){
-                    toast.success('Thêm mới thành công!')
+                    toast.success(`${t("QLHT:them_moi_thanh_cong")}`)
                     form.resetFields();
                 }
             } catch (error : any) {
@@ -117,16 +119,16 @@ const CreateHospotal: FC = () => {
 
                 <Form.Item
                     name="name"
-                    label="Tên bệnh viện"
-                    rules={[{ required: true, message: 'Vui lòng nhập tên bệnh viện của bạn!', whitespace: true }]}
+                    label={t("QLHT:ten_benh_vien")}
+                    rules={[{ required: true, message:t("QLHT:ten_benh_vien_err") , whitespace: true }]}
                 >
                     <Input />
                 </Form.Item>
 
                 <Form.Item
                     name="phone"
-                    label="Số điện thoại"
-                    rules={[{ required: true, message: 'Vui lòng nhập số điện thoại của bạn!', whitespace: true }]}
+                    label={t("QLHT:so_dien_thoai")}
+                    rules={[{ required: true, message:t("QLHT:so_dien_thoai_err") , whitespace: true }]}
                 >
                     <Input />
                 </Form.Item>
@@ -134,9 +136,9 @@ const CreateHospotal: FC = () => {
 
                 <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">
-                        {id ? 'Cập nhật' : 'Thêm mới'}
+                        {id ? t("QLHT:cap_nhat") : t("QLHT:them_moi")}
                     </Button>
-                    <Button className="ml-2" type="dashed" color="danger" variant="outlined" onClick={onClickPrev} >Quay lại</Button>
+                    <Button className="ml-2" type="dashed" color="danger" variant="outlined" onClick={onClickPrev} >{t("QLHT:quay_lai")}</Button>
                 </Form.Item>
             </Form>
         </div>
