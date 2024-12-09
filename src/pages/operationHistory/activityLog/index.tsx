@@ -12,6 +12,7 @@ import PopconfirmComponent from "../../../components/popconfirmComponent";
 import { HiPencilSquare } from "react-icons/hi2";
 import { historyLoginAPI } from "../../../apis/historyLogin.api";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 
 type SearchProps = GetProps<typeof Input.Search>;
 const { Search } = Input;
@@ -23,6 +24,7 @@ const ActivityLog: FC = () => {
     const [pageSize, setPageSize] = useState<number>(50)
     const { data, total, loading } = useSelector((state: RootState) => state.historyLogin);
     const menu = useMenuData();
+    const {t } = useTranslation(['history','setting']);
 
     const onSearch: SearchProps['onSearch'] = (value, _e, info) => {
         dispatch(getPagingHistoryLogin({ pageSize, pageIndex, search : value, action: 'SUCCESS' }));
@@ -35,19 +37,19 @@ const ActivityLog: FC = () => {
     const dataBreadcrumb = [
         {
             href: '/nhat-ky-hoat-dong',
-            title: 'Lịch sử thao tác',
+            title: t("history:lich_su_thao_tac"),
         },
         {
             type: 'separator',
         },
         {
-            title: 'Nhật ký hoạt động',
+            title:t("history:nhat_ky_nguoi_dung") ,
         },
     ];
 
     const columns: TableProps<any>['columns'] = [
         {
-            title: 'STT',
+            title: t("history:stt"),
             dataIndex: 'age',
             key: 'age',
             render(value, record, index) {
@@ -55,7 +57,7 @@ const ActivityLog: FC = () => {
             },
         },
         {
-            title: 'Hành động',
+            title:t("history:hanh_dong") ,
             dataIndex: 'name',
             key: 'name',
             render(value, record, index) {
@@ -64,19 +66,19 @@ const ActivityLog: FC = () => {
         },
 
         {
-            title: 'Người dùng',
+            title: t("history:nguoi_dung"),
             key: 'fullName',
             dataIndex: 'fullName',
 
         },
         {
-            title: 'Địa chỉ IP',
+            title:t("history:dia_chi_ip") ,
             key: 'ip',
             dataIndex: 'ip',
 
         },
         {
-            title: 'Thời gian',
+            title: t("history:thoi_gian"),
             key: 'created_at',
             dataIndex: 'created_at',
             render(value, record, index) {
@@ -85,7 +87,7 @@ const ActivityLog: FC = () => {
         },
 
         {
-            title: 'Thao tác',
+            title:t("history:thao_tac") ,
             key: 'id',
             dataIndex: 'id',
             render(value, record, index) {
@@ -93,8 +95,8 @@ const ActivityLog: FC = () => {
                 return <div className='flex gap-4 ' >
                     {
                          menu?.[7].ds?.action_NKHD.delete === true ?  <PopconfirmComponent
-                         title={<>Xóa lịch sử {record.ip}</>}
-                         description='Bạn có chắc chắn muốn xóa lịch sử này không?'
+                         title={<>{t("history:xoa_lich_su")} {record.ip}</>}
+                         description={t("history:ban_co_chac_chan_muon_xoa_lich_su")}
                          value={value}
                          deleteRole={deleteHistoryLogin}
                      /> : null
@@ -110,7 +112,7 @@ const ActivityLog: FC = () => {
         try {
             const result = await historyLoginAPI.deleteHistory(id)
             if (result.data.statusCode === 1) {
-              toast.success('Xóa thành công!')
+              toast.success(`${t("setting:xoa_thanh_cong")}`)
               dispatch(getPagingHistoryLogin({ pageSize, pageIndex, search : '', action: 'SUCCESS' }))
             }
           } catch (error) {
@@ -128,7 +130,7 @@ const ActivityLog: FC = () => {
     return <Fragment>
         <BreadcrumbComponent items={dataBreadcrumb} />
         <div className='mt-2 pb-2 flex justify-between ' >
-            <Search className='w-[250px]' placeholder="Nhập người dùng, địa chỉ ip" onSearch={onSearch} enterButton />
+            <Search className='w-[250px]' placeholder={t("history:nhap_nguoi_dung_dia_chi_ip")} onSearch={onSearch} enterButton />
         </div>
         {
             loading === 'succeeded' ? <TableComponent columns={columns} data={data} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage}  /> : <Loading />

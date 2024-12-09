@@ -22,6 +22,9 @@ import SETTING_VN from "../locales/vn/setting.json";
 import QLHT_TQ from "../locales/tq/QLHT.json";
 import QLHT_VN from "../locales/vn/QLHT.json";
 
+import history_TQ from "../locales/tq/history.json";
+import history_VN from "../locales/vn/history.json";
+
 
 export const resources = {
   // en: {
@@ -36,7 +39,8 @@ export const resources = {
     BCCTDVKH: BCCTDVKH_VN,
     baoCaoDuLieu: BaoCaoDuLieu_VN,
     setting: SETTING_VN,
-    QLHT: QLHT_VN
+    QLHT: QLHT_VN,
+    history:history_VN
   },
   tq: {
     home: HOME_TQ,
@@ -46,7 +50,8 @@ export const resources = {
     BCCTDVKH: BCCTDVKH_TQ,
     baoCaoDuLieu: BaoCaoDuLieu_TQ,
     setting: SETTING_TQ,
-    QLHT: QLHT_TQ
+    QLHT: QLHT_TQ,
+    history:history_TQ
   }
 };
 
@@ -56,7 +61,7 @@ i18n
   .init({
     resources,
     lng: "vi",
-    ns:['home', 'product', 'profile', 'DSDangKyHen', 'BCCTDVKH', 'baoCaoDuLieu', 'setting'],
+    ns:['home', 'product', 'profile', 'DSDangKyHen', 'BCCTDVKH', 'baoCaoDuLieu', 'setting', 'history'],
     fallbackLng: 'vi' , 
     defaultNS,
     interpolation: {
