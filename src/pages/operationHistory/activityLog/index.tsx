@@ -1,18 +1,17 @@
-import { FC, Fragment, useEffect, useState } from "react";
-import BreadcrumbComponent from "../../../components/breadcrumbComponent";
 import { GetProps, Input, TableProps } from "antd";
-import TableComponent from "../../../components/tableComponent";
 import moment from "moment";
+import { FC, Fragment, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../redux/store";
+import { toast } from "react-toastify";
+import { historyLoginAPI } from "../../../apis/historyLogin.api";
+import BreadcrumbComponent from "../../../components/breadcrumbComponent";
 import Loading from "../../../components/loading";
+import PopconfirmComponent from "../../../components/popconfirmComponent";
+import TableComponent from "../../../components/tableComponent";
 import { getPagingHistoryLogin } from "../../../features/historyLoginSlice";
 import useMenuData from "../../../hooks/useMenuData";
-import PopconfirmComponent from "../../../components/popconfirmComponent";
-import { HiPencilSquare } from "react-icons/hi2";
-import { historyLoginAPI } from "../../../apis/historyLogin.api";
-import { toast } from "react-toastify";
-import { useTranslation } from "react-i18next";
+import { AppDispatch, RootState } from "../../../redux/store";
 
 type SearchProps = GetProps<typeof Input.Search>;
 const { Search } = Input;

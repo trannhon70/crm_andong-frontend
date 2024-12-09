@@ -1,7 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import HOME_VN from "../locales/vn/home.json";
-import HOME_EN from "../locales/en/home.json";
+// import HOME_EN from "../locales/en/home.json";
 import HOME_TQ from "../locales/tq/home.json";
 
 import PROFILE_TQ from "../locales/tq/profile.json";

@@ -5,18 +5,18 @@ import {
     Switch
 } from "antd";
 import { FC, Fragment, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { userAPI } from "../../apis/user.api";
 import BreadcrumbComponent from "../../components/breadcrumbComponent";
 import { getAllHospital } from "../../features/hospitalSlice";
+import { getAllRole } from "../../features/rolesSlice";
+import { fecthByIdUser } from "../../features/usersSlice";
+import { IUser } from "../../interface/users";
 import { AppDispatch, RootState } from "../../redux/store";
 import { Languege } from "../../utils";
-import { getAllRole } from "../../features/rolesSlice";
-import { userAPI } from "../../apis/user.api";
-import { IUser } from "../../interface/users";
-import { toast } from "react-toastify";
-import { fecthByIdUser } from "../../features/usersSlice";
-import { useTranslation } from "react-i18next";
 const { Option } = Select;
 
 
@@ -49,7 +49,6 @@ const CreatePeople: FC = () => {
     let { id } = useParams();
     const [form] = Form.useForm();
     const dispatch = useDispatch<AppDispatch>();
-    const navige = useNavigate()
     const { hospital,roles, users } = useSelector((state: RootState) => state);
     const {t } = useTranslation(['QLHT'])
     
