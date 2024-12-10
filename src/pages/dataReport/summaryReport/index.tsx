@@ -29,7 +29,7 @@ interface DataMonths {
 
 const SummaryReport: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const { resultMonth, resultYear, loading } = useSelector((state: RootState) => state.dataReport);
+    const { resultMonth, resultYear } = useSelector((state: RootState) => state.dataReport);
     const hospitalId = localStorage.getItem('hospitalId')
     const {t } = useTranslation(['baoCaoDuLieu','DSDangKyHen'])
 

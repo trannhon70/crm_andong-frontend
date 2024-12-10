@@ -1,15 +1,14 @@
+import { Button, Form, Input, Select } from "antd";
 import { FC, Fragment, useEffect } from "react";
-import BreadcrumbComponent from "../../../components/breadcrumbComponent";
-import { Button, Form, Input, Select, Switch } from "antd";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../redux/store";
-import { getAllByIdHospital } from "../../../features/departmentSlice";
-import { departmentAPI } from "../../../apis/department.api";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { diseaseAPI } from "../../../apis/disease.api";
-import { useNavigate, useParams } from "react-router-dom";
+import BreadcrumbComponent from "../../../components/breadcrumbComponent";
+import { getAllByIdHospital } from "../../../features/departmentSlice";
 import { getByIdDisease } from "../../../features/diseaseSlice";
-import { useTranslation } from "react-i18next";
+import { AppDispatch, RootState } from "../../../redux/store";
 
 
 

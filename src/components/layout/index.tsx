@@ -2,19 +2,15 @@ import {
     UserOutlined
 } from '@ant-design/icons';
 import { Layout, Menu, MenuProps, theme } from 'antd';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaHistory } from "react-icons/fa";
 import { GrSystem } from "react-icons/gr";
 import { IoHomeOutline, IoSettings } from "react-icons/io5";
-import { SiMicrosoftaccess } from "react-icons/si";
 import { TbReport } from "react-icons/tb";
-import { useDispatch } from 'react-redux';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
-import { getPagingNotication } from '../../features/noticationSlice';
 import useMenuData from '../../hooks/useMenuData';
-import { AppDispatch } from '../../redux/store';
 import HeaderComponent from '../header';
 
 const { Sider, Content } = Layout;
@@ -56,8 +52,6 @@ const sub1 = [
 
 const LayoutComponent: React.FC = () => {
     const [collapsed, setCollapsed] = useState(false);
-    const dispatch = useDispatch<AppDispatch>();
-    const hospitalId = localStorage.getItem('hospitalId');
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();

@@ -1,9 +1,9 @@
-import { Alert, Badge, Col, Row } from "antd";
+import { Badge, Col, Row } from "antd";
 import { FC, Fragment } from "react";
-import BrankingHome from "../../components/brankingHome";
-import { useSelector } from "react-redux";
-import { RootState } from "../../redux/store";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import BrankingHome from "../../components/brankingHome";
+import { RootState } from "../../redux/store";
 
 const CartRanking: FC = () => {
     const { DanhSachXepHang, ThongKeDangKy } = useSelector((state: RootState) => state.dashboard);

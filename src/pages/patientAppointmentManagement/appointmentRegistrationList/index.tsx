@@ -1,6 +1,7 @@
-import { Button, Dropdown, GetProps, Input, MenuProps, Popover, TableProps, Tag } from "antd";
+import { Button, Dropdown, MenuProps, Popover, TableProps, Tag } from "antd";
 import moment from "moment";
-import { FC, Fragment, useEffect, useLayoutEffect, useState } from "react";
+import { FC, Fragment, useLayoutEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FaCheck, FaFile, FaHistory } from "react-icons/fa";
 import { HiPencilSquare, HiStar } from "react-icons/hi2";
 import { IoSettingsSharp } from "react-icons/io5";
@@ -10,19 +11,17 @@ import { toast } from "react-toastify";
 import { patiantAPI } from "../../../apis/patient.api";
 import BreadcrumbComponent from "../../../components/breadcrumbComponent";
 import Loading from "../../../components/loading";
+import NotHospital from "../../../components/notHospital";
 import PopconfirmComponent from "../../../components/popconfirmComponent";
 import TableComponent from "../../../components/tableComponent";
 import { getPagingPatient, setPatient } from "../../../features/patientSlice";
+import useClipboard from "../../../hooks/useClipboard";
+import useMenuData from "../../../hooks/useMenuData";
 import { AppDispatch, RootState } from "../../../redux/store";
+import ComponentThongKe from "./componentThongKe";
 import ModalSearch from "./modalSearch";
 import ModalUpload from "./modalUpload";
-import ComponentThongKe from "./componentThongKe";
-import NotHospital from "../../../components/notHospital";
-import useMenuData from "../../../hooks/useMenuData";
-import useClipboard from "../../../hooks/useClipboard";
-import { useTranslation } from "react-i18next";
 
-type SearchProps = GetProps<typeof Input.Search>;
 
 const scrollProps = {
     x: 'calc(700px + 50%)',

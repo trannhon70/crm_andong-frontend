@@ -1,12 +1,12 @@
-import { FC, Fragment, useEffect } from "react";
-import BreadcrumbComponent from "../../../components/breadcrumbComponent";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { AppDispatch, RootState } from "../../../redux/store";
-import { useDispatch, useSelector } from "react-redux";
-import { getByIdPatient } from "../../../features/patientSlice";
-import { Button, Form, Tag } from "antd";
+import { Button, Tag } from "antd";
 import moment from "moment";
+import { FC, Fragment, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import BreadcrumbComponent from "../../../components/breadcrumbComponent";
+import { getByIdPatient } from "../../../features/patientSlice";
+import { AppDispatch, RootState } from "../../../redux/store";
 
 const AppointmentRegistrationListHistory: FC = () => {
     const navige = useNavigate()
@@ -46,7 +46,7 @@ const AppointmentRegistrationListHistory: FC = () => {
 
     const renderImg = (file: string)=>{
         if(file?.includes('.pdf')){
-            return <iframe src={`${process.env.REACT_APP_URL_API}/uploads/${file}`} width="100%" height="600px" frameBorder="0"></iframe>
+            return <iframe title="pdf" src={`${process.env.REACT_APP_URL_API}/uploads/${file}`} width="100%" height="600px" frameBorder="0"></iframe>
         } else {
            return <img  src={`${process.env.REACT_APP_URL_API}/uploads/${file}`} alt="..." />
         }

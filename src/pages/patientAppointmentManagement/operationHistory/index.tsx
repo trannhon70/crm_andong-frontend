@@ -1,13 +1,13 @@
-import { FC, Fragment, useEffect } from "react";
-import BreadcrumbComponent from "../../../components/breadcrumbComponent";
-import { Link, useParams } from "react-router-dom";
-import { getAllHistoryPatiant } from "../../../features/patientSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../redux/store";
-import { Space, Table, Tag } from 'antd';
 import type { TableProps } from 'antd';
+import { Table, Tag } from 'antd';
 import moment from "moment";
+import { FC, Fragment, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+import BreadcrumbComponent from "../../../components/breadcrumbComponent";
+import { getAllHistoryPatiant } from "../../../features/patientSlice";
+import { AppDispatch, RootState } from "../../../redux/store";
 
 
 const OperationHistory:FC = () => {

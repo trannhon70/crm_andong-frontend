@@ -1,20 +1,20 @@
-import { FC, Fragment, useEffect, useState } from "react";
-import BreadcrumbComponent from "../../../components/breadcrumbComponent";
-import { Button, GetProps, Input, Select, TableProps, Tag } from "antd";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../redux/store";
-import useMenuData from "../../../hooks/useMenuData";
+import { Button, GetProps, Input, TableProps } from "antd";
 import moment from "moment";
-import PopconfirmComponent from "../../../components/popconfirmComponent";
+import { FC, Fragment, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { HiPencilSquare } from "react-icons/hi2";
-import TableComponent from "../../../components/tableComponent";
-import NotHospital from "../../../components/notHospital";
-import Loading from "../../../components/loading";
-import { getPagingMedia, setMedia } from "../../../features/mediaSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { mediaAPI } from "../../../apis/media.api";
-import { useTranslation } from "react-i18next";
+import BreadcrumbComponent from "../../../components/breadcrumbComponent";
+import Loading from "../../../components/loading";
+import NotHospital from "../../../components/notHospital";
+import PopconfirmComponent from "../../../components/popconfirmComponent";
+import TableComponent from "../../../components/tableComponent";
+import { getPagingMedia, setMedia } from "../../../features/mediaSlice";
+import useMenuData from "../../../hooks/useMenuData";
+import { AppDispatch, RootState } from "../../../redux/store";
 
 type SearchProps = GetProps<typeof Input.Search>;
 

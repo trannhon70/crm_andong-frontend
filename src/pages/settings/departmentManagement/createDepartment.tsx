@@ -1,13 +1,13 @@
-import { FC, Fragment, useEffect } from "react"
-import BreadcrumbComponent from "../../../components/breadcrumbComponent"
+import { Button, Form, Input } from "antd";
+import { FC, Fragment, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button, Form, Input, Select } from "antd";
 import { toast } from "react-toastify";
 import { departmentAPI } from "../../../apis/department.api";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../redux/store";
+import BreadcrumbComponent from "../../../components/breadcrumbComponent";
 import { getByIdDepartment } from "../../../features/departmentSlice";
-import { useTranslation } from "react-i18next";
+import { AppDispatch, RootState } from "../../../redux/store";
 
 const formItemLayout = {
     labelCol: {

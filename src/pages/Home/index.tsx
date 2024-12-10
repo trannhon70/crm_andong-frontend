@@ -1,17 +1,17 @@
+import { Select } from "antd";
 import { useCallback, useEffect, useLayoutEffect, useState } from "react";
-import { getAllHospital, getByIdHospital } from "../../features/hospitalSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/store";
-import { Badge, Card, Col, Result, Row, Select } from "antd";
-import CartRanking from "./cartRanking";
-import CardChannel from "./cardChannel";
-import ScienceStatistics from "./scienceStatistics";
-import DiseaseStatistics from "./diseaseStatistics";
-import Consultant from "./consultant";
-import { getDanhSachXepHangThamKham, getThongKeBenh, getThongKeDangKy, getThongKeKhoa, getThongKeQuaKenh, getThongKeTuVan, setDanhSachXepHangThamKham, setThongKeBenh, setThongKeDangKy, setThongKeKhoa, setThongKeQuaKenh, setThongKeTuVan } from "../../features/dashboardSlice";
-import useMenuData from "../../hooks/useMenuData";
-import NotHospital from "../../components/notHospital";
 import { useTranslation } from "react-i18next";
+import { useDispatch, useSelector } from "react-redux";
+import NotHospital from "../../components/notHospital";
+import { getDanhSachXepHangThamKham, getThongKeBenh, getThongKeDangKy, getThongKeKhoa, getThongKeQuaKenh, getThongKeTuVan, setDanhSachXepHangThamKham, setThongKeBenh, setThongKeDangKy, setThongKeKhoa, setThongKeQuaKenh, setThongKeTuVan } from "../../features/dashboardSlice";
+import { getAllHospital, getByIdHospital } from "../../features/hospitalSlice";
+import useMenuData from "../../hooks/useMenuData";
+import { AppDispatch, RootState } from "../../redux/store";
+import CardChannel from "./cardChannel";
+import CartRanking from "./cartRanking";
+import Consultant from "./consultant";
+import DiseaseStatistics from "./diseaseStatistics";
+import ScienceStatistics from "./scienceStatistics";
 const { Option } = Select;
 
 const Home: React.FC = () => {
