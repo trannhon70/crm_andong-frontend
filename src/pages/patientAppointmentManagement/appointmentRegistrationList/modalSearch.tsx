@@ -18,9 +18,10 @@ const tailLayout = {
 
 const { RangePicker } = DatePicker;
 interface IProps {
-
+    setPageIndex: any
 }
 const ModalSearch: FC<IProps> = (props) => {
+    const {setPageIndex} = props
     const [form] = Form.useForm();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const dispatch = useDispatch<AppDispatch>();
@@ -110,7 +111,7 @@ const ModalSearch: FC<IProps> = (props) => {
             diseasesId : values.diseasesId || '',
             mediaId : values.mediaId || '',
         }
-
+        setPageIndex(1)
         const queryParams = new URLSearchParams(dataRef).toString() ;
         navigate(`/danh-sach-dang-ky-hen?${queryParams}`);
         setIsModalOpen(false);

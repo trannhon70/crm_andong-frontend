@@ -61,11 +61,11 @@ const AppointmentRegistrationList: FC = () => {
     
     
     useLayoutEffect(() => {
-       if(menu?.[1].ds?.action_DSDKH.viewAllData && hospitalId){
+       if(menu?.[1].ds?.action_DSDKH.viewAllData || hospitalId){
             dispatch(getPagingPatient(query))
        }
         
-    }, [dispatch, pageSize, pageIndex, hospitalId, menu?.[1].ds?.action_DSDKH.viewAllData, entities.id])
+    }, [dispatch, pageSize, pageIndex, hospitalId, menu?.[1].ds?.action_DSDKH.viewAllData, entities.id, location.search])
 
     if (data.length > 0) {
         const formatDataWithSummary = (data: any) => {
@@ -99,14 +99,14 @@ const AppointmentRegistrationList: FC = () => {
         dataFormat = formatDataWithSummary(data);
     }
 
-    useLayoutEffect(() => {
+    // useLayoutEffect(() => {
        
-        if( hospitalId || menu?.[1].ds?.action_DSDKH.viewAllData){
-            setPageIndex(1);
-            dispatch(getPagingPatient(query));
-        }
+    //     if( hospitalId || menu?.[1].ds?.action_DSDKH.viewAllData){
+    //         setPageIndex(1);
+    //         dispatch(getPagingPatient(query));
+    //     }
         
-    }, [location.search, dispatch, pageSize, hospitalId, menu?.[1].ds?.action_DSDKH.viewAllData, entities.id]);
+    // }, [location.search, dispatch, pageSize, hospitalId, menu?.[1].ds?.action_DSDKH.viewAllData, entities.id]);
 
 
     const dataBreadcrumb = [
@@ -588,7 +588,7 @@ const AppointmentRegistrationList: FC = () => {
                     <div className='mt-2 pb-2 flex justify-between gap-2 ' >
                         <ComponentThongKe />
                         <div className="flex gap-3 w-[20%] justify-end ">
-                            <ModalSearch />
+                            <ModalSearch setPageIndex={setPageIndex} />
                             {
                                 menu?.[1].ds?.action_DSDKH.create === true ? <Button size="middle" onClick={onClickCreate} type="primary">{t("DSDangKyHen:them_moi")}</Button> : ''
                             }
