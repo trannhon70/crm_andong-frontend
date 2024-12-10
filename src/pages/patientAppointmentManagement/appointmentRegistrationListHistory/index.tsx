@@ -43,8 +43,20 @@ const AppointmentRegistrationListHistory: FC = () => {
     const onClickPrev = () => {
         navige('/danh-sach-dang-ky-hen');
     }
+
+    const renderImg = (file: string)=>{
+        if(file?.includes('.pdf')){
+            return <iframe src={`${process.env.REACT_APP_URL_API}/uploads/${file}`} width="100%" height="600px" frameBorder="0"></iframe>
+        } else {
+           return <img  src={`${process.env.REACT_APP_URL_API}/uploads/${file}`} alt="..." />
+        }
+    }
     return <Fragment>
+        <div className="flex items-center justify-between " >
         <BreadcrumbComponent items={dataBreadcrumb} />
+        <Button onClick={onClickPrev} variant="outlined" color="danger" >  {t("DSDangKyHen:quay_lai")} </Button>
+        </div>
+       
         {
             patient ?
 
@@ -186,7 +198,8 @@ const AppointmentRegistrationListHistory: FC = () => {
                 : ''}
 
             <div className="mt-2" >
-                <Button onClick={onClickPrev} variant="outlined" color="danger" >  {t("DSDangKyHen:quay_lai")} </Button>
+                {renderImg(patient?.file)}
+                
             </div>
     </Fragment>
 }
