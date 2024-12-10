@@ -60,12 +60,12 @@ const AppointmentRegistrationList: FC = () => {
     
     
     useLayoutEffect(() => {
-       if(menu?.[1].ds?.action_DSDKH.viewAllData || hospitalId){
+       if( hospitalId && menu?.[1].ds?.action_DSDKH.viewAllData !== undefined){
             dispatch(getPagingPatient(query))
        }
         
     }, [dispatch, pageSize, pageIndex, hospitalId, menu?.[1].ds?.action_DSDKH.viewAllData, entities.id, location.search])
-
+   
     if (data.length > 0) {
         const formatDataWithSummary = (data: any) => {
             const formattedData: any = [];
