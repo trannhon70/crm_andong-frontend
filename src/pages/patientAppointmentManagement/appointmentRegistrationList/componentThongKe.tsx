@@ -20,7 +20,7 @@ const ComponentThongKe: FC = () => {
         
     }, [dispatch, hospitalId])
 
-    return <div className="flex items-center justify-between w-[80%] bg-slate-200 p-1 " >
+    return <div className="flex items-center justify-between w-[70%] bg-slate-200 p-1 " >
         <div className="flex gap-2 " >
             <Tag color="#2db7f5">{t("DSDangKyHen:thong_ke")} </Tag>
             <div>{t("DSDangKyHen:tong_cong")}: <strong>{thongkeAll?.total}</strong> </div>

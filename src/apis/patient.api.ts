@@ -24,7 +24,8 @@ export const patiantAPI = {
     getThongkeTheoNguonTruyenThong,
     getThongkeTheoTinhTrang,
     getThongkeTheoBacSi,
-    getThongkeTheoDichvuKhachHang
+    getThongkeTheoDichvuKhachHang,
+    importFileExcel
 }
 
 function createPatiant(body : IPatient) {
@@ -126,4 +127,8 @@ function getThongkeTheoBacSi(body : any) {
 
 function getThongkeTheoDichvuKhachHang(body : any) {
     return instance.post(`/patient/thong-ke-theo-dich-vu-khach-hang`,body)
+}
+
+function importFileExcel(body : any) {
+    return instance.post(`/patient/import-file-excel`,body)
 }
