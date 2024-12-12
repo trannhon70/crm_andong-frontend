@@ -188,7 +188,7 @@ const AppointmentRegistrationList: FC = () => {
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 9 : 1;
                 return {
-                    children: <div style={{ display: "flex", gap: "5px", alignItems: "center" }} className={record?.summary === true ? "bg-orange-400 text-base text-white p-2 " : className(record)}>{value}{record.status === 'ĐÃ ĐẾN' ? <FaCheck /> : ''}</div>,
+                    children: <div style={{ display: "flex", gap: "5px", alignItems: "center" }} className={record?.summary === true ? "bg-orange-400 text-base text-white p-1 " : className(record)}>{value}{record.status === 'ĐÃ ĐẾN' ? <FaCheck /> : ''}</div>,
                     props: { colSpan },
                 };
             },
