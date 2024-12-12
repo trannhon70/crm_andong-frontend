@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 const ComponentThongKe: FC = () => {
     const hospitalId = localStorage.getItem('hospitalId')
     const dispatch = useDispatch<AppDispatch>();
-    const { thongKeTheoNgayHienTai, thongkeAll } = useSelector((state: RootState) => state.patient);
+    const { thongKeTheoNgayHienTai, daden ,total, chuaden } = useSelector((state: RootState) => state.patient);
     const { t } = useTranslation(['DSDangKyHen']);
 
     useEffect(() => {
@@ -23,9 +23,9 @@ const ComponentThongKe: FC = () => {
     return <div className="flex items-center justify-between w-[70%] bg-slate-200 p-1 " >
         <div className="flex gap-2 " >
             <Tag color="#2db7f5">{t("DSDangKyHen:thong_ke")} </Tag>
-            <div>{t("DSDangKyHen:tong_cong")}: <strong>{thongkeAll?.total}</strong> </div>
-            <div>{t("DSDangKyHen:da_den")}: <strong>{thongkeAll?.daden}</strong> </div>
-            <div>{t("DSDangKyHen:chua_den")}: <strong>{thongkeAll?.chuaden}</strong> </div>
+            <div>{t("DSDangKyHen:tong_cong")}: <strong>{total}</strong> </div>
+            <div>{t("DSDangKyHen:da_den")}: <strong>{daden}</strong> </div>
+            <div>{t("DSDangKyHen:chua_den")}: <strong>{chuaden}</strong> </div>
         </div>
 
         <div className="flex gap-2 ">

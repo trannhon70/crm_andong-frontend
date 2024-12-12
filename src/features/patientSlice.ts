@@ -111,6 +111,8 @@ export const fetchCity = createAsyncThunk(
     pageSize: number,
     pageIndex: number,
     total: number,
+    daden: number,
+    chuaden: number,
     totalPages: number,
     city: any,
     district:any,
@@ -130,6 +132,8 @@ export const fetchCity = createAsyncThunk(
     pageSize: 5,
     pageIndex: 1,
     total: 0,
+    daden: 0,
+    chuaden: 0,
     totalPages: 0,
     city: [],
     district:[],
@@ -158,6 +162,8 @@ export const fetchCity = createAsyncThunk(
         state.pageSize = action.payload.pageSize;
         state.pageIndex = action.payload.pageIndex;
         state.total = action.payload.total;
+        state.daden = action.payload.daden;
+        state.chuaden = action.payload.chuaden;
         state.totalPages = action.payload.totalPages;
         state.loading = 'succeeded';
       });
