@@ -25,7 +25,8 @@ const CreateRight: FC = () => {
                     delete: false,
                     see: false,
                     viewAllData: false,
-                    phone: false 
+                    phone: false ,
+                    excel: false
                 },
                 CHTKBN: false,
                 LLTVBN: false,
@@ -275,6 +276,7 @@ const CreateRight: FC = () => {
             updatedForm[1].ds.action_DSDKH.see = checked; 
             updatedForm[1].ds.action_DSDKH.viewAllData = checked; 
             updatedForm[1].ds.action_DSDKH.phone = checked; 
+            updatedForm[1].ds.action_DSDKH.excel = checked; 
             return updatedForm; 
         });
     }
@@ -291,6 +293,7 @@ const CreateRight: FC = () => {
             updatedForm[1].ds.action_DSDKH.see = checked; 
             updatedForm[1].ds.action_DSDKH.viewAllData = checked; 
             updatedForm[1].ds.action_DSDKH.phone = checked; 
+            updatedForm[1].ds.action_DSDKH.excel = checked; 
             return updatedForm; 
         });
 
@@ -358,6 +361,17 @@ const CreateRight: FC = () => {
             updatedForm[1].QLBN = true;
             updatedForm[1].ds.DSDKH = true;
             updatedForm[1].ds.action_DSDKH.phone = checked; 
+            return updatedForm; 
+        });
+    }
+
+    const onChangeDSDKHExcel: CheckboxProps['onChange'] = (e) => {
+        const checked = e.target.checked; 
+        setForm((prevForm: any[]) => {
+            const updatedForm = [...prevForm]; 
+            updatedForm[1].QLBN = true;
+            updatedForm[1].ds.DSDKH = true;
+            updatedForm[1].ds.action_DSDKH.excel = checked; 
             return updatedForm; 
         });
     }
@@ -1327,7 +1341,8 @@ const CreateRight: FC = () => {
                         delete: true,
                         see: true,
                         viewAllData: true,
-                        phone: true 
+                        phone: true ,
+                        excel: true
                     },
                     CHTKBN: true,
                     LLTVBN: true,
@@ -1479,7 +1494,8 @@ const CreateRight: FC = () => {
                         delete: false,
                         see: false,
                         viewAllData: false,
-                        phone: false 
+                        phone: false ,
+                        excel: false
                     },
                     CHTKBN: false,
                     LLTVBN: false,
@@ -1673,6 +1689,7 @@ const CreateRight: FC = () => {
                         <Checkbox onChange={onChangeDSDKHSee} checked={form[1].ds.action_DSDKH.see}>{t("QLHT:xem_lich_su")}</Checkbox>
                         <Checkbox onChange={onChangeDSDKHViewAllData} checked={form[1].ds.action_DSDKH.viewAllData}>{t("QLHT:xem_tat_ca_du_lieu")}</Checkbox>
                         <Checkbox onChange={onChangeDSDKHViewPhone} checked={form[1].ds.action_DSDKH.phone}>xem SDT</Checkbox>
+                        <Checkbox onChange={onChangeDSDKHExcel} checked={form[1].ds.action_DSDKH.excel}>Import Excel</Checkbox>
                     </td>
                 </tr>
                 {/* <tr className="bg-[#f2f2f2]">

@@ -590,8 +590,14 @@ const AppointmentRegistrationList: FC = () => {
                     <div className='mt-2 pb-2 flex justify-between gap-2 ' >
                         <ComponentThongKe />
                         <div className="flex gap-3 w-[20%] justify-end ">
-                            <ImportExcel getPagingPatient = {getPagingPatient(query)} />
-                            <ExportExcel csvData={[]} fileName="file_mau" headers={['Họ và tên', 'Giới tính', 'Nhập tuổi','Nhập số điện thoại','Nội dung tư vấn','Mã chuyên gia','Mục điều trị', 'Thời gian hẹn (dd/mm/yyyy)', 'Thời gian nhắc hẹn (dd/mm/yyyy)', 'Ghi chú', 'Sửa thời gian đăng ký (dd/mm/yyyy)', 'Trạng thái','Nội dung tiếp nhận','Nhập hồ sơ thăm khám']} />
+                            {
+                                 menu?.[1].ds?.action_DSDKH.excel === true ? <div className="flex gap-2 " >
+                                    <ImportExcel getPagingPatient = {getPagingPatient(query)} />
+                                    <ExportExcel csvData={[]} fileName="file_mau" headers={['Họ và tên', 'Giới tính', 'Nhập tuổi','Nhập số điện thoại','Nội dung tư vấn','Mã chuyên gia','Mục điều trị', 'Thời gian hẹn (dd/mm/yyyy)', 'Thời gian nhắc hẹn (dd/mm/yyyy)', 'Ghi chú', 'Sửa thời gian đăng ký (dd/mm/yyyy)', 'Trạng thái','Nội dung tiếp nhận','Nhập hồ sơ thăm khám']} />
+                                 </div> : ""
+                            }
+                            
+                           
                             <ModalSearch setPageIndex={setPageIndex} />
                             {
                                 menu?.[1].ds?.action_DSDKH.create === true ? <Button size="middle" onClick={onClickCreate} type="primary">{t("DSDangKyHen:them_moi")}</Button> : ''
