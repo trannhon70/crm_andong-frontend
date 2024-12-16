@@ -48,7 +48,7 @@ const CreateAppointmentRegistrationList: FC = () => {
     const navige = useNavigate()
     const hospitalId = localStorage.getItem('hospitalId')
     const dispatch = useDispatch<AppDispatch>();
-    const { patient } = useSelector((state: RootState) => state);
+    const { patient, users } = useSelector((state: RootState) => state);
     let { id } = useParams();
     const [error, setError] = useState<any>({
         reminderTime: false,
@@ -128,16 +128,17 @@ const CreateAppointmentRegistrationList: FC = () => {
     ];
 
     const onFinish = async (body: IPatient) => {
-       
-        if(!telephoneCheck(body.phone)){
-            toast.warning('Số điện thoại không hợp lệ!');
-            setError({
-                ...error,
-                phone: true,
-            })
-            return;
+        if(users?.entities?.role?.id !== 3){
+            if(!telephoneCheck(body.phone) ){
+                toast.warning('Số điện thoại không hợp lệ!');
+                setError({
+                    ...error,
+                    phone: true,
+                })
+                return;
+            }
         }
-        // if(body.phone)
+       
         const appointmentTime = dayjs(body.appointmentTime).unix()
         const reminderTime = dayjs(body.reminderTime).unix()
         if(appointmentTime < reminderTime && !id){
