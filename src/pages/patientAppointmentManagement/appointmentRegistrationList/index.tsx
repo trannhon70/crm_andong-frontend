@@ -23,6 +23,7 @@ import ModalSearch from "./modalSearch";
 import ModalUpload from "./modalUpload";
 import ExportExcel from "../../../components/exportExcel";
 import ImportExcel from "../../../components/ImportExcel";
+import { formatPhoneNumber } from "../../../utils";
 
 
 const scrollProps = {
@@ -240,7 +241,7 @@ const AppointmentRegistrationList: FC = () => {
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
-                    children: <div className={className(record)} >{value}</div>,
+                    children: <div className={className(record)} >{ menu?.[1].ds?.action_DSDKH.phone ? value : formatPhoneNumber(value)}</div>,
                     props: { colSpan }
                 }
             },

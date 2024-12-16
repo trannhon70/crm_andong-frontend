@@ -32,7 +32,7 @@ export const TIME = [
   { id: 4, value: "year", label: "Năm" },
 ]
 
-export function telephoneCheck(phone: string) {
+export function telephoneCheck(phone: any) {
     const isphone = /^(1\s|1|)?((\(\d{3}\))|\d{3})(\-|\s)?(\d{3})(\-|\s)?(\d{4})$/.test(phone);
    return isphone;
   }
@@ -79,3 +79,15 @@ export function telephoneCheck(phone: string) {
     return months;
   };
   
+
+ export const formatPhoneNumber = (phone : any) => {
+  if (!phone) {
+    return ""; // Trả về chuỗi rỗng nếu phone bị undefined hoặc null
+  }
+
+  if (phone.length >= 4) {
+    return `****${phone.slice(4)}`;
+  }
+  return phone; // Trả lại số ban đầu nếu không đủ 3 chữ số
+  };
+

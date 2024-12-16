@@ -64,7 +64,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                 <Form.Item name="phone" label={t("DSDangKyHen:nhap_so_dien_thoai")} rules={[
                     { required: true, message:t("DSDangKyHen:so_dien_thoai_err") , }
                 ]}>
-                    <Input style={{ width: '100%' }} />
+                    <Input onChange={(e) => setError({...error, phone : false})} status={error.phone === true ? "error" : ""} type="number"  style={{ width: '100%' }} />
 
                 </Form.Item>
                 <Form.Item name="content" label={t("DSDangKyHen:noi_dung_tu_van")} >

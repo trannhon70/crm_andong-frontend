@@ -13,6 +13,7 @@ import { IPatient } from "../../../interface/patient";
 import { AppDispatch, RootState } from "../../../redux/store";
 import FormCreateUser from "./form";
 import { useTranslation } from 'react-i18next';
+import { telephoneCheck } from '../../../utils';
 
 
 type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
@@ -50,7 +51,8 @@ const CreateAppointmentRegistrationList: FC = () => {
     const { patient } = useSelector((state: RootState) => state);
     let { id } = useParams();
     const [error, setError] = useState<any>({
-        reminderTime: false
+        reminderTime: false,
+        phone: false
     })
     const {t } = useTranslation(['DSDangKyHen'])
 
@@ -126,6 +128,16 @@ const CreateAppointmentRegistrationList: FC = () => {
     ];
 
     const onFinish = async (body: IPatient) => {
+       
+        if(!telephoneCheck(body.phone)){
+            toast.warning('Số điện thoại không hợp lệ!');
+            setError({
+                ...error,
+                phone: true,
+            })
+            return;
+        }
+        // if(body.phone)
         const appointmentTime = dayjs(body.appointmentTime).unix()
         const reminderTime = dayjs(body.reminderTime).unix()
         if(appointmentTime < reminderTime && !id){
