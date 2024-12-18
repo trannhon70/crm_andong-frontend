@@ -91,5 +91,13 @@
     "xem":"看",
     "nguoi_tao":"建档人",
     "xoa_benh_vien":"删除医院",
-    "ban_co_chac_muon_xoa_benh_vien":"您确定要删除该医院吗？"
+    "ban_co_chac_muon_xoa_benh_vien":"您确定要删除该医院吗？",
+    "thong_ke_tong": "总统计数据",
+    "bang_xep_hang": "排行榜",
+    "thong_ke_kenh": "频道统计",
+    "thong_ke_khoa": "部门统计",
+    "thong_ke_benh": "疾病统计",
+    "thong_ke_tu_van": "咨询统计",
+    "xem_SDT": "查看电话号码",
+    "nhap_excel": "导入Excel"
 }

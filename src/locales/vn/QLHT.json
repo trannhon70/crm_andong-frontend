@@ -91,5 +91,13 @@
     "xem":"Xem",
     "nguoi_tao":"Người tạo",
     "xoa_benh_vien":"Xóa bệnh viện",
-    "ban_co_chac_muon_xoa_benh_vien":"Bạn có chắc chắn muốn xóa bệnh viện này không!"
+    "ban_co_chac_muon_xoa_benh_vien":"Bạn có chắc chắn muốn xóa bệnh viện này không!",
+    "thong_ke_tong": "Thống kê tổng",
+    "bang_xep_hang": "Bảng xếp hạng",
+    "thong_ke_kenh": "Thống kê kênh",
+    "thong_ke_khoa": "Thống kê khoa",
+    "thong_ke_benh": "Thống kê bệnh",
+    "thong_ke_tu_van": "Thống kê tư vấn",
+    "xem_SDT": "Xem số điện thoại",
+    "nhap_excel": "Nhập excel"
 }

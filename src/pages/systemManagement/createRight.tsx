@@ -1776,12 +1776,12 @@ const CreateRight: FC = () => {
                 </tr>
                 <tr className="bg-[#f2f2f2]">
                     <td  colSpan={3} className="border border-slate-300 ..."> 
-                        <Checkbox onChange={onChangeTKTong} checked={form[0]?.ds?.TKTong} >Thống kê tổng</Checkbox>
-                        <Checkbox onChange={onChangeBXHang} checked={form[0]?.ds?.BXHang} >bảng xếp hạng</Checkbox>
-                        <Checkbox onChange={onChangeTKKenh} checked={form[0]?.ds?.TKKenh} >Thống kê kênh</Checkbox>
-                        <Checkbox onChange={onChangeTKKhoa} checked={form[0]?.ds?.TKKhoa} >Thống kê khoa</Checkbox>
-                        <Checkbox onChange={onChangeTKBenh} checked={form[0]?.ds?.TKBenh} >Thống kê bệnh</Checkbox>
-                        <Checkbox onChange={onChangeTKTuvan} checked={form[0]?.ds?.TKTuvan} >Thống kê tư vấn</Checkbox>
+                        <Checkbox onChange={onChangeTKTong} checked={form[0]?.ds?.TKTong} >{t("QLHT:thong_ke_tong")}</Checkbox>
+                        <Checkbox onChange={onChangeBXHang} checked={form[0]?.ds?.BXHang} >{t("QLHT:bang_xep_hang")}</Checkbox>
+                        <Checkbox onChange={onChangeTKKenh} checked={form[0]?.ds?.TKKenh} >{t("QLHT:thong_ke_kenh")}</Checkbox>
+                        <Checkbox onChange={onChangeTKKhoa} checked={form[0]?.ds?.TKKhoa} >{t("QLHT:thong_ke_khoa")}</Checkbox>
+                        <Checkbox onChange={onChangeTKBenh} checked={form[0]?.ds?.TKBenh} >{t("QLHT:thong_ke_benh")}</Checkbox>
+                        <Checkbox onChange={onChangeTKTuvan} checked={form[0]?.ds?.TKTuvan} >{t("QLHT:thong_ke_tu_van")}</Checkbox>
                     </td>
                 </tr>
                 <tr >
@@ -1799,8 +1799,8 @@ const CreateRight: FC = () => {
                         <Checkbox onChange={onChangeDSDKHDelete} checked={form[1].ds.action_DSDKH.delete}>{t("QLHT:xoa")}</Checkbox>
                         <Checkbox onChange={onChangeDSDKHSee} checked={form[1].ds.action_DSDKH.see}>{t("QLHT:xem_lich_su")}</Checkbox>
                         <Checkbox onChange={onChangeDSDKHViewAllData} checked={form[1].ds.action_DSDKH.viewAllData}>{t("QLHT:xem_tat_ca_du_lieu")}</Checkbox>
-                        <Checkbox onChange={onChangeDSDKHViewPhone} checked={form[1].ds.action_DSDKH.phone}>xem SDT</Checkbox>
-                        <Checkbox onChange={onChangeDSDKHExcel} checked={form[1].ds.action_DSDKH.excel}>Import Excel</Checkbox>
+                        <Checkbox onChange={onChangeDSDKHViewPhone} checked={form[1].ds.action_DSDKH.phone}>{t("QLHT:xem_SDT")}</Checkbox>
+                        <Checkbox onChange={onChangeDSDKHExcel} checked={form[1].ds.action_DSDKH.excel}>{t("QLHT:nhap_excel")}</Checkbox>
                     </td>
                 </tr>
                 {/* <tr className="bg-[#f2f2f2]">
