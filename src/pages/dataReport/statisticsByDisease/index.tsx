@@ -194,7 +194,7 @@ const StatisticsByDisease:FC = () => {
                 break;
         }
         
-    }, [picker,hospitalId, time.length > 0])
+    }, [picker,hospitalId, time.length > 0, department])
 
     const dynamicColumns = Array.isArray(dataReport?.TKTB?.diseases)
     ? dataReport.TKTB.diseases.map((group: any) => ({
