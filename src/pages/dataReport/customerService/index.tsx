@@ -51,7 +51,7 @@ const CustomerService: FC = () => {
             type: 'separator',
         },
         {
-            title:t("baoCaoDuLieu:thong_ke_theo_bac_si") ,
+            title:t("baoCaoDuLieu:thong_ke_theo_tu_van") ,
         },
 
     ];
