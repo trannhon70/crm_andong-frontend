@@ -23,7 +23,7 @@ const Home: React.FC = () => {
     const [nameSelect, setNameSelect] = useState<string | undefined>('')
     const [dataHospital, setDataHospital] = useState<any>([])
     const menu = useMenuData();
-    const {t } = useTranslation(['home'])
+    const { t } = useTranslation(['home'])
 
     useEffect(() => {
         dispatch(getAllHospital());
@@ -81,8 +81,6 @@ const Home: React.FC = () => {
         }
     }, [users.entities.hospitalId, hospital])
 
-
-
     return (
         <div>
             <div className="flex gap-2 items-center "  >
@@ -106,12 +104,16 @@ const Home: React.FC = () => {
                 hospitalId ? <>
                     <CartRanking />
                     {
-                        menu?.[0].home === true ? <>
-                            <CardChannel />
-                            <ScienceStatistics />
-                            <DiseaseStatistics />
-                            <Consultant />
-                        </> : ''
+                        menu?.[0].ds.TKKenh === true && <CardChannel />
+                    }
+                    {
+                        menu?.[0].ds.TKKhoa === true && <ScienceStatistics />
+                    }
+                    {
+                        menu?.[0].ds.TKBenh === true && <DiseaseStatistics />
+                    }
+                    {
+                        menu?.[0].ds.TKTuvan === true && <Consultant />
                     }
                 </> : <NotHospital />
             }

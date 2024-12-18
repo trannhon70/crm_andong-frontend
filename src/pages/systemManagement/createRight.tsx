@@ -13,7 +13,16 @@ const CreateRight: FC = () => {
     const {t } = useTranslation(['QLHT'])
     const [form, setForm] = useState<any[]>([
         {
-            home: false
+            home: false,
+            ds: {
+                TKTong: false,
+                BXHang: false,
+                TKKenh: false,
+                TKKhoa: false,
+                TKBenh: false,
+                TKTuvan: false,
+            }
+            
         },
         {
             QLBN: false,
@@ -251,6 +260,83 @@ const CreateRight: FC = () => {
             {
                 const updatedForm = [...prevForm]; 
                 updatedForm[0].home = checked;
+                updatedForm[0].ds.TKTong = checked;
+                updatedForm[0].ds.BXHang = checked;
+                updatedForm[0].ds.TKKenh = checked;
+                updatedForm[0].ds.TKKhoa = checked;
+                updatedForm[0].ds.TKBenh = checked;
+                updatedForm[0].ds.TKTuvan = checked;
+                return updatedForm; 
+            }
+        );
+    }
+
+    const onChangeTKTong: CheckboxProps['onChange'] = (e) => {
+        const checked = e.target.checked; 
+        setForm((prevForm: any[] ) =>
+            {
+                const updatedForm = [...prevForm]; 
+                updatedForm[0].home = true;
+                updatedForm[0].ds.TKTong = checked;
+                return updatedForm; 
+            }
+        );
+    }
+
+    const onChangeBXHang: CheckboxProps['onChange'] = (e) => {
+        const checked = e.target.checked; 
+        setForm((prevForm: any[] ) =>
+            {
+                const updatedForm = [...prevForm]; 
+                updatedForm[0].home = true;
+                updatedForm[0].ds.BXHang = checked;
+                return updatedForm; 
+            }
+        );
+    }
+
+    const onChangeTKKenh: CheckboxProps['onChange'] = (e) => {
+        const checked = e.target.checked; 
+        setForm((prevForm: any[] ) =>
+            {
+                const updatedForm = [...prevForm]; 
+                updatedForm[0].home = true;
+                updatedForm[0].ds.TKKenh = checked;
+                return updatedForm; 
+            }
+        );
+    }
+
+    const onChangeTKKhoa: CheckboxProps['onChange'] = (e) => {
+        const checked = e.target.checked; 
+        setForm((prevForm: any[] ) =>
+            {
+                const updatedForm = [...prevForm]; 
+                updatedForm[0].home = true;
+                updatedForm[0].ds.TKKhoa = checked;
+                return updatedForm; 
+            }
+        );
+    }
+
+    const onChangeTKBenh: CheckboxProps['onChange'] = (e) => {
+        const checked = e.target.checked; 
+        setForm((prevForm: any[] ) =>
+            {
+                const updatedForm = [...prevForm]; 
+                updatedForm[0].home = true;
+                updatedForm[0].ds.TKBenh = checked;
+                return updatedForm; 
+            }
+        );
+    }
+    const onChangeTKTuvan: CheckboxProps['onChange'] = (e) => {
+        const checked = e.target.checked; 
+        setForm((prevForm: any[] ) =>
+            {
+                const updatedForm = [...prevForm]; 
+                updatedForm[0].home = true;
+                updatedForm[0].ds.TKTuvan = checked;
                 return updatedForm; 
             }
         );
@@ -1329,7 +1415,15 @@ const CreateRight: FC = () => {
     const onClickSelectAll = () => {
         setForm([
             {
-                home: true
+                home: true,
+                ds: {
+                    TKTong: true,
+                    BXHang: true,
+                    TKKenh: true,
+                    TKKhoa: true,
+                    TKBenh: true,
+                    TKTuvan: true,
+                }
             },
             {
                 QLBN: true,
@@ -1482,7 +1576,15 @@ const CreateRight: FC = () => {
     const onClickUnselect = () => {
         setForm([
             {
-                home: false
+                home: false,
+                ds: {
+                    TKTong: false,
+                    BXHang: false,
+                    TKKenh: false,
+                    TKKhoa: false,
+                    TKBenh: false,
+                    TKTuvan: false,
+                }
             },
             {
                 QLBN: false,
@@ -1670,13 +1772,22 @@ const CreateRight: FC = () => {
                     </td>
                 </tr>
                 <tr className="bg-[#f2f2f2]">
-                    <td  colSpan={4} className="border border-slate-300 ..."> <Checkbox onChange={onChangeHome} checked={form[0].home} >{t("QLHT:trang_dau")}</Checkbox></td>
+                    <td  rowSpan={2} className="border border-slate-300 ..."> <Checkbox onChange={onChangeHome} checked={form[0].home} >{t("QLHT:trang_dau")}</Checkbox></td>
+                </tr>
+                <tr className="bg-[#f2f2f2]">
+                    <td  colSpan={3} className="border border-slate-300 ..."> 
+                        <Checkbox onChange={onChangeTKTong} checked={form[0]?.ds?.TKTong} >Thống kê tổng</Checkbox>
+                        <Checkbox onChange={onChangeBXHang} checked={form[0]?.ds?.BXHang} >bảng xếp hạng</Checkbox>
+                        <Checkbox onChange={onChangeTKKenh} checked={form[0]?.ds?.TKKenh} >Thống kê kênh</Checkbox>
+                        <Checkbox onChange={onChangeTKKhoa} checked={form[0]?.ds?.TKKhoa} >Thống kê khoa</Checkbox>
+                        <Checkbox onChange={onChangeTKBenh} checked={form[0]?.ds?.TKBenh} >Thống kê bệnh</Checkbox>
+                        <Checkbox onChange={onChangeTKTuvan} checked={form[0]?.ds?.TKTuvan} >Thống kê tư vấn</Checkbox>
+                    </td>
                 </tr>
                 <tr >
                     <td rowSpan={6}  className="border border-slate-300 ...">
-                    <Checkbox onChange={onChangeQLBN} 
-                    checked={form[1].QLBN} 
-                    >{t("QLHT:quan_ly_benh_nhan")}</Checkbox></td>
+                        <Checkbox onChange={onChangeQLBN} checked={form[1].QLBN} >{t("QLHT:quan_ly_benh_nhan")}</Checkbox>
+                    </td>
                 </tr>
                 <tr>
                     <td className="border border-slate-300 ..." >
