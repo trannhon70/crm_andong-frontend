@@ -209,8 +209,8 @@ const AppointmentRegistrationList: FC = () => {
                 const colSpan = record?.summary === true ? 0 : 1;
                 const isEditing = editingId === record.id;
                 return {
-                    children: <div style={{cursor:"pointer"}} onClick={() => onClickHiden(record)}  className={className(record)} >{!isEditing ? <div className="flex gap-1" >{ value || 0} <LiaEdit size={20} /></div> :  <Input value={money} type="number" onBlur={(e) => onBlurMoney(e,record)
-                    } onChange={(e) => setMoney(Number(e.target.value))} />}</div>,
+                    children: menu?.[1].ds?.action_DSDKH?.money === true ? <div style={{cursor:"pointer"}} onClick={() => onClickHiden(record)}  className={className(record)} >{!isEditing ? <div className="flex gap-1" >{ value || 0} <LiaEdit size={20} /></div> :  <Input value={money} type="number" onBlur={(e) => onBlurMoney(e,record)
+                    } onChange={(e) => setMoney(Number(e.target.value))} />}</div>: '-',
                     props: { colSpan }
                 }
             },

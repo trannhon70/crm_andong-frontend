@@ -6,6 +6,7 @@ import moment from "moment";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
+import useMenuData from "../../../hooks/useMenuData";
 type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
 interface IProps {
     formItemLayout: any;
@@ -25,7 +26,7 @@ const FormCreateUser: FC<IProps> = (props) => {
     const { formItemLayout, tailFormItemLayout, form, onFinish, patient, handleChangeDepartment, handleChangeCity, id, onOk, error, setError, onClickPrev } = props
     const {t } = useTranslation(['DSDangKyHen'])
     const { entities } = useSelector((state: RootState) => state.users);
-    
+    const menu = useMenuData();
 
     const checkRoleLeTan = () => {
         return entities?.role?.id === 3
@@ -341,7 +342,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                 }
                 
                 {
-                    id && !checkRoleLeTan() ? <Form.Item name="money" label={t("DSDangKyHen:chi_phi")} >
+                   menu?.[1].ds?.action_DSDKH?.money === true && id && !checkRoleLeTan() ? <Form.Item name="money" label={t("DSDangKyHen:chi_phi")} >
                     <InputNumber className="w-[100%]" />
 
                 </Form.Item> : ''

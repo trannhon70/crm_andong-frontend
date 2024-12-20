@@ -35,7 +35,8 @@ const CreateRight: FC = () => {
                     see: false,
                     viewAllData: false,
                     phone: false ,
-                    excel: false
+                    excel: false,
+                    money: false
                 },
                 CHTKBN: false,
                 LLTVBN: false,
@@ -205,7 +206,19 @@ const CreateRight: FC = () => {
     useEffect(() => {
         if(role.menu){
             setName(role.name);
-            setForm(JSON.parse(role.menu))
+            const menu = JSON.parse(role.menu)
+            setForm((prevForm) =>
+                prevForm.map((item, index) => {
+                    // Thay đổi logic này theo yêu cầu cập nhật của bạn
+                    if (menu[index]) {
+                        return {
+                            ...item,
+                            ...menu[index], // Gộp dữ liệu mới từ `menu` vào từng phần tử trong `form`
+                        };
+                    }
+                    return item; // Giữ nguyên nếu không có cập nhật
+                })
+            );
         }
     }, [role.menu, role.name])
 
@@ -362,7 +375,8 @@ const CreateRight: FC = () => {
             updatedForm[1].ds.action_DSDKH.see = checked; 
             updatedForm[1].ds.action_DSDKH.viewAllData = checked; 
             updatedForm[1].ds.action_DSDKH.phone = checked; 
-            updatedForm[1].ds.action_DSDKH.excel = checked; 
+            updatedForm[1].ds.action_DSDKH.excel = checked;
+            updatedForm[1].ds.action_DSDKH.money = checked;  
             return updatedForm; 
         });
     }
@@ -379,7 +393,8 @@ const CreateRight: FC = () => {
             updatedForm[1].ds.action_DSDKH.see = checked; 
             updatedForm[1].ds.action_DSDKH.viewAllData = checked; 
             updatedForm[1].ds.action_DSDKH.phone = checked; 
-            updatedForm[1].ds.action_DSDKH.excel = checked; 
+            updatedForm[1].ds.action_DSDKH.excel = checked;
+            updatedForm[1].ds.action_DSDKH.money = checked;  
             return updatedForm; 
         });
 
@@ -458,6 +473,17 @@ const CreateRight: FC = () => {
             updatedForm[1].QLBN = true;
             updatedForm[1].ds.DSDKH = true;
             updatedForm[1].ds.action_DSDKH.excel = checked; 
+            return updatedForm; 
+        });
+    }
+
+    const onChangeDSDKHMoney: CheckboxProps['onChange'] = (e) => {
+        const checked = e.target.checked; 
+        setForm((prevForm: any[]) => {
+            const updatedForm = [...prevForm]; 
+            updatedForm[1].QLBN = true;
+            updatedForm[1].ds.DSDKH = true;
+            updatedForm[1].ds.action_DSDKH.money = checked; 
             return updatedForm; 
         });
     }
@@ -1436,7 +1462,8 @@ const CreateRight: FC = () => {
                         see: true,
                         viewAllData: true,
                         phone: true ,
-                        excel: true
+                        excel: true,
+                        money: true
                     },
                     CHTKBN: true,
                     LLTVBN: true,
@@ -1597,7 +1624,8 @@ const CreateRight: FC = () => {
                         see: false,
                         viewAllData: false,
                         phone: false ,
-                        excel: false
+                        excel: false,
+                        money: false
                     },
                     CHTKBN: false,
                     LLTVBN: false,
@@ -1801,6 +1829,7 @@ const CreateRight: FC = () => {
                         <Checkbox onChange={onChangeDSDKHViewAllData} checked={form[1].ds.action_DSDKH.viewAllData}>{t("QLHT:xem_tat_ca_du_lieu")}</Checkbox>
                         <Checkbox onChange={onChangeDSDKHViewPhone} checked={form[1].ds.action_DSDKH.phone}>{t("QLHT:xem_SDT")}</Checkbox>
                         <Checkbox onChange={onChangeDSDKHExcel} checked={form[1].ds.action_DSDKH.excel}>{t("QLHT:nhap_excel")}</Checkbox>
+                        <Checkbox onChange={onChangeDSDKHMoney} checked={form[1].ds.action_DSDKH.money}>Chi phí</Checkbox>
                     </td>
                 </tr>
                 {/* <tr className="bg-[#f2f2f2]">
