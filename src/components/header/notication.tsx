@@ -1,4 +1,4 @@
-import { Badge, Dropdown, Modal, Table, TableProps, Tag } from "antd";
+import { Badge, Button, Dropdown, Modal, Table, TableProps, Tag } from "antd";
 import { FC, Fragment, useEffect, useState } from "react";
 
 import moment from 'moment';
@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { getPagingNotication } from "../../features/noticationSlice";
 import { noticationAPI } from "../../apis/nitication.api";
+import useClipboard from "../../hooks/useClipboard";
 moment.locale("vi");
 
 
@@ -19,6 +20,7 @@ const Notication: FC = () => {
     const hospitalId = localStorage.getItem('hospitalId');
     const [dataModal, setDataModal] = useState<any>();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const {copyToClipboard} = useClipboard()
     const query = {
         pageSize: pageSize,
         pageIndex: pageIndex,
@@ -63,7 +65,19 @@ const Notication: FC = () => {
         }
     }
 
+    const onclickCopy = (value : any) => {
+        copyToClipboard(`Họ và tên: ${value.name}, tuổi: ${value.yearOld}, khoa: ${value.department.name}, bệnh: ${value?.diseases?.name}, mã chuyên gia: ${value.code}, nội dung tư vấn: ${value.content}`)
+    }
+
+
     const columns: TableProps<any>['columns'] = [
+        {
+            title: '',
+            dataIndex: 'name',
+            key: 'name',
+            render: (_, decord,index) => <Button onClick={() => onclickCopy(decord)} variant="solid" color="danger" >Copy</Button>,
+            width: 80,
+        },
         {
             title: 'Họ và tên',
             dataIndex: 'name',
