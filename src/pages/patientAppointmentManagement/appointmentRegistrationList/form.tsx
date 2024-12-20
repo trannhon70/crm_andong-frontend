@@ -259,9 +259,9 @@ const FormCreateUser: FC<IProps> = (props) => {
                     />
 
                 </Form.Item>
-                <Form.Item label={t("DSDangKyHen:luu_y")}>
+                {/* <Form.Item label={t("DSDangKyHen:luu_y")}>
                     <Alert message={t("DSDangKyHen:thoi_gian_nhac_hen_phai_nho_hon_thoi_gian_hen")} type="warning" />
-                </Form.Item>
+                </Form.Item> */}
                 <Form.Item name="reminderTime" label={t("DSDangKyHen:thoi_gian_nhac_hen")} rules={!id ? [
                     { required: true, message: t("DSDangKyHen:thoi_gian_nhac_hen_err") , }
                 ] : []}
@@ -290,7 +290,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                 }
 
                 <div className="text-xl font-bold text-slate-600 mb-3 " > {t("DSDangKyHen:den_kham_chua")}  :   </div>
-                {
+                {/* {
                     !checkRoleLeTan() && <Form.Item name="editregistrationTime" label={t("DSDangKyHen:sua_thoi_gian_dang_ky")} >
                     <DatePicker
                         placeholder={t("DSDangKyHen:chon_thoi_gian_sua_doi")}
@@ -302,7 +302,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                         onOk={onOk}
                     />
                 </Form.Item>
-                }
+                } */}
                 
                 <Form.Item name="status" label={t("DSDangKyHen:trang_thai")}>
                     <Select

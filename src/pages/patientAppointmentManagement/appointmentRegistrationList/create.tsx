@@ -139,16 +139,16 @@ const CreateAppointmentRegistrationList: FC = () => {
             }
         }
        
-        const appointmentTime = dayjs(body.appointmentTime).unix()
-        const reminderTime = dayjs(body.reminderTime).unix()
-        if(appointmentTime < reminderTime && !id){
-                toast.warning('Thời gian hẹn phải lớn hơn thời gian nhắc hẹn!');
-                setError({
-                    ...error,
-                    reminderTime: true,
-                })
-                return;
-        }
+        // const appointmentTime = dayjs(body.appointmentTime).unix()
+        // const reminderTime = dayjs(body.reminderTime).unix()
+        // if(appointmentTime < reminderTime && !id){
+        //         toast.warning('Thời gian hẹn phải lớn hơn thời gian nhắc hẹn!');
+        //         setError({
+        //             ...error,
+        //             reminderTime: true,
+        //         })
+        //         return;
+        // }
         const dataRef: IPatient = {
             name: body.name,
             gender: body.gender,

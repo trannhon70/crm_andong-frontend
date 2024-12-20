@@ -1,4 +1,4 @@
-import { Button, Dropdown, MenuProps, Popover, TableProps, Tag } from "antd";
+import { Button, Dropdown, Input, MenuProps, Popover, TableProps, Tag } from "antd";
 import moment from "moment";
 import { FC, Fragment, useLayoutEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -24,6 +24,7 @@ import ModalUpload from "./modalUpload";
 import ExportExcel from "../../../components/exportExcel";
 import ImportExcel from "../../../components/ImportExcel";
 import { formatPhoneNumber } from "../../../utils";
+import { LiaEdit } from "react-icons/lia";
 
 
 const scrollProps = {
@@ -45,6 +46,8 @@ const AppointmentRegistrationList: FC = () => {
     const menu = useMenuData();
     const {copyToClipboard} = useClipboard();
     const { t } = useTranslation(['DSDangKyHen']);
+    const [money, setMoney] = useState<number>(0)
+    const [editingId, setEditingId] = useState(null); 
 
     const query = {
         pageSize: pageSize,
@@ -160,26 +163,30 @@ const AppointmentRegistrationList: FC = () => {
         }
     }
 
-    const columns: TableProps<any>['columns'] = [
-        // {
-        //     title: 'STT',
-        //     dataIndex: 'id',
-        //     key: 'id',
-        //     fixed: 'left',
-        //     render(value, record, index) {
-        //         return <Fragment>
-        //             <div className={className(record)} style={{display:"flex", gap:"5px", alignItems:"center" }} >
-        //             {index + 1}
-        //             {
-        //                record.status === 'ĐÃ ĐẾN' ? <FaCheck /> : ''
 
-        //             }
-        //             </div>
-        //         </Fragment>
-        //     },
-        //     width: 50,
-        //     className:''
-        // },
+    const onBlurMoney = async (e : any, value: any) => {
+        const body = {
+            id: value.id,
+            money: e.target.value
+        }
+        try {
+            const result = await patiantAPI.updatePatientMoney(body)
+            if (result.data.statusCode === 1) {
+                toast.success('Cập nhật thành công!')
+                dispatch(getPagingPatient(query))
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const onClickHiden = (value : any) => {
+        setEditingId(value.id);
+        setMoney(value.money)
+    }
+
+    const columns: TableProps<any>['columns'] = [
+      
         {
             title: t("DSDangKyHen:ho_va_ten") ,
             dataIndex: 'name',
@@ -200,8 +207,10 @@ const AppointmentRegistrationList: FC = () => {
             key: 'money',
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
+                const isEditing = editingId === record.id;
                 return {
-                    children: <div className={className(record)} >{value || 0}</div>,
+                    children: <div style={{cursor:"pointer"}} onClick={() => onClickHiden(record)}  className={className(record)} >{!isEditing ? <div className="flex gap-1" >{ value || 0} <LiaEdit size={20} /></div> :  <Input value={money} type="number" onBlur={(e) => onBlurMoney(e,record)
+                    } onChange={(e) => setMoney(Number(e.target.value))} />}</div>,
                     props: { colSpan }
                 }
             },
@@ -367,19 +376,7 @@ const AppointmentRegistrationList: FC = () => {
             },
             width: 100,
         },
-        {
-            title: t("DSDangKyHen:sua_thoi_gian_dang_ky"),
-            dataIndex: 'editregistrationTime',
-            key: 'editregistrationTime',
-            render(value, record, index) {
-                const colSpan = record?.summary === true ? 0 : 1;
-                return {
-                    children: <div className={className(record)} >{moment(value * 1000).format('DD-MM-YYYY HH:mm:ss')}</div  >,
-                    props: { colSpan }
-                }
-            },
-            width: 160,
-        },
+       
         {
             title: t("DSDangKyHen:bac_si") ,
             dataIndex: 'doctor',
