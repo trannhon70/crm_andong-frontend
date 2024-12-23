@@ -1,4 +1,4 @@
-import { Button, Dropdown, Input, MenuProps, Popover, TableProps, Tag } from "antd";
+import { Button, Dropdown, Input, MenuProps, Popover, Select, TableProps, Tag } from "antd";
 import moment from "moment";
 import { FC, Fragment, useLayoutEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -14,7 +14,7 @@ import Loading from "../../../components/loading";
 import NotHospital from "../../../components/notHospital";
 import PopconfirmComponent from "../../../components/popconfirmComponent";
 import TableComponent from "../../../components/tableComponent";
-import { getPagingPatient, setPatient } from "../../../features/patientSlice";
+import { getPagingPatient, setDoctorIdReducer, setPatient, setStatusReducer } from "../../../features/patientSlice";
 import useClipboard from "../../../hooks/useClipboard";
 import useMenuData from "../../../hooks/useMenuData";
 import { AppDispatch, RootState } from "../../../redux/store";
@@ -23,7 +23,7 @@ import ModalSearch from "./modalSearch";
 import ModalUpload from "./modalUpload";
 import ExportExcel from "../../../components/exportExcel";
 import ImportExcel from "../../../components/ImportExcel";
-import { formatPhoneNumber } from "../../../utils";
+import { formatPhoneNumber, STATUS } from "../../../utils";
 import { LiaEdit } from "react-icons/lia";
 
 
@@ -37,7 +37,7 @@ const AppointmentRegistrationList: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const [pageIndex, setPageIndex] = useState<number>(1)
     const [pageSize, setPageSize] = useState<number>(25)
-    const { data, total, loading } = useSelector((state: RootState) => state.patient);
+    const { data, total, loading, doctor } = useSelector((state: RootState) => state.patient);
     const {entities} = useSelector((state: RootState) => state.users)
     const hospitalId = localStorage.getItem('hospitalId')
     let dataFormat: any = []
@@ -384,11 +384,29 @@ const AppointmentRegistrationList: FC = () => {
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
-                    children: <div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>,
+                    children: <div className={className(record)} style={{ textTransform: "uppercase" }} >
+                         <Select
+                            size="small"
+                            placeholder={`--${t("DSDangKyHen:lua_chon")}--`}
+                            showSearch
+                             filterOption={(input, option) =>
+                                typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
+                            }
+                            value={record?.doctorId}
+                            style={{ width: 140 }}
+                            onChange={(e) => handleChangeDoctor(e, record)}
+                            options={doctor.length > 0 && doctor.map((item:any) => {
+                                return {
+                                    value: item.id,
+                                    label: item.name
+                                }
+                            })}
+                        />
+                    </div>,
                     props: { colSpan }
                 }
             },
-            width: 120,
+            width: 160,
         },
         {
             title: t("DSDangKyHen:trang_thai") ,
@@ -410,12 +428,25 @@ const AppointmentRegistrationList: FC = () => {
                 })();
 
                 return {
-                    children,
+                    children : <div>
+                        <Select
+                            size="small"
+                            placeholder={`--${t("DSDangKyHen:lua_chon")}--`}
+                            showSearch
+                             filterOption={(input, option) =>
+                                typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
+                            }
+                            value={record?.status}
+                            style={{ width: 140 }}
+                            onChange={(e) => handleChangeStatusId(e, record)}
+                            options={STATUS()}
+                        />
+                    </div>,
                     props: { colSpan },
                 };
 
             },
-            width: 130,
+            width: 160,
         },
         {
             title:t("DSDangKyHen:nguoi_them") ,
@@ -541,7 +572,33 @@ const AppointmentRegistrationList: FC = () => {
         },
     ];
 
+    const handleChangeStatusId = async (e: any, record: any) => {
+        const body = {
+            patientId: record.id,
+            status: e
+        }
+        dispatch(setStatusReducer(body))
+        const result = await patiantAPI.updatePatientStatus(body)
+        if (result.data.statusCode === 1) {
+            toast.success('Cập nhật thành công!')
+        }else {
+            toast.warning('Cập nhật không thành công!')
+        }
+    }
 
+    const handleChangeDoctor = async (e: any, record: any) =>{
+        const body = {
+            patientId: record.id,
+            doctorId: e
+        }
+        dispatch(setDoctorIdReducer(body))
+        const result = await patiantAPI.updatePatientDoctorId(body)
+        if (result.data.statusCode === 1) {
+            toast.success('Cập nhật thành công!')
+        }else {
+            toast.warning('Cập nhật không thành công!')
+        }
+    }
     const onClickHistory = (id: number) => {
         navige(`/danh-sach-dang-ky-hen/history/${id}`)
     }

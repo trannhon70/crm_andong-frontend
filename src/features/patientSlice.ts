@@ -155,6 +155,29 @@ export const fetchCity = createAsyncThunk(
       setPatient(state, action) {
         state.patient = action.payload;
       },
+      setDoctorIdReducer(state, action) {
+        state.data = state.data.map((item: any) => {
+          if (item.id === action.payload.patientId) {
+            return {
+              ...item,
+              doctorId: action.payload.doctorId,
+            };
+          }
+          return item;
+        });
+      },
+
+      setStatusReducer(state, action) {
+        state.data = state.data.map((item: any) => {
+          if (item.id === action.payload.patientId) {
+            return {
+              ...item,
+              status: action.payload.status,
+            };
+          }
+          return item;
+        });
+      },
     },
     extraReducers: (builder) => {
       builder.addCase(getPagingPatient.fulfilled, (state, action) => {
@@ -230,5 +253,5 @@ export const fetchCity = createAsyncThunk(
     },
   });
 
-  export const { setPatient } = patientSlice.actions;
+  export const { setPatient, setDoctorIdReducer, setStatusReducer } = patientSlice.actions;
   export const patientReducer = patientSlice.reducer;

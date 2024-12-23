@@ -26,7 +26,9 @@ export const patiantAPI = {
     getThongkeTheoBacSi,
     getThongkeTheoDichvuKhachHang,
     importFileExcel,
-    updatePatientMoney
+    updatePatientMoney,
+    updatePatientDoctorId,
+    updatePatientStatus
 }
 
 function createPatiant(body : IPatient) {
@@ -136,4 +138,12 @@ function importFileExcel(body : any) {
 
 function updatePatientMoney(body : any) {
     return instance.post(`/patient/update-patient-money`,body)
+}
+
+function updatePatientDoctorId(body : any) {
+    return instance.post(`/patient/update-patient-doctorId`,body)
+}
+
+function updatePatientStatus(body : any) {
+    return instance.post(`/patient/update-patient-status`,body)
 }
