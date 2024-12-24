@@ -25,6 +25,7 @@ import ExportExcel from "../../../components/exportExcel";
 import ImportExcel from "../../../components/ImportExcel";
 import { formatPhoneNumber, STATUS } from "../../../utils";
 import { LiaEdit } from "react-icons/lia";
+import { useCheckRoleLeTan, useCheckRoleTuVan } from "../../../hooks/useCheckRole";
 
 
 const scrollProps = {
@@ -48,7 +49,9 @@ const AppointmentRegistrationList: FC = () => {
     const { t } = useTranslation(['DSDangKyHen']);
     const [money, setMoney] = useState<number>(0)
     const [editingId, setEditingId] = useState(null); 
-
+    const checkRoleTuVan = useCheckRoleTuVan();
+    const checkRoleLeTan = useCheckRoleLeTan();
+    
     const query = {
         pageSize: pageSize,
         pageIndex: pageIndex,
@@ -223,7 +226,7 @@ const AppointmentRegistrationList: FC = () => {
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
-                    children: <Tag style={{ textTransform: "uppercase" }} color="processing" >{value}</Tag>,
+                    children: <Tag style={{ textTransform: "capitalize" }} color="processing" >{value}</Tag>,
                     props: { colSpan }
                 }
             },
@@ -275,7 +278,7 @@ const AppointmentRegistrationList: FC = () => {
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
-                    children: <div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>,
+                    children: <div className={className(record)} style={{ textTransform: "capitalize" }} >{value?.name}</div>,
                     props: { colSpan }
                 }
             },
@@ -288,7 +291,7 @@ const AppointmentRegistrationList: FC = () => {
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
-                    children: <div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>,
+                    children: <div className={className(record)} style={{ textTransform: "capitalize" }} >{value?.name}</div>,
                     props: { colSpan }
                 }
             },
@@ -301,7 +304,7 @@ const AppointmentRegistrationList: FC = () => {
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
-                    children: <div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>,
+                    children: <div className={className(record)} style={{ textTransform: "capitalize" }} >{value?.name}</div>,
                     props: { colSpan }
                 }
             },
@@ -314,7 +317,7 @@ const AppointmentRegistrationList: FC = () => {
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
-                    children: <div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>,
+                    children: <div className={className(record)} style={{ textTransform: "capitalize" }} >{value?.name}</div>,
                     props: { colSpan }
                 }
             },
@@ -327,7 +330,7 @@ const AppointmentRegistrationList: FC = () => {
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
-                    children: <div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.name}</div>,
+                    children: <div className={className(record)} style={{ textTransform: "capitalize" }} >{value?.name}</div>,
                     props: { colSpan }
                 }
             },
@@ -382,26 +385,33 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'doctor',
             key: 'doctor',
             render(value, record, index) {
+                
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
-                    children: <div className={className(record)} style={{ textTransform: "uppercase" }} >
-                         <Select
-                            size="small"
-                            placeholder={`--${t("DSDangKyHen:lua_chon")}--`}
-                            showSearch
-                             filterOption={(input, option) =>
-                                typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
-                            }
-                            value={record?.doctorId}
-                            style={{ width: 140 }}
-                            onChange={(e) => handleChangeDoctor(e, record)}
-                            options={doctor.length > 0 && doctor.map((item:any) => {
-                                return {
-                                    value: item.id,
-                                    label: item.name
+                    children: <div className={className(record)} style={{ cursor:'pointer' }} >
+                        {(()=>{
+                            if (menu?.[1]?.ds?.action_DSDKH?.doctor === true) {
+                                return <Select
+                                size="small"
+                                placeholder={`--${t("DSDangKyHen:lua_chon")}--`}
+                                showSearch
+                                 filterOption={(input, option) =>
+                                    typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                                 }
-                            })}
-                        />
+                                value={record?.doctorId}
+                                style={{ width: 140 }}
+                                onChange={(e) => handleChangeDoctor(e, record)}
+                                options={doctor.length > 0 && doctor.map((item:any) => {
+                                    return {
+                                        value: item.id,
+                                        label: item.name
+                                    }
+                                })}
+                            />
+                            }
+                            return value?.name
+                        })()}
+                         
                     </div>,
                     props: { colSpan }
                 }
@@ -429,18 +439,32 @@ const AppointmentRegistrationList: FC = () => {
 
                 return {
                     children : <div>
-                        <Select
-                            size="small"
-                            placeholder={`--${t("DSDangKyHen:lua_chon")}--`}
-                            showSearch
-                             filterOption={(input, option) =>
-                                typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
-                            }
-                            value={record?.status}
-                            style={{ width: 140 }}
-                            onChange={(e) => handleChangeStatusId(e, record)}
-                            options={STATUS()}
-                        />
+                        {
+                            (() => {
+                                if (menu?.[1]?.ds?.action_DSDKH?.status === true) {
+                                    if(value === 'ĐÃ ĐẾN' && checkRoleLeTan === true){
+                                        return children
+                                    }
+                                    if(value === 'ĐÃ ĐẾN' && checkRoleTuVan === true){
+                                        return children
+                                    }
+                                    return <Select
+                                    size="small"
+                                    placeholder={`--${t("DSDangKyHen:lua_chon")}--`}
+                                    showSearch
+                                     filterOption={(input, option) =>
+                                        typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
+                                    }
+                                    value={record?.status || null}
+                                    style={{ width: 140 }}
+                                    onChange={(e) => handleChangeStatusId(e, record)}
+                                    options={STATUS()}
+                                />;
+                                }
+                                return children;
+                            })()
+                        }
+                        
                     </div>,
                     props: { colSpan },
                 };
@@ -455,7 +479,7 @@ const AppointmentRegistrationList: FC = () => {
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
-                    children: <div className={className(record)} style={{ textTransform: "uppercase" }} >{value?.fullName}</div>,
+                    children: <div className={className(record)} style={{ textTransform: "capitalize" }} >{value?.fullName}</div>,
                     props: { colSpan }
                 }
             },

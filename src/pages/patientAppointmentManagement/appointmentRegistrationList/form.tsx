@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 import useMenuData from "../../../hooks/useMenuData";
+import { useCheckRoleLeTan, useCheckRoleTuVan } from "../../../hooks/useCheckRole";
 type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
 interface IProps {
     formItemLayout: any;
@@ -25,16 +26,11 @@ interface IProps {
 const FormCreateUser: FC<IProps> = (props) => {
     const { formItemLayout, tailFormItemLayout, form, onFinish, patient, handleChangeDepartment, handleChangeCity, id, onOk, error, setError, onClickPrev } = props
     const {t } = useTranslation(['DSDangKyHen'])
-    const { entities } = useSelector((state: RootState) => state.users);
+    const checkRoleTuVan = useCheckRoleTuVan();
+    const checkRoleLeTan = useCheckRoleLeTan();
     const menu = useMenuData();
 
-    const checkRoleLeTan = () => {
-        return entities?.role?.id === 3
-    }
-
-    const checkRoleTuVan = () => {
-        return entities?.role?.id === 2
-    }
+ 
 
     return <Fragment>
         <Form
@@ -60,7 +56,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                     { required: true, message: t("DSDangKyHen:gioi_tinh_err"), }
                 ]}>
                     <Select
-                        disabled={checkRoleLeTan()}
+                        disabled={checkRoleLeTan}
                         showSearch
                         placeholder={t("DSDangKyHen:chon_gioi_tinh")}
                         filterOption={(input, option) =>
@@ -73,11 +69,11 @@ const FormCreateUser: FC<IProps> = (props) => {
                 <Form.Item name="yearOld" label={t("DSDangKyHen:nhap_tuoi")} rules={[
                     { required: true, message: t("DSDangKyHen:tuoi_err"), }
                 ]}>
-                    <InputNumber disabled={checkRoleLeTan()} style={{ width: '100%' }} />
+                    <InputNumber disabled={checkRoleLeTan} style={{ width: '100%' }} />
 
                 </Form.Item>
                 {
-                    !checkRoleLeTan() && <Form.Item name="phone" label={t("DSDangKyHen:nhap_so_dien_thoai")} rules={[
+                    !checkRoleLeTan && <Form.Item name="phone" label={t("DSDangKyHen:nhap_so_dien_thoai")} rules={[
                         { required: true, message:t("DSDangKyHen:so_dien_thoai_err") , }
                     ]}>
                         <Input 
@@ -91,7 +87,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                 }
                
                 {
-                    !checkRoleLeTan() && <Form.Item name="content" label={t("DSDangKyHen:noi_dung_tu_van")} >
+                    !checkRoleLeTan && <Form.Item name="content" label={t("DSDangKyHen:noi_dung_tu_van")} >
                         <Input.TextArea rows={3} />
                     </Form.Item>
                 }
@@ -100,7 +96,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                     { required: true, message: t("DSDangKyHen:khoa_err") , }
                 ]}>
                     <Select
-                        disabled={checkRoleLeTan()} 
+                        disabled={checkRoleLeTan} 
                         showSearch
                         placeholder={`--${t("DSDangKyHen:chon_khoa")}--`}
                         filterOption={(input, option) =>
@@ -121,7 +117,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                     { required: true, message: t("DSDangKyHen:benh_err") , }
                 ]}>
                     <Select
-                        disabled={checkRoleLeTan()} 
+                        disabled={checkRoleLeTan} 
                         showSearch
                         placeholder={`--${t("DSDangKyHen:chon_benh")}--`}
                         filterOption={(input, option) =>
@@ -140,7 +136,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                     { required: true, message:t("DSDangKyHen:nguon_den_err") , }
                 ]}>
                     <Select
-                        disabled={checkRoleLeTan()}
+                        disabled={checkRoleLeTan}
                         showSearch
                         placeholder={`--${t("DSDangKyHen:nguon_den")}--`}
                         filterOption={(input, option) =>
@@ -159,7 +155,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                     { required: true, message: t("DSDangKyHen:tinh/TP_err"), }
                 ]}>
                     <Select
-                        disabled={checkRoleLeTan()}
+                        disabled={checkRoleLeTan}
                         showSearch
                         placeholder={`--${t("DSDangKyHen:chon_tinh/tp")}--`}
                         filterOption={(input, option) =>
@@ -177,7 +173,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                 </Form.Item>
                 <Form.Item name="districtId" label={t("DSDangKyHen:quan/huyen")} >
                     <Select
-                        disabled={checkRoleLeTan()}
+                        disabled={checkRoleLeTan}
                         showSearch
                         placeholder={`--${t("DSDangKyHen:chon_quan/huyen")}--`}
                         filterOption={(input, option) =>
@@ -195,10 +191,10 @@ const FormCreateUser: FC<IProps> = (props) => {
                 <Form.Item name="code" label={t("DSDangKyHen:ma_chuyen_gia")} rules={[
                     { required: true, message:t("DSDangKyHen:ma_chuyen_gia_err") , }
                 ]}>
-                    <Input disabled={checkRoleLeTan()} />
+                    <Input disabled={checkRoleLeTan} />
                 </Form.Item>
                 {
-                    id && !checkRoleLeTan() ? <Form.List name="treatment">
+                    id && !checkRoleLeTan ? <Form.List name="treatment">
                         {(fields, { add, remove }, { errors }) => (
                             <>
 
@@ -249,7 +245,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                     { required: true, message:t("DSDangKyHen:thoi_gian_hen_err") , }
                 ]}>
                     <DatePicker
-                        disabled={checkRoleLeTan()}
+                        disabled={checkRoleLeTan}
                         placeholder={`--${t("DSDangKyHen:chon_thoi_gian_hen")}--`}
                         showTime
                         onChange={(value, dateString) => {
@@ -285,14 +281,14 @@ const FormCreateUser: FC<IProps> = (props) => {
 
                 </Form.Item>
                 {
-                    !checkRoleLeTan() &&  <Form.Item name="note" label={t("DSDangKyHen:ghi_chu")} >
+                    !checkRoleLeTan &&  <Form.Item name="note" label={t("DSDangKyHen:ghi_chu")} >
                         <Input.TextArea rows={3} />
                     </Form.Item>
                 }
 
                 <div className="text-xl font-bold text-slate-600 mb-3 " > {t("DSDangKyHen:den_kham_chua")}  :   </div>
                 {/* {
-                    !checkRoleLeTan() && <Form.Item name="editregistrationTime" label={t("DSDangKyHen:sua_thoi_gian_dang_ky")} >
+                    !checkRoleLeTan && <Form.Item name="editregistrationTime" label={t("DSDangKyHen:sua_thoi_gian_dang_ky")} >
                     <DatePicker
                         placeholder={t("DSDangKyHen:chon_thoi_gian_sua_doi")}
                         showTime
@@ -317,13 +313,13 @@ const FormCreateUser: FC<IProps> = (props) => {
 
                 </Form.Item>
                 {
-                    !checkRoleTuVan() &&<Form.Item label={t("DSDangKyHen:luu_y")}>
+                    !checkRoleTuVan &&<Form.Item label={t("DSDangKyHen:luu_y")}>
                     <Alert message={t("DSDangKyHen:khi_benh_nhan_toi_kham_moi_chon_bac_si_tiep_benh")}type="warning" />
                 </Form.Item>
                 }
                 
                 {
-                    !checkRoleTuVan() && <Form.Item name="doctorId" label={t("DSDangKyHen:bac_si_tiep_benh")} >
+                    !checkRoleTuVan && <Form.Item name="doctorId" label={t("DSDangKyHen:bac_si_tiep_benh")} >
                     <Select
                         showSearch
                         placeholder={`--${t("DSDangKyHen:lua_chon")}--`}
@@ -342,7 +338,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                 }
                 
                 {
-                   menu?.[1].ds?.action_DSDKH?.money === true && id && !checkRoleLeTan() ? <Form.Item name="money" label={t("DSDangKyHen:chi_phi")} >
+                   menu?.[1].ds?.action_DSDKH?.money === true && id && !checkRoleLeTan ? <Form.Item name="money" label={t("DSDangKyHen:chi_phi")} >
                     <InputNumber className="w-[100%]" />
 
                 </Form.Item> : ''
@@ -358,7 +354,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                     </> : ''
                 }
                 {
-                    id && !checkRoleLeTan() ? <>
+                    id && !checkRoleLeTan ? <>
                         <div className="text-xl font-bold text-slate-600 mb-3 " >
                            {t("DSDangKyHen:ho_so_tham_kham_qua_dien_thoại")}  :   </div>
 

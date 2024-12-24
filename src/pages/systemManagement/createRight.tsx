@@ -36,7 +36,9 @@ const CreateRight: FC = () => {
                     viewAllData: false,
                     phone: false ,
                     excel: false,
-                    money: false
+                    money: false,
+                    doctor: false,
+                    status: false
                 },
                 CHTKBN: false,
                 LLTVBN: false,
@@ -377,6 +379,8 @@ const CreateRight: FC = () => {
             updatedForm[1].ds.action_DSDKH.phone = checked; 
             updatedForm[1].ds.action_DSDKH.excel = checked;
             updatedForm[1].ds.action_DSDKH.money = checked;  
+            updatedForm[1].ds.action_DSDKH.doctor = checked;  
+            updatedForm[1].ds.action_DSDKH.status = checked;  
             return updatedForm; 
         });
     }
@@ -395,6 +399,8 @@ const CreateRight: FC = () => {
             updatedForm[1].ds.action_DSDKH.phone = checked; 
             updatedForm[1].ds.action_DSDKH.excel = checked;
             updatedForm[1].ds.action_DSDKH.money = checked;  
+            updatedForm[1].ds.action_DSDKH.doctor = checked;  
+            updatedForm[1].ds.action_DSDKH.status = checked;  
             return updatedForm; 
         });
 
@@ -484,6 +490,28 @@ const CreateRight: FC = () => {
             updatedForm[1].QLBN = true;
             updatedForm[1].ds.DSDKH = true;
             updatedForm[1].ds.action_DSDKH.money = checked; 
+            return updatedForm; 
+        });
+    }
+
+    const onChangeDSDKHDoctor: CheckboxProps['onChange'] = (e) => {
+        const checked = e.target.checked; 
+        setForm((prevForm: any[]) => {
+            const updatedForm = [...prevForm]; 
+            updatedForm[1].QLBN = true;
+            updatedForm[1].ds.DSDKH = true;
+            updatedForm[1].ds.action_DSDKH.doctor = checked; 
+            return updatedForm; 
+        });
+    }
+
+    const onChangeDSDKHStatus: CheckboxProps['onChange'] = (e) => {
+        const checked = e.target.checked; 
+        setForm((prevForm: any[]) => {
+            const updatedForm = [...prevForm]; 
+            updatedForm[1].QLBN = true;
+            updatedForm[1].ds.DSDKH = true;
+            updatedForm[1].ds.action_DSDKH.status = checked; 
             return updatedForm; 
         });
     }
@@ -1463,7 +1491,9 @@ const CreateRight: FC = () => {
                         viewAllData: true,
                         phone: true ,
                         excel: true,
-                        money: true
+                        money: true,
+                        doctor: true,
+                        status: true
                     },
                     CHTKBN: true,
                     LLTVBN: true,
@@ -1625,7 +1655,9 @@ const CreateRight: FC = () => {
                         viewAllData: false,
                         phone: false ,
                         excel: false,
-                        money: false
+                        money: false,
+                        doctor: false,
+                        status: false
                     },
                     CHTKBN: false,
                     LLTVBN: false,
@@ -1830,6 +1862,8 @@ const CreateRight: FC = () => {
                         <Checkbox onChange={onChangeDSDKHViewPhone} checked={form[1].ds.action_DSDKH.phone}>{t("QLHT:xem_SDT")}</Checkbox>
                         <Checkbox onChange={onChangeDSDKHExcel} checked={form[1].ds.action_DSDKH.excel}>{t("QLHT:nhap_excel")}</Checkbox>
                         <Checkbox onChange={onChangeDSDKHMoney} checked={form[1].ds.action_DSDKH.money}>Chi phí</Checkbox>
+                        <Checkbox onChange={onChangeDSDKHDoctor} checked={form[1].ds.action_DSDKH.doctor}>Cập nhật bác sĩ</Checkbox>
+                        <Checkbox onChange={onChangeDSDKHStatus} checked={form[1].ds.action_DSDKH.status}>Cập nhật trạng thái</Checkbox>
                     </td>
                 </tr>
                 {/* <tr className="bg-[#f2f2f2]">
