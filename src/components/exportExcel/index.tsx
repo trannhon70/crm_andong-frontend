@@ -26,7 +26,7 @@ const ExportExcel: FC<IProps> = (props) => {
 
     return (
         <Fragment>
-            <Button onClick={() => exportToCSV(headers, csvData, fileName)}>Excel mẫu</Button>
+            <Button size="small" onClick={() => exportToCSV(headers, csvData, fileName)}>Excel mẫu</Button>
         </Fragment>
     );
 }

@@ -1,12 +1,13 @@
-import { Button, Dropdown, Input, MenuProps, Popover, Select, TableProps, Tag } from "antd";
+import { Dropdown, Input, MenuProps, Popover, Select, TableProps, Tag } from "antd";
 import moment from "moment";
-import { FC, Fragment, useLayoutEffect, useState } from "react";
+import { FC, Fragment, useEffect, useLayoutEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FaCheck, FaFile, FaHistory } from "react-icons/fa";
 import { HiPencilSquare, HiStar } from "react-icons/hi2";
 import { IoSettingsSharp } from "react-icons/io5";
+import { LiaEdit } from "react-icons/lia";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { patiantAPI } from "../../../apis/patient.api";
 import BreadcrumbComponent from "../../../components/breadcrumbComponent";
@@ -14,18 +15,15 @@ import Loading from "../../../components/loading";
 import NotHospital from "../../../components/notHospital";
 import PopconfirmComponent from "../../../components/popconfirmComponent";
 import TableComponent from "../../../components/tableComponent";
-import { getPagingPatient, setDoctorIdReducer, setPatient, setStatusReducer } from "../../../features/patientSlice";
+import { getPagingPatient, setDoctorIdReducer, setStatusReducer } from "../../../features/patientSlice";
+import { useCheckRoleLeTan, useCheckRoleTuVan } from "../../../hooks/useCheckRole";
 import useClipboard from "../../../hooks/useClipboard";
 import useMenuData from "../../../hooks/useMenuData";
 import { AppDispatch, RootState } from "../../../redux/store";
-import ComponentThongKe from "./componentThongKe";
-import ModalSearch from "./modalSearch";
-import ModalUpload from "./modalUpload";
-import ExportExcel from "../../../components/exportExcel";
-import ImportExcel from "../../../components/ImportExcel";
 import { formatPhoneNumber, STATUS } from "../../../utils";
-import { LiaEdit } from "react-icons/lia";
-import { useCheckRoleLeTan, useCheckRoleTuVan } from "../../../hooks/useCheckRole";
+import ComponentThongKe from "./componentThongKe";
+import FormSearch from "./formSearch";
+import ModalUpload from "./modalUpload";
 
 
 const scrollProps = {
@@ -39,42 +37,49 @@ const AppointmentRegistrationList: FC = () => {
     const [pageIndex, setPageIndex] = useState<number>(1)
     const [pageSize, setPageSize] = useState<number>(25)
     const { data, total, loading, doctor } = useSelector((state: RootState) => state.patient);
-    const {entities} = useSelector((state: RootState) => state.users)
+    const { entities } = useSelector((state: RootState) => state.users)
     const hospitalId = localStorage.getItem('hospitalId')
     let dataFormat: any = []
-    const location = useLocation();
-    const queryParams = new URLSearchParams(location.search);
     const menu = useMenuData();
-    const {copyToClipboard} = useClipboard();
+    const { copyToClipboard } = useClipboard();
     const { t } = useTranslation(['DSDangKyHen']);
     const [money, setMoney] = useState<number>(0)
-    const [editingId, setEditingId] = useState(null); 
+    const [editingId, setEditingId] = useState(null);
     const checkRoleTuVan = useCheckRoleTuVan();
     const checkRoleLeTan = useCheckRoleLeTan();
-    
-    const query = {
+
+    const [query, setQuery] = useState<any>( {
         pageSize: pageSize,
         pageIndex: pageIndex,
         hospitalId: Number(hospitalId),
-        search: queryParams.get('search') || '',
-        doctorId: Number(queryParams.get('doctorId')) || '',
-        status: queryParams.get('status') || '',
-        departmentId: Number(queryParams.get('departmentId')) || '',
-        diseasesId: Number(queryParams.get('diseasesId')) || '',
-        mediaId: Number(queryParams.get('mediaId')) || '',
-        created_at: queryParams.get('created_at'),
-        appointmentTime: queryParams.get('appointmentTime'),
-        userId: menu?.[1].ds?.action_DSDKH.viewAllData === true ? '' : entities.id
-    };
-    
-    
+        search:  '',
+        doctorId:  '',
+        status:  '',
+        departmentId: '',
+        diseasesId:  '',
+        mediaId:'',
+        created_at: '',
+        appointmentTime: '',
+        userId: ''
+    }
+)
+
     useLayoutEffect(() => {
-       if( hospitalId && menu?.[1].ds?.action_DSDKH.viewAllData !== undefined){
-            dispatch(getPagingPatient(query))
-       }
-        
-    }, [dispatch, pageSize, pageIndex, hospitalId, menu?.[1].ds?.action_DSDKH.viewAllData, entities.id, location.search])
-   
+        if (hospitalId && menu?.[1].ds?.action_DSDKH.viewAllData !== undefined) {
+            const updatedQuery = {
+                ...query,
+                userId: menu[1].ds.action_DSDKH.viewAllData ? '' : entities.id,
+                pageSize: pageSize,
+                pageIndex: pageIndex,
+                hospitalId:hospitalId
+            };
+    
+            setQuery(updatedQuery);
+            dispatch(getPagingPatient(updatedQuery))
+        }
+
+    }, [dispatch, pageSize, pageIndex, hospitalId, menu?.[1].ds?.action_DSDKH.viewAllData, entities.id])
+
     if (data.length > 0) {
         const formatDataWithSummary = (data: any) => {
             const formattedData: any = [];
@@ -115,7 +120,7 @@ const AppointmentRegistrationList: FC = () => {
             type: 'separator',
         },
         {
-            title: t("DSDangKyHen:danh_sach_dang_ky_hen") ,
+            title: t("DSDangKyHen:danh_sach_dang_ky_hen"),
         },
 
     ];
@@ -156,8 +161,7 @@ const AppointmentRegistrationList: FC = () => {
         }
     }
 
-
-    const onBlurMoney = async (e : any, value: any) => {
+    const onBlurMoney = async (e: any, value: any) => {
         const body = {
             id: value.id,
             money: e.target.value
@@ -173,15 +177,15 @@ const AppointmentRegistrationList: FC = () => {
         }
     }
 
-    const onClickHiden = (value : any) => {
+    const onClickHiden = (value: any) => {
         setEditingId(value.id);
         setMoney(value.money)
     }
 
     const columns: TableProps<any>['columns'] = [
-      
+
         {
-            title: t("DSDangKyHen:ho_va_ten") ,
+            title: t("DSDangKyHen:ho_va_ten"),
             dataIndex: 'name',
             key: 'name',
             fixed: 'left',
@@ -195,22 +199,22 @@ const AppointmentRegistrationList: FC = () => {
             },
         },
         {
-            title:t("DSDangKyHen:chi_phi") ,
+            title: t("DSDangKyHen:chi_phi"),
             dataIndex: 'money',
             key: 'money',
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 const isEditing = editingId === record.id;
                 return {
-                    children: menu?.[1].ds?.action_DSDKH?.money === true ? <div style={{cursor:"pointer"}} onClick={() => onClickHiden(record)}  className={className(record)} >{!isEditing ? <div className="flex gap-1" >{ value || 0} <LiaEdit size={20} /></div> :  <Input value={money} type="number" onBlur={(e) => onBlurMoney(e,record)
-                    } onChange={(e) => setMoney(Number(e.target.value))} />}</div>: '-',
+                    children: menu?.[1].ds?.action_DSDKH?.money === true ? <div style={{ cursor: "pointer" }} onClick={() => onClickHiden(record)} className={className(record)} >{!isEditing ? <div className="flex gap-1" >{value || 0} <LiaEdit size={20} /></div> : <Input value={money} type="number" onBlur={(e) => onBlurMoney(e, record)
+                    } onChange={(e) => setMoney(Number(e.target.value))} />}</div> : '-',
                     props: { colSpan }
                 }
             },
             width: 100,
         },
         {
-            title:t("DSDangKyHen:gioi_tinh") ,
+            title: t("DSDangKyHen:gioi_tinh"),
             dataIndex: 'gender',
             key: 'gender',
             render(value, record, index) {
@@ -223,7 +227,7 @@ const AppointmentRegistrationList: FC = () => {
             width: 100,
         },
         {
-            title: t("DSDangKyHen:tuoi") ,
+            title: t("DSDangKyHen:tuoi"),
             dataIndex: 'yearOld',
             key: 'yearOld',
             width: 50,
@@ -236,20 +240,20 @@ const AppointmentRegistrationList: FC = () => {
             },
         },
         {
-            title: t("DSDangKyHen:so_dien_thoai") ,
+            title: t("DSDangKyHen:so_dien_thoai"),
             dataIndex: 'phone',
             key: 'phone',
             width: 120,
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
-                    children: <div className={className(record)} >{ menu?.[1].ds?.action_DSDKH.phone ? value : formatPhoneNumber(value)}</div>,
+                    children: <div className={className(record)} >{menu?.[1].ds?.action_DSDKH.phone ? value : formatPhoneNumber(value)}</div>,
                     props: { colSpan }
                 }
             },
         },
         {
-            title:t("DSDangKyHen:ma_chuyen_gia") ,
+            title: t("DSDangKyHen:ma_chuyen_gia"),
             dataIndex: 'code',
             key: 'code',
             width: 120,
@@ -288,7 +292,7 @@ const AppointmentRegistrationList: FC = () => {
             width: 250,
         },
         {
-            title:t("DSDangKyHen:nguon_den") ,
+            title: t("DSDangKyHen:nguon_den"),
             dataIndex: 'media',
             key: 'media',
             render(value, record, index) {
@@ -301,7 +305,7 @@ const AppointmentRegistrationList: FC = () => {
             width: 120,
         },
         {
-            title: t("DSDangKyHen:tinh/TP") ,
+            title: t("DSDangKyHen:tinh/TP"),
             dataIndex: 'city',
             key: 'city',
             render(value, record, index) {
@@ -329,7 +333,7 @@ const AppointmentRegistrationList: FC = () => {
 
 
         {
-            title:t("DSDangKyHen:thoi_gian_hen") ,
+            title: t("DSDangKyHen:thoi_gian_hen"),
             key: 'appointmentTime',
             dataIndex: 'appointmentTime',
             render(value, record, index) {
@@ -342,7 +346,7 @@ const AppointmentRegistrationList: FC = () => {
             width: 150,
         },
         {
-            title:t("DSDangKyHen:thoi_gian_nhac_hen"),
+            title: t("DSDangKyHen:thoi_gian_nhac_hen"),
             key: 'reminderTime',
             dataIndex: 'reminderTime',
             width: 150,
@@ -355,53 +359,53 @@ const AppointmentRegistrationList: FC = () => {
             },
         },
         {
-            title: t("DSDangKyHen:ghi_chu") ,
+            title: t("DSDangKyHen:ghi_chu"),
             dataIndex: 'note',
             key: 'note',
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
-                    children: <div className={className(record)}  title={value} // Hiển thị tooltip khi di chuột
-                    onClick={() => copyToClipboard(value)}
-                    style={{ cursor: "pointer", textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden", textDecoration: "underline", }} >{value}</div>,
+                    children: <div className={className(record)} title={value} // Hiển thị tooltip khi di chuột
+                        onClick={() => copyToClipboard(value)}
+                        style={{ cursor: "pointer", textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden", textDecoration: "underline", }} >{value}</div>,
                     props: { colSpan }
                 }
             },
             width: 100,
         },
-       
+
         {
-            title: t("DSDangKyHen:bac_si") ,
+            title: t("DSDangKyHen:bac_si"),
             dataIndex: 'doctor',
             key: 'doctor',
             render(value, record, index) {
-                
+
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
-                    children: <div className={className(record)} style={{ cursor:'pointer' }} >
-                        {(()=>{
+                    children: <div className={className(record)} style={{ cursor: 'pointer' }} >
+                        {(() => {
                             if (menu?.[1]?.ds?.action_DSDKH?.doctor === true) {
                                 return <Select
-                                size="small"
-                                placeholder={`--${t("DSDangKyHen:lua_chon")}--`}
-                                showSearch
-                                 filterOption={(input, option) =>
-                                    typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
-                                }
-                                value={record?.doctorId}
-                                style={{ width: 140 }}
-                                onChange={(e) => handleChangeDoctor(e, record)}
-                                options={doctor.length > 0 && doctor.map((item:any) => {
-                                    return {
-                                        value: item.id,
-                                        label: item.name
+                                    size="small"
+                                    placeholder={`--${t("DSDangKyHen:lua_chon")}--`}
+                                    showSearch
+                                    filterOption={(input, option) =>
+                                        typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                                     }
-                                })}
-                            />
+                                    value={record?.doctorId}
+                                    style={{ width: 140 }}
+                                    onChange={(e) => handleChangeDoctor(e, record)}
+                                    options={doctor.length > 0 && doctor.map((item: any) => {
+                                        return {
+                                            value: item.id,
+                                            label: item.name
+                                        }
+                                    })}
+                                />
                             }
                             return value?.name
                         })()}
-                         
+
                     </div>,
                     props: { colSpan }
                 }
@@ -409,7 +413,7 @@ const AppointmentRegistrationList: FC = () => {
             width: 160,
         },
         {
-            title: t("DSDangKyHen:trang_thai") ,
+            title: t("DSDangKyHen:trang_thai"),
             dataIndex: 'status',
             key: 'status',
             render(value, record, index) {
@@ -428,33 +432,33 @@ const AppointmentRegistrationList: FC = () => {
                 })();
 
                 return {
-                    children : <div>
+                    children: <div>
                         {
                             (() => {
                                 if (menu?.[1]?.ds?.action_DSDKH?.status === true) {
-                                    if(value === 'ĐÃ ĐẾN' && checkRoleLeTan === true){
+                                    if (value === 'ĐÃ ĐẾN' && checkRoleLeTan === true) {
                                         return children
                                     }
-                                    if(value === 'ĐÃ ĐẾN' && checkRoleTuVan === true){
+                                    if (value === 'ĐÃ ĐẾN' && checkRoleTuVan === true) {
                                         return children
                                     }
                                     return <Select
-                                    size="small"
-                                    placeholder={`--${t("DSDangKyHen:lua_chon")}--`}
-                                    showSearch
-                                     filterOption={(input, option) =>
-                                        typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
-                                    }
-                                    value={record?.status || null}
-                                    style={{ width: 140 }}
-                                    onChange={(e) => handleChangeStatusId(e, record)}
-                                    options={STATUS()}
-                                />;
+                                        size="small"
+                                        placeholder={`--${t("DSDangKyHen:lua_chon")}--`}
+                                        showSearch
+                                        filterOption={(input, option) =>
+                                            typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
+                                        }
+                                        value={record?.status || null}
+                                        style={{ width: 140 }}
+                                        onChange={(e) => handleChangeStatusId(e, record)}
+                                        options={STATUS()}
+                                    />;
                                 }
                                 return children;
                             })()
                         }
-                        
+
                     </div>,
                     props: { colSpan },
                 };
@@ -463,7 +467,7 @@ const AppointmentRegistrationList: FC = () => {
             width: 160,
         },
         {
-            title:t("DSDangKyHen:nguoi_them") ,
+            title: t("DSDangKyHen:nguoi_them"),
             dataIndex: 'user',
             key: 'user',
             render(value, record, index) {
@@ -476,7 +480,7 @@ const AppointmentRegistrationList: FC = () => {
             width: 120,
         },
         {
-            title:t("DSDangKyHen:ho_so_tham_kham") ,
+            title: t("DSDangKyHen:ho_so_tham_kham"),
             dataIndex: 'chatPatients',
             key: 'chatPatients',
             render(value, record, index) {
@@ -595,12 +599,12 @@ const AppointmentRegistrationList: FC = () => {
         const result = await patiantAPI.updatePatientStatus(body)
         if (result.data.statusCode === 1) {
             toast.success('Cập nhật thành công!')
-        }else {
+        } else {
             toast.warning('Cập nhật không thành công!')
         }
     }
 
-    const handleChangeDoctor = async (e: any, record: any) =>{
+    const handleChangeDoctor = async (e: any, record: any) => {
         const body = {
             patientId: record.id,
             doctorId: e
@@ -609,7 +613,7 @@ const AppointmentRegistrationList: FC = () => {
         const result = await patiantAPI.updatePatientDoctorId(body)
         if (result.data.statusCode === 1) {
             toast.success('Cập nhật thành công!')
-        }else {
+        } else {
             toast.warning('Cập nhật không thành công!')
         }
     }
@@ -621,10 +625,7 @@ const AppointmentRegistrationList: FC = () => {
         navige(`/danh-sach-dang-ky-hen/view/${id}`);
     }
 
-    const onClickCreate = () => {
-        navige('/danh-sach-dang-ky-hen/them-moi');
-        dispatch(setPatient({}))
-    }
+
 
     const onClickEdit = (id: number) => {
         navige(`/danh-sach-dang-ky-hen/cap-nhat/${id}`);
@@ -649,7 +650,7 @@ const AppointmentRegistrationList: FC = () => {
     }
 
     return <Fragment>
-        
+
         {
             hospitalId ?
                 <Fragment>
@@ -657,28 +658,10 @@ const AppointmentRegistrationList: FC = () => {
                         <BreadcrumbComponent items={dataBreadcrumb} />
                         <ComponentThongKe />
                     </div>
-                    
-                    <div className='mt-1 pb-2 flex justify-between gap-2 ' >
-                        <div>
-                            <ModalSearch setPageIndex={setPageIndex} />
-                        </div>
+                    <div style={{ flexWrap: "wrap" }} className='mt-1 pb-1  ' >
+                        <FormSearch query={query} setQuery={setQuery} setPageIndex={setPageIndex} pageSize={pageSize} pageIndex={pageIndex} />
+                        {/* <ModalSearch setPageIndex={setPageIndex} /> */}
                         
-                        <div className="flex gap-3 justify-end ">
-                            {
-                                 menu?.[1].ds?.action_DSDKH.excel === true ? <div className="flex gap-2 " >
-                                    <ImportExcel getPagingPatient = {getPagingPatient(query)} />
-                                    <ExportExcel csvData={[]} fileName="file_mau" headers={['Họ và tên', 'Giới tính', 'Nhập tuổi','Nhập số điện thoại','Nội dung tư vấn','Mã chuyên gia','Mục điều trị', 'Thời gian hẹn (dd/mm/yyyy)', 'Thời gian nhắc hẹn (dd/mm/yyyy)', 'Ghi chú', 'Sửa thời gian đăng ký (dd/mm/yyyy)', 'Trạng thái','Nội dung tiếp nhận','Nhập hồ sơ thăm khám']} />
-                                 </div> : ""
-                            }
-                            
-                           
-                            
-                            {
-                                menu?.[1].ds?.action_DSDKH.create === true ? <Button size="middle" onClick={onClickCreate} type="primary">{t("DSDangKyHen:them_moi")}</Button> : ''
-                            }
-
-                        </div>
-
                     </div>
                     {
                         loading === 'succeeded' ? <TableComponent rowKey={false} columns={columns} data={dataFormat} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} scroll={scrollProps} /> : <Loading />

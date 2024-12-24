@@ -121,13 +121,9 @@ const ModalSearch: FC<IProps> = (props) => {
         event.preventDefault();
         setIsModalOpen(false);
     }
-
-
-
-
     return <>
 
-        <Button type="primary" variant="dashed" color="primary" onClick={showModal}>
+        <Button size='small' type="primary" variant="dashed" color="primary" onClick={showModal}>
              {t("DSDangKyHen:tim_kiem")}
         </Button>
         <Modal title={t("DSDangKyHen:tim_kiem_nang_cao")} open={isModalOpen} footer={false} onOk={handleOk} onCancel={handleCancel}>

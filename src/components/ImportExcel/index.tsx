@@ -147,7 +147,7 @@ const ImportExcel: FC<any> = ({ getPagingPatient }) => {
 
     }
     return <Fragment>
-        <Button type="primary" onClick={showModal}>
+        <Button size='small' type="primary" onClick={showModal}>
             Import
         </Button>
         <Modal title="Import file excel" open={isModalOpen} footer={false} onOk={handleOk} onCancel={handleCancel}>
