@@ -303,7 +303,10 @@ const FormCreateUser: FC<IProps> = (props) => {
                         filterOption={(input, option) =>
                             (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                         }
-                        options={STATUS()}
+                        options={ !checkRoleTuVan ? STATUS() : [
+                            {id: '1', value:'CHỜ ĐỢI', label: 'CHỜ ĐỢI'},
+                            {id: '4', value:'KHÔNG XÁC ĐỊNH', label: 'KHÔNG XÁC ĐỊNH'},
+                        ]}
                     />
 
                 </Form.Item>
