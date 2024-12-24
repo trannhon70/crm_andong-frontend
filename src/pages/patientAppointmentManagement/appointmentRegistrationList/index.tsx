@@ -107,16 +107,6 @@ const AppointmentRegistrationList: FC = () => {
         dataFormat = formatDataWithSummary(data);
     }
 
-    // useLayoutEffect(() => {
-       
-    //     if( hospitalId || menu?.[1].ds?.action_DSDKH.viewAllData){
-    //         setPageIndex(1);
-    //         dispatch(getPagingPatient(query));
-    //     }
-        
-    // }, [location.search, dispatch, pageSize, hospitalId, menu?.[1].ds?.action_DSDKH.viewAllData, entities.id]);
-
-
     const dataBreadcrumb = [
         {
             title: t("DSDangKyHen:quan_ly_cuoc_hen"),
@@ -653,7 +643,6 @@ const AppointmentRegistrationList: FC = () => {
         }
     }
 
-
     const onChangePage = (page: number, pageSize: number) => {
         setPageIndex(page)
         setPageSize(pageSize)
@@ -664,10 +653,17 @@ const AppointmentRegistrationList: FC = () => {
         {
             hospitalId ?
                 <Fragment>
-                    <BreadcrumbComponent items={dataBreadcrumb} />
-                    <div className='mt-2 pb-2 flex justify-between gap-2 ' >
+                    <div className="flex justify-between items-center" >
+                        <BreadcrumbComponent items={dataBreadcrumb} />
                         <ComponentThongKe />
-                        <div className="flex gap-3 w-[20%] justify-end ">
+                    </div>
+                    
+                    <div className='mt-1 pb-2 flex justify-between gap-2 ' >
+                        <div>
+                            <ModalSearch setPageIndex={setPageIndex} />
+                        </div>
+                        
+                        <div className="flex gap-3 justify-end ">
                             {
                                  menu?.[1].ds?.action_DSDKH.excel === true ? <div className="flex gap-2 " >
                                     <ImportExcel getPagingPatient = {getPagingPatient(query)} />
@@ -676,7 +672,7 @@ const AppointmentRegistrationList: FC = () => {
                             }
                             
                            
-                            <ModalSearch setPageIndex={setPageIndex} />
+                            
                             {
                                 menu?.[1].ds?.action_DSDKH.create === true ? <Button size="middle" onClick={onClickCreate} type="primary">{t("DSDangKyHen:them_moi")}</Button> : ''
                             }

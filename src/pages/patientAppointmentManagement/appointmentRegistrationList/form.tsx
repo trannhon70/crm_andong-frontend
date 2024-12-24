@@ -1,14 +1,11 @@
-import { Alert, Button, DatePicker, Form, GetProps, Input, InputNumber, Select, Tag } from "antd";
-import { FC, Fragment } from "react";
-import { GENDER, STATUS } from "../../../utils";
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { Alert, Button, DatePicker, Form, Input, InputNumber, Select, Tag } from "antd";
 import moment from "moment";
+import { FC, Fragment } from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../redux/store";
-import useMenuData from "../../../hooks/useMenuData";
 import { useCheckRoleLeTan, useCheckRoleTuVan } from "../../../hooks/useCheckRole";
-type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
+import useMenuData from "../../../hooks/useMenuData";
+import { GENDER, STATUS } from "../../../utils";
 interface IProps {
     formItemLayout: any;
     tailFormItemLayout: any;
@@ -29,9 +26,7 @@ const FormCreateUser: FC<IProps> = (props) => {
     const checkRoleTuVan = useCheckRoleTuVan();
     const checkRoleLeTan = useCheckRoleLeTan();
     const menu = useMenuData();
-
- 
-
+    
     return <Fragment>
         <Form
             {...formItemLayout}
