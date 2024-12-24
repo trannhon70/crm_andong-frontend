@@ -15,7 +15,7 @@ import Loading from "../../../components/loading";
 import NotHospital from "../../../components/notHospital";
 import PopconfirmComponent from "../../../components/popconfirmComponent";
 import TableComponent from "../../../components/tableComponent";
-import { getPagingPatient, setDoctorIdReducer, setStatusReducer } from "../../../features/patientSlice";
+import { fetchCity, getAllByIdHospital, getAllDoctor, getAllMedia, getPagingPatient, setDoctorIdReducer, setStatusReducer } from "../../../features/patientSlice";
 import { useCheckRoleLeTan, useCheckRoleTuVan } from "../../../hooks/useCheckRole";
 import useClipboard from "../../../hooks/useClipboard";
 import useMenuData from "../../../hooks/useMenuData";
@@ -37,6 +37,7 @@ const AppointmentRegistrationList: FC = () => {
     const [pageIndex, setPageIndex] = useState<number>(1)
     const [pageSize, setPageSize] = useState<number>(25)
     const { data, total, loading, doctor } = useSelector((state: RootState) => state.patient);
+
     const { entities } = useSelector((state: RootState) => state.users)
     const hospitalId = localStorage.getItem('hospitalId')
     let dataFormat: any = []
@@ -48,21 +49,31 @@ const AppointmentRegistrationList: FC = () => {
     const checkRoleTuVan = useCheckRoleTuVan();
     const checkRoleLeTan = useCheckRoleLeTan();
 
-    const [query, setQuery] = useState<any>( {
+    const [query, setQuery] = useState<any>({
         pageSize: pageSize,
         pageIndex: pageIndex,
         hospitalId: Number(hospitalId),
-        search:  '',
-        doctorId:  '',
-        status:  '',
+        search: '',
+        doctorId: '',
+        status: '',
         departmentId: '',
-        diseasesId:  '',
-        mediaId:'',
+        diseasesId: '',
+        mediaId: '',
         created_at: '',
         appointmentTime: '',
         userId: ''
     }
-)
+    )
+
+    useEffect(() => {
+        dispatch(fetchCity())
+        if (hospitalId) {
+            dispatch(getAllDoctor(Number(hospitalId)))
+            dispatch(getAllByIdHospital(Number(hospitalId)))
+            dispatch(getAllMedia(Number(hospitalId)));
+
+        }
+    }, [hospitalId, dispatch])
 
     useLayoutEffect(() => {
         if (hospitalId && menu?.[1].ds?.action_DSDKH.viewAllData !== undefined) {
@@ -71,11 +82,12 @@ const AppointmentRegistrationList: FC = () => {
                 userId: menu[1].ds.action_DSDKH.viewAllData ? '' : entities.id,
                 pageSize: pageSize,
                 pageIndex: pageIndex,
-                hospitalId:hospitalId
+                hospitalId: hospitalId
             };
-    
+
             setQuery(updatedQuery);
             dispatch(getPagingPatient(updatedQuery))
+
         }
 
     }, [dispatch, pageSize, pageIndex, hospitalId, menu?.[1].ds?.action_DSDKH.viewAllData, entities.id])
@@ -661,7 +673,7 @@ const AppointmentRegistrationList: FC = () => {
                     <div style={{ flexWrap: "wrap" }} className='mt-1 pb-1  ' >
                         <FormSearch query={query} setQuery={setQuery} setPageIndex={setPageIndex} pageSize={pageSize} pageIndex={pageIndex} />
                         {/* <ModalSearch setPageIndex={setPageIndex} /> */}
-                        
+
                     </div>
                     {
                         loading === 'succeeded' ? <TableComponent rowKey={false} columns={columns} data={dataFormat} total={total} pageIndex={pageIndex} pageSize={pageSize} onChangePage={onChangePage} scroll={scrollProps} /> : <Loading />

@@ -1,12 +1,12 @@
 import { Button, Form, Modal, Select } from 'antd';
 import dayjs from 'dayjs';
-import { FC, Fragment, useEffect, useState } from "react";
+import { FC, Fragment, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from 'react-toastify';
 import * as XLSX from 'xlsx';
 import { patiantAPI } from '../../apis/patient.api';
-import { fetchCity, fetchDistrictbyIdCity, getAllByIdHospital, getAllDoctor, getAllMedia, getByIdDepartment } from "../../features/patientSlice";
+import { fetchDistrictbyIdCity, getByIdDepartment } from "../../features/patientSlice";
 import { AppDispatch, RootState } from "../../redux/store";
 
 const layout = {
@@ -26,17 +26,6 @@ const ImportExcel: FC<any> = ({ getPagingPatient }) => {
     const { patient } = useSelector((state: RootState) => state);
     const { t } = useTranslation(['DSDangKyHen']);
     const [items, setItems] = useState([]);
-
-
-    useEffect(() => {
-        dispatch(fetchCity())
-        if (hospitalId) {
-            dispatch(getAllDoctor(Number(hospitalId)))
-            dispatch(getAllByIdHospital(Number(hospitalId)))
-            dispatch(getAllMedia(Number(hospitalId)));
-
-        }
-    }, [hospitalId, dispatch])
 
     const showModal = () => {
         setIsModalOpen(true);
