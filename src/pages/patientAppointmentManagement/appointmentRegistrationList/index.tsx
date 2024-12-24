@@ -1,4 +1,4 @@
-import { Dropdown, Input, MenuProps, Popover, Select, TableProps, Tag } from "antd";
+import { Badge, Dropdown, Input, MenuProps, Popover, Select, TableProps, Tag } from "antd";
 import moment from "moment";
 import { FC, Fragment, useEffect, useLayoutEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -593,7 +593,9 @@ const AppointmentRegistrationList: FC = () => {
                     children: <div className='flex items-center justify-center ' >
                         {record.status === 'ĐÃ ĐẾN' ? <div className="w-[20px]"><FaCheck className="text-green-700" /></div> : <div className="w-[20px]"></div> }
                         <Dropdown menu={{ items }}>
-                            <IoSettingsSharp className='cursor-pointer ' size={23} />
+                            <Badge className='cursor-pointer'  size="small" count={Array.isArray(record?.files) && record?.files.length > 0 ? record?.files.length : 0}>
+                                <IoSettingsSharp className='cursor-pointer ' size={23} />
+                            </Badge>
                         </Dropdown>
 
                     </div>,

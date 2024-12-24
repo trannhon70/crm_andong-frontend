@@ -298,6 +298,12 @@ const FormCreateUser: FC<IProps> = (props) => {
                 
                 <Form.Item name="status" label={t("DSDangKyHen:trang_thai")}>
                     <Select
+                    disabled={(()=>{
+                        if(checkRoleLeTan && patient.patient.status ==='ĐÃ ĐẾN'){
+                            return true
+                        }
+                        return false
+                    })()}
                         showSearch
                         placeholder={t("DSDangKyHen:trang_thai")}
                         filterOption={(input, option) =>
