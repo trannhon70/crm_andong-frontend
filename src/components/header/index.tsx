@@ -82,15 +82,15 @@ const HeaderComponent: FC<IHeaderProps> = ({ collapsed, setCollapsed }) => {
     ];
 
 
-    return <Header className='flex justify-between ' style={{ padding: 0, background: 'white' }}>
+    return <Header className='flex justify-between h-[50px] ' style={{ padding: 0, background: 'white' }}>
         <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             onClick={() => setCollapsed(!collapsed)}
             style={{
                 fontSize: '16px',
-                width: 64,
-                height: 64,
+                width: 50,
+                height: 50,
             }}
         />
         <div className='flex items-center justify-between gap-3 pr-4 w-[100%] ' style={{ textTransform: 'capitalize' }} >
@@ -110,8 +110,8 @@ const HeaderComponent: FC<IHeaderProps> = ({ collapsed, setCollapsed }) => {
                 {users?.entities?.fullName}
                 <Dropdown menu={{ items }}>
                     <div onClick={(e) => e.preventDefault()}>
-                        <Space>
-                            <Avatar size={40} icon={<UserOutlined />} />
+                        <Space className='cursor-pointer' >
+                            <Avatar size={35} icon={<UserOutlined />} />
                         </Space>
                     </div>
                 </Dropdown>

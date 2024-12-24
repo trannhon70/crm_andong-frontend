@@ -28,7 +28,7 @@ import ModalUpload from "./modalUpload";
 
 const scrollProps = {
     x: 'calc(700px + 50%)',
-    y: 132 * 5
+    y: 130 * 5
 };
 
 const AppointmentRegistrationList: FC = () => {

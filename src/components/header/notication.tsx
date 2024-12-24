@@ -344,7 +344,7 @@ const Notication: FC = () => {
             }}
         >
             <Badge className='cursor-pointer' count={notication?.totalStatus || 0}>
-                <IoMdNotifications className='text-orange-500' size={35} />
+                <IoMdNotifications className='text-orange-500' size={30} />
             </Badge>
         </Dropdown>
 

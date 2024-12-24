@@ -163,8 +163,8 @@ const LayoutComponent: React.FC = () => {
                 <HeaderComponent collapsed={collapsed} setCollapsed={setCollapsed} />
                 <Content
                     style={{
-                        margin: '10px 10px',
-                        padding: 10,
+                        margin: '6px ',
+                        padding: '0px 0px 0px 10px',
                         minHeight: 280,
                         background: colorBgContainer,
                         borderRadius: borderRadiusLG,
