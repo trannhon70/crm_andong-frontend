@@ -1,5 +1,7 @@
 import dayjs from "dayjs";
 import { useTranslation } from "react-i18next";
+import { RootState } from "../redux/store";
+import { useSelector } from "react-redux";
 
 
 
@@ -17,11 +19,14 @@ export const GENDER = [
 ]
 
 export const STATUS = () => {
+  const { entities } = useSelector((state: RootState) => state.users)
+  
   return [
     {id: '1', value:'CHỜ ĐỢI', label: 'CHỜ ĐỢI'},
-    {id: '2', value:'ĐÃ ĐẾN', label: 'ĐÃ ĐẾN'},
-    {id: '3', value:'CHƯA ĐẾN', label: 'CHƯA ĐẾN'},
     {id: '4', value:'KHÔNG XÁC ĐỊNH', label: 'KHÔNG XÁC ĐỊNH'},
+    {id: '2', value:'ĐÃ ĐẾN', label: 'ĐÃ ĐẾN', disabled: entities?.role?.id === 2},
+    {id: '3', value:'CHƯA ĐẾN', label: 'CHƯA ĐẾN', disabled: entities?.role?.id === 2},
+    
 ]
 }
 

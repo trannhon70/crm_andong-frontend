@@ -205,7 +205,7 @@ const AppointmentRegistrationList: FC = () => {
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 9 : 1;
                 return {
-                    children: <div style={{ display: "flex", gap: "5px", alignItems: "center" }} className={record?.summary === true ? "bg-orange-400 text-base text-white p-1 " : className(record)}>{value}{record.status === 'ĐÃ ĐẾN' ? <FaCheck /> : ''}</div>,
+                    children: <div style={{ display: "flex", gap: "5px", alignItems: "center" }} className={record?.summary === true ? "bg-orange-400 text-base text-white p-1 " : className(record)}>{value}</div>,
                     props: { colSpan },
                 };
             },
@@ -591,6 +591,7 @@ const AppointmentRegistrationList: FC = () => {
                 ];
                 return {
                     children: <div className='flex items-center justify-center ' >
+                        {record.status === 'ĐÃ ĐẾN' ? <div className="w-[20px]"><FaCheck className="text-green-700" /></div> : <div className="w-[20px]"></div> }
                         <Dropdown menu={{ items }}>
                             <IoSettingsSharp className='cursor-pointer ' size={23} />
                         </Dropdown>
