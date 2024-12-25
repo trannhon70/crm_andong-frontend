@@ -1,12 +1,15 @@
-import { Button, Tag } from "antd";
+import { Button, Card, Space, Tag } from "antd";
 import moment from "moment";
-import { FC, Fragment, useEffect } from "react";
+import { FC, Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import BreadcrumbComponent from "../../../components/breadcrumbComponent";
 import { getByIdPatient } from "../../../features/patientSlice";
 import { AppDispatch, RootState } from "../../../redux/store";
+import imgFile from "../../../assets/images/upload.png"
+import ModalPdf from "./modalPdf";
+import ModalDoc from "./modalDoc";
 
 const AppointmentRegistrationListHistory: FC = () => {
     const navige = useNavigate()
@@ -14,6 +17,8 @@ const AppointmentRegistrationListHistory: FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const { patient } = useSelector((state: RootState) => state.patient);
     const {t } = useTranslation(['DSDangKyHen'])
+    const [currentModal, setCurrentModal] = useState<string | null>(null);
+    const [file, setFile] = useState<any | undefined>(undefined)
 
     useEffect(() => {
         if (id) {
@@ -44,12 +49,46 @@ const AppointmentRegistrationListHistory: FC = () => {
         navige('/danh-sach-dang-ky-hen');
     }
 
-    const renderImg = (file: string)=>{
-        if(file?.includes('.pdf')){
-            return <iframe title="pdf" src={`${process.env.REACT_APP_URL_API}/uploads/${file}`} width="100%" height="600px" frameBorder="0"></iframe>
-        } else {
-           return <img  src={`${process.env.REACT_APP_URL_API}/uploads/${file}`} alt="..." />
+
+    const renderImg = (files: any[]) => {
+        if (!files || files.length === 0) return <p>No files available</p>;
+    
+        return files.map((item: any, index: number) => {
+           return <Space direction="vertical" size={16}>
+           <Card title={item.name}  style={{ width: 320 }}>
+                <img width="100%" height="auto" src={imgFile} alt="..." />
+                <div className="flex gap-2" >
+                    <Button onClick={()=>onClickViewFile(item)} color="primary" variant="solid">Xem</Button>
+                    <Button color="danger" variant="solid">Xóa</Button>
+                </div>
+           </Card>
+          
+         </Space>
+        });
+    };
+
+    const FILE= {
+        PDF: 'pdf',
+        DOCX: 'docx',
+        DOC: 'doc',
+    }
+
+    const onClickViewFile = (value: any) => {
+        const checkFile = value.name.split('.')[1];
+
+        switch (true) {
+            case checkFile === FILE.PDF:
+                setFile(value)
+                setCurrentModal("pdf");
+               break;
+            case checkFile === FILE.DOC || checkFile === FILE.DOCX:
+                setFile(value)
+                setCurrentModal("docx");
+               break;
+            default:
+                break;
         }
+        
     }
     return <Fragment>
         <div className="flex items-center justify-between " >
@@ -197,10 +236,18 @@ const AppointmentRegistrationListHistory: FC = () => {
                 </div>
                 : ''}
 
-            <div className="mt-2" >
-                {renderImg(patient?.file)}
+            <div className="mt-2 gap-2 flex " >
+                {renderImg(patient.files|| [])}
                 
             </div>
+
+            {currentModal === "pdf" && (
+                <ModalPdf file={file} isModalOpen={!!currentModal} setIsModalOpen={() => setCurrentModal(null)} />
+            )}
+
+            {currentModal === "docx" && (
+                <ModalDoc file={file} isModalOpen={!!currentModal} setIsModalOpen={() => setCurrentModal(null)} />
+            )}
     </Fragment>
 }
 
