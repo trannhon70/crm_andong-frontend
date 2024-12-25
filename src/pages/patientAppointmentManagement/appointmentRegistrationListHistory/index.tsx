@@ -1,4 +1,4 @@
-import { Button, Card, Space, Tag } from "antd";
+import { Button, Card, Popconfirm, Space, Tag } from "antd";
 import moment from "moment";
 import { FC, Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -10,13 +10,15 @@ import { AppDispatch, RootState } from "../../../redux/store";
 import imgFile from "../../../assets/images/upload.png"
 import ModalPdf from "./modalPdf";
 import ModalDoc from "./modalDoc";
+import { fileAPI } from "../../../apis/file.api";
+import { toast } from "react-toastify";
 
 const AppointmentRegistrationListHistory: FC = () => {
     const navige = useNavigate()
     let { id } = useParams();
     const dispatch = useDispatch<AppDispatch>();
     const { patient } = useSelector((state: RootState) => state.patient);
-    const {t } = useTranslation(['DSDangKyHen'])
+    const { t } = useTranslation(['DSDangKyHen'])
     const [currentModal, setCurrentModal] = useState<string | null>(null);
     const [file, setFile] = useState<any | undefined>(undefined)
 
@@ -28,7 +30,7 @@ const AppointmentRegistrationListHistory: FC = () => {
 
     const dataBreadcrumb = [
         {
-            title:t("DSDangKyHen:quan_ly_cuoc_hen") ,
+            title: t("DSDangKyHen:quan_ly_cuoc_hen"),
         },
         {
             type: 'separator',
@@ -52,22 +54,31 @@ const AppointmentRegistrationListHistory: FC = () => {
 
     const renderImg = (files: any[]) => {
         if (!files || files.length === 0) return <p>No files available</p>;
-    
+
         return files.map((item: any, index: number) => {
-           return <Space direction="vertical" size={16}>
-           <Card title={item.name}  style={{ width: 320 }}>
-                <img width="100%" height="auto" src={imgFile} alt="..." />
-                <div className="flex gap-2" >
-                    <Button onClick={()=>onClickViewFile(item)} color="primary" variant="solid">Xem</Button>
-                    <Button color="danger" variant="solid">Xóa</Button>
-                </div>
-           </Card>
-          
-         </Space>
+            return <Space direction="vertical" size={16}>
+                <Card title={item.name} style={{ width: 320 }}>
+                    <img width="100%" height="auto" src={imgFile} alt="..." />
+                    <div className="flex gap-2" >
+                        <Button onClick={() => onClickViewFile(item)} color="primary" variant="solid">Xem</Button>
+                        <Popconfirm
+                            title={`Xóa ${item.name}`}
+                            description="Bạn có muốn xóa tập tin này không?"
+                            onConfirm={() =>onClickDeleteFile(item)}
+                            okText="Có"
+                            cancelText="không"
+                        >
+                            <Button  color="danger" variant="solid">Xóa</Button>
+                        </Popconfirm>
+                      
+                    </div>
+                </Card>
+
+            </Space>
         });
     };
 
-    const FILE= {
+    const FILE = {
         PDF: 'pdf',
         DOCX: 'docx',
         DOC: 'doc',
@@ -80,29 +91,37 @@ const AppointmentRegistrationListHistory: FC = () => {
             case checkFile === FILE.PDF:
                 setFile(value)
                 setCurrentModal("pdf");
-               break;
+                break;
             case checkFile === FILE.DOC || checkFile === FILE.DOCX:
                 setFile(value)
                 setCurrentModal("docx");
-               break;
+                break;
             default:
                 break;
         }
-        
+
     }
-    return <Fragment>
+
+    const onClickDeleteFile = async (value: any) => {
+        const result = await fileAPI.deleteFile(Number(value.id))
+        if (result.data.statusCode === 1) {
+            toast.success('Xóa thành công!')
+            dispatch(getByIdPatient(Number(id)))
+        }
+    }
+    return <Fragment key={'lklsdkjfl'} >
         <div className="flex items-center justify-between " >
-        <BreadcrumbComponent items={dataBreadcrumb} />
-        <Button onClick={onClickPrev} variant="outlined" color="danger" >  {t("DSDangKyHen:quay_lai")} </Button>
+            <BreadcrumbComponent items={dataBreadcrumb} />
+            <Button onClick={onClickPrev} variant="outlined" color="danger" >  {t("DSDangKyHen:quay_lai")} </Button>
         </div>
-       
+
         {
             patient ?
 
                 <div className="flex w-[100%] border-2 border-indigo-600  border-solid  rounded mt-2" >
                     <div className="border-r-2 w-[25%] border-indigo-600 ">
                         <div className="bg-indigo-600 text-center text-lg text-white p-1 border-b-2 border-indigo-600 " >
-                           {t("DSDangKyHen:thong_tin_co_ban")}
+                            {t("DSDangKyHen:thong_tin_co_ban")}
                         </div>
                         <div className="" >
                             <div className=" text-base text-black p-1 bg-slate-200 flex gap-1 " >
@@ -121,7 +140,7 @@ const AppointmentRegistrationListHistory: FC = () => {
                                 <div className="w-[40%] text-right " > {t("DSDangKyHen:so_dien_thoai")}  : </div> <span className="text-red-500" >{patient?.phone}</span>
                             </div>
 
-                           
+
 
                             <div className=" text-base text-black p-1 bg-slate-200 flex gap-1 " >
                                 <div className="w-[40%] text-right " >  {t("DSDangKyHen:khoa")} khoa: </div> <span className="text-red-500" >{patient?.department?.name}</span>
@@ -129,7 +148,7 @@ const AppointmentRegistrationListHistory: FC = () => {
 
                             <div className=" text-base text-black p-1  flex gap-1 " >
                                 <div className="w-[40%] text-right " >
-                                  {t("DSDangKyHen:benh")} : </div> <span className="text-red-500" >{patient?.diseases?.name}</span>
+                                    {t("DSDangKyHen:benh")} : </div> <span className="text-red-500" >{patient?.diseases?.name}</span>
                             </div>
 
                             <div className=" text-base text-black p-1 bg-slate-200  flex gap-1 " >
@@ -138,7 +157,7 @@ const AppointmentRegistrationListHistory: FC = () => {
 
                             <div className=" text-base text-black p-1  flex gap-1 " >
                                 <div className="w-[40%] text-right " >
-                                  {t("DSDangKyHen:tinh/TP")} : </div> <span className="text-red-500" >{patient?.city?.name}</span>
+                                    {t("DSDangKyHen:tinh/TP")} : </div> <span className="text-red-500" >{patient?.city?.name}</span>
                             </div>
 
                             <div className=" text-base text-black p-1 bg-slate-200 flex gap-1 " >
@@ -147,7 +166,7 @@ const AppointmentRegistrationListHistory: FC = () => {
 
                             <div className=" text-base text-black p-1  flex gap-1 " >
                                 <div className="w-[40%] text-right " >
-                                  {t("DSDangKyHen:ma_chuyen_gia")} : </div> <span className="text-red-500" >{patient?.code}</span>
+                                    {t("DSDangKyHen:ma_chuyen_gia")} : </div> <span className="text-red-500" >{patient?.code}</span>
                             </div>
 
                             <div className=" text-base text-black p-1 bg-slate-200 flex gap-1 " >
@@ -159,7 +178,7 @@ const AppointmentRegistrationListHistory: FC = () => {
                             </div>
                             <div className=" text-base text-black p-1  flex gap-1 " >
                                 <div className="w-[40%] text-right " >
-                                  {t("DSDangKyHen:thoi_gian_hen")} : </div> <span className="text-red-500" >{moment(patient?.appointmentTime * 1000).format('DD-MM-YYYY HH:mm:ss')}</span>
+                                    {t("DSDangKyHen:thoi_gian_hen")} : </div> <span className="text-red-500" >{moment(patient?.appointmentTime * 1000).format('DD-MM-YYYY HH:mm:ss')}</span>
                             </div>
 
                             <div className=" text-base text-black p-1 bg-slate-200 flex gap-1 " >
@@ -168,7 +187,7 @@ const AppointmentRegistrationListHistory: FC = () => {
 
                             <div className=" text-base text-black p-1  flex gap-1 " >
                                 <div className="w-[40%] text-right " >
-                               {t("DSDangKyHen:ghi_chu")}: </div> <span className="text-red-500" >{patient?.note}</span>
+                                    {t("DSDangKyHen:ghi_chu")}: </div> <span className="text-red-500" >{patient?.note}</span>
                             </div>
 
                             <div className=" text-base text-black p-1 bg-slate-200 flex gap-1 " >
@@ -177,7 +196,7 @@ const AppointmentRegistrationListHistory: FC = () => {
 
                             <div className=" text-base text-black p-1  flex gap-1 " >
                                 <div className="w-[40%] text-right " >
-                               {t("DSDangKyHen:trang_thai")} : </div> <span className="text-red-500" >{patient?.status}</span>
+                                    {t("DSDangKyHen:trang_thai")} : </div> <span className="text-red-500" >{patient?.status}</span>
                             </div>
 
                             <div className=" text-base text-black p-1 bg-slate-200 flex gap-1 " >
@@ -186,7 +205,7 @@ const AppointmentRegistrationListHistory: FC = () => {
 
                             <div className=" text-base text-black p-1  flex gap-1 " >
                                 <div className="w-[40%] text-right " >
-                               {t("DSDangKyHen:nguoi_them")} : </div> <span className="text-red-500" >{patient?.user?.fullName}</span>
+                                    {t("DSDangKyHen:nguoi_them")} : </div> <span className="text-red-500" >{patient?.user?.fullName}</span>
                             </div>
 
                             <div className=" text-base text-black p-1 bg-slate-200 flex gap-1 " >
@@ -197,7 +216,7 @@ const AppointmentRegistrationListHistory: FC = () => {
                     </div>
                     <div className="border-r-2 w-[25%] border-indigo-600  ">
                         <div className="bg-indigo-600 text-center text-lg text-white p-1 border-b-2 border-indigo-600 " >
-                             {t("DSDangKyHen:lich_su_tro_chuyen")}
+                            {t("DSDangKyHen:lich_su_tro_chuyen")}
                         </div>
                         <div className="text-base text-black p-1" >
                             {patient?.content}
@@ -205,29 +224,29 @@ const AppointmentRegistrationListHistory: FC = () => {
                     </div>
                     <div className="border-r-2 w-[25%] border-indigo-600  ">
                         <div className="bg-indigo-600 text-center text-lg text-white p-1 border-b-2 border-indigo-600 " >
-                             {t("DSDangKyHen:ho_so_tham_lai")}
+                            {t("DSDangKyHen:ho_so_tham_lai")}
                         </div>
                         <div className="p-1" >
-                        {
-                            patient?.chatPatients?.map((item: any, index: number) => {
-                                return <div key={index} className="flex gap-2 mt-1" >
-                                <div>
-                                    {moment(item.created_at* 1000).format('DD-MM-YYYY HH:mm:ss')}
-                                </div>
-                                <div>
-                                <Tag color="gold" >{item.user.fullName}</Tag> 
-                                </div>
-                                <div>
-                                    {item.name}
-                                </div>
-                            </div>
-                            })
-                        }
+                            {
+                                patient?.chatPatients?.map((item: any, index: number) => {
+                                    return <div key={index} className="flex gap-2 mt-1" >
+                                        <div>
+                                            {moment(item.created_at * 1000).format('DD-MM-YYYY HH:mm:ss')}
+                                        </div>
+                                        <div>
+                                            <Tag color="gold" >{item.user.fullName}</Tag>
+                                        </div>
+                                        <div>
+                                            {item.name}
+                                        </div>
+                                    </div>
+                                })
+                            }
                         </div>
                     </div>
                     <div className=" w-[25%]  ">
                         <div className="bg-indigo-600 text-center text-lg text-white p-1 border-b-2 border-indigo-600 " >
-                             {t("DSDangKyHen:binh_luan")}
+                            {t("DSDangKyHen:binh_luan")}
                         </div>
                         <div className="text-base text-black p-1" >
                             {patient?.note}
@@ -236,18 +255,18 @@ const AppointmentRegistrationListHistory: FC = () => {
                 </div>
                 : ''}
 
-            <div className="mt-2 gap-2 flex " >
-                {renderImg(patient.files|| [])}
-                
-            </div>
+        <div className="mt-2 gap-2 flex " >
+            {renderImg(patient.files || [])}
 
-            {currentModal === "pdf" && (
-                <ModalPdf file={file} isModalOpen={!!currentModal} setIsModalOpen={() => setCurrentModal(null)} />
-            )}
+        </div>
 
-            {currentModal === "docx" && (
-                <ModalDoc file={file} isModalOpen={!!currentModal} setIsModalOpen={() => setCurrentModal(null)} />
-            )}
+        {currentModal === "pdf" && (
+            <ModalPdf file={file} isModalOpen={!!currentModal} setIsModalOpen={() => setCurrentModal(null)} />
+        )}
+
+        {currentModal === "docx" && (
+            <ModalDoc file={file} isModalOpen={!!currentModal} setIsModalOpen={() => setCurrentModal(null)} />
+        )}
     </Fragment>
 }
 
