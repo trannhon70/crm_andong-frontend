@@ -20,7 +20,7 @@ const ModalDoc: FC<IProps> = (props) => {
        <Modal width={800} height={600} className="p-2" title={file.name} open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={false} >
        <iframe
             src={googleViewer}
-            style={{ width: "100%", height: "100%", border: "none" }}
+            style={{ width: "100%", height: "70vh", border: "none" }}
             title="DOCX Viewer"
         />
        </Modal>
