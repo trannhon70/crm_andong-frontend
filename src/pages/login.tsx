@@ -1,50 +1,61 @@
 
-import { Fragment, useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/images/logo.svg";
 import { AuthContext } from "../context/AuthContext";
 import { ILogin } from "../interface/users";
 import { useNavigate } from 'react-router-dom';
+import ReCAPTCHA from "react-google-recaptcha";
 
 
 const Login: React.FC = () => {
   const { login } = useContext(AuthContext)
-    const [form, setForm] = useState<ILogin>({
-        email: '',
-        password: ''
-    })
-    const { authenticated } = useContext(AuthContext);
-    const navigate = useNavigate();
+  const [form, setForm] = useState<ILogin>({
+    email: '',
+    password: ''
+  })
+  const { authenticated } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [capcha, setCapcha] = useState<boolean>(false)
+  const recaptchaRef = useRef<ReCAPTCHA | null>(null);
 
-    useEffect(() => {
-        if (authenticated) {
-            navigate('/');
-        }
-    }, [authenticated, navigate]);
-
-
-
-    const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setForm({
-            ...form,
-            email: e.target.value,
-        });
-    };
-
-    const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setForm({
-            ...form,
-            password: e.target.value,
-        });
-    };
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        login(form)
-    };
+  useEffect(() => {
+    if (authenticated) {
+      navigate('/');
+    }
+  }, [authenticated, navigate]);
 
 
-    return  <Fragment>
+
+  const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({
+      ...form,
+      email: e.target.value,
+    });
+  };
+
+  const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({
+      ...form,
+      password: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (capcha == true) {
+      login(form, setCapcha, recaptchaRef)
+    }
+
+  };
+
+  const onChange = (value: any) => {
+    setCapcha(true)
+  }
+
+
+
+  return <Fragment>
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img
@@ -99,10 +110,14 @@ const Login: React.FC = () => {
               />
             </div>
           </div>
-
+          <ReCAPTCHA
+          ref={recaptchaRef}
+            sitekey="6LeMD6cqAAAAAG-hOuoYeMog3oXJTWKUZQcBC1A4"
+            onChange={onChange}
+          />,
           <div>
             <button
-                onClick={handleSubmit}
+              onClick={handleSubmit}
               type="submit"
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
