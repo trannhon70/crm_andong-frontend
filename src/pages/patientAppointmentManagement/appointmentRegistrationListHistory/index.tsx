@@ -12,6 +12,7 @@ import ModalPdf from "./modalPdf";
 import ModalDoc from "./modalDoc";
 import { fileAPI } from "../../../apis/file.api";
 import { toast } from "react-toastify";
+import ModalMp4 from "./modalMp4";
 
 const AppointmentRegistrationListHistory: FC = () => {
     const navige = useNavigate()
@@ -82,6 +83,8 @@ const AppointmentRegistrationListHistory: FC = () => {
         PDF: 'pdf',
         DOCX: 'docx',
         DOC: 'doc',
+        MP4: 'mp4',
+        XLSX: 'xlsx'
     }
 
     const onClickViewFile = (value: any) => {
@@ -90,11 +93,15 @@ const AppointmentRegistrationListHistory: FC = () => {
         switch (true) {
             case checkFile === FILE.PDF:
                 setFile(value)
-                setCurrentModal("pdf");
+                setCurrentModal(FILE.PDF);
                 break;
             case checkFile === FILE.DOC || checkFile === FILE.DOCX:
                 setFile(value)
-                setCurrentModal("docx");
+                setCurrentModal(FILE.DOCX);
+                break;
+            case checkFile === FILE.MP4:
+                setFile(value)
+                setCurrentModal(FILE.MP4);
                 break;
             default:
                 break;
@@ -260,12 +267,16 @@ const AppointmentRegistrationListHistory: FC = () => {
 
         </div>
 
-        {currentModal === "pdf" && (
+        {currentModal === FILE.PDF && (
             <ModalPdf file={file} isModalOpen={!!currentModal} setIsModalOpen={() => setCurrentModal(null)} />
         )}
 
-        {currentModal === "docx" && (
+        {currentModal === FILE.DOCX && (
             <ModalDoc file={file} isModalOpen={!!currentModal} setIsModalOpen={() => setCurrentModal(null)} />
+        )}
+
+        {currentModal === FILE.MP4 && (
+            <ModalMp4 file={file} isModalOpen={!!currentModal} setIsModalOpen={() => setCurrentModal(null)} />
         )}
     </Fragment>
 }
