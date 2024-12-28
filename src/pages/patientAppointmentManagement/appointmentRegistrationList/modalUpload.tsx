@@ -73,6 +73,7 @@ const ModalUpload: FC<IProps> = (props) => {
             >
                 <Space direction="vertical" style={{ width: '100%' }} size="large">
                     <Upload
+                        accept=".docx,.doc,.pdf,.mp4"
                         // action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
                         listType="picture"
                         fileList={fileList}
