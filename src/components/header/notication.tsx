@@ -236,7 +236,7 @@ const Notication: FC = () => {
             },
         },
         {
-            title: 'Ghi chú',
+            title: 'Link URL',
             dataIndex: 'note',
             key: 'note',
             render(value, record, index) {
