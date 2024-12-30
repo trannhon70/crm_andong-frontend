@@ -253,7 +253,7 @@ const AppointmentRegistrationListHistory: FC = () => {
                     </div>
                     <div className=" w-[25%]  ">
                         <div className="bg-indigo-600 text-center text-lg text-white p-1 border-b-2 border-indigo-600 " >
-                            {t("DSDangKyHen:binh_luan")}
+                            {t("DSDangKyHen:link_url")}
                         </div>
                         <div className="text-base text-black p-1" >
                             {patient?.note}

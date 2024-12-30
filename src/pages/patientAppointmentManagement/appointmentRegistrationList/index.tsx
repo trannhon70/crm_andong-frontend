@@ -370,22 +370,20 @@ const AppointmentRegistrationList: FC = () => {
                 }
             },
         },
+        
         {
-            title: t("DSDangKyHen:ghi_chu"),
-            dataIndex: 'note',
-            key: 'note',
+            title: t("DSDangKyHen:noi_dung_tu_van"),
+            dataIndex: 'content',
+            key: 'content',
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
-                    children: <div className={className(record)} title={value} // Hiển thị tooltip khi di chuột
-                        onClick={() => copyToClipboard(value)}
-                        style={{ cursor: "pointer", textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden", textDecoration: "underline", }} >{value}</div>,
+                    children:  <Popover content={value} title={t("DSDangKyHen:noi_dung_tu_van")}> <div onClick={() => copyToClipboard(value)} className={className(record)} style={{ cursor: "pointer", textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" }}>{value}</div ></Popover>,
                     props: { colSpan }
                 }
             },
-            width: 100,
+            width: 150,
         },
-
         {
             title: t("DSDangKyHen:bac_si"),
             dataIndex: 'doctor',
@@ -523,6 +521,22 @@ const AppointmentRegistrationList: FC = () => {
                 }
             },
             width: 150,
+        },
+       
+        {
+            title: t("DSDangKyHen:link_url"),
+            dataIndex: 'note',
+            key: 'note',
+            render(value, record, index) {
+                const colSpan = record?.summary === true ? 0 : 1;
+                return {
+                    children: <Popover content={value} title={t("DSDangKyHen:link_url")}><div className={className(record)} title={value} // Hiển thị tooltip khi di chuột
+                        onClick={() => copyToClipboard(value)}
+                        style={{ cursor: "pointer", textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden", textDecoration: "underline", }} >{value}</div></Popover>,
+                    props: { colSpan }
+                }
+            },
+            width: 100,
         },
         {
             title: t("DSDangKyHen:thao_tac"),

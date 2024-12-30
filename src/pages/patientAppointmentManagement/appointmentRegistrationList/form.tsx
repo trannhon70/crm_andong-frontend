@@ -276,7 +276,7 @@ const FormCreateUser: FC<IProps> = (props) => {
 
                 </Form.Item>
                 {
-                    !checkRoleLeTan &&  <Form.Item name="note" label={t("DSDangKyHen:ghi_chu")} >
+                    !checkRoleLeTan &&  <Form.Item name="note" label={t("DSDangKyHen:link_url")} >
                         <Input.TextArea rows={3} />
                     </Form.Item>
                 }
