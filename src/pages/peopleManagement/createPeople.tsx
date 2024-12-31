@@ -57,6 +57,7 @@ const CreatePeople: FC = () => {
             form.setFieldValue('fullName', users.user.fullName);
             form.setFieldValue('email', users.user.email);
             form.setFieldValue('language', users.user.language);
+            form.setFieldValue('code', users.user.code);
             form.setFieldValue('isshow', users.user.isshow);
             try {
                 const hospitalId = JSON.parse(users.user.hospitalId);
@@ -83,6 +84,7 @@ const CreatePeople: FC = () => {
             language: values.language,
             roleId: values.roleId,
             password: values.password,
+            code: values.code,
         } as IUser
         if(id){
            try {
@@ -227,6 +229,12 @@ const CreatePeople: FC = () => {
                         }
 
                     </Select>
+                </Form.Item>
+                <Form.Item
+                    name="code"
+                    label={'Mã chuyên gia'}
+                >
+                    <Input />
                 </Form.Item>
                 <Form.Item name="isshow" label="Hoạt động" valuePropName="checked" initialValue={false}>
                     <Switch />
