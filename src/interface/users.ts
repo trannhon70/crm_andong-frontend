@@ -12,5 +12,5 @@ export interface IUser {
     avatar: string,
     language: string,
     isshow: boolean,
-
+    code: string
 }
