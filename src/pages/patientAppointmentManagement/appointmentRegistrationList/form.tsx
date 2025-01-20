@@ -19,9 +19,10 @@ interface IProps {
     error: any;
     setError: any;
     onClickPrev: any;
+    disease?: any
 }
 const FormCreateUser: FC<IProps> = (props) => {
-    const { formItemLayout, tailFormItemLayout, form, onFinish, patient, handleChangeDepartment, handleChangeCity, id, onOk, error, setError, onClickPrev } = props
+    const { formItemLayout, tailFormItemLayout, form, onFinish, patient, handleChangeDepartment, handleChangeCity, id, onOk, error, setError, onClickPrev, disease } = props
     const {t } = useTranslation(['DSDangKyHen'])
     const checkRoleTuVan = useCheckRoleTuVan();
     const checkRoleLeTan = useCheckRoleLeTan();
@@ -118,7 +119,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                         filterOption={(input, option) =>
                             typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                         }
-                        options={patient.diseasses.map((item: any) => {
+                        options={disease.map((item: any) => {
                             return {
                                 value: item.id,
                                 label: item.name

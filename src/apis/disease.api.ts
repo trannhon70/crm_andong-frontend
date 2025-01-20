@@ -8,7 +8,8 @@ export const diseaseAPI = {
     deleteDisease,
     getByIdDisease,
     updateDisease,
-    getByIdDepartment
+    getByIdDepartment,
+    getAllDisease
 }
 
 function createdisease (body: any){
@@ -33,4 +34,8 @@ function getByIdDisease (id: number){
 
 function getByIdDepartment (query: any){
     return instance.get(`/disease/get-by-id-department?hospitalId=${query.hospitalId}&departmentId=${query.departmentId}`);
+}
+
+function getAllDisease (id: any){
+    return instance.get(`/disease/get-all?hospitalId=${id}`);
 }

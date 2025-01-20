@@ -20,6 +20,14 @@ export const getPagingDisease = createAsyncThunk(
     },
   )
 
+  export const getAllDisease = createAsyncThunk(
+    'disease/getAllDisease',
+    async ( id: number ,thunkAPI ) => {
+      const response = await diseaseAPI.getAllDisease(id)
+      return response.data.data
+    },
+  )
+
   interface DiseaseState {
     data:any,
     pageSize: number,
@@ -27,6 +35,7 @@ export const getPagingDisease = createAsyncThunk(
     total: number,
     totalPages: number,
     disease: any,
+    dataAll: any
     loading: 'idle' | 'pending' | 'succeeded' | 'failed',
   }
 
@@ -37,6 +46,7 @@ export const getPagingDisease = createAsyncThunk(
     total: 0,
     totalPages: 0,
     disease:{},
+    dataAll: [],
     loading: 'idle',
   } satisfies DiseaseState as DiseaseState
 
@@ -62,6 +72,11 @@ export const getPagingDisease = createAsyncThunk(
       });
       builder.addCase(getByIdDisease.fulfilled, (state, action)=>{
         state.disease = action.payload
+        state.loading = 'succeeded';
+      })
+
+      builder.addCase(getAllDisease.fulfilled, (state, action)=>{
+        state.dataAll = action.payload
         state.loading = 'succeeded';
       })
     },

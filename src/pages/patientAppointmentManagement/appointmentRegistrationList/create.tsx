@@ -14,6 +14,7 @@ import { AppDispatch, RootState } from "../../../redux/store";
 import FormCreateUser from "./form";
 import { useTranslation } from 'react-i18next';
 import { telephoneCheck } from '../../../utils';
+import { getAllDisease } from '../../../features/diseaseSlice';
 
 
 type RangePickerProps = GetProps<typeof DatePicker.RangePicker>;
@@ -48,7 +49,7 @@ const CreateAppointmentRegistrationList: FC = () => {
     const navige = useNavigate()
     const hospitalId = localStorage.getItem('hospitalId')
     const dispatch = useDispatch<AppDispatch>();
-    const { patient, users } = useSelector((state: RootState) => state);
+    const { patient, users,disease } = useSelector((state: RootState) => state);
     let { id } = useParams();
     const [error, setError] = useState<any>({
         reminderTime: false,
@@ -62,6 +63,7 @@ const CreateAppointmentRegistrationList: FC = () => {
         if(hospitalId){
             dispatch(getAllDoctor(Number(hospitalId)))
             dispatch(getAllMedia(Number(hospitalId)));
+            dispatch(getAllDisease(Number(hospitalId)))
         }
         
     }, [dispatch,hospitalId]);
@@ -236,6 +238,7 @@ const CreateAppointmentRegistrationList: FC = () => {
                     error={error}
                     setError={setError}
                     onClickPrev={onClickPrev}
+                    disease= {disease.dataAll}
                 />
         </div>
     </Fragment>

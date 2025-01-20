@@ -10,6 +10,7 @@ import ImportExcel from "../../../components/ImportExcel";
 import ExportExcel from "../../../components/exportExcel";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
+import { getAllDisease } from "../../../features/diseaseSlice";
 
 const { RangePicker } = DatePicker;
 interface Iprops {
@@ -23,10 +24,16 @@ const FormSearch: FC<Iprops> = (props) => {
     const { setPageIndex, pageIndex, pageSize, query, setQuery } = props
     const navige = useNavigate()
     const { t } = useTranslation(['DSDangKyHen']);
-    const { patient } = useSelector((state: RootState) => state);
+    const { patient, disease } = useSelector((state: RootState) => state);
     const dispatch = useDispatch<AppDispatch>();
     const hospitalId = localStorage.getItem('hospitalId')
     const menu = useMenuData();
+
+    useEffect(() => {
+        if(hospitalId) {
+            dispatch(getAllDisease(Number(hospitalId)))
+        }
+    }, [hospitalId])
 
     const handleChangeDepartment = (e: any) => {
         setQuery((query: any) => ({
@@ -174,7 +181,7 @@ const FormSearch: FC<Iprops> = (props) => {
                     filterOption={(input, option) =>
                         typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                     }
-                    options={patient?.diseasses?.map((item: any) => {
+                    options={disease.dataAll?.map((item: any) => {
                         return {
                             value: item.id,
                             label: item.name
