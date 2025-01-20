@@ -226,9 +226,11 @@ const ImportExcel: FC<any> = ({ getPagingPatient }) => {
                         })}
                     />
                 </Form.Item>
-                <Form.Item name="cityId" label={t("DSDangKyHen:tinh/TP")} rules={[
-                    { required: true, message: t("DSDangKyHen:tinh/TP_err"), }
-                ]}>
+                <Form.Item name="cityId" label={t("DSDangKyHen:tinh/TP")} 
+                // rules={[
+                //     { required: true, message: t("DSDangKyHen:tinh/TP_err"), }
+                // ]}
+                >
                     <Select
                         showSearch
                         placeholder={`--${t("DSDangKyHen:chon_tinh/tp")}--`}
