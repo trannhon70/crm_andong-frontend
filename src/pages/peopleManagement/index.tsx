@@ -104,6 +104,19 @@ const PeopleManagement: FC = () => {
             },
         },
         {
+            title:"Online" ,
+            key: 'online',
+            dataIndex: 'online',
+            render(value, record, index) {
+                console.log(value, 'sadas');
+                
+                if (value === true) {
+                    return <Tag color="success" >online</Tag>
+                }
+                return <Tag color="red" >no online</Tag>
+            },
+        },
+        {
             title:t("QLHT:tinh_trang") ,
             key: 'isshow',
             dataIndex: 'isshow',
