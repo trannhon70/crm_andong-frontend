@@ -39,6 +39,7 @@ const HeaderComponent: FC<IHeaderProps> = ({ collapsed, setCollapsed }) => {
 
     useEffect(() => {
         dispatch(getAllUserOnline())
+        dispatch(fetchUserById());
           const interval = setInterval(() => {
             dispatch(fetchUserById());
         }, 60000); // 10 giây
