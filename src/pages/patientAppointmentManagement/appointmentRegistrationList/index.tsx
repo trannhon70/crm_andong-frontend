@@ -160,16 +160,16 @@ const AppointmentRegistrationList: FC = () => {
 
     const className = (record: any) => {
         if (record?.status === 'ĐÃ ĐẾN') {
-            return 'text-[#389e0d] '
+            return 'text-[red] '
         }
         if (record?.status === 'CHỜ ĐỢI') {
-            return 'text-[#c41d7f]'
+            return 'text-[black]'
         }
         if (record?.status === 'KHÔNG XÁC ĐỊNH') {
-            return 'text-[#cf1322]'
+            return 'text-[green]'
         }
         if (record?.status === 'CHƯA ĐẾN') {
-            return 'text-[#1613cf]'
+            return 'text-[black]'
         }
     }
 
@@ -430,13 +430,13 @@ const AppointmentRegistrationList: FC = () => {
                 const colSpan = record?.summary === true ? 0 : 1;
                 const children = colSpan === 0 ? null : (() => {
                     if (value === 'CHỜ ĐỢI') {
-                        return <Tag style={{ textTransform: "uppercase" }} color="magenta">{value}</Tag>;
+                        return <Tag style={{ textTransform: "uppercase" }} color="black">{value}</Tag>;
                     } else if (value === 'ĐÃ ĐẾN') {
-                        return <Tag style={{ textTransform: "uppercase" }} color="green">{value}</Tag>;
-                    } else if (value === 'CHƯA ĐẾN') {
-                        return <Tag style={{ textTransform: "uppercase" }} color="#1613cf">{value}</Tag>;
-                    } else if (value === 'KHÔNG XÁC ĐỊNH') {
                         return <Tag style={{ textTransform: "uppercase" }} color="red">{value}</Tag>;
+                    } else if (value === 'CHƯA ĐẾN') {
+                        return <Tag style={{ textTransform: "uppercase" }} color="black">{value}</Tag>;
+                    } else if (value === 'KHÔNG XÁC ĐỊNH') {
+                        return <Tag style={{ textTransform: "uppercase" }} color="green">{value}</Tag>;
                     }
                     return null;
                 })();
