@@ -19,6 +19,7 @@ const ComponentThongKe: FC = () => {
     const menu = useMenuData();
     const startOfDay = dayjs().startOf('day').unix();
     const endOfDay = dayjs().endOf('day').unix();
+    const endOfDayConvert = endOfDay - 86399;
     const [query, setQuery] = useState<any>({
         pageSize: 500,
         pageIndex: 1,
@@ -30,7 +31,7 @@ const ComponentThongKe: FC = () => {
         diseasesId:  '',
         mediaId:  '',
         created_at: '',
-        appointmentTime: JSON.stringify([startOfDay, endOfDay]),
+        appointmentTime: JSON.stringify([startOfDay, endOfDayConvert]),
         userId: ''
     })
 
