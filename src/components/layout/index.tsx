@@ -12,6 +12,8 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
 import useMenuData from '../../hooks/useMenuData';
 import HeaderComponent from '../header';
+import { MdOutlineHistoryEdu } from "react-icons/md";
+import { useCheckRoleAdmin } from '../../hooks/useCheckRole';
 
 const { Sider, Content } = Layout;
 type MenuItem = Required<MenuProps>['items'][number];
@@ -59,7 +61,7 @@ const LayoutComponent: React.FC = () => {
     const location = useLocation();
     const [openKeys, setOpenKeys] = useState<string[]>([]);
     const {t } = useTranslation(['home'])
-    
+     const checkRole = useCheckRoleAdmin()
 
     useLayoutEffect(() => {
         if (sub7.includes(location.pathname)) {
@@ -136,9 +138,7 @@ const LayoutComponent: React.FC = () => {
             menu?.[7]?.ds.NKHD === true ?  getItem(<Link to={'/nhat-ky-hoat-dong'}>{t("home:menu_left.nhat_ky_hoat_dong")}</Link>, '/nhat-ky-hoat-dong') : null, 
             menu?.[7]?.ds.NKLDN === true ?  getItem(<Link to={'/nhat-ky-loi-dang-nhap'}>{t("home:menu_left.nhat_ky_loi_dang_nhap")}</Link>, '/nhat-ky-loi-dang-nhap') : null,
         ]),] : []),
-        // getItem('Đăng ký tự phục vụ', 'sub8', <VscServerEnvironment size={20}/>, [
-        //     getItem('Danh sách đăng ký', '34'), 
-        // ]),
+        ...[checkRole === true ? getItem(<Link to={"/danh-sach-khach-hang-bi-xoa"} >Danh sách khách hàng bị xóa</Link>, '/danh-sach-khach-hang-bi-xoa', <MdOutlineHistoryEdu size={20}/>) : null ]
     ];
 
     

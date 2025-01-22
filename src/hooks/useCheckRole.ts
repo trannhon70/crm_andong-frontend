@@ -10,3 +10,8 @@ export const useCheckRoleLeTan = () => {
     const { entities } = useSelector((state: RootState) => state.users);
     return entities?.role?.id === 2;
   };
+
+  export const useCheckRoleAdmin= () => {
+    const { entities } = useSelector((state: RootState) => state.users);
+    return entities?.role?.id === 1;
+  };

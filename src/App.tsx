@@ -41,6 +41,7 @@ import CreateSearchEngine from './pages/settings/searchEngine/createSearchEngine
 import SearchEngine from './pages/settings/searchEngine/searchEngine';
 import CreateRight from './pages/systemManagement/createRight';
 import RightsManagement from './pages/systemManagement/rightsManagement';
+import CustomerDeleted from './pages/customerDeleted';
 
 
 const PrivateRoutes = () => {
@@ -157,6 +158,7 @@ const App: React.FC = () => {
           {/* lịch sử thao tác */}
           <Route path='/nhat-ky-hoat-dong' element={<ActivityLog />} />
           <Route path='/nhat-ky-loi-dang-nhap' element={<LogErrorLog />} />
+          <Route path='/danh-sach-khach-hang-bi-xoa' element={<CustomerDeleted />} />
 
         </Route>
       </Route>

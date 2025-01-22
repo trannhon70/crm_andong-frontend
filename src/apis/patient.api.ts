@@ -28,7 +28,8 @@ export const patiantAPI = {
     importFileExcel,
     updatePatientMoney,
     updatePatientDoctorId,
-    updatePatientStatus
+    updatePatientStatus,
+    getPagingPatientDetele
 }
 
 function createPatiant(body : IPatient) {
@@ -59,6 +60,10 @@ function getByIdPatiant(id : number) {
 
 function getPagingPatient(query : any) {
     return instance.get(`/patient/get-paging?pageIndex=${query.pageIndex}&pageSize=${query.pageSize}&hospitalId=${query.hospitalId}&search=${query.search}&doctorId=${query.doctorId}&status=${query.status}&departmentId=${query.departmentId}&diseasesId=${query.diseasesId}&mediaId=${query.mediaId}&created_at=${query.created_at}&appointmentTime=${query.appointmentTime}&userId=${query.userId}`);
+}
+
+function getPagingPatientDetele(query : any) {
+    return instance.get(`/patient/get-paging-user-delete?pageIndex=${query.pageIndex}&pageSize=${query.pageSize}&hospitalId=${query.hospitalId}&search=${query.search}&created_at=${query.created_at}`);
 }
 
 

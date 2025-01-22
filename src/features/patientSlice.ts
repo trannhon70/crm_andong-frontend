@@ -65,6 +65,14 @@ export const fetchCity = createAsyncThunk(
       },
   )
 
+  export const getPagingPatientDetele = createAsyncThunk(
+    'patient/getPagingPatientDetele',
+    async ( query: any, thunkAPI ) => {
+        const response = await patiantAPI.getPagingPatientDetele(query)
+        return response.data.data
+      },
+  )
+
   export const getByIdPatient = createAsyncThunk(
     'patient/getByIdPatient',
     async ( id: number, thunkAPI ) => {
@@ -108,6 +116,7 @@ export const fetchCity = createAsyncThunk(
 
   interface PatientState {
     data:any,
+    dataDelete: any,
     pageSize: number,
     pageIndex: number,
     total: number,
@@ -129,6 +138,7 @@ export const fetchCity = createAsyncThunk(
 
   const initialState = {
     data: [],
+    dataDelete: [],
     pageSize: 5,
     pageIndex: 1,
     total: 0,
@@ -187,6 +197,16 @@ export const fetchCity = createAsyncThunk(
         state.total = action.payload.total;
         state.daden = action.payload.daden;
         state.chuaden = action.payload.chuaden;
+        state.totalPages = action.payload.totalPages;
+        state.loading = 'succeeded';
+      });
+
+      builder.addCase(getPagingPatientDetele.fulfilled, (state, action) => {
+        
+        state.dataDelete = action.payload.data;
+        state.pageSize = action.payload.pageSize;
+        state.pageIndex = action.payload.pageIndex;
+        state.total = action.payload.total;
         state.totalPages = action.payload.totalPages;
         state.loading = 'succeeded';
       });
