@@ -192,10 +192,10 @@ const AppointmentRegistrationListHistory: FC = () => {
                                 <div className="w-[40%] text-right " > {t("DSDangKyHen:thoi_gian_nhac_hen")}  : </div> <span className="text-red-500" >{moment(patient?.reminderTime * 1000).format('DD-MM-YYYY HH:mm:ss')}</span>
                             </div>
 
-                            <div className=" text-base text-black p-1  flex gap-1 " >
+                            {/* <div className=" text-base text-black p-1  flex gap-1 " >
                                 <div className="w-[40%] text-right " >
                                     {t("DSDangKyHen:ghi_chu")}: </div> <span className="text-red-500" >{patient?.note}</span>
-                            </div>
+                            </div> */}
 
                             <div className=" text-base text-black p-1 bg-slate-200 flex gap-1 " >
                                 <div className="w-[40%] text-right " >  {t("DSDangKyHen:sua_thoi_gian_dang_ky")} : </div> <span className="text-red-500" >{moment(patient?.editregistrationTime * 1000).format('DD-MM-YYYY HH:mm:ss')}</span>
@@ -255,7 +255,16 @@ const AppointmentRegistrationListHistory: FC = () => {
                         <div className="bg-indigo-600 text-center text-lg text-white p-1 border-b-2 border-indigo-600 " >
                             {t("DSDangKyHen:link_url")}
                         </div>
-                        <div className="text-base text-black p-1" >
+                        <div 
+                            style={{
+                                maxWidth: "100%", // Sử dụng camelCase cho max-width
+                                wordWrap: "break-word", // Sử dụng camelCase cho word-wrap
+                                overflowWrap: "break-word", // Sử dụng camelCase cho overflow-wrap
+                                whiteSpace: "pre-wrap", // Sử dụng camelCase cho white-space
+                                overflow: "hidden", // Không có dấu chấm phẩy
+                                textOverflow: "ellipsis", // Sử dụng camelCase cho text-overflow
+                            }}
+                        className="text-base text-black p-1" >
                             {patient?.note}
                         </div>
                     </div>
