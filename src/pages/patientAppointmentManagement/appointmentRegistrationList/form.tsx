@@ -241,7 +241,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                     { required: true, message:t("DSDangKyHen:thoi_gian_hen_err") , }
                 ]}>
                     <DatePicker
-                        // disabled={checkRoleLeTan}
+                        disabled={checkRoleLeTan}
                         placeholder={`--${t("DSDangKyHen:chon_thoi_gian_hen")}--`}
                         showTime
                         onChange={(value, dateString) => {

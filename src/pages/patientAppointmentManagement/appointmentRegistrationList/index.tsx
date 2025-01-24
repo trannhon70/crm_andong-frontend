@@ -336,7 +336,7 @@ const AppointmentRegistrationList: FC = () => {
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
-                    children: <div className={className(record)} style={{ textTransform: "capitalize" }} >{value?.name}</div>,
+                    children: <div className={className(record)} style={{ textTransform: "capitalize" }} >{value?.full_name}</div>,
                     props: { colSpan }
                 }
             },
