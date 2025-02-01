@@ -304,6 +304,21 @@ const AppointmentRegistrationList: FC = () => {
             width: 250,
         },
         {
+            title: t("DSDangKyHen:link_url"),
+            dataIndex: 'note',
+            key: 'note',
+            render(value, record, index) {
+                const colSpan = record?.summary === true ? 0 : 1;
+                return {
+                    children: <Popover content={value} title={t("DSDangKyHen:link_url")}><div className={className(record)} title={value} // Hiển thị tooltip khi di chuột
+                        onClick={() => copyToClipboard(value)}
+                        style={{ cursor: "pointer", textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden", textDecoration: "underline", }} >{value}</div></Popover>,
+                    props: { colSpan }
+                }
+            },
+            width: 100,
+        },
+        {
             title: t("DSDangKyHen:nguon_den"),
             dataIndex: 'media',
             key: 'media',
@@ -523,21 +538,7 @@ const AppointmentRegistrationList: FC = () => {
             width: 150,
         },
        
-        {
-            title: t("DSDangKyHen:link_url"),
-            dataIndex: 'note',
-            key: 'note',
-            render(value, record, index) {
-                const colSpan = record?.summary === true ? 0 : 1;
-                return {
-                    children: <Popover content={value} title={t("DSDangKyHen:link_url")}><div className={className(record)} title={value} // Hiển thị tooltip khi di chuột
-                        onClick={() => copyToClipboard(value)}
-                        style={{ cursor: "pointer", textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden", textDecoration: "underline", }} >{value}</div></Popover>,
-                    props: { colSpan }
-                }
-            },
-            width: 100,
-        },
+       
         {
             title: t("DSDangKyHen:thao_tac"),
             key: 'id',
