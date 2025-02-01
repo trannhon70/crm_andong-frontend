@@ -327,12 +327,12 @@ const Notication: FC = () => {
             trigger={['click']}
             placement="bottomRight"
             dropdownRender={(menu: any) => {
-                return <div className='scroll__Dropdown bg-slate-100 rounded ' style={{ maxHeight: '250px', overflowY: 'auto', width: '250px' }}>
+                return <div className='scroll__Dropdown bg-slate-100 rounded ' style={{ maxHeight: '250px', overflowY: 'auto', minWidth: '250px' }}>
                     {
                         menu?.props?.items?.length > 0 && menu?.props?.items?.map((item: any, index: number) => {
-                            return <div onClick={() => onClickModal(item)} key={index} className={`py-[5px] px-[10px] hover:bg-orange-600 hover:text-white cursor-pointer flex items-center justify-between ${item.status === 0 ? 'bg-orange-500 text-white' : ''}`} >
+                            return <div onClick={() => onClickModal(item)} key={index} className={`py-[5px] px-[10px] hover:bg-orange-600 hover:text-white cursor-pointer flex items-center justify-between ${item.status === 0 ? 'bg-orange-500 text-white' : ''} gap-2`} >
                                 <div>
-                                    {item?.patient?.code}
+                                    {item?.patient?.name}
                                 </div>
                                 <div>
                                     {moment(item?.created_at * 1000).fromNow()}
