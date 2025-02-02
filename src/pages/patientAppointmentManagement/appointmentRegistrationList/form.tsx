@@ -326,6 +326,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                 {
                     !checkRoleTuVan && <Form.Item name="doctorId" label={t("DSDangKyHen:bac_si_tiep_benh")} >
                     <Select
+                         allowClear
                         showSearch
                         placeholder={`--${t("DSDangKyHen:lua_chon")}--`}
                         filterOption={(input, option) =>

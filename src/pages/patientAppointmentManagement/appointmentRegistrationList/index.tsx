@@ -411,6 +411,7 @@ const AppointmentRegistrationList: FC = () => {
                         {(() => {
                             if (menu?.[1]?.ds?.action_DSDKH?.doctor === true) {
                                 return <Select
+                                    allowClear
                                     size="small"
                                     placeholder={`--${t("DSDangKyHen:lua_chon")}--`}
                                     showSearch
