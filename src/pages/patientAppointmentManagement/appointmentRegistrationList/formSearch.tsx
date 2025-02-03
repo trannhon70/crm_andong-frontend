@@ -1,5 +1,5 @@
 import { Button, DatePicker, Form, Input, Select } from "antd";
-import { FC, Fragment, useEffect, useState } from "react";
+import { FC, Fragment, useEffect, useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../redux/store";
@@ -11,6 +11,7 @@ import ExportExcel from "../../../components/exportExcel";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import { getAllDisease } from "../../../features/diseaseSlice";
+import { debounce } from 'lodash';
 
 const { RangePicker } = DatePicker;
 interface Iprops {
@@ -43,12 +44,15 @@ const FormSearch: FC<Iprops> = (props) => {
         dispatch(getByIdDepartment({ hospitalId, departmentId: e }))
     }
 
-    const onChangeKeyWord = (e: any) => {
-        setQuery((query: any) => ({
-            ...query,
-            search: e.target.value
-        }))
-    }
+    const onChangeKeyWord = useCallback(
+        debounce((value: string) => {
+            setQuery((prevQuery: any) => ({
+                ...prevQuery,
+                search: value
+            }));
+        }, 300), // Debounce 300ms
+        []
+    );
 
     const onchangecreatedAt = (e: any) => {
         setQuery((query: any) => ({
@@ -105,7 +109,7 @@ const FormSearch: FC<Iprops> = (props) => {
         <Form onFinish={onFormSubmit} className="flex items-end justify-start gap-2 flex-wrap " >
             <div className='w-[250px]'>
                 <div>{t("DSDangKyHen:tu_khoa")} :</div>
-                <Input onChange={onChangeKeyWord} size='small' placeholder={t("DSDangKyHen:tu_khoa_placeholder")} />
+                <Input onChange={(e) => onChangeKeyWord(e.target.value)} size='small' placeholder={t("DSDangKyHen:tu_khoa_placeholder")} />
             </div>
             <div className='w-[220px]'>
                 <div>{t("DSDangKyHen:thoi_gian_them")}:</div>
