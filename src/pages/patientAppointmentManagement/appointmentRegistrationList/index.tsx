@@ -27,7 +27,7 @@ import ModalUpload from "./modalUpload";
 
 
 const scrollProps = {
-    x: 'calc(700px + 50%)',
+    x: 'calc(680px + 50%)',
     y: 130 * 5
 };
 
@@ -268,7 +268,7 @@ const AppointmentRegistrationList: FC = () => {
             title: t("DSDangKyHen:ma_chuyen_gia"),
             dataIndex: 'code',
             key: 'code',
-            width: 120,
+            width: 140,
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
@@ -276,6 +276,7 @@ const AppointmentRegistrationList: FC = () => {
                     props: { colSpan }
                 }
             },
+            sorter: (a, b) => (a.code ?? "").localeCompare(b.code ?? "", "vi", { sensitivity: "base" }),
         },
         {
             title: t("DSDangKyHen:khoa"),
@@ -370,19 +371,25 @@ const AppointmentRegistrationList: FC = () => {
                     props: { colSpan }
                 }
             },
-            width: 150,
+            width: 170,
+            sorter: (a, b) => {
+                return a.appointmentTime - b.appointmentTime
+            },
         },
         {
             title: t("DSDangKyHen:thoi_gian_nhac_hen"),
             key: 'reminderTime',
             dataIndex: 'reminderTime',
-            width: 150,
+            width: 170,
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
                     children: <div className={className(record)}>{value !== 0 ? moment(value * 1000).format('DD-MM-YYYY HH:mm:ss') : ''}</div>,
                     props: { colSpan }
                 }
+            },
+            sorter: (a, b) => {
+                return a.appointmentTime - b.appointmentTime
             },
         },
         
