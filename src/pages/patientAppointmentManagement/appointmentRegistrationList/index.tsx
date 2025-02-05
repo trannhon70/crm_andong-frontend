@@ -344,6 +344,9 @@ const AppointmentRegistrationList: FC = () => {
                 }
             },
             width: 150,
+            sorter: (a, b) => {
+                return (a?.city?.name ?? "").localeCompare(b?.city?.name ?? "", "vi", { sensitivity: "base" })
+            }
         },
         {
             title: t("DSDangKyHen:quan/huyen"),
@@ -357,6 +360,9 @@ const AppointmentRegistrationList: FC = () => {
                 }
             },
             width: 150,
+            sorter: (a, b) => {
+                return (a?.district?.name ?? "").localeCompare(b?.district?.name ?? "", "vi", { sensitivity: "base" })
+            }
         },
 
 
