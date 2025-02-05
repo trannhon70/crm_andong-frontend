@@ -83,6 +83,10 @@ const ComponentExportData: FC<IProps> = (props) => {
         setCheck((form : any)=> ({...form, created_at: e.target.checked }))
       };
 
+      const onChangeMedia: CheckboxProps['onChange'] = (e) => {
+        setCheck((form : any)=> ({...form, media: e.target.checked }))
+      };
+
       const onClickCheckAll = (e: React.MouseEvent<HTMLElement>)=> {
         e.preventDefault()
         setCheck((prevCheck : any) => {
@@ -115,6 +119,7 @@ const ComponentExportData: FC<IProps> = (props) => {
                 <Checkbox onChange={onChangeNDTV} checked={check.content}>{t("DSDangKyHen:noi_dung_tu_van")}</Checkbox>
                 <Checkbox onChange={onChangeKhoa} checked={check.department}>{t("DSDangKyHen:khoa")}</Checkbox>
                 <Checkbox onChange={onChangeBenh} checked={check.diseases}>{t("DSDangKyHen:benh")}</Checkbox>
+                <Checkbox onChange={onChangeMedia} checked={check.media}>{t("DSDangKyHen:nguon")}</Checkbox>
                 <Checkbox onChange={onChangeTinh} checked={check.city}>{t("DSDangKyHen:tinh/TP")}</Checkbox>
                 <Checkbox onChange={onChangeHuyen} checked={check.district}>{t("DSDangKyHen:quan/huyen")}</Checkbox>
                 <Checkbox onChange={onChangeMCG} checked={check.code}>{t("DSDangKyHen:ma_chuyen_gia")}</Checkbox>

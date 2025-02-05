@@ -14,7 +14,7 @@ const ExportPatientData: FC = () => {
     const [check, setCheck] = useState({
         name: true, gender: false, yearOld: false, phone: false, content: false, department: false, diseases: false, city: false,
         district: false, code: false, appointmentTime: false, reminderTime: false, note: false, status: false, doctor: false, user: false, treatment: false,
-        created_at: false,
+        created_at: false,media: false
     })
     const { t } = useTranslation(['BCCTDVKH', 'DSDangKyHen'])
 
@@ -50,6 +50,7 @@ const ExportPatientData: FC = () => {
                                 {check.content && <td className="border p-1">{item?.content}</td>}
                                 {check.department && <td className="border p-1">{item?.department?.name}</td>}
                                 {check.diseases && <td className="border p-1">{item?.diseases?.name}</td>}
+                                {check.media && <td className="border p-1">{item?.media?.name}</td>}
                                 {check.city && <td className="border p-1">{item?.city?.name}</td>}
                                 {check.district && <td className="border p-1">{item?.district?.name}</td>}
                                 {check.code && <td className="border p-1">{item?.code}</td>}
