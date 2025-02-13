@@ -27,7 +27,7 @@ const AuthProvider = ({ children }: Props) => {
     const [authenticated, setAuthenticated] = useState<boolean>(() => !!localStorage.getItem('token'));
     const navigate = useNavigate();
     
-    const login = async (form : any, setCapcha: any, recaptchaRef: any) => {
+    const login = async (form : any, setCapcha: any, recaptchaRef: any, setNumber : any) => {
         try {
             const result = await userAPI.login(form)
 
@@ -43,6 +43,7 @@ const AuthProvider = ({ children }: Props) => {
             toast.error(`${error?.response?.data?.message}`)
             setCapcha(false); // Reset trạng thái CAPTCHA
             recaptchaRef.current?.reset(); // Reset CAPTCHA
+           setNumber((item :any) => item + 1)
         }
     }
 

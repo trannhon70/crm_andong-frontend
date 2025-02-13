@@ -18,6 +18,7 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const [capcha, setCapcha] = useState<boolean>(false)
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
+  const [number, setNumber] = useState<number>(Number(localStorage.getItem("capcha")) || 0)
 
   useEffect(() => {
     if (authenticated) {
@@ -25,6 +26,9 @@ const Login: React.FC = () => {
     }
   }, [authenticated, navigate]);
 
+  useEffect(()=>{
+    localStorage.setItem("capcha", String(number))
+  }, [number])
 
 
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,10 +47,9 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (capcha == true) {
-      login(form, setCapcha, recaptchaRef)
-    }
-
+    if (number < 3 || (number >= 3 && capcha === true)) {
+      login(form, setCapcha, recaptchaRef, setNumber, number);
+  }
   };
 
   const onChange = (value: any) => {
@@ -110,11 +113,15 @@ const Login: React.FC = () => {
               />
             </div>
           </div>
-          <ReCAPTCHA
-          ref={recaptchaRef}
-            sitekey="6LeMD6cqAAAAAG-hOuoYeMog3oXJTWKUZQcBC1A4"
-            onChange={onChange}
-          />,
+          {
+            number >= 3 &&  <ReCAPTCHA
+            size="normal"
+            ref={recaptchaRef}
+              sitekey="6LeMD6cqAAAAAG-hOuoYeMog3oXJTWKUZQcBC1A4"
+              onChange={onChange}
+            />
+          }
+         
           <div>
             <button
               onClick={handleSubmit}
