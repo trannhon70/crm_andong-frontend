@@ -1,11 +1,11 @@
 import { Button, DatePicker, Form, Modal, Select } from 'antd';
-import dayjs from 'dayjs';
+
 import { FC, Fragment, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCity, fetchDistrictbyIdCity, getAllByIdHospital, getAllDoctor, getAllMedia, getByIdDepartment, getXuatDuLieuBenhNhan } from '../../../features/patientSlice';
+import { fetchCity, fetchDistrictbyIdCity, getAllByIdHospital, getAllDoctor, getAllMedia, getByIdDepartment } from '../../../features/patientSlice';
 import { AppDispatch, RootState } from '../../../redux/store';
 import { STATUS } from '../../../utils';
-import { useTranslation } from 'react-i18next';
 const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
@@ -17,15 +17,15 @@ const tailLayout = {
 
 const { RangePicker } = DatePicker;
 interface IProps{
-    pageIndex?: number,
-    pageSize?: number
+    hospitalId: any,
+    onFinish?: any
 }
 const ModalSearch: FC<IProps> = (props) => {
-    const {pageIndex, pageSize} = props
+    const {hospitalId, onFinish} = props
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [form] = Form.useForm();
     const dispatch = useDispatch<AppDispatch>();
-    const hospitalId = localStorage.getItem('hospitalId')
+    
     const { patient } = useSelector((state: RootState) => state);
     const {t } = useTranslation(['BCCTDVKH','DSDangKyHen'])
 
@@ -47,24 +47,7 @@ const ModalSearch: FC<IProps> = (props) => {
       setIsModalOpen(false);
     };
 
-    const onFinish = (values: any) => {
-        const query = {
-            hospitalId: Number(hospitalId),
-            pageSize: pageSize,
-            pageIndex: pageIndex,
-            created_at: values.created_at ? JSON.stringify([dayjs(values.created_at?.[0]).unix(), dayjs(values.created_at?.[1]).unix()]) : '' ,
-            appointmentTime:values.appointmentTime ? JSON.stringify([dayjs(values.appointmentTime?.[0]).unix(), dayjs(values.appointmentTime?.[1]).unix()]): '' ,
-            doctorId : values.doctorId || '',
-            status : values.status || '',
-            departmentId : values.departmentId || '',
-            diseasesId : values.diseasesId || '',
-            cityId : values.cityId || '',
-            districtId : values.districtId || '',
-        }
-        dispatch(getXuatDuLieuBenhNhan(query))
-        
-        // setIsModalOpen(false);
-    }
+    
 
     const handleChangeDiseases = (e: any) => {
         dispatch(getByIdDepartment({ hospitalId, departmentId: e }))
