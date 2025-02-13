@@ -10,7 +10,7 @@ import dayjs from 'dayjs';
 import { getXuatDuLieuBenhNhan } from "../../../features/patientSlice";
 
 const ExportPatientData: FC = () => {
-    const { data , total} = useSelector((state: RootState) => state.patient)
+    const { dataExport , total} = useSelector((state: RootState) => state.patient)
     const hospitalId = localStorage.getItem('hospitalId');
     const dispatch = useDispatch<AppDispatch>();
     const [check, setCheck] = useState({
@@ -101,8 +101,8 @@ const ExportPatientData: FC = () => {
         <div ref={tableRef} className="rounded border-lime-700 border mt-3 min-h-[50vh] max-h-[70vh] overflow-auto">
             <table style={{ outline: "none" }} className="w-full" contentEditable="true">
                 <tbody>
-                    {data.length > 0 &&
-                        data.map((item: any, index: number) => (
+                    {dataExport.length > 0 &&
+                        dataExport.map((item: any, index: number) => (
                             <tr key={index + 1} className={index % 2 === 0 ? "bg-white" : "bg-gray-100"}>
                                 {check.name && <td className="border p-1">{item?.name}</td>}
                                 {check.gender && <td className="border p-1">{item?.gender}</td>}

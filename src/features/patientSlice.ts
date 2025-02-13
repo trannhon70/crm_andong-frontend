@@ -116,6 +116,7 @@ export const fetchCity = createAsyncThunk(
 
   interface PatientState {
     data:any,
+    dataExport: any,
     dataDelete: any,
     pageSize: number,
     pageIndex: number,
@@ -138,6 +139,7 @@ export const fetchCity = createAsyncThunk(
 
   const initialState = {
     data: [],
+    dataExport: [],
     dataDelete: [],
     pageSize: 5,
     pageIndex: 1,
@@ -263,7 +265,7 @@ export const fetchCity = createAsyncThunk(
       })
 
       builder.addCase(getXuatDuLieuBenhNhan.fulfilled, (state, action) => {
-        state.data = action.payload.data;
+        state.dataExport = action.payload.data;
         state.pageSize = action.payload.pageSize;
         state.pageIndex = action.payload.pageIndex;
         state.total = action.payload.total;
