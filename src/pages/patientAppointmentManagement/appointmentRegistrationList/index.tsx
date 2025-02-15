@@ -201,7 +201,7 @@ const AppointmentRegistrationList: FC = () => {
             dataIndex: 'name',
             key: 'name',
             fixed: 'left',
-            width: 150,
+            width: 170,
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 9 : 1;
                 return {
@@ -209,6 +209,7 @@ const AppointmentRegistrationList: FC = () => {
                     props: { colSpan },
                 };
             },
+            sorter: (a, b) => (a.name ?? "").localeCompare(b.name ?? "", "vi", { sensitivity: "base" }),
         },
         {
             title: t("DSDangKyHen:chi_phi"),
@@ -224,6 +225,7 @@ const AppointmentRegistrationList: FC = () => {
                 }
             },
             width: 100,
+            sorter: (a, b) => (a.money ?? "").localeCompare(b.money ?? "", "vi", { sensitivity: "base" }),
         },
         {
             title: t("DSDangKyHen:gioi_tinh"),
@@ -237,6 +239,7 @@ const AppointmentRegistrationList: FC = () => {
                 }
             },
             width: 100,
+            sorter: (a, b) => (a.gender ?? "").localeCompare(b.gender ?? "", "vi", { sensitivity: "base" }),
         },
         {
             title: t("DSDangKyHen:tuoi"),
@@ -250,12 +253,15 @@ const AppointmentRegistrationList: FC = () => {
                     props: { colSpan }
                 }
             },
+            sorter: (a, b) => {
+                return a.yearOld - b.yearOld
+            },
         },
         {
             title: t("DSDangKyHen:so_dien_thoai"),
             dataIndex: 'phone',
             key: 'phone',
-            width: 120,
+            width: 130,
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
@@ -263,6 +269,7 @@ const AppointmentRegistrationList: FC = () => {
                     props: { colSpan }
                 }
             },
+            sorter: (a, b) => (a.phone ?? "").localeCompare(b.phone ?? "", "vi", { sensitivity: "base" }),
         },
         {
             title: t("DSDangKyHen:ma_chuyen_gia"),
@@ -290,6 +297,7 @@ const AppointmentRegistrationList: FC = () => {
                 }
             },
             width: 150,
+            sorter: (a, b) => (a.department?.name ?? "").localeCompare(b.department?.name ?? "", "vi", { sensitivity: "base" }),
         },
         {
             title: t("DSDangKyHen:benh"),
@@ -303,6 +311,7 @@ const AppointmentRegistrationList: FC = () => {
                 }
             },
             width: 250,
+            sorter: (a, b) => (a.diseases?.name ?? "").localeCompare(b.diseases?.name ?? "", "vi", { sensitivity: "base" }),
         },
         {
             title: t("DSDangKyHen:link_url"),
@@ -331,6 +340,7 @@ const AppointmentRegistrationList: FC = () => {
                 }
             },
             width: 120,
+            sorter: (a, b) => (a.media?.name ?? "").localeCompare(b.media?.name ?? "", "vi", { sensitivity: "base" }),
         },
         {
             title: t("DSDangKyHen:tinh/TP"),
@@ -432,7 +442,7 @@ const AppointmentRegistrationList: FC = () => {
                                         typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                                     }
                                     value={record?.doctorId}
-                                    style={{ width: 140 }}
+                                    style={{ width: 130 }}
                                     onChange={(e) => handleChangeDoctor(e, record)}
                                     options={doctor.length > 0 && doctor.map((item: any) => {
                                         return {
@@ -449,7 +459,10 @@ const AppointmentRegistrationList: FC = () => {
                     props: { colSpan }
                 }
             },
-            width: 160,
+            width: 150,
+            sorter: (a, b) => {
+                return (a?.doctor?.name ?? "").localeCompare(b?.doctor?.name ?? "", "vi", { sensitivity: "base" })
+            }
         },
         {
             title: t("DSDangKyHen:trang_thai"),
@@ -504,6 +517,9 @@ const AppointmentRegistrationList: FC = () => {
 
             },
             width: 160,
+            sorter: (a, b) => {
+                return (a?.status ?? "").localeCompare(b?.status ?? "", "vi", { sensitivity: "base" })
+            }
         },
         {
             title: t("DSDangKyHen:nguoi_them"),
@@ -517,6 +533,9 @@ const AppointmentRegistrationList: FC = () => {
                 }
             },
             width: 120,
+            sorter: (a, b) => {
+                return (a?.user?.fullName ?? "").localeCompare(b?.user?.fullName ?? "", "vi", { sensitivity: "base" })
+            }
         },
         {
             title: t("DSDangKyHen:ho_so_tham_kham"),
@@ -536,7 +555,7 @@ const AppointmentRegistrationList: FC = () => {
                     props: { colSpan }
                 }
             },
-            width: 130,
+            width: 140,
         },
         {
             title: t("DSDangKyHen:ngay_tao"),
@@ -549,7 +568,10 @@ const AppointmentRegistrationList: FC = () => {
                     props: { colSpan }
                 }
             },
-            width: 150,
+            width: 165,
+            sorter: (a, b) => {
+                return Number(a.created_at) - Number(b.created_at)
+            },
         },
        
        
