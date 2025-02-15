@@ -66,7 +66,7 @@ const Notication: FC = () => {
     }
 
     const onclickCopy = (value : any) => {
-        copyToClipboard(`Họ và tên: ${value.name}, tuổi: ${value.yearOld}, khoa: ${value.department.name}, bệnh: ${value?.diseases?.name}, mã chuyên gia: ${value.code}, nội dung tư vấn: ${value.content}`)
+        copyToClipboard(`Nội dung tư vấn: ${value.content}`)
     }
 
 
