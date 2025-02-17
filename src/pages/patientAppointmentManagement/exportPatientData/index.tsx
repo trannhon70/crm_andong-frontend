@@ -113,7 +113,7 @@ const ExportPatientData: FC = () => {
                                 {check.diseases && <td className="border p-1">{item?.diseases?.name}</td>}
                                 {check.media && <td className="border p-1">{item?.media?.name}</td>}
                                 {check.city && <td className="border p-1">{item?.city?.name}</td>}
-                                {check.district && <td className="border p-1">{item?.district?.name}</td>}
+                                {check.district && <td className="border p-1">{item?.district?.full_name}</td>}
                                 {check.code && <td className="border p-1">{item?.code}</td>}
                                 {check.appointmentTime && (
                                     <td className="border p-1">
