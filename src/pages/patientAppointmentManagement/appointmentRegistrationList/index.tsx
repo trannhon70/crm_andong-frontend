@@ -96,7 +96,6 @@ const AppointmentRegistrationList: FC = () => {
         const formatDataWithSummary = (data: any) => {
             const formattedData: any = [];
             const groupedData = data?.reduce((acc: any, record: any) => {
-
                 // const date = dayjs(record.created_at).format('YYYY-MM-DD');
                 const date = moment(record.created_at * 1000).format('DD-MM-YYYY');
                 if (!acc[date]) acc[date] = [];
@@ -104,7 +103,7 @@ const AppointmentRegistrationList: FC = () => {
                 return acc;
             }, {});
 
-            Object.keys(groupedData).forEach((date) => {
+            Object.keys(groupedData).sort((a, b) => moment(b, "DD-MM-YYYY").unix() - moment(a, "DD-MM-YYYY").unix()).forEach((date) => {
                 const records = groupedData[date];
                 // Thêm hàng tổng kết cho ngày đó
                 formattedData.push({
@@ -245,7 +244,7 @@ const AppointmentRegistrationList: FC = () => {
             title: t("DSDangKyHen:tuoi"),
             dataIndex: 'yearOld',
             key: 'yearOld',
-            width: 50,
+            width: 70,
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
