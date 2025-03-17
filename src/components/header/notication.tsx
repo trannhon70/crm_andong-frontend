@@ -20,25 +20,25 @@ const Notication: FC = () => {
     const hospitalId = localStorage.getItem('hospitalId');
     const [dataModal, setDataModal] = useState<any>();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const {copyToClipboard} = useClipboard()
+    const { copyToClipboard } = useClipboard()
     const query = {
         pageSize: pageSize,
         pageIndex: pageIndex,
         hospitalId: hospitalId
     }
     useEffect(() => {
-       
+
         if (hospitalId) {
             dispatch(getPagingNotication(query))
         }
-    }, [ hospitalId])
+    }, [hospitalId])
 
     useEffect(() => {
         const handleVisibilityChange = () => {
             if (document.visibilityState === "visible") {
                 console.log('aaaa');
-                
-                dispatch(getPagingNotication(query)) 
+
+                dispatch(getPagingNotication(query))
                 // window.location.reload(); 
             }
         };
@@ -59,13 +59,13 @@ const Notication: FC = () => {
     const onClickModal = async (value: any) => {
         setDataModal([value?.patient])
         setIsModalOpen(true);
-        const result = await noticationAPI.updateStatus(value?.id, {status: 1})
+        const result = await noticationAPI.updateStatus(value?.id, { status: 1 })
         if (result.data.statusCode === 1) {
             dispatch(getPagingNotication(query))
         }
     }
 
-    const onclickCopy = (value : any) => {
+    const onclickCopy = (value: any) => {
         copyToClipboard(`Nội dung tư vấn: ${value.content}`)
     }
 
@@ -75,7 +75,7 @@ const Notication: FC = () => {
             title: '',
             dataIndex: 'name',
             key: 'name',
-            render: (_, decord,index) => <Button onClick={() => onclickCopy(decord)} variant="solid" color="danger" >Copy</Button>,
+            render: (_, decord, index) => <Button onClick={() => onclickCopy(decord)} variant="solid" color="danger" >Copy</Button>,
             width: 80,
         },
         {
@@ -320,26 +320,48 @@ const Notication: FC = () => {
         },
     ];
 
+    const onClickCheckAll = async () =>{ 
+       
+        const body = notication?.data.map((item: any) => {
+            return {
+                id: item.id
+            }
+        })
+        const result = await noticationAPI.checkAllNotication(body)
+        
+        if (result.data.statusCode === 1) {
+            dispatch(getPagingNotication(query))
+        }
+    }
 
     return <Fragment>
+
         <Dropdown
             menu={{ items: notication?.data }}
             trigger={['click']}
             placement="bottomRight"
             dropdownRender={(menu: any) => {
-                return <div className='scroll__Dropdown bg-slate-100 rounded ' style={{ maxHeight: '250px', overflowY: 'auto', minWidth: '250px' }}>
-                    {
-                        menu?.props?.items?.length > 0 && menu?.props?.items?.map((item: any, index: number) => {
-                            return <div onClick={() => onClickModal(item)} key={index} className={`py-[5px] px-[10px] hover:bg-orange-600 hover:text-white cursor-pointer flex items-center justify-between ${item.status === 0 ? 'bg-orange-500 text-white' : ''} gap-2`} >
-                                <div>
-                                    {item?.patient?.name}
+                return <div className="bg-slate-100 rounded"  >
+
+                    <Button disabled={notication?.data.every((item: any)=>item.status ===1)} onClick={onClickCheckAll} className="mb-1" color="primary" variant="solid">
+                        Đã xem tất cả
+                    </Button>
+                    <div className='scroll__Dropdown  ' style={{ maxHeight: '250px', overflowY: 'auto', minWidth: '250px' }}>
+                        {
+                            menu?.props?.items?.length > 0 && menu?.props?.items?.map((item: any, index: number) => {
+                                return <div onClick={() => onClickModal(item)} key={index} className={`py-[5px] px-[10px] hover:bg-orange-600 hover:text-white cursor-pointer flex items-center justify-between ${item.status === 0 ? 'bg-orange-500 text-white' : ''} gap-2`} >
+                                    <div>
+                                        {item?.patient?.name}
+                                    </div>
+                                    <div>
+                                        {moment(item?.created_at * 1000).fromNow()}
+                                    </div>
                                 </div>
-                                <div>
-                                    {moment(item?.created_at * 1000).fromNow()}
-                                </div>
-                            </div>
-                        })
-                    }
+                            })
+                        }
+
+                    </div>
+
                 </div>
             }}
         >
@@ -349,7 +371,7 @@ const Notication: FC = () => {
         </Dropdown>
 
         <Modal width={1000} open={isModalOpen} onOk={handleOk} footer={false} onCancel={handleCancel}>
-            <Table<any> columns={columns} dataSource={dataModal || []} pagination={false} size="middle" bordered className="mt-5" scroll={{ x: 800 }}  tableLayout="fixed"/>
+            <Table<any> columns={columns} dataSource={dataModal || []} pagination={false} size="middle" bordered className="mt-5" scroll={{ x: 800 }} tableLayout="fixed" />
         </Modal>
     </Fragment>
 }
