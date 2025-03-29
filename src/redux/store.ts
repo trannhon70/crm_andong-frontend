@@ -12,6 +12,7 @@ import { historyLoginReducer } from '../features/historyLoginSlice';
 import { mediaReducer } from '../features/mediaSlice';
 import { noticationReducer } from '../features/noticationSlice';
 import { dataReportReducer } from '../features/dataReportSlice';
+import { blackListReducer } from '../features/phoneBlackListSlice';
 
 
 export const store = configureStore({
@@ -29,6 +30,7 @@ export const store = configureStore({
     media: mediaReducer,
     notication: noticationReducer,
     dataReport: dataReportReducer,
+    blackList: blackListReducer,
   },
 });
 

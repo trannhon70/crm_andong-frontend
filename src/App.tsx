@@ -42,6 +42,7 @@ import SearchEngine from './pages/settings/searchEngine/searchEngine';
 import CreateRight from './pages/systemManagement/createRight';
 import RightsManagement from './pages/systemManagement/rightsManagement';
 import CustomerDeleted from './pages/customerDeleted';
+import PhonBlackList from './pages/phonBlackList';
 
 
 const PrivateRoutes = () => {
@@ -159,6 +160,7 @@ const App: React.FC = () => {
           <Route path='/nhat-ky-hoat-dong' element={<ActivityLog />} />
           <Route path='/nhat-ky-loi-dang-nhap' element={<LogErrorLog />} />
           <Route path='/danh-sach-khach-hang-bi-xoa' element={<CustomerDeleted />} />
+          <Route path='/danh-sach-den' element={<PhonBlackList />} />
 
         </Route>
       </Route>

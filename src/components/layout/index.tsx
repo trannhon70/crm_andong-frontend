@@ -15,6 +15,7 @@ import HeaderComponent from '../header';
 import { MdOutlineHistoryEdu } from "react-icons/md";
 import { useCheckRoleAdmin } from '../../hooks/useCheckRole';
 import { RiDeleteBin2Fill } from "react-icons/ri";
+import { GiBlackHandShield } from "react-icons/gi";
 
 const { Sider, Content } = Layout;
 type MenuItem = Required<MenuProps>['items'][number];
@@ -98,17 +99,7 @@ const LayoutComponent: React.FC = () => {
             menu?.[1]?.ds?.XDLBN === true ?getItem(<Link to={'/xuat-du-lieu-benh-nhan'}>{t("home:menu_left.xuat_du_lieu_benh_nhanh")}</Link>, '/xuat-du-lieu-benh-nhan'): null,
             // menu?.[1]?.ds?.SSDLTCN === true ?getItem(<Link to={'/so-sanh-du-lieu-theo-nam'}>So sánh dữ liệu theo từng năm</Link>, '/so-sanh-du-lieu-theo-nam'): null,
         ]),] : []),
-        // ...(menu?.[2]?.TKKTC === true ? [getItem('Thống kê khách truy cập', 'sub2', <SiMicrosoftaccess  size={20}/>, [
-        //     menu?.[2]?.ds.CTDLM === true ? getItem('Chi tiết dữ liệu (mạng)', '11') : null, 
-        //     menu?.[2]?.ds.CDDABVM === true ? getItem('Cài đặt dự án bệnh viện (mạng)', '12') : null,
-        //     menu?.[2]?.ds.CTDLDT === true ? getItem('Chi tiết dữ liệu (số điện thoại)', '13') : null,
-        //     menu?.[2]?.ds.CDDABVDT === true ? getItem('Cài đặt dự án bệnh viện (điện thoại)', '14') : null,
-        // ]),] : []),
-        // getItem('Quản lý đăng ký trang web', 'sub3', <TbWebhook size={20}/>, [
-        //     getItem('Danh sách đăng ký trang web', '12'), 
-        //     getItem('Cài đặt đăng ký trang web', '13'),
         
-        // ]),
         ...(menu?.[3]?.BCDL === true ? [getItem( <div>{t("home:menu_left.bao_cao_du_lieu")}</div>, 'sub4', <TbReport size={20}/>, [
             menu?.[3]?.ds.BCTH === true ?getItem(<Link to={'/bao-cao-tong-hop'}>{t("home:menu_left.bao_cao_tong_hop")}</Link>, '/bao-cao-tong-hop') : null, 
             menu?.[3]?.ds.GT === true ? getItem(<Link to={'/thong-ke-gioi-tinh'}>{t("home:menu_left.gioi_tinh")}</Link>, '/thong-ke-gioi-tinh') : null,
@@ -139,7 +130,8 @@ const LayoutComponent: React.FC = () => {
             menu?.[7]?.ds.NKHD === true ?  getItem(<Link to={'/nhat-ky-hoat-dong'}>{t("home:menu_left.nhat_ky_hoat_dong")}</Link>, '/nhat-ky-hoat-dong') : null, 
             menu?.[7]?.ds.NKLDN === true ?  getItem(<Link to={'/nhat-ky-loi-dang-nhap'}>{t("home:menu_left.nhat_ky_loi_dang_nhap")}</Link>, '/nhat-ky-loi-dang-nhap') : null,
         ]),] : []),
-        ...[checkRole === true ? getItem(<Link to={"/danh-sach-khach-hang-bi-xoa"} >Thùng rác</Link>, '/danh-sach-khach-hang-bi-xoa', <RiDeleteBin2Fill size={20}/>) : null ]
+        ...[checkRole === true ? getItem(<Link to={"/danh-sach-khach-hang-bi-xoa"} >Thùng rác</Link>, '/danh-sach-khach-hang-bi-xoa', <RiDeleteBin2Fill size={20}/>) : null ],
+        ...[checkRole === true ? getItem(<Link to={"/danh-sach-den"} >Danh sách đen</Link>, '/danh-sach-den', <GiBlackHandShield size={20}/>) : null ],
     ];
 
     
