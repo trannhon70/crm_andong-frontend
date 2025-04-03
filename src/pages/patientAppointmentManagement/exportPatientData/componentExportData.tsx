@@ -5,10 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 interface IProps {
     check: any,
-    setCheck: any
+    setCheck: any,
+    menu: any
 }
 const ComponentExportData: FC<IProps> = (props) => {
-    const {check, setCheck} = props;
+    const {check, setCheck, menu} = props;
     const navigate = useNavigate();
     const {t } = useTranslation(['BCCTDVKH','DSDangKyHen'])
 
@@ -115,7 +116,10 @@ const ComponentExportData: FC<IProps> = (props) => {
                 <Checkbox onChange={onChangeHVT} checked={check.name}>{t("DSDangKyHen:ho_va_ten")}</Checkbox>
                 <Checkbox onChange={onChangeGT} checked={check.gender} >{t("DSDangKyHen:gioi_tinh")}</Checkbox>
                 <Checkbox onChange={onChangeT} checked={check.yearOld}>{t("DSDangKyHen:tuoi")}</Checkbox>
-                <Checkbox onChange={onChangeSDT} checked={check.phone}>{t("DSDangKyHen:so_dien_thoai")}</Checkbox>
+                {
+                  menu?.[1].ds?.action_XDLBN?.phone && <Checkbox onChange={onChangeSDT} checked={check.phone}>{t("DSDangKyHen:so_dien_thoai")}</Checkbox>
+                }
+                
                 <Checkbox onChange={onChangeNDTV} checked={check.content}>{t("DSDangKyHen:noi_dung_tu_van")}</Checkbox>
                 <Checkbox onChange={onChangeKhoa} checked={check.department}>{t("DSDangKyHen:khoa")}</Checkbox>
                 <Checkbox onChange={onChangeBenh} checked={check.diseases}>{t("DSDangKyHen:benh")}</Checkbox>

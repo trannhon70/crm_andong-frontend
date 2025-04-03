@@ -8,6 +8,7 @@ import ModalSearch from "./modalSearch";
 import { useTranslation } from "react-i18next";
 import dayjs from 'dayjs';
 import { getXuatDuLieuBenhNhan } from "../../../features/patientSlice";
+import useMenuData from "../../../hooks/useMenuData";
 
 const ExportPatientData: FC = () => {
     const { dataExport , total} = useSelector((state: RootState) => state.patient)
@@ -33,7 +34,8 @@ const ExportPatientData: FC = () => {
     })
     const { t } = useTranslation(['BCCTDVKH', 'DSDangKyHen'])
     const tableRef = useRef<HTMLDivElement>(null);
-
+    const menu = useMenuData(); 
+    
     const dataBreadcrumb = [
         {
             title: t("BCCTDVKH:quan_ly_cuoc_hen_benh_nhan"),
@@ -95,7 +97,7 @@ const ExportPatientData: FC = () => {
     return <Fragment>
         <BreadcrumbComponent items={dataBreadcrumb} />
         <div className="flex  justify-between " >
-            <ComponentExportData setCheck={setCheck} check={check} />
+            <ComponentExportData setCheck={setCheck} check={check} menu={menu} />
             <ModalSearch  hospitalId={hospitalId} onFinish={onFinish} />
         </div>
         <div ref={tableRef} className="rounded border-lime-700 border mt-3 min-h-[50vh] max-h-[70vh] overflow-auto">
@@ -107,7 +109,7 @@ const ExportPatientData: FC = () => {
                                 {check.name && <td className="border p-1">{item?.name}</td>}
                                 {check.gender && <td className="border p-1">{item?.gender}</td>}
                                 {check.yearOld && <td className="border p-1">{item?.yearOld}</td>}
-                                {check.phone && <td className="border p-1">{item?.phone}</td>}
+                                {check.phone && menu?.[1].ds?.action_XDLBN?.phone && <td className="border p-1">{item?.phone}</td>}
                                 {check.content && <td className="border p-1">{item?.content}</td>}
                                 {check.department && <td className="border p-1">{item?.department?.name}</td>}
                                 {check.diseases && <td className="border p-1">{item?.diseases?.name}</td>}

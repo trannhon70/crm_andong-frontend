@@ -46,6 +46,9 @@ const CreateRight: FC = () => {
                 BCXHHT: false,
                 BCDHTC: false,
                 XDLBN: false,
+                action_XDLBN:{
+                    phone: false
+                },
                 SSDLTCN: false,
             }
         },
@@ -370,6 +373,8 @@ const CreateRight: FC = () => {
             updatedForm[1].ds.BCXHHT = checked; 
             updatedForm[1].ds.BCDHTC = checked; 
             updatedForm[1].ds.XDLBN = checked; 
+            updatedForm[1].ds.action_XDLBN = updatedForm[1].ds.action_XDLBN || {};
+            updatedForm[1].ds.action_XDLBN.phone = checked;  
             updatedForm[1].ds.SSDLTCN = checked; 
             updatedForm[1].ds.action_DSDKH.create = checked; 
             updatedForm[1].ds.action_DSDKH.update = checked; 
@@ -401,6 +406,7 @@ const CreateRight: FC = () => {
             updatedForm[1].ds.action_DSDKH.money = checked;  
             updatedForm[1].ds.action_DSDKH.doctor = checked;  
             updatedForm[1].ds.action_DSDKH.status = checked;  
+           
             return updatedForm; 
         });
 
@@ -516,26 +522,6 @@ const CreateRight: FC = () => {
         });
     }
 
-    // const onChangeCHTKBN: CheckboxProps['onChange'] = (e) => {
-    //     const checked = e.target.checked; 
-    //     setForm((prevForm: any[]) => {
-    //         const updatedForm = [...prevForm]; 
-    //         updatedForm[1].QLBN = true;
-    //         updatedForm[1].ds.CHTKBN = checked; 
-    //         return updatedForm; 
-    //     });
-    // }
-
-    // const onChangeLLTVBN: CheckboxProps['onChange'] = (e) => {
-    //     const checked = e.target.checked; 
-    //     setForm((prevForm: any[]) => {
-    //         const updatedForm = [...prevForm]; 
-    //         updatedForm[1].QLBN = true;
-    //         updatedForm[1].ds.LLTVBN = checked; 
-    //         return updatedForm; 
-    //     });
-    // }
-
     const onChangeBCCTDVKH: CheckboxProps['onChange'] = (e) => {
         const checked = e.target.checked; 
         setForm((prevForm: any[]) => {
@@ -572,153 +558,24 @@ const CreateRight: FC = () => {
             const updatedForm = [...prevForm]; 
             updatedForm[1].QLBN = true;
             updatedForm[1].ds.XDLBN = checked; 
+            updatedForm[1].ds.action_XDLBN = updatedForm[1].ds.action_XDLBN || {};
+            updatedForm[1].ds.action_XDLBN.phone = checked;
             return updatedForm; 
         });
     }
 
-    // const onChangeSSDLTCN: CheckboxProps['onChange'] = (e) => {
-    //     const checked = e.target.checked; 
-    //     setForm((prevForm: any[]) => {
-    //         const updatedForm = [...prevForm]; 
-    //         updatedForm[1].QLBN = true;
-    //         updatedForm[1].ds.SSDLTCN = checked; 
-    //         return updatedForm; 
-    //     });
-    // }
-
-    // Thống kê khách truy cập
-
-    // const onChangeTKKTC: CheckboxProps['onChange'] = (e) => {
-    //     const checked = e.target.checked; 
-    //     setForm((prevForm: any[]) => {
-    //         const updatedForm = [...prevForm]; 
-    //         updatedForm[2].TKKTC = checked; 
-    //         updatedForm[2].ds.CTDLM = checked; 
-    //         updatedForm[2].ds.CDDABVM = checked; 
-    //         updatedForm[2].ds.action_CDDABVM.create = checked; 
-    //         updatedForm[2].ds.action_CDDABVM.update = checked; 
-    //         updatedForm[2].ds.action_CDDABVM.delete = checked; 
-    //         updatedForm[2].ds.CTDLDT = checked; 
-    //         updatedForm[2].ds.CDDABVDT = checked; 
-    //         updatedForm[2].ds.action_CDDABVDT.create = checked; 
-    //         updatedForm[2].ds.action_CDDABVDT.update = checked; 
-    //         updatedForm[2].ds.action_CDDABVDT.delete = checked; 
-    //         return updatedForm; 
-    //     });
-    // }
-
-    // const onChangeCTDLM: CheckboxProps['onChange'] = (e) => {
-    //     const checked = e.target.checked; 
-    //     setForm((prevForm: any[]) => {
-    //         const updatedForm = [...prevForm]; 
-    //         updatedForm[2].TKKTC = true; 
-    //         updatedForm[2].ds.CTDLM = checked; 
-    //         return updatedForm; 
-    //     });
-    // }
-
-    // const onChangeCDDABVM: CheckboxProps['onChange'] = (e) => {
-    //     const checked = e.target.checked; 
-    //     setForm((prevForm: any[]) => {
-    //         const updatedForm = [...prevForm]; 
-    //         updatedForm[2].TKKTC = true; 
-    //         updatedForm[2].ds.CDDABVM = checked; 
-    //         updatedForm[2].ds.action_CDDABVM.create = checked; 
-    //         updatedForm[2].ds.action_CDDABVM.update = checked; 
-    //         updatedForm[2].ds.action_CDDABVM.delete = checked; 
-    //         return updatedForm; 
-    //     });
-    // }
-
-    // const onChangeActionCDDABVMCreate: CheckboxProps['onChange'] = (e) => {
-    //     const checked = e.target.checked; 
-    //     setForm((prevForm: any[]) => {
-    //         const updatedForm = [...prevForm]; 
-    //         updatedForm[2].TKKTC = true; 
-    //         updatedForm[2].ds.CDDABVM = true; 
-    //         updatedForm[2].ds.action_CDDABVM.create = checked; 
-    //         return updatedForm; 
-    //     });
-    // }
-
-    // const onChangeActionCDDABVMUpdate: CheckboxProps['onChange'] = (e) => {
-    //     const checked = e.target.checked; 
-    //     setForm((prevForm: any[]) => {
-    //         const updatedForm = [...prevForm]; 
-    //         updatedForm[2].TKKTC = true; 
-    //         updatedForm[2].ds.CDDABVM = true; 
-    //         updatedForm[2].ds.action_CDDABVM.update = checked; 
-    //         return updatedForm; 
-    //     });
-    // }
-
-    // const onChangeActionCDDABVMDelete: CheckboxProps['onChange'] = (e) => {
-    //     const checked = e.target.checked; 
-    //     setForm((prevForm: any[]) => {
-    //         const updatedForm = [...prevForm]; 
-    //         updatedForm[2].TKKTC = true; 
-    //         updatedForm[2].ds.CDDABVM = true; 
-    //         updatedForm[2].ds.action_CDDABVM.delete = checked; 
-    //         return updatedForm; 
-    //     });
-    // }
-
-    // //
-    // const onChangeCTDLDT: CheckboxProps['onChange'] = (e) => {
-    //     const checked = e.target.checked; 
-    //     setForm((prevForm: any[]) => {
-    //         const updatedForm = [...prevForm]; 
-    //         updatedForm[2].TKKTC = true; 
-    //         updatedForm[2].ds.CTDLDT = checked; 
-    //         return updatedForm; 
-    //     });
-    // }
-
-    // const onChangeCDDABVDT: CheckboxProps['onChange'] = (e) => {
-    //     const checked = e.target.checked; 
-    //     setForm((prevForm: any[]) => {
-    //         const updatedForm = [...prevForm]; 
-    //         updatedForm[2].TKKTC = true; 
-    //         updatedForm[2].ds.CDDABVDT = checked; 
-    //         updatedForm[2].ds.action_CDDABVDT.create = checked; 
-    //         updatedForm[2].ds.action_CDDABVDT.update = checked; 
-    //         updatedForm[2].ds.action_CDDABVDT.delete = checked; 
-    //         return updatedForm; 
-    //     });
-    // }
-
-    // const onChangeActionCDDABVDTCreate: CheckboxProps['onChange'] = (e) => {
-    //     const checked = e.target.checked; 
-    //     setForm((prevForm: any[]) => {
-    //         const updatedForm = [...prevForm]; 
-    //         updatedForm[2].TKKTC = true; 
-    //         updatedForm[2].ds.CDDABVDT = true; 
-    //         updatedForm[2].ds.action_CDDABVDT.create = checked; 
-    //         return updatedForm; 
-    //     });
-    // }
-
-    // const onChangeActionCDDABVDTUpdate: CheckboxProps['onChange'] = (e) => {
-    //     const checked = e.target.checked; 
-    //     setForm((prevForm: any[]) => {
-    //         const updatedForm = [...prevForm]; 
-    //         updatedForm[2].TKKTC = true; 
-    //         updatedForm[2].ds.CDDABVDT = true; 
-    //         updatedForm[2].ds.action_CDDABVDT.update = checked; 
-    //         return updatedForm; 
-    //     });
-    // }
-
-    // const onChangeActionCDDABVDTDelete: CheckboxProps['onChange'] = (e) => {
-    //     const checked = e.target.checked; 
-    //     setForm((prevForm: any[]) => {
-    //         const updatedForm = [...prevForm]; 
-    //         updatedForm[2].TKKTC = true; 
-    //         updatedForm[2].ds.CDDABVDT = true; 
-    //         updatedForm[2].ds.action_CDDABVDT.delete = checked; 
-    //         return updatedForm; 
-    //     });
-    // }
+    const onChangeXDLBN_phone: CheckboxProps['onChange'] = (e) => {
+        const checked = e.target.checked; 
+        setForm((prevForm: any[]) => {
+            const updatedForm = [...prevForm]; 
+            updatedForm[1].QLBN = true;
+            updatedForm[1].ds.XDLBN = true; 
+            updatedForm[1].ds.action_XDLBN = updatedForm[1].ds.action_XDLBN || {}; // Đảm bảo `action_XDLBN` tồn tại
+            updatedForm[1].ds.action_XDLBN.phone = checked;
+        
+            return updatedForm; 
+        });
+    }
 
     //báo cáo dữ liệu
     const onChangeBCDL: CheckboxProps['onChange'] = (e) => {
@@ -944,55 +801,6 @@ const CreateRight: FC = () => {
             return updatedForm; 
         });
     }
-
-    //
-    // const onChangeCDLDTYT: CheckboxProps['onChange'] = (e) => {
-    //     const checked = e.target.checked; 
-    //     setForm((prevForm: any[]) => {
-    //         const updatedForm = [...prevForm]; 
-    //         updatedForm[4].CD = true; 
-    //         updatedForm[4].ds.CDLDTYT = checked; 
-    //         updatedForm[4].ds.action_CDLDTYT.create = checked; 
-    //         updatedForm[4].ds.action_CDLDTYT.update = checked; 
-    //         updatedForm[4].ds.action_CDLDTYT.delete = checked; 
-    //         return updatedForm; 
-    //     });
-    // }
-
-    // const onChangeCDLDTYTCreate: CheckboxProps['onChange'] = (e) => {
-    //     const checked = e.target.checked; 
-    //     setForm((prevForm: any[]) => {
-    //         const updatedForm = [...prevForm]; 
-    //         updatedForm[4].CD = true; 
-    //         updatedForm[4].ds.CDLDTYT = true; 
-    //         updatedForm[4].ds.action_CDLDTYT.create = checked; 
-    //         return updatedForm; 
-    //     });
-    // }
-
-    // const onChangeCDLDTYTUpdate: CheckboxProps['onChange'] = (e) => {
-    //     const checked = e.target.checked; 
-    //     setForm((prevForm: any[]) => {
-    //         const updatedForm = [...prevForm]; 
-    //         updatedForm[4].CD = true; 
-    //         updatedForm[4].ds.CDLDTYT = true; 
-    //         updatedForm[4].ds.action_CDLDTYT.update = checked; 
-    //         return updatedForm; 
-    //     });
-    // }
-
-    // const onChangeCDLDTYTDelete: CheckboxProps['onChange'] = (e) => {
-    //     const checked = e.target.checked; 
-    //     setForm((prevForm: any[]) => {
-    //         const updatedForm = [...prevForm]; 
-    //         updatedForm[4].CD = true; 
-    //         updatedForm[4].ds.CDLDTYT = true; 
-    //         updatedForm[4].ds.action_CDLDTYT.delete = checked; 
-    //         return updatedForm; 
-    //     });
-    // }
-
-    //
 
     const onChangeCDKBV: CheckboxProps['onChange'] = (e) => {
         const checked = e.target.checked; 
@@ -1501,6 +1309,9 @@ const CreateRight: FC = () => {
                     BCXHHT: true,
                     BCDHTC: true,
                     XDLBN: true,
+                    action_XDLBN:{
+                        phone: true
+                    },
                     SSDLTCN: true,
                    
                 }
@@ -1665,6 +1476,9 @@ const CreateRight: FC = () => {
                     BCXHHT: false,
                     BCDHTC: false,
                     XDLBN: false,
+                    action_XDLBN:{
+                        phone: false
+                    },
                     SSDLTCN: false,
                 }
             },
@@ -1797,6 +1611,8 @@ const CreateRight: FC = () => {
         setForm(JSON.parse(role.menu))
     }
 
+    console.log(form);
+    
     return <Fragment>
         <BreadcrumbComponent items={dataBreadcrumb} />
         <Alert className="mt-2" message={
@@ -1866,16 +1682,7 @@ const CreateRight: FC = () => {
                         <Checkbox onChange={onChangeDSDKHStatus} checked={form[1].ds.action_DSDKH.status}>Cập nhật trạng thái</Checkbox>
                     </td>
                 </tr>
-                {/* <tr className="bg-[#f2f2f2]">
-                    <td colSpan={2} className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeCHTKBN} checked={form[1].ds.CHTKBN} >Cuộc hẹn tìm kiếm bệnh nhân</Checkbox>
-                    </td>
-                </tr> */}
-                {/* <tr>
-                    <td colSpan={2} className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeLLTVBN} checked={form[1].ds.LLTVBN} >Lặp lại truy vấn bệnh nhân</Checkbox>
-                    </td>
-                </tr> */}
+               
                 <tr className="bg-[#f2f2f2]">
                     <td colSpan={2} className="border border-slate-300 ..." >
                         <Checkbox onChange={onChangeBCCTDVKH} checked={form[1].ds.BCCTDVKH} >{t("QLHT:bao_cao_chi_tiet_dich_vu_khach_hang")}</Checkbox>
@@ -1892,50 +1699,14 @@ const CreateRight: FC = () => {
                     </td>
                 </tr>
                 <tr>
-                    <td colSpan={2} className="border border-slate-300 ..." >
+                    <td  className="border border-slate-300 ..." >
                         <Checkbox onChange={onChangeXDLBN} checked={form[1].ds.XDLBN}>{t("QLHT:xuat_du_lieu_benh_nhan")}</Checkbox>
                     </td>
-                </tr>
-                {/* <tr className="bg-[#f2f2f2]">
-                    <td colSpan={2} className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeSSDLTCN} checked={form[1].ds.SSDLTCN} >So sánh dữ liệu theo chiều ngang</Checkbox>
-                    </td>
-                </tr> */}
-                {/* <tr className="bg-[#f2f2f2]" >
-                    <td rowSpan={5}  className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeTKKTC} checked={form[2].TKKTC} >Thống kê khách truy cập</Checkbox>
-                    </td>
-                </tr>
-                <tr>
-                    <td colSpan={2} className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeCTDLM} checked={form[2].ds.CTDLM}  >Chi tiết dữ liệu (mạng)</Checkbox>
-                    </td>
-                </tr>
-                <tr className="bg-[#f2f2f2]">
                     <td  className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeCDDABVM} checked={form[2].ds.CDDABVM} >Cài đặt dự án bệnh viện (mạng)</Checkbox>
-                    </td>
-                    <td className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeActionCDDABVMCreate} checked={form[2].ds.action_CDDABVM.create} >Thêm mới</Checkbox>
-                        <Checkbox onChange={onChangeActionCDDABVMUpdate} checked={form[2].ds.action_CDDABVM.update}>Cập nhật</Checkbox>
-                        <Checkbox onChange={onChangeActionCDDABVMDelete} checked={form[2].ds.action_CDDABVM.delete}>Xóa</Checkbox>
+                        <Checkbox onChange={onChangeXDLBN_phone} checked={form[1].ds?.action_XDLBN?.phone}>xem số điện thoại</Checkbox>
                     </td>
                 </tr>
-                <tr>
-                    <td colSpan={2} className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeCTDLDT} checked={form[2].ds.CTDLDT}>Chi tiết dữ liệu (số điện thoại)</Checkbox>
-                    </td>
-                </tr>
-                <tr className="bg-[#f2f2f2]">
-                    <td className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeCDDABVDT} checked={form[2].ds.CDDABVDT} >Cài đặt dự án bệnh viện (điện thoại)</Checkbox>
-                    </td>
-                    <td className="border border-slate-300 ..." >
-                    <Checkbox onChange={onChangeActionCDDABVDTCreate} checked={form[2].ds.action_CDDABVDT.create} >Thêm mới</Checkbox>
-                        <Checkbox onChange={onChangeActionCDDABVDTUpdate} checked={form[2].ds.action_CDDABVDT.update}>Cập nhật</Checkbox>
-                        <Checkbox onChange={onChangeActionCDDABVDTDelete} checked={form[2].ds.action_CDDABVDT.delete}>Xóa</Checkbox>
-                    </td>
-                </tr> */}
+               
 
                 <tr>
                     <td rowSpan={9}  className="border border-slate-300 ..." >
@@ -1995,14 +1766,7 @@ const CreateRight: FC = () => {
                         <Checkbox onChange={onChangeTLBTDelete} checked={form[4].ds.action_TLBT.delete}>{t("QLHT:xoa")}</Checkbox>
                     </td>
                 </tr>
-                {/* <tr>
-                    <td className="border border-slate-300 ..." ><Checkbox onChange={onChangeCDLDTYT} checked={form[4].ds.CDLDTYT}>Cài đặt loại điều trị y tế</Checkbox></td>
-                    <td className="border border-slate-300 ..." >
-                        <Checkbox onChange={onChangeCDLDTYTCreate} checked={form[4].ds.action_CDLDTYT.create} >Thêm mới</Checkbox>
-                        <Checkbox onChange={onChangeCDLDTYTUpdate} checked={form[4].ds.action_CDLDTYT.update}>Cập nhật</Checkbox>
-                        <Checkbox onChange={onChangeCDLDTYTDelete} checked={form[4].ds.action_CDLDTYT.delete}>Xóa</Checkbox>
-                    </td>
-                </tr> */}
+               
                 <tr className="bg-[#f2f2f2]">
                     <td className="border border-slate-300 ..." ><Checkbox onChange={onChangeCDKBV} checked={form[4].ds.CDKBV}>{t("QLHT:cai_dat_khoa_benh_vien")}</Checkbox></td>
                     <td className="border border-slate-300 ..." >
