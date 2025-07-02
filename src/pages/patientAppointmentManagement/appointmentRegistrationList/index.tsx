@@ -35,7 +35,7 @@ const AppointmentRegistrationList: FC = () => {
     const navige = useNavigate()
     const dispatch = useDispatch<AppDispatch>();
     const [pageIndex, setPageIndex] = useState<number>(1)
-    const [pageSize, setPageSize] = useState<number>(25)
+    const [pageSize, setPageSize] = useState<number>(50)
     const { data, total, loading, doctor } = useSelector((state: RootState) => state.patient);
 
     const { entities } = useSelector((state: RootState) => state.users)
