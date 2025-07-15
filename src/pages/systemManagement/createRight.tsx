@@ -82,6 +82,7 @@ const CreateRight: FC = () => {
                 TTNV: false,
                 BSLT: false,
                 DVKH: false,
+                BCKV: false,
             }
         },
         {
@@ -591,6 +592,7 @@ const CreateRight: FC = () => {
             updatedForm[3].ds.TTNV = checked; 
             updatedForm[3].ds.BSLT = checked; 
             updatedForm[3].ds.DVKH = checked; 
+            updatedForm[3].ds.BCKV = checked; 
             return updatedForm; 
         });
     }
@@ -671,6 +673,16 @@ const CreateRight: FC = () => {
             const updatedForm = [...prevForm]; 
             updatedForm[3].BCDL = true; 
             updatedForm[3].ds.DVKH = checked; 
+            return updatedForm; 
+        });
+    }
+
+     const onChangeBCKV: CheckboxProps['onChange'] = (e) => {
+        const checked = e.target.checked; 
+        setForm((prevForm: any[]) => {
+            const updatedForm = [...prevForm]; 
+            updatedForm[3].BCDL = true; 
+            updatedForm[3].ds.BCKV = checked; 
             return updatedForm; 
         });
     }
@@ -1346,6 +1358,7 @@ const CreateRight: FC = () => {
                     TTNV: true,
                     BSLT: true,
                     DVKH: true,
+                    BCKV: true,
                 }
             },
             {
@@ -1512,6 +1525,7 @@ const CreateRight: FC = () => {
                     TTNV: false,
                     BSLT: false,
                     DVKH: false,
+                    BCKV: false,
                 }
             },
             {
@@ -1709,7 +1723,7 @@ const CreateRight: FC = () => {
                
 
                 <tr>
-                    <td rowSpan={9}  className="border border-slate-300 ..." >
+                    <td rowSpan={10}  className="border border-slate-300 ..." >
                         <Checkbox onChange={onChangeBCDL} checked={form[3].BCDL} >{t("QLHT:bao_cao_du_lieu")}</Checkbox>
                     </td>
                 </tr>
@@ -1744,6 +1758,9 @@ const CreateRight: FC = () => {
                 </tr>
                 <tr className="bg-[#f2f2f2]">
                     <td colSpan={2} className="border border-slate-300 ..." ><Checkbox onChange={onChangeDVKH} checked={form[3].ds.DVKH}>{t("QLHT:dich_vu_khach_hang")}</Checkbox></td>
+                </tr>
+                  <tr>
+                    <td colSpan={2} className="border border-slate-300 ..." ><Checkbox onChange={onChangeBCKV} checked={form[3].ds.BCKV}>Báo cáo khu vực</Checkbox></td>
                 </tr>
 
 

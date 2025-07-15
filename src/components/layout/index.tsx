@@ -47,7 +47,7 @@ const sub5 = [
 ]
 
 const sub4 = [
-    '/bao-cao-tong-hop', '/thong-ke-gioi-tinh', '/thong-ke-tuoi', '/thong-ke-theo-benh', '/thong-ke-theo-nguon-truyen-thong', '/thong-ke-theo-tinh-trang-nhap-vien', '/thong-ke-theo-bac-si', '/thong-ke-theo-dich-vu-khach-hang'
+    '/bao-cao-tong-hop', '/thong-ke-gioi-tinh', '/thong-ke-tuoi', '/thong-ke-theo-benh', '/thong-ke-theo-nguon-truyen-thong', '/thong-ke-theo-tinh-trang-nhap-vien', '/thong-ke-theo-bac-si', '/thong-ke-theo-dich-vu-khach-hang', '/bao-cao-khu-vuc'
 ]
 
 const sub1 = [
@@ -109,6 +109,7 @@ const LayoutComponent: React.FC = () => {
             menu?.[3]?.ds.TTNV === true ? getItem(<Link to={'/thong-ke-theo-tinh-trang-nhap-vien'}>{t("home:menu_left.tinh_trang_nhap_vien")}</Link>, '/thong-ke-theo-tinh-trang-nhap-vien') : null,
             menu?.[3]?.ds.BSLT === true ? getItem(<Link to={'/thong-ke-theo-bac-si'} >{t("home:menu_left.bac_si")}</Link>, '/thong-ke-theo-bac-si') : null,
             menu?.[3]?.ds.DVKH === true ? getItem(<Link to={'/thong-ke-theo-dich-vu-khach-hang'} >{t("home:menu_left.dich_vu_khach_hang")}</Link>, '/thong-ke-theo-dich-vu-khach-hang') : null,
+            menu?.[3]?.ds.BCKV === true ? getItem(<Link to={'/bao-cao-khu-vuc'} >Báo cáo khu vực</Link>, '/bao-cao-khu-vuc') : null,
         
         ]),] : []), 
         ...(menu?.[4]?.CD === true ? [getItem(<>{t("home:menu_left.cai_dat")}</>, 'sub5', <IoSettings size={20}/>, [

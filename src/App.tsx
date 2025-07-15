@@ -43,6 +43,7 @@ import CreateRight from './pages/systemManagement/createRight';
 import RightsManagement from './pages/systemManagement/rightsManagement';
 import CustomerDeleted from './pages/customerDeleted';
 import PhonBlackList from './pages/phonBlackList';
+import RegionalReport from './pages/dataReport/regionalReport';
 
 
 const PrivateRoutes = () => {
@@ -138,6 +139,7 @@ const App: React.FC = () => {
           <Route path='/thong-ke-theo-tinh-trang-nhap-vien' element={<HospitalizationStatus />} />
           <Route path='/thong-ke-theo-bac-si' element={<Receptionist />} />
           <Route path='/thong-ke-theo-dich-vu-khach-hang' element={<CustomerService />} />
+          <Route path='/bao-cao-khu-vuc' element={<RegionalReport />} />
 
           {/* cài đặt */}
           <Route path='/thiet-lap-benh-tat' element={<DiseaseManagement />} />

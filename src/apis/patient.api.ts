@@ -29,7 +29,8 @@ export const patiantAPI = {
     updatePatientMoney,
     updatePatientDoctorId,
     updatePatientStatus,
-    getPagingPatientDetele
+    getPagingPatientDetele,
+    getBaoCaoKhuVuc
 }
 
 function createPatiant(body : IPatient) {
@@ -151,4 +152,8 @@ function updatePatientDoctorId(body : any) {
 
 function updatePatientStatus(body : any) {
     return instance.post(`/patient/update-patient-status`,body)
+}
+
+function getBaoCaoKhuVuc(query : any) {
+    return instance.get(`/patient/bao-cao-khu-vuc?hospitalId=${query.hospitalId}&cityId=${query.cityId}&districtId=${query.districtId}&time=${query.time}`);
 }
