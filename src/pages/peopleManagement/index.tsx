@@ -113,7 +113,7 @@ const PeopleManagement: FC = () => {
                 if (value === true) {
                     return <Tag color="success" >online</Tag>
                 }
-                return <Tag color="red" >no online</Tag>
+                return <Tag color="red" >offline</Tag>
             },
         },
         {
@@ -152,8 +152,8 @@ const PeopleManagement: FC = () => {
                                 />
                                 {
                                     record.isshow == true ?
-                                        <HiMiniLockOpen onClick={() => onClickUnActiveUser(value)} color='primary' className='cursor-pointer' size={25} /> :
-                                        <HiMiniLockClosed onClick={() => onClickActiveUser(value)} color='warning' className='cursor-pointer' size={25} />
+                                        <HiMiniLockOpen onClick={() => onClickUnActiveUser(value)} color='primary' className='cursor-pointer  ' size={25} /> :
+                                        <HiMiniLockClosed onClick={() => onClickActiveUser(value)} color='warning' className='cursor-pointer text-red-600' size={25} />
                                 }
                             </> : ''
                         }
@@ -179,7 +179,7 @@ const PeopleManagement: FC = () => {
                                  {
                                 record.isshow == true ?
                                     <HiMiniLockOpen onClick={() => onClickUnActiveUser(value)} color='primary' className='cursor-pointer' size={25} /> :
-                                    <HiMiniLockClosed onClick={() => onClickActiveUser(value)} color='warning' className='cursor-pointer' size={25} />
+                                    <HiMiniLockClosed onClick={() => onClickActiveUser(value)} color='warning' className='cursor-pointer text-red-600' size={25} />
                             }
                             </>
                         }
