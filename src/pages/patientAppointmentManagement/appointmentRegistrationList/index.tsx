@@ -24,6 +24,7 @@ import { formatPhoneNumber, STATUS } from "../../../utils";
 import ComponentThongKe from "./componentThongKe";
 import FormSearch from "./formSearch";
 import ModalUpload from "./modalUpload";
+import ComponentPatientCause from "../../../components/patientCause";
 
 
 const scrollProps = {
@@ -392,22 +393,18 @@ const AppointmentRegistrationList: FC = () => {
             },
         },
         {
-            title: t("DSDangKyHen:thoi_gian_nhac_hen"),
-            key: 'reminderTime',
-            dataIndex: 'reminderTime',
-            width: 170,
+            title: t("DSDangKyHen:nguyen_nhan_benh_khong_den"),
+            key: 'reason',
+            dataIndex: 'reason',
+            width: 240,
             render(value, record, index) {
-                const colSpan = record?.summary === true ? 0 : 1;
-                return {
-                    children: <div className={className(record)}>{value !== 0 ? moment(value * 1000).format('DD-MM-YYYY HH:mm:ss') : ''}</div>,
-                    props: { colSpan }
-                }
+                return <ComponentPatientCause record={record} dispatchGetData={() => dispatch(getPagingPatient(query))} />
             },
             sorter: (a, b) => {
                 return a.appointmentTime - b.appointmentTime
             },
         },
-        
+
         {
             title: t("DSDangKyHen:noi_dung_tu_van"),
             dataIndex: 'content',
@@ -415,7 +412,7 @@ const AppointmentRegistrationList: FC = () => {
             render(value, record, index) {
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
-                    children:  <Popover content={value} title={t("DSDangKyHen:noi_dung_tu_van")}> <div onClick={() => copyToClipboard(value)} className={className(record)} style={{ cursor: "pointer", textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" }}>{value}</div ></Popover>,
+                    children: <Popover content={value} title={t("DSDangKyHen:noi_dung_tu_van")}> <div onClick={() => copyToClipboard(value)} className={className(record)} style={{ cursor: "pointer", textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" }}>{value}</div ></Popover>,
                     props: { colSpan }
                 }
             },
@@ -572,8 +569,8 @@ const AppointmentRegistrationList: FC = () => {
                 return Number(a.created_at) - Number(b.created_at)
             },
         },
-       
-       
+
+
         {
             title: t("DSDangKyHen:thao_tac"),
             key: 'id',
@@ -641,9 +638,9 @@ const AppointmentRegistrationList: FC = () => {
                 ];
                 return {
                     children: <div className='flex items-center justify-center ' >
-                        {record.status === 'ĐÃ ĐẾN' ? <div className="w-[20px]"><FaCheck className="text-green-700" /></div> : <div className="w-[20px]"></div> }
+                        {record.status === 'ĐÃ ĐẾN' ? <div className="w-[20px]"><FaCheck className="text-green-700" /></div> : <div className="w-[20px]"></div>}
                         <Dropdown menu={{ items }}>
-                            <Badge className='cursor-pointer'  size="small" count={Array.isArray(record?.files) && record?.files.length > 0 ? record?.files.length : 0}>
+                            <Badge className='cursor-pointer' size="small" count={Array.isArray(record?.files) && record?.files.length > 0 ? record?.files.length : 0}>
                                 <IoSettingsSharp className='cursor-pointer ' size={23} />
                             </Badge>
                         </Dropdown>
