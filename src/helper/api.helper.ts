@@ -22,7 +22,7 @@ instance.interceptors.request.use(
         config.signal = controller.signal;
 
         // Hủy request sau 5 giây nếu chưa phản hồi
-        const timeoutId = setTimeout(() => controller.abort(), 5000);
+        const timeoutId = setTimeout(() => controller.abort(), 30000);
         
         // Lưu controller vào config để có thể hủy nếu cần
         (config as any).abortController = { controller, timeoutId };
