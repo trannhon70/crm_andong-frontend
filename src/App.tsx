@@ -3,7 +3,6 @@ import React, { useContext, useEffect } from 'react';
 import { Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import LayoutComponent from './components/layout';
 import { AuthContext } from './context/AuthContext';
-import { WebsocketContext } from './context/WebsocketContext';
 import AgeStatistics from './pages/dataReport/ageStatistics';
 import CustomerService from './pages/dataReport/customerService';
 import Gender from './pages/dataReport/gender';
@@ -13,7 +12,7 @@ import Receptionist from './pages/dataReport/receptionist';
 import StatisticsByDisease from './pages/dataReport/statisticsByDisease';
 import SummaryReport from './pages/dataReport/summaryReport';
 import Error from './pages/error';
-import Home from './pages/home';
+import Home from './pages/Home';
 import HospitalList from './pages/hospitalList';
 import CreateHospotal from './pages/hospitalList/createHospotal';
 import Login from './pages/login';
@@ -57,7 +56,7 @@ const PrivateRoutes = () => {
 };
 
 const App: React.FC = () => {
-  const socket = useContext(WebsocketContext);
+  
   const { setAuthenticated } = useContext(AuthContext);
 
 
@@ -68,32 +67,6 @@ const App: React.FC = () => {
     }
   }, [setAuthenticated]);
 
-  useEffect(() => {
-    socket.on('connect', () => {
-      console.log('Connected!');
-    });
-
-    socket.on('connectionStatus', (data) => {
-        console.log(data.msg); // Hiển thị thông báo kết nối thành công
-      });
-    
-    socket.on('newPatient', (newMessage) => {
-      console.log('newPatient event received!');
-      console.log(newMessage);
-    });
-
-    socket.on('onMessage', (newMessage) => {
-      console.log('onMessage event received!');
-      console.log(newMessage);
-    });
-
-    return () => {
-      console.log('Unregistering Events...');
-      socket.off('connect');
-      socket.off('newPatient');
-      socket.off('onMessage');
-    };
-}, [socket]);
 
   
   return (

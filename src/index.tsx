@@ -10,7 +10,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AuthProvider } from './context/AuthContext';
 import { BrowserRouter } from 'react-router-dom';
 import "./i18n/i18n";
-import { socket, WebsocketProvider } from './context/WebsocketContext';
 
 
 
@@ -22,14 +21,12 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-    <WebsocketProvider value={socket}>
       <Provider store={store}>
         <AuthProvider>
           <App />
         </AuthProvider>
         <ToastContainer />
       </Provider>
-      </WebsocketProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
