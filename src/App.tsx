@@ -56,7 +56,6 @@ const PrivateRoutes = () => {
 };
 
 const App: React.FC = () => {
-  
   const { setAuthenticated } = useContext(AuthContext);
 
 
@@ -67,6 +66,7 @@ const App: React.FC = () => {
     }
   }, [setAuthenticated]);
 
+  
 
   
   return (
