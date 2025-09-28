@@ -12,7 +12,7 @@ import Receptionist from './pages/dataReport/receptionist';
 import StatisticsByDisease from './pages/dataReport/statisticsByDisease';
 import SummaryReport from './pages/dataReport/summaryReport';
 import Error from './pages/error';
-import Home from './pages/Home';
+import Home from './pages/home';
 import HospitalList from './pages/hospitalList';
 import CreateHospotal from './pages/hospitalList/createHospotal';
 import Login from './pages/login';
@@ -66,9 +66,9 @@ const App: React.FC = () => {
     }
   }, [setAuthenticated]);
 
-  
 
-  
+
+
   return (
 
     <Routes>
@@ -95,7 +95,7 @@ const App: React.FC = () => {
           <Route path='/danh-sach-dang-ky-hen/history/:id' element={<OperationHistory />} />
           <Route path='/danh-sach-dang-ky-hen/them-moi' element={<CreateAppointmentRegistrationList />} />
           <Route path='/danh-sach-dang-ky-hen/cap-nhat/:id' element={<CreateAppointmentRegistrationList />} />
-          
+
           <Route path='/bao-cao-chi-tiet-dich-vu-khach-hang' element={<CustomerServiceDetailReport />} />
           <Route path='/bao-cao-xu-huong-hang-thang' element={<CurrentTrendReport />} />
           <Route path='/xuat-du-lieu-benh-nhan' element={<ExportPatientData />} />
