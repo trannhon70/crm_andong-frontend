@@ -320,15 +320,11 @@ const Notication: FC = () => {
         },
     ];
 
-    const onClickCheckAll = async () =>{ 
-       
-        const body = notication?.data.map((item: any) => {
-            return {
-                id: item.id
-            }
-        })
+    const onClickCheckAll = async () => {
+        const body = notication.data
+            .filter((it: any) => it.status === 0)
+            .map((item: any) => ({ id: item.id }));
         const result = await noticationAPI.checkAllNotication(body)
-        
         if (result.data.statusCode === 1) {
             dispatch(getPagingNotication(query))
         }
@@ -343,7 +339,7 @@ const Notication: FC = () => {
             dropdownRender={(menu: any) => {
                 return <div className="bg-slate-100 rounded"  >
 
-                    <Button disabled={notication?.data.every((item: any)=>item.status ===1)} onClick={onClickCheckAll} className="mb-1" color="primary" variant="solid">
+                    <Button disabled={notication?.data.every((item: any) => item.status === 1)} onClick={onClickCheckAll} className="mb-1" color="primary" variant="solid">
                         Đã xem tất cả
                     </Button>
                     <div className='scroll__Dropdown  ' style={{ maxHeight: '250px', overflowY: 'auto', minWidth: '250px' }}>
