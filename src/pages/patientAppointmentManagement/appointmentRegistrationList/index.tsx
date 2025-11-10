@@ -67,13 +67,15 @@ const AppointmentRegistrationList: FC = () => {
     )
 
     useEffect(() => {
-        dispatch(fetchCity())
-        if (hospitalId) {
-            dispatch(getAllDoctor(Number(hospitalId)))
-            dispatch(getAllByIdHospital(Number(hospitalId)))
-            dispatch(getAllMedia(Number(hospitalId)));
+        setTimeout(() => {
+            dispatch(fetchCity())
+            if (hospitalId) {
+                dispatch(getAllDoctor(Number(hospitalId)))
+                dispatch(getAllByIdHospital(Number(hospitalId)))
+                dispatch(getAllMedia(Number(hospitalId)));
 
-        }
+            }
+        }, 1000)
     }, [hospitalId, dispatch])
 
     useLayoutEffect(() => {

@@ -38,10 +38,16 @@ const Home: React.FC = () => {
     const getHospitalStatistics = useCallback((hospitalId: number) => {
         dispatch(getThongKeDangKy(hospitalId));
         dispatch(getDanhSachXepHangThamKham(hospitalId));
-        dispatch(getThongKeQuaKenh(hospitalId));
-        dispatch(getThongKeKhoa(hospitalId));
-        dispatch(getThongKeBenh(hospitalId));
-        dispatch(getThongKeTuVan(hospitalId));
+        setTimeout(() => {
+            dispatch(getThongKeQuaKenh(hospitalId));
+        }, 500)
+        setTimeout(() => {
+            dispatch(getThongKeKhoa(hospitalId));
+        }, 1500)
+        setTimeout(() => {
+            dispatch(getThongKeBenh(hospitalId));
+            dispatch(getThongKeTuVan(hospitalId));
+        }, 3000)
     }, [dispatch]);
 
     const clearStatistics = useCallback(() => {
