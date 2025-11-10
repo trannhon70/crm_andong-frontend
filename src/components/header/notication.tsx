@@ -28,15 +28,17 @@ const Notication: FC = () => {
     }
     useEffect(() => {
 
-        if (hospitalId) {
-            dispatch(getPagingNotication(query))
-        }
+        setTimeout(() => {
+            if (hospitalId) {
+                dispatch(getPagingNotication(query))
+            }
+        }, 1000)
     }, [hospitalId])
 
     useEffect(() => {
         const handleVisibilityChange = () => {
             if (document.visibilityState === "visible") {
-                console.log('aaaa');
+                // console.log('aaaa');
 
                 dispatch(getPagingNotication(query))
                 // window.location.reload(); 
