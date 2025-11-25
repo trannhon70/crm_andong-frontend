@@ -49,24 +49,25 @@ const CreateAppointmentRegistrationList: FC = () => {
     const navige = useNavigate()
     const hospitalId = localStorage.getItem('hospitalId')
     const dispatch = useDispatch<AppDispatch>();
-    const { patient, users,disease } = useSelector((state: RootState) => state);
+    const { patient, users, disease } = useSelector((state: RootState) => state);
     let { id } = useParams();
     const [error, setError] = useState<any>({
         reminderTime: false,
         phone: false
     })
-    const {t } = useTranslation(['DSDangKyHen'])
+    const { t } = useTranslation(['DSDangKyHen'])
+
 
     useEffect(() => {
         dispatch(fetchCity());
-        
-        if(hospitalId){
+
+        if (hospitalId) {
             dispatch(getAllDoctor(Number(hospitalId)))
             dispatch(getAllMedia(Number(hospitalId)));
             dispatch(getAllDisease(Number(hospitalId)))
         }
-        
-    }, [dispatch,hospitalId]);
+
+    }, [dispatch, hospitalId]);
 
     useEffect(() => {
         if (hospitalId) {
@@ -74,15 +75,15 @@ const CreateAppointmentRegistrationList: FC = () => {
         }
     }, [hospitalId, dispatch])
 
-    useEffect(() =>{ 
-        if(id){
+    useEffect(() => {
+        if (id) {
             dispatch(getByIdPatient(Number(id)))
         }
     }, [id, dispatch])
 
     useEffect(() => {
 
-        if(patient.patient.id){
+        if (patient.patient.id) {
             dispatch(getByIdDepartment({ hospitalId, departmentId: patient.patient.departmentId }))
             dispatch(fetchDistrictbyIdCity(patient.patient.cityId))
             form.setFieldValue('name', patient.patient.name);
@@ -97,7 +98,7 @@ const CreateAppointmentRegistrationList: FC = () => {
             form.setFieldValue('districtId', patient.patient.districtId);
             form.setFieldValue('code', patient.patient.code);
             form.setFieldValue('treatment', patient.patient.treatment ? JSON.parse(patient.patient.treatment) : []);
-            form.setFieldValue('appointmentTime',patient.patient.appointmentTime == 0 ? undefined : dayjs( patient.patient.appointmentTime * 1000));
+            form.setFieldValue('appointmentTime', patient.patient.appointmentTime == 0 ? undefined : dayjs(patient.patient.appointmentTime * 1000));
             form.setFieldValue('reminderTime', patient.patient.reminderTime == 0 ? undefined : dayjs(patient.patient.reminderTime * 1000));
             form.setFieldValue('note', patient.patient.note);
             form.setFieldValue('editregistrationTime', patient.patient.editregistrationTime == 0 ? undefined : dayjs(patient.patient.editregistrationTime * 1000));
@@ -112,14 +113,14 @@ const CreateAppointmentRegistrationList: FC = () => {
     const dataBreadcrumb = [
         {
 
-            title: t("DSDangKyHen:quan_ly_cuoc_hen") ,
+            title: t("DSDangKyHen:quan_ly_cuoc_hen"),
         },
         {
             type: 'separator',
         },
         {
             href: '/danh-sach-dang-ky-hen',
-            title:t("DSDangKyHen:danh_sach_dang_ky_hen") ,
+            title: t("DSDangKyHen:danh_sach_dang_ky_hen"),
         },
         {
             type: 'separator',
@@ -130,8 +131,8 @@ const CreateAppointmentRegistrationList: FC = () => {
     ];
 
     const onFinish = async (body: IPatient) => {
-        if(users?.entities?.role?.id !== 3){
-            if(!telephoneCheck(body.phone) ){
+        if (users?.entities?.role?.id !== 3) {
+            if (!telephoneCheck(body.phone)) {
                 toast.warning('Số điện thoại không hợp lệ!');
                 setError({
                     ...error,
@@ -140,7 +141,7 @@ const CreateAppointmentRegistrationList: FC = () => {
                 return;
             }
         }
-       
+
         // const appointmentTime = dayjs(body.appointmentTime).unix()
         // const reminderTime = dayjs(body.reminderTime).unix()
         // if(appointmentTime < reminderTime && !id){
@@ -176,7 +177,7 @@ const CreateAppointmentRegistrationList: FC = () => {
             money: body.money || ''
         }
 
-        if(id){
+        if (id) {
             try {
                 const result = await patiantAPI.updatePatiant(dataRef, Number(id))
                 if (result.data.statusCode === 1) {
@@ -202,7 +203,7 @@ const CreateAppointmentRegistrationList: FC = () => {
             }
         }
 
-       
+
     }
 
     const onOk = (value: DatePickerProps['value'] | RangePickerProps['value']) => {
@@ -225,21 +226,23 @@ const CreateAppointmentRegistrationList: FC = () => {
     return <Fragment>
         <BreadcrumbComponent items={dataBreadcrumb} />
         <div className="flex items-center justify-center mt-5 " >
-                <FormCreateUser 
-                    formItemLayout={formItemLayout} 
-                    tailFormItemLayout={tailFormItemLayout}
-                    form={form} 
-                    onFinish={onFinish}
-                    patient={patient}
-                    handleChangeDepartment={handleChangeDepartment}
-                    handleChangeCity = {handleChangeCity}
-                    id={Number(id)}
-                    onOk={onOk}
-                    error={error}
-                    setError={setError}
-                    onClickPrev={onClickPrev}
-                    disease= {disease.dataAll}
-                />
+            <FormCreateUser
+                formItemLayout={formItemLayout}
+                tailFormItemLayout={tailFormItemLayout}
+                form={form}
+                onFinish={onFinish}
+                patient={patient}
+                handleChangeDepartment={handleChangeDepartment}
+                handleChangeCity={handleChangeCity}
+                id={Number(id)}
+                onOk={onOk}
+                error={error}
+                setError={setError}
+                onClickPrev={onClickPrev}
+                disease={disease.dataAll}
+                userId={users?.entities?.id}
+
+            />
         </div>
     </Fragment>
 }

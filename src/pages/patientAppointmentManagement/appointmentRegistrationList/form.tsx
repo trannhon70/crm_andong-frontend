@@ -19,15 +19,19 @@ interface IProps {
     error: any;
     setError: any;
     onClickPrev: any;
-    disease?: any
+    disease?: any,
+    userId?: number
 }
 const FormCreateUser: FC<IProps> = (props) => {
-    const { formItemLayout, tailFormItemLayout, form, onFinish, patient, handleChangeDepartment, handleChangeCity, id, onOk, error, setError, onClickPrev, disease } = props
-    const {t } = useTranslation(['DSDangKyHen'])
+    const { formItemLayout, tailFormItemLayout, form, onFinish, patient, handleChangeDepartment, handleChangeCity, id, onOk, error, setError, onClickPrev, disease, userId } = props
+    const { t } = useTranslation(['DSDangKyHen'])
     const checkRoleTuVan = useCheckRoleTuVan();
     const checkRoleLeTan = useCheckRoleLeTan();
     const menu = useMenuData();
-    
+
+    // thực hiện check chỉ có tài khoản admin mới có quyền chỉnh sửa khi bệnh nhân đã đến
+    const checkButton = id && patient?.patient?.status === "ĐÃ ĐẾN" ? userId === 4 ? false : true : false;
+
     return <Fragment>
         <Form
             {...formItemLayout}
@@ -70,29 +74,29 @@ const FormCreateUser: FC<IProps> = (props) => {
                 </Form.Item>
                 {
                     !checkRoleLeTan && <Form.Item name="phone" label={t("DSDangKyHen:nhap_so_dien_thoai")} rules={[
-                        { required: true, message:t("DSDangKyHen:so_dien_thoai_err") , }
+                        { required: true, message: t("DSDangKyHen:so_dien_thoai_err"), }
                     ]}>
-                        <Input 
-                            onChange={(e) => setError({...error, phone : false})} 
-                            status={error.phone === true ? "error" : ""} 
-                            type="number"  
-                            style={{ width: '100%' }} 
+                        <Input
+                            onChange={(e) => setError({ ...error, phone: false })}
+                            status={error.phone === true ? "error" : ""}
+                            type="number"
+                            style={{ width: '100%' }}
                         />
-    
+
                     </Form.Item>
                 }
-               
+
                 {
                     !checkRoleLeTan && <Form.Item name="content" label={t("DSDangKyHen:noi_dung_tu_van")} >
                         <Input.TextArea rows={3} />
                     </Form.Item>
                 }
-                
+
                 <Form.Item name="departmentId" label={t("DSDangKyHen:chon_khoa")} rules={[
-                    { required: true, message: t("DSDangKyHen:khoa_err") , }
+                    { required: true, message: t("DSDangKyHen:khoa_err"), }
                 ]}>
                     <Select
-                        disabled={checkRoleLeTan} 
+                        disabled={checkRoleLeTan}
                         showSearch
                         placeholder={`--${t("DSDangKyHen:chon_khoa")}--`}
                         filterOption={(input, option) =>
@@ -110,10 +114,10 @@ const FormCreateUser: FC<IProps> = (props) => {
 
                 </Form.Item>
                 <Form.Item name="diseasesId" label={t("DSDangKyHen:chon_benh")} rules={[
-                    { required: true, message: t("DSDangKyHen:benh_err") , }
+                    { required: true, message: t("DSDangKyHen:benh_err"), }
                 ]}>
                     <Select
-                        disabled={checkRoleLeTan} 
+                        disabled={checkRoleLeTan}
                         showSearch
                         placeholder={`--${t("DSDangKyHen:chon_benh")}--`}
                         filterOption={(input, option) =>
@@ -129,7 +133,7 @@ const FormCreateUser: FC<IProps> = (props) => {
 
                 </Form.Item>
                 <Form.Item name="mediaId" label={t("DSDangKyHen:nguon_den")} rules={[
-                    { required: true, message:t("DSDangKyHen:nguon_den_err") , }
+                    { required: true, message: t("DSDangKyHen:nguon_den_err"), }
                 ]}>
                     <Select
                         disabled={checkRoleLeTan}
@@ -185,7 +189,7 @@ const FormCreateUser: FC<IProps> = (props) => {
 
                 </Form.Item>
                 <Form.Item name="code" label={t("DSDangKyHen:ma_chuyen_gia")} rules={[
-                    { required: true, message:t("DSDangKyHen:ma_chuyen_gia_err") , }
+                    { required: true, message: t("DSDangKyHen:ma_chuyen_gia_err"), }
                 ]}>
                     <Input disabled={checkRoleLeTan} />
                 </Form.Item>
@@ -224,7 +228,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                                         style={{ width: '60%' }}
                                         icon={<PlusOutlined />}
                                     >
-                                     {t("DSDangKyHen:them_muc_dieu_tri")}  
+                                        {t("DSDangKyHen:them_muc_dieu_tri")}
                                     </Button>
                                 </Form.Item>
                             </>
@@ -238,7 +242,7 @@ const FormCreateUser: FC<IProps> = (props) => {
 
 
                 <Form.Item name="appointmentTime" label={t("DSDangKyHen:thoi_gian_hen")} rules={[
-                    { required: true, message:t("DSDangKyHen:thoi_gian_hen_err") , }
+                    { required: true, message: t("DSDangKyHen:thoi_gian_hen_err"), }
                 ]}>
                     <DatePicker
                         disabled={checkRoleLeTan}
@@ -256,10 +260,10 @@ const FormCreateUser: FC<IProps> = (props) => {
                     <Alert message={t("DSDangKyHen:thoi_gian_nhac_hen_phai_nho_hon_thoi_gian_hen")} type="warning" />
                 </Form.Item> */}
                 <Form.Item name="reminderTime" label={t("DSDangKyHen:thoi_gian_nhac_hen")} rules={!id ? [
-                    { required: true, message: t("DSDangKyHen:thoi_gian_nhac_hen_err") , }
+                    { required: true, message: t("DSDangKyHen:thoi_gian_nhac_hen_err"), }
                 ] : []}
-                    // validateStatus={error.reminderTime ? "error" : ""}
-                    // help={error.reminderTime}
+                // validateStatus={error.reminderTime ? "error" : ""}
+                // help={error.reminderTime}
                 >
                     <DatePicker
                         placeholder={t("DSDangKyHen:chon_thoi_gian_nhac_hen")}
@@ -277,7 +281,7 @@ const FormCreateUser: FC<IProps> = (props) => {
 
                 </Form.Item>
                 {
-                    !checkRoleLeTan &&  <Form.Item name="note" label={t("DSDangKyHen:link_url")} >
+                    !checkRoleLeTan && <Form.Item name="note" label={t("DSDangKyHen:link_url")} >
                         <Input.TextArea rows={3} />
                     </Form.Item>
                 }
@@ -296,62 +300,62 @@ const FormCreateUser: FC<IProps> = (props) => {
                     />
                 </Form.Item>
                 } */}
-                
+
                 <Form.Item name="status" label={t("DSDangKyHen:trang_thai")}>
                     <Select
-                    disabled={(()=>{
-                        if(checkRoleLeTan && patient.patient.status ==='ĐÃ ĐẾN'){
-                            return true
-                        }
-                        return false
-                    })()}
+                        disabled={(() => {
+                            if (checkRoleLeTan && patient.patient.status === 'ĐÃ ĐẾN') {
+                                return true
+                            }
+                            return false
+                        })()}
                         showSearch
                         placeholder={t("DSDangKyHen:trang_thai")}
                         filterOption={(input, option) =>
                             (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                         }
-                        options={ !checkRoleTuVan ? STATUS() : [
-                            {id: '1', value:'CHỜ ĐỢI', label: 'CHỜ ĐỢI'},
-                            {id: '4', value:'KHÔNG XÁC ĐỊNH', label: 'KHÔNG XÁC ĐỊNH'},
+                        options={!checkRoleTuVan ? STATUS() : [
+                            { id: '1', value: 'CHỜ ĐỢI', label: 'CHỜ ĐỢI' },
+                            { id: '4', value: 'KHÔNG XÁC ĐỊNH', label: 'KHÔNG XÁC ĐỊNH' },
                         ]}
                     />
 
                 </Form.Item>
                 {
-                    !checkRoleTuVan &&<Form.Item label={t("DSDangKyHen:luu_y")}>
-                    <Alert message={t("DSDangKyHen:khi_benh_nhan_toi_kham_moi_chon_bac_si_tiep_benh")}type="warning" />
-                </Form.Item>
+                    !checkRoleTuVan && <Form.Item label={t("DSDangKyHen:luu_y")}>
+                        <Alert message={t("DSDangKyHen:khi_benh_nhan_toi_kham_moi_chon_bac_si_tiep_benh")} type="warning" />
+                    </Form.Item>
                 }
-                
+
                 {
                     !checkRoleTuVan && <Form.Item name="doctorId" label={t("DSDangKyHen:bac_si_tiep_benh")} >
-                    <Select
-                         allowClear
-                        showSearch
-                        placeholder={`--${t("DSDangKyHen:lua_chon")}--`}
-                        filterOption={(input, option) =>
-                            typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
-                        }
-                        options={patient.doctor.map((item: any) => {
-                            return {
-                                value: item.id,
-                                label: item.name
+                        <Select
+                            allowClear
+                            showSearch
+                            placeholder={`--${t("DSDangKyHen:lua_chon")}--`}
+                            filterOption={(input, option) =>
+                                typeof option?.label === 'string' && option.label.toLowerCase().includes(input.toLowerCase())
                             }
-                        })}
-                    />
+                            options={patient.doctor.map((item: any) => {
+                                return {
+                                    value: item.id,
+                                    label: item.name
+                                }
+                            })}
+                        />
 
-                </Form.Item>
+                    </Form.Item>
                 }
-                
+
                 {
-                   menu?.[1].ds?.action_DSDKH?.money === true && id && !checkRoleLeTan ? <Form.Item name="money" label={t("DSDangKyHen:chi_phi")} >
-                    <InputNumber className="w-[100%]" />
+                    menu?.[1].ds?.action_DSDKH?.money === true && id && !checkRoleLeTan ? <Form.Item name="money" label={t("DSDangKyHen:chi_phi")} >
+                        <InputNumber className="w-[100%]" />
 
-                </Form.Item> : ''
+                    </Form.Item> : ''
                 }
 
-                {  id ?
-                   patient.patient.status === 'ĐÃ ĐẾN' && <>
+                {id ?
+                    patient.patient.status === 'ĐÃ ĐẾN' && <>
                         <div className="text-xl font-bold text-slate-600 mb-3 " > {t("DSDangKyHen:ho_so_tiep_nhan")}  :   </div>
                         <Form.Item name="record" label={t("DSDangKyHen:noi_dung_tiep_nhan")} >
                             <Input.TextArea rows={3} />
@@ -362,7 +366,7 @@ const FormCreateUser: FC<IProps> = (props) => {
                 {
                     id && !checkRoleLeTan ? <>
                         <div className="text-xl font-bold text-slate-600 mb-3 " >
-                           {t("DSDangKyHen:ho_so_tham_kham_qua_dien_thoại")}  :   </div>
+                            {t("DSDangKyHen:ho_so_tham_kham_qua_dien_thoại")}  :   </div>
 
                         {patient?.patient?.chatPatients && patient?.patient?.chatPatients.length > 0 && <Form.Item label={t("DSDangKyHen:noi_dung_tham_kham")} >
 
@@ -391,7 +395,11 @@ const FormCreateUser: FC<IProps> = (props) => {
 
 
                 <Form.Item  {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit">
+                    <Button
+                        disabled={checkButton}
+                        type="primary"
+                        htmlType="submit"
+                    >
                         {id ? t("DSDangKyHen:cap_nhat") : t("DSDangKyHen:them_moi")}
                     </Button>
                     <Button className="ml-2" danger type="dashed" onClick={onClickPrev} >
