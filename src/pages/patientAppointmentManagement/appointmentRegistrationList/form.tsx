@@ -29,8 +29,9 @@ const FormCreateUser: FC<IProps> = (props) => {
     const checkRoleLeTan = useCheckRoleLeTan();
     const menu = useMenuData();
 
-    // thực hiện check chỉ có tài khoản admin mới có quyền chỉnh sửa khi bệnh nhân đã đến
-    const checkButton = id && patient?.patient?.status === "ĐÃ ĐẾN" ? userId === 4 ? false : true : false;
+    // thực hiện check chỉ có tài khoản admin và connieleung mới có quyền chỉnh sửa khi bệnh nhân đã đến
+    const lockedUsers = [4, 54]
+    const checkButton = id && patient?.patient?.status === "ĐÃ ĐẾN" ? lockedUsers.includes(userId ?? -1) ? false : true : false;
 
     return <Fragment>
         <Form
