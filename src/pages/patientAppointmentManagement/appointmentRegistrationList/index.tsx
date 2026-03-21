@@ -80,6 +80,17 @@ const AppointmentRegistrationList: FC = () => {
 
     useLayoutEffect(() => {
         if (hospitalId && menu?.[1].ds?.action_DSDKH.viewAllData !== undefined) {
+            // lấy theo danh sách của từng namkhoa theo từng tài khoản có id 68, 69, updateDoctorId chỉ hoạt động trên 2 tài khoản có id 68, 69
+            let updateDoctorId: any = "";
+            if (entities.id === 68 && Number(hospitalId) === 2) {
+                updateDoctorId = 1;
+            } else if (entities.id === 69 && Number(hospitalId) === 2) {
+                updateDoctorId = 2;
+            } else if (entities.id === 68 && Number(hospitalId) === 3) {
+                updateDoctorId = 4;
+            } else if (entities.id === 69 && Number(hospitalId) === 3) {
+                updateDoctorId = 5;
+            }
             const updatedQuery = {
                 ...query,
                 userId: menu[1].ds.action_DSDKH.viewAllData ? '' : entities.id,
@@ -87,7 +98,8 @@ const AppointmentRegistrationList: FC = () => {
                 pageIndex: pageIndex,
                 hospitalId: hospitalId,
                 //nếu user có id là 67 thì chỉ cho nhìn thấy danh sách FB2
-                mediaId: entities.id === 67 ? 22 : ""
+                mediaId: entities.id === 67 ? 22 : "",
+                doctorId: updateDoctorId
             };
 
             setQuery(updatedQuery);
