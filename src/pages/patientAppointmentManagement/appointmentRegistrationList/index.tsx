@@ -608,7 +608,7 @@ const AppointmentRegistrationList: FC = () => {
             key: 'QCName',
             render(value, record, index) {
                 //những role id không được phép sủa 
-                const allowedRoleIds = [2, 3, 9, 10, 12];
+                const allowedRoleIds = [2, 3, 9, 12];
                 const isAllowed = allowedRoleIds.includes(entities?.role?.id);
                 const colSpan = record?.summary === true ? 0 : 1;
                 return {
